@@ -5,7 +5,7 @@
 ------------------------------------------------*/
 body {
     font-family: 'Open Sans', sans-serif;
-   background: #32C2CD url(../img/bg-img.jpg) !important; 
+    background: #32C2CD !important; 
   
 }
 
@@ -504,7 +504,7 @@ background: #096E75;
  
 .navbar-side {
 	border:none;
-	background: #32C2CD url(../img/bg-img.jpg) !important;
+	background: #32C2CD !important;
 }
 .top-navbar {
 	background: #4A4A4A;

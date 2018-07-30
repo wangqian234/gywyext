@@ -8,8 +8,11 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>公元E巡通</title>
-<link href="${pageContext.request.contextPath}/css/login.css" rel="stylesheet" type="text/css" />
+<title></title>
+<link href="${pageContext.request.contextPath}/css/login.css"
+	rel="stylesheet" type="text/css" />
+
+
 </head>
 
 <body
@@ -24,14 +27,18 @@
 
 
 	<div class="logintop">
-		<span>欢迎登录后台管理界面平台</span>
+		<span>欢迎登录洛川客运平台</span>
+		<!-- <ul>
+    <li><a href="#">回首页</a></li>
+    <li><a href="#">帮助</a></li>
+    <li><a href="#">关于</a></li>
+    </ul> -->
 	</div>
 
 	<div class="loginbody">
-
 		<span class="systemlogo"></span>
 		<div class="loginbox">
-			<form action="/HDR/login/login.do" method="post" id="login-form">
+			<form action="/lckypc/login/login.do" method="post" id="login-form">
 				<ul>
 					<li><input name="userName" type="text" class="loginuser"
 						id="userName" placeholder="用户名" /><label
@@ -40,14 +47,13 @@
 						id="password" placeholder="密码" /><label
 						style="visibility: hidden" id="pwdError" class="error-label">密码错误</label></li>
 					<li><input type="button" class="loginbtn" value="登录"
-						id="login-btn" /><label><input name="" type="checkbox"
-							checked="checked" id="rememberMe" />记住密码</label><label><a
-							href="#">忘记密码？</a></label></li>
+						id="login-btn" /><input style="margin-left: 24px" type="reset"
+						class="loginbtn" value="重置" /></li>
 				</ul>
 			</form>
 		</div>
 	</div>
-	<div class="loginbm">西安电子科技大学</div>
+	<div class="loginbm">洛川客运</div>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/js/lib/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript"

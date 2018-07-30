@@ -49,13 +49,22 @@ var app = angular
 					} ];
 				});
 
-app.constant('baseUrl', '/gywyext/');
+
+// // 路由配置
+app.config([ '$routeProvider', function($routeProvider) {
+	$routeProvider.when('/*', {
+		controller : 'IndexController'
+	}).otherwise({
+		controller : 'IndexController'
+	})
+} ]);
+app.constant('baseUrl', '/lckypc/');
 app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
-	services.getInitLeft = function() {
+	services.getInitData = function() {
 		return $http({
 			method : 'post',
-			url : baseUrl + 'index/getInitLeft.do',
+			url : baseUrl + 'login/getInitData.do',
 		});
 	};
 	return services;
@@ -67,37 +76,36 @@ app.controller('IndexController', [
 		'$location',
 		function($scope, services, $location) {
 			var index = $scope;
-			
+			function findRoleFromCookie() {
+				var cookie = {};
+
+				var cookies = document.cookie;
+				if (cookies === "")
+					return cookie;
+				var list = cookies.split(";");
+				for (var i = 0; i < list.length; i++) {
+					var cookieString = list[i];
+					/* console.log("cookie内容" + cookieString); */
+					var p = cookieString.indexOf("=");
+					var name = cookieString.substring(0, p);
+					var value = cookieString.substring(p + 1,
+							cookieString.length);
+					console.log(name);
+					cookie[name.trim()] = value;
+					console.log("进来了,已经赋值" + name);
+					if (name.trim() == "role") {
+						sessionStorage.setItem("userRole", value);
+					}
+
+				}
+			}
 			// 初始化页面信息
 			function initData() {
 				console.log("初始化页面！");
-				 services.getInitLeft().success(function(data) {
-					var arr = data.leftResult;
-					console.log(data.leftResult)
-					 
-					var map = {},dest = [];
-					for(var i = 0; i < arr.length; i++){
-					    var ai = arr[i];
-					    if(!map[ai.comp_id]){
-					        dest.push({
-					        	comp_id: ai.comp_id,
-					            comp_name: ai.comp_name,
-					            data: [ai]
-					        });
-					        map[ai.comp_id] = ai;
-					    }else{
-					        for(var j = 0; j < dest.length; j++){
-					            var dj = dest[j];
-					            if(dj.comp_id == ai.comp_id){
-					                dj.data.push(ai);
-					                break;
-					            }
-					        }
-					    }
-					}
-					console.log(dest)
-					index.leftData = dest;
-				 });
+				services.getInitData().success(function(data) {
+					index.alarmStatistic = data.alarmStatistic;
+				});
 			}
 			initData();
+			findRoleFromCookie();
 		} ]);
