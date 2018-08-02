@@ -1,0 +1,105 @@
+<div class="place">
+	
+	<ul class="placeul">
+		<li>添加用户</li>
+	</ul>
+</div>
+<!-- 录入用户信息 -->
+<div class="formbody">
+		<form id="addUser-form" class="hidden">
+			<ul class="forminfo">
+
+
+
+
+
+<!-- <div class="formbody">
+	
+	<form id="addUser-form" class="hidden">
+		<div class="formtitle">
+		</div> -->
+
+		<!-- <ul class="forminfo"> -->
+			<li><label>姓名<b>*</b></label><input type="text"
+				ng-model="staff.user_name" class="dfinput" required />
+				<span id="userNameError" class="error-span">姓名不能为空</span></li>
+			<li><label>电话<b>*</b></label><input type="text" class="dfinput"
+				ng-model="staff.user_tel" id="mustInput" />
+				<span id="userTelError" class="error-span">格式错误</span></li>
+			<li><label>邮箱</label><input type="text" class="dfinput"
+				ng-model="staff.user_email" />
+				<span id="userEmailError" class="error-span">格式错误</span></li>
+			<li><label>账号<b>*</b></label><input type="text"
+				ng-model="staff.user_acct" class="dfinput" required />
+				<span id="userAcctError" class="error-span">账号不能为空</span></li>
+				<span id="userExistError" class="error-span">用户已存在</span>
+			<li><label>性别</label><cite><input name="sex" type="radio"
+				ng-model="user.user_sex" value="0" />男&nbsp;&nbsp;&nbsp;&nbsp;<input
+				name="sex" type="radio" value="1" ng-model="user.user_sex" />女</cite></li>
+			<li><label>角色<b>*</b></label>
+					<div class="vocation">
+						<select class="select1 dfinput" name="role" ng-model="staff.role.role_id"
+							ng-options="role.role_id as role.role_name for role in roles2">
+							<!-- 	<option ng-repeat="role in roles2" value={{role.role_id}}>{{role.role_name}}</option> -->
+							<option value="">请选择</option>
+						</select> <span id="userRoleError" class="error-span">请选择职位</span>
+					</div>
+			</li>
+			<li id="addStaff"><label>&nbsp;</label>
+			</li></ul>
+		</ul>
+		<!-- 按钮 -->
+			<div class="tipbtn">
+				<input type="button" class="sure sure1" value="确定" />&nbsp; <input
+					name="" type="button" class="cancel" value="取消" />
+			</div>
+		</form>
+	</div>
+</div>
+		
+		
+		
+		
+		
+		<!-- <submit type="submit" ng-click="addStaff()" class="btn" value="新建用户信息" >提交</submit>
+	</form>
+</div> -->
+<script>
+	$(function() {
+		//验证账号是否存在
+		var $userAcctInput = $('#addUser-form input[name=userAcct]'),  $userNameInput = $('#addUser-form input[name=userName]'), $userTelInput = $('#addUser-form input[name=userTel]'), $userEmailInput = $('#addUser-form input[name=userEmail]'), $userAcctInput = $('#addUser-form input[name=userAcct]');
+		$userAcctInput.blur(function() 
+			console.log("账号改变了")
+			$.get("/user/isUserAcctExist.do", {
+				userAcct : $userAcctInput.val()
+			}, function(data) {
+				if (data) {
+					$('#userExistError').css('display', 'inline');
+				}
+			})
+		})
+
+		$userAcctInput.click(function() {
+			$('#userExistError').css('display', 'none');
+			$('#userAcctError').css('display', 'none');
+		})
+
+		$userAcctInput.click(function() {
+			$('#userExistError').css('display', 'none');
+			$('#userAcctError').css('display', 'none');
+		})
+		
+		$userNameInput.click(function() {
+			$('#userNameError').css('display', 'none');
+		})
+		$userTelInput.click(function() {
+			$('#userTelError').css('display', 'none');
+		})
+		$userEmailInput.click(function() {
+			$('#userEmailError').css('display', 'none');
+		})
+		
+		
+	})
+</script>
+

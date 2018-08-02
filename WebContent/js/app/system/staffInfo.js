@@ -69,6 +69,12 @@ app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/staffBaseInfo', {
 		templateUrl : '/gywyext/jsp/system/staffInfo/staffBaseInfo.html',
 		controller : 'staffInfoController'
+	}).when('/staffAdd', {
+		templateUrl : '/gywyext/jsp/system/staffInfo/staffAdd.html',
+		controller : 'staffInfoController'
+	}).when('/staffList', {
+		templateUrl : '/gywyext/jsp/system/staffInfo/staffList.html',
+		controller : 'staffInfoController'
 	})
 } ]);
 
@@ -81,6 +87,21 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			url : baseUrl + 'systemStaff/getStaffInfo.do',
 		});
 	};
+	services.addStaff = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/addStaff.do',
+			data : data
+		});
+	};
+/*	services.getAllRoleList = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/getAllRoleList.do',
+			data : data
+		});
+	};
+	*/
 	return services;
 } ]);
 app
@@ -93,6 +114,72 @@ app
 						function($scope, services, $location) {
 							var staffInfo = $scope;
 							
+							staffInfo.staff = {
+									user_name:"",
+									user_email:'',
+									user_tel:"",
+									user_age:'' ,
+									role_id:" ", /*设计编辑功能的时候可以输入进去123deng，新增""*/
+										
+							}
+/*							staffInfo.addStaff = function(){
+								alert(JSON.stringify(staffInfo.staff))//alert:网页打开时弹窗提示
+							}*/
+							
+							// 添加用户信息
+						staffInfo.addStaff = function() {
+								alert(JSON.stringify(staffInfo.staff))
+								var staffFormData = JSON
+										.stringify(staffInfo.staff);
+								services.addStaff({
+									staff : staffFormData
+								}).success(function(data) {
+									alert("新建成功！");
+								});
+								user.addinguser = "";
+								$(".overlayer").fadeIn(200);
+								$(".tip").fadeIn(200);
+								$("#addUser-form").slideDown(200);
+								user.addinguser = {
+									user_sex : 0,
+									role : null
+								};
+							};
+						
+/*							
+							staffInfo.addStaff = function(e) {
+								preventDefault(e);
+								services.getAllRoleList().success(
+										function(data) {
+											user.roles = data;
+										});
+								user.addinguser = "";
+								$(".overlayer").fadeIn(200);
+								$(".tip").fadeIn(200);
+								$("#addUser-form").slideDown(200);
+								$("#editUser-form").hide();
+								user.addinguser = {
+									user_sex : 0,
+									role : null
+								};
+
+							};
+	*/
+							function checkradio()
+							{
+							   var parms=document.getElementsByName("radio1");
+							//获取所有的单选框
+							   var i;
+							   for( i=0;i<parms.length;i++)              
+							//遍历单选框
+							   {
+							       if(parms[i].checked)                     
+							//如果选择了此单选框
+							          alert("您选择了"+ parms[i].value);     
+							//提示用户的选择
+							   }
+							}
+						
 							function getAllStaff(){
 								services.getStaffInfo().success(function(data){
 									console.log(data.Result)
