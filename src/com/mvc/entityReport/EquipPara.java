@@ -82,7 +82,7 @@ public class EquipPara {
 		this.equip_para_memo = equip_para_memo;
 	}
 	
-	@Column(name = "equip_para_isdeleted", length = 1)
+	@Column(name = "equip_para_isdeleted", length = 1,columnDefinition = "INT not null default 0")
 	public Integer getEquip_para_isdeleted() {
 		return equip_para_isdeleted;
 	}

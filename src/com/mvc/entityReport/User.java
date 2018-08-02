@@ -72,7 +72,7 @@ public class User {
 	public void setUser_email(String user_email) {
 		this.user_email = user_email;
 	}
-	@Column(name = "user_isdeleted",length = 1)
+	@Column(name = "user_isdeleted",length = 1,columnDefinition = "INT not null default 0")
 	public Integer getUser_isdeleted() {
 		return user_isdeleted;
 	}
