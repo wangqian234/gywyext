@@ -1,0 +1,82 @@
+<div>
+	<form role="form">
+		<div class="form-group">
+			<label>公司名称:&nbsp;&nbsp;&nbsp;</label> <input ng-model="company.comp_name" class="form-control" required>
+		</div>
+		<div class="form-group">
+			<label>公司地址:&nbsp;&nbsp;&nbsp;</label> <input ng-model="company.comp_addr" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>公司人员数量:&nbsp;&nbsp;&nbsp;</label> <input ng-model="company.comp_num" class="form-control">
+		</div>
+
+		<div class="form-group">
+			<label>备注:&nbsp;&nbsp;&nbsp;</label>
+			<textarea ng-model="company.comp_memo" class="form-control" rows="3"></textarea>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="panel panel-default">
+
+					<div class="panel-body">
+						<div class="panel-group" id="accordion">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion"
+											href="javascript:;#collapseOne">添加项目信息&nbsp;1#</a>
+									</h4>
+								</div>
+								<div id="collapseOne" class="panel-collapse collapse"
+									style="height: auto;">
+									<div class="panel-body">
+										<div class="form-group">
+											<label>项目名称:&nbsp;&nbsp;&nbsp;</label> <input
+												ng-model="project.proj_name" class="form-control">
+										</div>
+										<div class="form-group">
+											<label>项目地址:&nbsp;&nbsp;&nbsp;</label> <input
+												ng-model="project.proj_addr" class="form-control">
+										</div>
+										<div class="form-group">
+											<label>业主数量:&nbsp;&nbsp;&nbsp;</label> <input
+												ng-model="project.proj_num" class="form-control">
+										</div>
+
+										<div class="form-group">
+											<label>备注:&nbsp;&nbsp;&nbsp;</label>
+											<textarea ng-model="project.proj_memo" class="form-control"
+												rows="3"></textarea>
+										</div>
+									</div>
+									<div class="add-project">
+										继续添加项目信息&nbsp;<img src="/gywyext/images/rightappear.png">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="buttonbox">
+			<button ng-click="addCompany()" class="btn btn-default">确认提交</button>
+		</div>
+	</form>
+
+</div>
+
+<div class="col-md-4 col-sm-4 motai">
+	<div class="panel panel-success">
+		<div class="panel-heading">添加成功</div>
+		<div class="panel-body" style="padding: 30px; text-align: center">
+			<img src="/gywyext/images/addSuccess.png"><span>&nbsp;&nbsp;&nbsp;本页面将在<b
+				class="countnum">{{count}}</b>秒内关闭
+			</span>
+		</div>
+		<div class="panel-footer">关闭窗口</div>
+	</div>
+</div>
+<script type="text/javascript" src="/gywyext/js/lib/bootstrap.min.js"></script>

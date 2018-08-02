@@ -73,7 +73,7 @@ public class Company {
 	public void setCmop_memo(String cmop_memo) {
 		this.cmop_memo = cmop_memo;
 	}
-	@Column(name = "cmop_isdeleted",length = 1)
+	@Column(name = "cmop_isdeleted",length = 1,columnDefinition = "INT not null default 0")
 	public Integer getCmop_isdeleted() {
 		return cmop_isdeleted;
 	}

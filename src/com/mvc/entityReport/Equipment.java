@@ -142,7 +142,7 @@ public class Equipment {
 		this.equip_memo = equip_memo;
 	}
 	
-	@Column(name = "equip_isdeleted", length = 1)
+	@Column(name = "equip_isdeleted", length = 1,columnDefinition = "INT not null default 0")
 	public Integer getEquip_isdeleted() {
 		return equip_isdeleted;
 	}
