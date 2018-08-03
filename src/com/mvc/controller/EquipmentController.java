@@ -2,6 +2,7 @@ package com.mvc.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,8 @@ import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.EquipType;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.User;
+import com.mvc.entityReport.Project;
+
 import com.utils.Pager;
 import com.mvc.service.EquipmentService;
 
@@ -199,8 +202,76 @@ public class EquipmentController {
 			jsonObject.put("equipment", equipment);
 			return jsonObject.toString();
 		}
+		
+/*		//根据页数筛选安装地点信息列表
+				@RequestMapping(value = "/getEquipRoomListByPage.do")
+				public @ResponseBody String getEquipRoomsByPrarm(HttpServletRequest request, HttpSession session) {
+					JSONObject jsonObject = new JSONObject();
+					String searchKey = request.getParameter("searchKey");
+					Integer totalRow = equipmentService.countRoomTotal(searchKey);
+					Pager pager = new Pager();
+					pager.setPage(Integer.valueOf(request.getParameter("page")));
+					pager.setTotalRow(Integer.parseInt(totalRow.toString()));
+					List<EquipRoom> list = equipmentService.selectEquipRoomByPage(searchKey, pager.getOffset(), pager.getLimit());
+					jsonObject.put("list", list);
+					jsonObject.put("totalPage", pager.getTotalPage());
+					System.out.println("totalPage:" + pager.getTotalPage());
+					return jsonObject.toString();
+				}
+		
 
+		//根据页数筛选项目信息列表
+				@RequestMapping(value = "/getProjectListByPage.do")
+				public @ResponseBody String getProjectsByPrarm(HttpServletRequest request, HttpSession session) {
+					JSONObject jsonObject = new JSONObject();
+					String searchKey = request.getParameter("searchKey");
+					Integer totalRow = equipmentService.countProjTotal(searchKey);
+					Pager pager = new Pager();
+					pager.setPage(Integer.valueOf(request.getParameter("page")));
+					pager.setTotalRow(Integer.parseInt(totalRow.toString()));
+					List<Project> list = equipmentService.selectProjectByPage(searchKey, pager.getOffset(), pager.getLimit());
+					jsonObject.put("list", list);
+					jsonObject.put("totalPage", pager.getTotalPage());
+					System.out.println("totalPage:" + pager.getTotalPage());
+					return jsonObject.toString();
+				}		*/
+				
+				
+				
+				
+				
+		@RequestMapping("/selectBaseInfoByProj.do")
+		public @ResponseBody String selectBaseInfoByProj(HttpServletRequest request, HttpSession session) {
+			Pager pager = new Pager();
+			String proj_id = null;
+			String areaInfo;
+			List<EquipRoom> room = new ArrayList<EquipRoom>();
+			if(request.getParameter("page") != null){
+				pager.setPage(Integer.valueOf(request.getParameter("page")));
+			};
+			if(request.getParameter("proj_id") != null){
+				proj_id = request.getParameter("proj_id");
+			};
+			
+			room = equipmentService.selectEquipRoomByPage(proj_id);
+			List<Equipment> list = equipmentService.selectEquipByRoom(room, pager.getOffset(), pager.getLimit());
+			
+			
+			if(request.getParameter("state") != null){
+				switch(request.getParameter("state")){
+				case "0":;
+				case "1":;
+				}
+				
+			};
 
+/*			List<Equipment> list = equipmentService.selectEquipmentByPage(proj_id, pager.getOffset(), pager.getLimit());*/
+			
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("equipment", list);
+			jsonObject.put("room", room);
+			return jsonObject.toString();
+		}
 
 
 

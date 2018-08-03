@@ -113,7 +113,6 @@ app.controller('indexProController', [
 				var companyInfo = JSON.stringify(indexpro.company);
 				var projectInfo = JSON.stringify(indexpro.project);
 				if(indexpro.company.comp_name == "" || indexpro.company.comp_name == undefined){
-					alert("w jinlail ")
 					$(".companyname").show();
 					return ;
 				} else {

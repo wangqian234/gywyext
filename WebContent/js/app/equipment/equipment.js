@@ -86,7 +86,7 @@ app.config([ '$routeProvider', function($routeProvider) {
 
 app.constant('baseUrl', '/gywyext/');
 app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
-	// 显示
+	
 	var services = {};
 	
 	//获取左侧菜单栏
@@ -119,11 +119,27 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	// 根据页数筛选信息
+	// 根据页数获取设备信息
 	services.getEquipmentListByPage = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'equipEquipment/getEquipmentListByPage.do',
+			data : data
+		});
+	};
+	// 根据页数获取设备安装位置信息
+	services.getEquipRoomListByPage = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/getEquipRoomListByPage.do',
+			data : data
+		});
+	};
+	// 根据页数获取项目信息
+	services.getProjectListByPage = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/getProjectListByPage.do',
 			data : data
 		});
 	};
@@ -143,19 +159,11 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	// 根据id获取信息
+	// 根据id获取设备信息
 	services.selectEquipmentById = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'equipEquipment/selectEquipmentById.do',
-			data : data
-		});
-	};
-	// 根据页数获取设备信息
-	services.getEquipmentListByPage = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'equipEquipment/getEquipmentListByPage.do',
 			data : data
 		});
 	};
@@ -180,7 +188,7 @@ app
 						function($scope, services, $location) {
 							var equipment = $scope;
 
-							// 根据页数获取用户列表
+							// 根据页数获取设备列表
 							function getEquipmentListByPage(page) {
 								services.getEquipmentListByPage({
 									page : page,
@@ -227,7 +235,7 @@ app
 							}
 							// 限制条件筛选
 							// 根据页数获取设备信息
-							function getEquipmentListByTS(page) {
+							/*function getEquipRoomListByPage(page) {
 								var eqLimit = null;
 								var eqSLimit = null;
 								if (JSON.stringify(equipment.EQTLimit) != null && JSON.stringify(equipment.EQTLimit) != "") {
@@ -236,6 +244,7 @@ app
 								if (JSON.stringify(equipment.EQSLimit) != null && JSON.stringify(equipment.EQSLimit) != "") {
 									EQSLimit = JSON.stringify(equipment.EQSLimit);
 								}
+								
 								services.getEquipmentListByTS({
 									page : page,
 									equipmentType : eqLimit,
@@ -243,31 +252,22 @@ app
 								}).success(function(data) {
 									equipment.equipments = data.list;
 								});
-							}
-
+							}*/
+							equipment.equip_room = 0;
+							equipment.equip_state = 0;
 							// state、Type限制
-							equipment.getELByTS = function(page) {
-								var eqLimit = null;
-								var eqSLimit = null;
-								if (JSON.stringify(equipment.EQTLimit) != null
-										&& JSON.stringify(equipment.EQTLimit) != "") {
-									eqLimit = JSON
-											.stringify(equipment.EQTLimit);
-								}
-								if (JSON.stringify(equipment.EQSLimit) != null
-										&& JSON.stringify(equipment.EQSLimit) != "") {
-									eqSLimit = JSON
-											.stringify(equipment.EQSLimit);
-								}
-								services.getEquipmentListByTS({
-									page : page,
-									equipmentType : eqLimit,
-									equipmentState : eqSLimit
+							equipment.getELByTS = function() {
+								alert(equipment.equip_room);
+								alert(equipment.equip_state);
+								services.getEquipRoomListByPage({
+									page : 1,
+									equipmentRoom : equipment.equip_room,
+									equipmentState : equipment.equip_state
 								}).success(
 										function(data) {
 											$scope.equipment = data.list;
 											pageTurn(data.totalPage, page,
-													getEquipmentListByTS)
+													getEquipRoomListByPage)
 										});
 							}
 
@@ -276,7 +276,7 @@ app
 
 								var equipmentFormData = JSON
 										.stringify(equipment.equipmentInfo);
-								console.log(equipmentFormData);
+								
 								services.addEquipment({
 									equipment : equipmentFormData
 								}).success(function(equipment) {
@@ -285,9 +285,8 @@ app
 							}
 
 							// 读取设备信息
-							equipment.selectEquipmentById = function(
-									equipmentId) {
-								console.log(equipmentId);
+							equipment.selectEquipmentById = function(equipmentId) {
+								
 								var equip_id = sessionStorage
 										.getItem('equipmentId');
 								services.selectEquipmentById({
@@ -317,14 +316,17 @@ app
 
 							//根据proj_id查找设备信息
 							equipment.selectBaseInfoProj_id;
+							equipment.equipments="";
+							equipment.equiproom_p = "";
 							equipment.selectBaseInfoByProj = function(proj_id){
 								equipment.selectBaseInfoProj_id = proj_id;
 								services.selectBaseInfoByProj({
 									page : 1,
-									proj_id : proj_id,
-									areaInfo : true
+									proj_id : proj_id
 								}).success(function(data) {
-									equipment.equipments = data.list;
+									equipment.equipments.concat(data.list);
+									equipment.equiproom_p = data.room;
+									
 									pageTurn(
 											data.totalPage,
 											1,
@@ -368,7 +370,7 @@ app
 								} else if ($location.path().indexOf('/leftInit') == 0) {
 									services.getInitLeft().success(function(data) {
 										var arr = data.leftResult;
-										console.log(data.leftResult)
+										
 
 										var map = {}, dest = [];
 										for (var i = 0; i < arr.length; i++) {
@@ -390,7 +392,7 @@ app
 												}
 											}
 										}
-										console.log(dest)
+										
 										equipment.leftData = dest;
 										
 										searchKey = null;
@@ -399,6 +401,8 @@ app
 											searchKey : searchKey
 										}).success(function(data) {
 											equipment.equipments = data.list;
+
+											console.log(equipment.equipments);
 											pageTurn(
 													data.totalPage,
 													1,
