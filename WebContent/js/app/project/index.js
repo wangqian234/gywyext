@@ -49,7 +49,6 @@ var app = angular
 					} ];
 				});
 
-
 //路由配置
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/addCompany', {
@@ -63,7 +62,6 @@ app.config([ '$routeProvider', function($routeProvider) {
 		controller : 'indexProController'
 	})
 } ]);
-
 
 app.constant('baseUrl', '/gywyext/');
 app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {

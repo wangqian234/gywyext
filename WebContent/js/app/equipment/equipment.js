@@ -197,7 +197,11 @@ app
 									equipment.equipments = data.list;
 								});
 							}
-
+							equipment.count = [1];
+							equipment.test = function(){
+								equipment.count.push("1");
+								alert(equipment.count)
+							}
 							// 换页
 							function pageTurn(totalPage, page, Func) {
 								$(".tcdPageCode").empty();
@@ -315,22 +319,15 @@ app
 							};
 
 							//根据proj_id查找设备信息
-							equipment.selectBaseInfoProj_id;
-							equipment.equipments="";
-							equipment.equiproom_p = "";
+							equipment.selectBaseInfoProj_id;							
 							equipment.selectBaseInfoByProj = function(proj_id){
 								equipment.selectBaseInfoProj_id = proj_id;
 								services.selectBaseInfoByProj({
 									page : 1,
 									proj_id : proj_id
 								}).success(function(data) {
-									equipment.equipments.concat(data.list);
+									equipment.equipments = data.equipment;
 									equipment.equiproom_p = data.room;
-									
-									pageTurn(
-											data.totalPage,
-											1,
-											selectBaseInfoByProjPag);
 								});
 							}
 							function selectBaseInfoByProjPag(page){
@@ -394,21 +391,28 @@ app
 										}
 										
 										equipment.leftData = dest;
+										services.selectBaseInfoByProj({
+											page : 1,
+											proj_id : 1
+										}).success(function(data) {
+											equipments="";
+											equipment.equipments = data.equipment;
+											equipment.equiproom_p = data.room;
+										});
 										
-										searchKey = null;
+/*										searchKey = null;
 										services.getEquipmentListByPage({
 											page : 1,
 											searchKey : searchKey
 										}).success(function(data) {
 											equipment.equipments = data.list;
 
-											console.log(equipment.equipments);
 											pageTurn(
 													data.totalPage,
 													1,
 													getEquipmentListByPage);
 
-										});
+										});*/
 
 									})
 								}
