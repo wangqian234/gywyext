@@ -1,0 +1,70 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<div ng-app="" class="tools">
+		<form class="toolbar">
+			<!-- 根据设备分类筛选设备信息 -->
+			请选择设备分类： <select class="dfselect" ng-model="EQTLimit.equip_type"
+				ng-change="getELByTS(1)" id="equip_type" style="width: 167px">
+				<option value="">全部</option>
+				<option value="1">消防设备</option>
+				<option value="2">电子设备</option>
+				<option value="3">温湿度监测设备</option>
+			    <option value="4">其它</option>
+			</select>
+			<!-- 根据健康状态筛选设备信息 -->
+			请选择设备健康状态： <select class="dfselect" ng-model="EQSLimit.equip_state"
+				ng-change="getELByTS(1)" id="equip_state" style="width: 167px">
+				<option value="">全部</option>
+				<option value="0">健康</option>
+				<option value="1">一般</option>
+				<option value="2">故障</option>
+			</select>
+		
+		</form>	
+	<ul class="toolbar1" >
+			<li class="click" ><a href="#/equipAdd"><span></span>新建</a></li>
+		</ul>
+	</div>
+	</div>
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-hover"
+				id="dataTables-example">
+				<thead>
+					<tr>
+						<th>编号</th>
+						<th>设备名称</th>
+						<th>设备型号</th>
+						<th>设备规格</th>
+						<th>设备分类</th>
+						<th>设备健康状态</th>
+						<th>设备负责人</th>
+						<!-- <th>下次维保时间</th> -->
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="e in equipments" id={{e.equip_id}}>
+						<td>{{$index + 1}}</td>
+						<td>{{e.equip_name}}</td>
+						<td>{{e.equip_no}}</td>
+						<td>{{e.equip_spec}}</td>
+						<td>{{e.equip_type.equip_type_name}}</td>
+						<td><progress value="{{e.equip_state}}" max="10"></progress></td>
+						<td>{{e.user.user_name}}</td>
+						<!-- <td>{{e.equip_ndate}}</td> -->
+						<td><a class="click" href="#/equipDetail">查看设备详情</a><!-- 修改，删除操作放置到编辑操作里面 -->
+					    <a href="#/equipUpdate" ng-click="getEquipmentId(e.equip_id)"class="tablelink"	
+				        has-permission='tEdit'> 修改</a>
+					    <a href="#equipBaseInfo" ng-click="deleteEquipmentInfo(e.equip_id)" class="tablelink"
+					     has-permission='tDel'> 删除</a></td>
+				
+				</tbody>
+				
+			</table>
+		</div>
+	</div>
+		<div  class="tcdPageCode">页码容器</div>
+</div>
+
+<script type="text/javascript" src="/gywyext/js/lib/pageTurn.js">

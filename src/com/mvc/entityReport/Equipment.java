@@ -18,12 +18,12 @@ public class Equipment {
 	
 	
 	private Integer equip_id;//设备编号，主键
-	private String equip_No;//设备型号
+	private String equip_no;//设备型号
 	private String equip_name;//设备名称
 	private String equip_pic;//设备图片
 	private String equip_qrcode;//设备二维码
 	private String equip_spec;//设备规格
-	private EquipType equip_type_id;//设备分类编号，外键
+	private EquipType equip_type;//设备分类编号，外键
 	private EquipManu equip_manu;//设备制造商编号，外键
 	private Date equip_pdate;//设备生产日期
 	private Date equip_bdate;//设备购买日期
@@ -50,12 +50,12 @@ public class Equipment {
 		this.equip_id = equip_id;
 	}
 	
-	@Column(name = "equip_No", length = 32)
-	public String getEquip_No() {
-		return equip_No;
+	@Column(name = "equip_no", length = 32)
+	public String getEquip_no() {
+		return equip_no;
 	}
-	public void setEquip_No(String equip_No) {
-		this.equip_No = equip_No;
+	public void setEquip_no(String equip_no) {
+		this.equip_no = equip_no;
 	}
 	
 	@Column(name = "equip_name", length = 64)
@@ -91,12 +91,12 @@ public class Equipment {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="equip_type_id")
-	public EquipType getEquip_type_id() {
-		return equip_type_id;
+	@JoinColumn(name="equip_type")
+	public EquipType getEquip_type() {
+		return equip_type;
 	}
-	public void setEquip_type_id(EquipType equip_type_id) {
-		this.equip_type_id = equip_type_id;
+	public void setEquip_type(EquipType equip_type) {
+		this.equip_type = equip_type;
 	}
 	
 	@ManyToOne
@@ -117,7 +117,7 @@ public class Equipment {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="user_id")
+	@JoinColumn(name="user")
 	public User getUser() {
 		return user;
 	}
@@ -126,7 +126,7 @@ public class Equipment {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="equip_room_id")
+	@JoinColumn(name="equip_room")
 	public EquipRoom getEquip_room() {
 		return equip_room;
 	}
