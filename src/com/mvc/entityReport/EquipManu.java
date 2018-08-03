@@ -61,7 +61,7 @@ public class EquipManu {
 		this.equip_manu_memo = equip_manu_memo;
 	}
 	
-	@Column(name = "equip_manu_isdeleted", length = 1)
+	@Column(name = "equip_manu_isdeleted", length = 1,columnDefinition = "INT not null default 0")
 	public Integer getEquip_manu_isdeleted() {
 		return equip_manu_isdeleted;
 	}

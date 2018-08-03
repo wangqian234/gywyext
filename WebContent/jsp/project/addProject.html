@@ -1,0 +1,44 @@
+<div>
+	<form role="form">
+		<div class="form-group">
+			<label>项目名称:&nbsp;&nbsp;&nbsp;</label> <input
+				ng-model="project.proj_name" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>项目地址:&nbsp;&nbsp;&nbsp;</label> <input
+				ng-model="project.proj_addr" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>业主数量:&nbsp;&nbsp;&nbsp;</label> <input
+				ng-model="project.proj_num" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>所属公司:&nbsp;&nbsp;&nbsp;</label>
+			<label ng-repeat="c in company" class="radio-inline">
+				<input type="radio" name="optionsRadiosInline" ng-model="project.company" value="{{c.comp_id}}" checked="">{{c.comp_name}}
+			</label>
+		</div>
+
+		<div class="form-group">
+			<label>备注:&nbsp;&nbsp;&nbsp;</label>
+			<textarea ng-model="project.proj_memo" class="form-control" rows="3"></textarea>
+		</div>
+
+		<div class="buttonbox">
+			<button ng-click="addProject()" class="btn btn-default">确认提交</button>
+		</div>
+	</form>
+
+</div>
+
+<div class="col-md-4 col-sm-4 motai">
+	<div class="panel panel-success">
+		<div class="panel-heading">添加成功</div>
+		<div class="panel-body" style="padding: 30px; text-align: center">
+			<img src="/gywyext/images/addSuccess.png"><span>&nbsp;&nbsp;&nbsp;本页面将在<b
+				class="countnum">{{count}}</b>秒内关闭
+			</span>
+		</div>
+		<div class="panel-footer">关闭窗口</div>
+	</div>
+</div>

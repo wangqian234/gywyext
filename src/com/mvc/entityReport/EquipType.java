@@ -43,7 +43,7 @@ public class EquipType {
 		this.equip_type_memo = equip_type_memo;
 	}
 	
-	@Column(name = "equip_type_isdeleted", length = 1)
+	@Column(name = "equip_type_isdeleted", length = 1,columnDefinition = "INT not null default 0")
 	public Integer getEquip_type_isdeleted() {
 		return equip_type_isdeleted;
 	}

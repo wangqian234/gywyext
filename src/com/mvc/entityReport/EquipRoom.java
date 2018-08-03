@@ -54,7 +54,7 @@ public class EquipRoom {
 		this.equip_room_memo = equip_room_memo;
 	}
 	
-	@Column(name = "equip_room_isdeleted", length = 1)
+	@Column(name = "equip_room_isdeleted", length = 1,columnDefinition = "INT not null default 0")
 	public Integer getEquip_room_isdeleted() {
 		return equip_room_isdeleted;
 	}

@@ -19,7 +19,7 @@ public class Project {
 	private String proj_addr;//项目地址
 	private Integer proj_num;//业主数量
 	private User user;//负责人编号，外键
-	private String comp_memo;//备注
+	private String proj_memo;//备注
 	private Integer proj_isdeleted;//项目状态，0：存在，1：已删除
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -75,14 +75,14 @@ public class Project {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	@Column(name = "comp_memo",length = 255)
-	public String getComp_memo() {
-		return comp_memo;
+	@Column(name = "proj_memo",length = 255)
+	public String getProj_memo() {
+		return proj_memo;
 	}
-	public void setComp_memo(String comp_memo) {
-		this.comp_memo = comp_memo;
+	public void setProj_memo(String proj_memo) {
+		this.proj_memo = proj_memo;
 	}
-	@Column(name = "proj_isdeleted",length = 1)
+	@Column(name = "proj_isdeleted",length = 1,columnDefinition = "INT not null default 0")
 	public Integer getProj_isdeleted() {
 		return proj_isdeleted;
 	}

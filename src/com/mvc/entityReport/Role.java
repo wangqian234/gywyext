@@ -45,7 +45,7 @@ public class Role  implements Serializable {
 			this.role_permission =role_permission;
 		}
 
-		@Column(length = 1)
+		@Column(length = 1,columnDefinition = "INT not null default 0")
 		public Integer getRole_isdeleted() {
 			return  role_isdeleted;
 		}
