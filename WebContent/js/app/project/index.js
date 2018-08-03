@@ -49,7 +49,6 @@ var app = angular
 					} ];
 				});
 
-
 //路由配置
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/addCompany', {
