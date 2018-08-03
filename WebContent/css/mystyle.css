@@ -134,3 +134,15 @@
 .companyname{
 	display: none;
 }
+.leftSecond{
+	margin-left:30px;
+}
+a.leftSecond:hover,a.leftSecond:active{
+	background-color:#E6E6E6 !important;
+	color: #32C2CD !important;
+}
+
+.clickin{
+	background-color:#E6E6E6 !important;
+	color: #32C2CD !important;
+}

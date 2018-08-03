@@ -3,6 +3,7 @@ package com.mvc.service.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.EquipType;
 import com.mvc.entityReport.Equipment;
 import com.mvc.service.EquipmentService;
+import com.mvc.entityReport.Project;
 
 import net.sf.json.JSONObject;
 
@@ -50,6 +52,30 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public Integer countEqTotal(String searchKey) {
 		return equipmentDao.countEqTotal(searchKey);
 	}
+	
+	// 查询安装地点总条数
+		@Override
+		public Integer countRoomTotal(String searchKey) {
+			return equipmentDao.countRoomTotal(searchKey);
+		}
+	// 根据页数筛选全部设备信息列表
+		@Override
+		public List<EquipRoom> selectEquipRoomByPage(String searchKey) {
+			return equipmentDao.selectEquipRoomByPage(searchKey);
+		}	
+		
+    // 查询项目总条数
+		@Override
+		public Integer countProjTotal(String searchKey) {
+			return equipmentDao.countProjTotal(searchKey);
+		}
+	// 根据页数筛选全部项目信息列表
+		@Override
+		public List<Project> selectProjectByPage(String searchKey, Integer offset, Integer end) {
+			return equipmentDao.selectProjectByPage(searchKey, offset, end);
+		}	
+		
+		
 	// 根据页数筛选全部设备信息列表
 	@Override
 	public List<Equipment> selectEquipmentByPage(String searchKey, Integer offset, Integer end) {
@@ -157,6 +183,18 @@ public class EquipmentServiceImpl implements EquipmentService {
 				@Override
 				public Equipment selectEquipmentById(Integer equip_id) {
 					return equipmentRepository.selectEquipmentById(equip_id);
+				}
+
+				@Override
+				public List<Equipment> selectEquipByRoom(List<EquipRoom> room, int offset, int end) {
+					List<Integer> roomId = new ArrayList();;
+					for(int k=0;k<room.size();k++){
+						System.out.println(room.get(k).getEquip_room_id());
+						roomId.add(room.get(k).getEquip_room_id());
+					}
+					List<Equipment> list = equipmentDao.selectEquipByRoom(roomId,offset, end);
+					
+					return list;
 				}
 
 
