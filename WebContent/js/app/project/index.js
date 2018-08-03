@@ -64,7 +64,6 @@ app.config([ '$routeProvider', function($routeProvider) {
 	})
 } ]);
 
-
 app.constant('baseUrl', '/gywyext/');
 app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
