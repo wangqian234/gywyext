@@ -83,15 +83,9 @@ app.config([ '$routeProvider', function($routeProvider) {
 
 app.constant('baseUrl', '/gywyext/');
 app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
-	//显示
+
 	var services = {};
 	
-	services.getEquipmentInfo = function() {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'equipEquipment/getEquipmentInfo.do',
-		});
-	};
 	//删除
 	services.deleteEquipmentInfo = function(data) {
 		return $http({
@@ -108,7 +102,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	//根据页数筛选信息
+	//根据页数获取设备信息
 	services.getEquipmentListByPage = function(data) {
 		return $http({
 			method : 'post',
@@ -140,14 +134,6 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};	
-	//根据页数获取设备信息
-	services.getEquipmentListByPage = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'equipEquipment/getEquipmentListByPage.do',
-		    data:data
-		});
-	};
 
 	return services;
 } ]);
@@ -171,10 +157,7 @@ app
 								});
 							}
 							
-											
-							
-							
-							// 换页
+                    		// 换页
 							function pageTurn(totalPage, page, Func) {
 								$(".tcdPageCode").empty();
 								var pa=1
@@ -249,7 +232,7 @@ app
 									equipmentState : eqSLimit
 								}).success(function(data) {
 									$scope.equipment = data.list;
-									pageTurn(data.totalPage, page, getEquipmentListByTS)
+									pageTurn(data.totalPage, page, getEquipmentListByPage)
 								});
 							}
 			
@@ -279,7 +262,7 @@ app
 													/*if (data.equipment.equip_pdate) {
 														equipment.equipment.equip_pdate = changeDateType(data.equipment.equip_pdate);
 													}*/
-/*
+                                                    /*
 													if(data.equipment.travel_discount){
 														equipment.equipmentInfo.travel_discount = changeFloat(data.travel.travel_discount);*/
 													});										

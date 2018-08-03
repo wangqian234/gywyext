@@ -4,16 +4,16 @@
 		<form class="toolbar">
 			<!-- 根据设备分类筛选设备信息 -->
 			请选择设备分类： <select class="dfselect" ng-model="EQTLimit.equip_type"
-				ng-change="getELByTS(1)" id="equip_type" style="width: 167px">
+				ng-change="getELByTS(1)" id="e.equip_type" style="width: 167px">
 				<option value="">全部</option>
 				<option value="1">消防设备</option>
-				<option value="2">电子设备</option>
-				<option value="3">温湿度监测设备</option>
+				<option value="3">电子设备</option>
+				<option value="2">温湿度监测设备</option>
 			    <option value="4">其它</option>
 			</select>
 			<!-- 根据健康状态筛选设备信息 -->
 			请选择设备健康状态： <select class="dfselect" ng-model="EQSLimit.equip_state"
-				ng-change="getELByTS(1)" id="equip_state" style="width: 167px">
+				ng-change="getELByTS(1)" id="e.equip_state" style="width: 167px">
 				<option value="">全部</option>
 				<option value="0">健康</option>
 				<option value="1">一般</option>
