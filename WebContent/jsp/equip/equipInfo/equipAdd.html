@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>添加设备信息</title>
+</head>
+<body>
+<div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                                                                                       添加设备信息
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form" ng-submit="addEquipment()">
+                                        <div class="form-group">
+                                            <label>设备名称<b>*</b></label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_name" required />                                           
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备型号<b>*</b></label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_no" required />                                           
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备图片</label>
+                                            <input type="file" ng-model="equipmentInfo.equip_pic"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备二维码</label>
+                                            <input type="file" ng-model="equipmentInfo.equip_qrcode"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备规格</label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_spec"  />                                           
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备分类编号<b>*</b></label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_type"  required />                                           
+                                        <p class="help-block">1:消防设备 2:电气设备 3:温湿度检测设备 4:其它</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备制造商编号<b>*</b></label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_manu"  required />                                           
+                                        </div>
+                                        <p class="help-block">1:X公司 2:Y公司 3:Z公司 4:其它</p>
+                                        <div class="form-group">           
+                                            <label>设备生产日期</label><input type="date" 
+					                        ng-model="equipmentInfo.equip_pdate" class="form-control"/>
+					                    </div>
+					                    <div class="form-group">           
+                                            <label>设备购买日期</label><input type="datetime-local"  
+					                        ng-model="equipmentInfo.equip_bdate" class="form-control"/>
+					                    </div>
+					                    <div class="form-group">           
+                                            <label>设备安装日期</label><input type="datetime-local"  
+					                        ng-model="equipmentInfo.equip_idate" class="form-control"/>
+					                    </div>
+					                    <div class="form-group">           
+                                            <label>设备使用日期</label><input type="datetime-local"  
+					                        ng-model="equipmentInfo.equip_udate" class="form-control"/>
+					                    </div>
+                                         <div class="form-group">
+                                            <label>设备安装费用</label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_ifee"  />                                           
+                                        </div>                               
+                                        <div class="form-group">
+                                            <label>设备购买费用</label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_bfee"  />                                           
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备健康状态<b>*</b></label><input class="form-control" max="10"
+                                            ng-model="equipmentInfo.equip_state"  required/>                                           
+                                        <p class="help-block">健康值最大为10</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备维护周期</label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_mdate"  />                                           
+                                        </div>
+                                       <div class="form-group">           
+                                            <label>设备下次维保时间<b>*</b></label><input type="datetime-local"  required
+					                        ng-model="equipmentInfo.equip_ndate" class="form-control"/>
+					                    </div>
+                                        <div class="form-group">
+                                            <label>设备寿命</label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_atime"  />                                           
+                                        </div>
+                                        <div class="form-group">
+                                            <label>设备负责人编号<b>*</b></label><input class="form-control" 
+                                            ng-model="equipmentInfo.user"  required/>                                           
+                                        </div>
+                                         <div class="form-group">
+                                            <label>设备安装位置编号<b>*</b></label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_room"  required/>                                           
+                                         <p class="help-block">1:水泵房 2:电梯井 3:地下车库 4:其它</p>
+                                         </div>
+                                        <div class="form-group">
+                                            <label>设备备注</label><input class="form-control" 
+                                            ng-model="equipmentInfo.equip_memo" />                                           
+                                         </div>
+                                        <li id="addEquipment" has-permission='tAdd'><label>&nbsp;</label><input href="#equipDetail" type="submit"
+				                            class="btn" value="新建设备信息" /></li>
+                                    </form>
+                                </div>
+                                <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.row (nested) -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
+</body>
+</html>
