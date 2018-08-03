@@ -1,23 +1,21 @@
+<div id="page-wrapper"  style="margin-left: 260px;padding-top:100px">
 <div class="panel panel-default">
 	<div class="panel-heading">
 	<div ng-app="" class="tools">
 		<form class="toolbar">
 			<!-- 根据设备分类筛选设备信息 -->
-			请选择设备分类： <select class="dfselect" ng-model="EQTLimit.equip_type"
-				ng-change="getELByTS(1)" id="equip_type" style="width: 167px">
-				<option value="">全部</option>
-				<option value="1">消防设备</option>
-				<option value="2">电子设备</option>
-				<option value="3">温湿度监测设备</option>
-			    <option value="4">其它</option>
+			请选择设备区域： <select class="dfselect" ng-model="equip_room" ng-change="getELByTS()" style="width: 167px">
+				<option value="0">全部</option>
+				<option ng-repeat="erm in equiproom_p" value="erm.equip_room_id">{{erm.equip_room_name}}</option>
 			</select>
+				
 			<!-- 根据健康状态筛选设备信息 -->
-			请选择设备健康状态： <select class="dfselect" ng-model="EQSLimit.equip_state"
-				ng-change="getELByTS(1)" id="equip_state" style="width: 167px">
-				<option value="">全部</option>
-				<option value="0">健康</option>
-				<option value="1">一般</option>
-				<option value="2">故障</option>
+			请选择设备健康状态： <select class="dfselect" ng-model="equip_state"
+				ng-change="getELByTS()" style="width: 167px">
+				<option value="0">全部</option>
+				<option value="1">健康</option>
+				<option value="2">一般</option>
+				<option value="3">故障</option>
 			</select>
 		
 		</form>	
@@ -44,7 +42,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="e in equipments" id={{e.equip_id}}>
+					<tr ng-repeat="e in equipments track by $index" id={{e.equip_id}}>
 						<td>{{$index + 1}}</td>
 						<td>{{e.equip_name}}</td>
 						<td>{{e.equip_no}}</td>
@@ -62,9 +60,64 @@
 				</tbody>
 				
 			</table>
+			
+			
 		</div>
 	</div>
 		<div  class="tcdPageCode">页码容器</div>
 </div>
+</div>
 
+         <nav class="navbar-default navbar-side" role="navigation">
+		<div id="sideNav"><i class="fa fa-caret-right"></i></div>
+            <div class="sidebar-collapse">
+                
+               <ul class="nav" id="main-menu">
+                     <li ng-repeat="ld in leftData">
+                        <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" ng-repeat="ldd in ld.data">
+                            <li>
+                                <a class="leftSecond" href="" ng-click="selectBaseInfoByProj(ldd.proj_id)">{{ldd.proj_name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                 </ul>
+                 
+            </div>
+        </nav>
+        
+        <script>
+        $("#main-menu").on("click",function(e){
+        	if(e.target.nodeName == "A"){
+        		$(this).find("a").removeClass("clickin");
+        		$(e.target).addClass("clickin");
+        	}
+        })
+        
+         $(document).ready(function () {
+    		$("#sideNav").click(function(){
+    			if($(this).hasClass('closed')){
+    				$('.navbar-side').animate({left: '0px'});
+    				$(this).removeClass('closed');
+    				$('#page-wrapper').animate({'margin-left' : '260px'});
+    				
+    			}
+    			else{
+    			    $(this).addClass('closed');
+    				$('.navbar-side').animate({left: '-260px'});
+    				$('#page-wrapper').animate({'margin-left' : '0px'}); 
+    			}
+    		});
+        });
+
+        $(window).bind("load resize", function () {
+            if ($(this).width() < 768) {
+                $('div.sidebar-collapse').addClass('collapse')
+            } else {
+                $('div.sidebar-collapse').removeClass('collapse')
+            }
+        });
+        
+        </script>
+        
 <script type="text/javascript" src="/gywyext/js/lib/pageTurn.js">

@@ -57,6 +57,15 @@
 	border-radius: 4px;
 	vertical-align: middle;
 }
+.toolbar1 {
+	float: right;
+}
+
+.tcdPageCode {
+	padding: 15px 20px;
+	text-align: right;
+	color: #ccc;
+}
 /* 南健pageCSS结束 */
 .form-group label {
     width: 15%;
