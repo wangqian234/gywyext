@@ -30,12 +30,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Autowired
 	EquipmentDao equipmentDao;
 
-	// 根据id删除
+	// 根据id删除设备信息
 	@Override
 	public boolean deleteIsdelete(Integer equip_id) {
 		return equipmentDao.updateState(equip_id);
 	}
-	//根据限制条件筛选信息 
+	/*//根据限制条件筛选信息 
 	@Override
 	public List<Equipment> findEquipmentByPage(String eqType, String eqState, Integer offset, Integer limit) {
 		// TODO 自动生成的方法存根
@@ -45,7 +45,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public Integer countTotal(String eqType, String eqState) {
 		// TODO 自动生成的方法存根
 		return equipmentDao.countTotal( eqType,  eqState);
-	}	
+	}	*/
 	
 	// 查询设备总条数
 	@Override
@@ -53,11 +53,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		return equipmentDao.countEqTotal(searchKey);
 	}
 	
-	// 查询安装地点总条数
-		@Override
-		public Integer countRoomTotal(String searchKey) {
-			return equipmentDao.countRoomTotal(searchKey);
-		}
 	// 根据页数筛选全部设备信息列表
 		@Override
 		public List<EquipRoom> selectEquipRoomByPage(String searchKey) {
@@ -179,12 +174,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 					else
 						return false;
 					}
-				// 根据ID获取旅游信息
+				// 根据ID获取设备信息(用于设备信息的修改）
 				@Override
 				public Equipment selectEquipmentById(Integer equip_id) {
 					return equipmentRepository.selectEquipmentById(equip_id);
 				}
 
+				//根据安装位置筛选设备信息
 				@Override
 				public List<Equipment> selectEquipByRoom(List<EquipRoom> room, int offset, int end) {
 					List<Integer> roomId = new ArrayList();;

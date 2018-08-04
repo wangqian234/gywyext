@@ -43,7 +43,7 @@ public class EquipmentController {
 		return JSON.toJSONString(result);
 	}
 	
-	//根据限制条件type、state筛选设备信息
+	/*//根据限制条件type、state筛选设备信息
 		@RequestMapping("/getEquipmentListByTS.do")
 		public @ResponseBody String getEquipmentByPrarm(HttpServletRequest request, HttpSession session) {
 			String eqType = null;
@@ -65,9 +65,9 @@ public class EquipmentController {
 			jsonObject.put("totalPage", pager.getTotalPage());
 			jsonObject.put("list", list);
 			return jsonObject.toString();
-		}
+		}*/
 		
-		//根据页数筛选设备信息列表
+		//根据页数显示设备信息列表
 		@RequestMapping(value = "/getEquipmentListByPage.do")
 		public @ResponseBody String getEquipmentsByPrarm(HttpServletRequest request, HttpSession session) {
 			JSONObject jsonObject = new JSONObject();
@@ -192,7 +192,7 @@ public class EquipmentController {
 				return 0;
 		}
 		
-		//根据id获取信息
+		//根据id获取设备信息
 		@RequestMapping("/selectEquipmentById.do")
 		public @ResponseBody String selectEquipmentById(HttpServletRequest request, HttpSession session) {
 			int equip_id = Integer.parseInt(request.getParameter("equip_id"));
@@ -202,44 +202,8 @@ public class EquipmentController {
 			jsonObject.put("equipment", equipment);
 			return jsonObject.toString();
 		}
-		
-/*		//根据页数筛选安装地点信息列表
-				@RequestMapping(value = "/getEquipRoomListByPage.do")
-				public @ResponseBody String getEquipRoomsByPrarm(HttpServletRequest request, HttpSession session) {
-					JSONObject jsonObject = new JSONObject();
-					String searchKey = request.getParameter("searchKey");
-					Integer totalRow = equipmentService.countRoomTotal(searchKey);
-					Pager pager = new Pager();
-					pager.setPage(Integer.valueOf(request.getParameter("page")));
-					pager.setTotalRow(Integer.parseInt(totalRow.toString()));
-					List<EquipRoom> list = equipmentService.selectEquipRoomByPage(searchKey, pager.getOffset(), pager.getLimit());
-					jsonObject.put("list", list);
-					jsonObject.put("totalPage", pager.getTotalPage());
-					System.out.println("totalPage:" + pager.getTotalPage());
-					return jsonObject.toString();
-				}
-		
 
-		//根据页数筛选项目信息列表
-				@RequestMapping(value = "/getProjectListByPage.do")
-				public @ResponseBody String getProjectsByPrarm(HttpServletRequest request, HttpSession session) {
-					JSONObject jsonObject = new JSONObject();
-					String searchKey = request.getParameter("searchKey");
-					Integer totalRow = equipmentService.countProjTotal(searchKey);
-					Pager pager = new Pager();
-					pager.setPage(Integer.valueOf(request.getParameter("page")));
-					pager.setTotalRow(Integer.parseInt(totalRow.toString()));
-					List<Project> list = equipmentService.selectProjectByPage(searchKey, pager.getOffset(), pager.getLimit());
-					jsonObject.put("list", list);
-					jsonObject.put("totalPage", pager.getTotalPage());
-					System.out.println("totalPage:" + pager.getTotalPage());
-					return jsonObject.toString();
-				}		*/
-				
-				
-				
-				
-				
+			//根据项目编号筛选设备信息
 		@RequestMapping("/selectBaseInfoByProj.do")
 		public @ResponseBody String selectBaseInfoByProj(HttpServletRequest request, HttpSession session) {
 			Pager pager = new Pager();
@@ -264,8 +228,6 @@ public class EquipmentController {
 				}
 				
 			};
-
-/*			List<Equipment> list = equipmentService.selectEquipmentByPage(proj_id, pager.getOffset(), pager.getLimit());*/
 			
 			JSONObject jsonObject = new JSONObject();
 			jsonObject.put("equipment", list);
