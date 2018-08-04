@@ -15,18 +15,16 @@ public interface EquipmentService {
 	// 根据id删除
 	boolean deleteIsdelete(Integer equip_id);
 	
-	//根据限制条件筛选信息
+	/*//根据限制条件筛选信息
 	Integer countTotal(String eqType, String eqState);
-	List<Equipment> findEquipmentByPage(String eqType, String eqState, Integer offset, Integer limit);
+	List<Equipment> findEquipmentByPage(String eqType, String eqState, Integer offset, Integer limit);*/
 	
 	// 查询设备总条数
 	Integer countEqTotal(String searchKey);
 	// 根据页数筛选全部设备信息列表
 	List<Equipment> selectEquipmentByPage(String searchKey, Integer offset, Integer end);
 
-	// 查询设备总条数
-	Integer countRoomTotal(String searchKey);
-	// 根据页数筛选全部设备信息列表
+	// 根据页数筛选全部设备安装位置列表
 	List<EquipRoom> selectEquipRoomByPage(String searchKey);
 	
 	// 查询项目总条数
