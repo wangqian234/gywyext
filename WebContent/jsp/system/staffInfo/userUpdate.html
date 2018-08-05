@@ -1,0 +1,58 @@
+<div class="place">
+	<span>位置：</span>
+	<ul class="placeul">
+	
+	
+		<li>修改用户信息</li>
+	</ul>
+</div>
+<!-- 录入旅游信息 -->
+<div class="formbody">
+	
+	<form ng-submit="updateTravel()">
+		<div class="formtitle">
+			<span>用户信息</span>
+		</div>
+		
+		
+        <div class="form-group">
+          	<label>姓名<b>*</b></label>
+          	<input  ng-model="staff.user_name" class="form-control">
+        </div>
+		
+		<div class="form-group">
+          	<label>电话<b>*</b></label>
+          	<input  ng-model="staff.user_tel" class="form-control">
+        </div>
+		<div class="form-group">
+          	<label>邮箱&nbsp;</label>
+          	<input  ng-model="staff.user_tel" class="form-control">
+        </div>
+        <div class="form-group">
+          	<label>账号<b>*</b></label>
+          	<input  ng-model="staff.user_tel" class="form-control">
+        </div>
+        <div class="form-group">
+	         <label>性别<b>*</b></label>
+	          <label class="radio-inline">
+              <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked="">男
+          	 </label>
+			<label class="radio-inline">
+              <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">女
+            </label>
+        </div>
+         
+        <div class="form-group">
+             <label>角色<b>*</b></label>
+             <select class="form-control">
+             	 <option>请选择</option>	
+                 <option>管理员</option>
+                 <option>总经理</option>
+                 <option>普通用户</option>
+             </select>
+        </div>
+<button	 style="display:block;margin:0 auto" type="submit"	ng-click="addStaff()" class="btn btn-default" >提交修改</button>
+    
+ 	</form>
+</div>       
+		

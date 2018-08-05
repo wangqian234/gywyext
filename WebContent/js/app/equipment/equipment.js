@@ -417,7 +417,6 @@ app
 											searchKey : searchKey
 										}).success(function(data) {
 											equipment.equipments = data.list;
-											var res = JSON.Stringify(equipment.equipments[0].equip_ndate);// str为你接到的date数据 
 											pageTurn(
 													data.totalPage,
 													1,
