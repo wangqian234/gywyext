@@ -72,11 +72,14 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/staffAdd', {
 		templateUrl : '/gywyext/jsp/system/staffInfo/staffAdd.html',
 		controller : 'staffInfoController'
-	}).when('/staffList', {
-		templateUrl : '/gywyext/jsp/system/staffInfo/staffList.html',
+	}).when('/userList', {
+		templateUrl : '/gywyext/jsp/system/staffInfo/userList.html',
 		controller : 'staffInfoController'
-	})
-} ]);
+	}).when('/userUpdate', {
+		templateUrl : '/gywyext/jsp/system/staffInfo/userUpdate.html',
+		controller : 'staffInfoController'
+	}) 
+}]);
 
 app.constant('baseUrl', '/gywyext/');
 app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
@@ -91,6 +94,27 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'systemStaff/addStaff.do',
+			data : data
+		});
+	};
+	services.deleteUser = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/deleteUser.do',
+			data : data
+		});
+	};
+	services.selectuserByName = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/selectuserByName.do',
+			data : data
+		});
+	};
+	services.getUserListByPage = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/getUserListByPage.do',
 			data : data
 		});
 	};
@@ -136,14 +160,46 @@ app
 								}).success(function(data) {
 									alert("新建成功！");
 								});
-								user.addinguser = "";
-								$(".overlayer").fadeIn(200);
-								$(".tip").fadeIn(200);
-								$("#addUser-form").slideDown(200);
-								user.addinguser = {
-									user_sex : 0,
-									role : null
-								};
+							};
+							// 删除用户信息
+							staffInfo.deleteUser = function(user_id) {
+								if (confirm("是否删除该用户信息？") == true) {
+									services.deleteUser({
+										userId : user_id
+									}).success(function(data) {
+
+										user.result = data;
+										if (data == "true") {
+											console.log("删除用户信息成功！");
+										} else {
+											console.log("删除失败！");
+										}
+										initData();
+									});
+								}
+							}
+							// 根据页数获取用户列表
+							function getUserListByPage(page) {
+								services.getUserListByPage({
+									page : page,
+									searchKey : searchKey
+								}).success(function(data) {
+									User.Users = data.list;
+									
+								});
+							}
+
+							// 根据输入筛选信息
+							staffInfo.selectuserByName = function() {
+								searchKey = staffInfo.userName;
+								services.getUserListByPage({
+									page : 1,
+									searchKey : searchKey
+								}).success(function(data) {
+									staffInfo.Users = data.list;
+									console.log(staffInfo.Users)
+									//pageTurn(data.totalPage, 1, getUserListByPage)
+								});
 							};
 						
 /*							

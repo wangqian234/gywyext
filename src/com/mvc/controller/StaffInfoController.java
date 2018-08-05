@@ -1,25 +1,26 @@
 package com.mvc.controller;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+
 import java.util.List;
-import java.util.Map;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 
 import com.mvc.entityReport.User;
-import com.mvc.service.IndexService;
+
 import com.mvc.service.StaffInfoService;
+import com.utils.Pager;
 
 import net.sf.json.JSONObject;
 
@@ -39,7 +40,20 @@ public class StaffInfoController {
 		jsonObject.put("Result", result);
 		return jsonObject.toString();
 	}
-	
+	/**
+	 * 删除旅游信息
+	 * 
+	 * @param request
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteUser.do")
+	public @ResponseBody String deleteUser(HttpServletRequest request, HttpSession session) {
+		Integer userId = Integer.valueOf(request.getParameter("user_id"));
+		boolean result = staffInfoService.deleteIsdelete(userId);
+		//boolean result = travelService.deleteIsdelete(travelid);
+		return JSON.toJSONString(result);
+	}	
 
 
 
@@ -102,12 +116,28 @@ public @ResponseBody String addStaff(HttpServletRequest request, HttpSession ses
 //public @ResponseBody String getAllStores(HttpServletRequest request, HttpSession session) {
 	//List<User> result = staffInfoService.findRoleAlls();
 	//return JSON.toJSONString(result);
-@RequestMapping("/isUserAcctExist.do")
-public @ResponseBody Long checkUserName(HttpServletRequest request, HttpSession session, ModelMap map) {
-	String userAcct = request.getParameter("userAcct");
-	Long result = staffInfoService.isExist(userAcct);
-	return result;
+/**
+ * 根据页数筛选旅游信息列表
+ * 
+ * @param request
+ * @param session
+ * @return
+ */
+@RequestMapping(value = "/getUserListByPage.do")
+public @ResponseBody String getUsersByPrarm(HttpServletRequest request, HttpSession session) {
+	JSONObject jsonObject = new JSONObject();
+	String searchKey = request.getParameter("searchKey");
+	Integer totalRow = staffInfoService.countTotal(searchKey);
+	Pager pager = new Pager();
+	pager.setPage(Integer.valueOf(request.getParameter("page")));
+	pager.setTotalRow(Integer.parseInt(totalRow.toString()));
+	List<User> list = staffInfoService.findUserByPage(searchKey, pager.getOffset(), pager.getLimit());
+	jsonObject.put("list", list);
+	jsonObject.put("totalPage", pager.getTotalPage());
+	System.out.println("totalPage:" + pager.getTotalPage());
+	return jsonObject.toString();
 }
+
 
 }
 	

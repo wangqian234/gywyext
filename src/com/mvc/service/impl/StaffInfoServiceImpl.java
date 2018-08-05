@@ -40,9 +40,25 @@ public class StaffInfoServiceImpl implements StaffInfoService {
 	//		return staffInfoRepository.findAlls();
 	//	}
 	// 根据userAcct查询用户账号是否存在,返回1存在，返回0不存在
-		public Long isExist(String userAcct) {
-			Long result = staffInfoRepository.countByUserAcct(userAcct);
-			return result;
+		//public Long isExist(String userAcct) {
+		//	Long result = staffInfoRepository.countByUserAcct(userAcct);
+		//	return result;
+		//}
+	
+	// 根据页数筛选全部用户信息列表
+		@Override
+		public List<User> findUserByPage(String searchKey, Integer offset, Integer end) {
+			return  staffInfoDao.findUserByPage(searchKey, offset, end);
 		}
-
+	// 查询总条数
+			@Override
+			public Integer countTotal(String searchKey) {
+				return staffInfoDao.countTotal(searchKey);
+			}
+		
+			// 根据id删除
+			@Override
+			public boolean deleteIsdelete(Integer user_id) {
+				return staffInfoDao.updateState(user_id );
+			}
 }

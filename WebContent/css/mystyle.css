@@ -68,3 +68,46 @@
 .companyname{
 	display: none;
 }
+.click{
+	
+	position:absolute;
+	left:180px; /*左右位置*/
+	top:174px;/*上下位置*/
+	width:100px;
+	height:100px;
+	z-index:1;
+	    color: #5bc0de;
+}
+.clicking{
+	text_align:left
+	position:absolute;
+	
+	top:150px;/*上下位置*/
+	width:100px;
+	height:100px;
+	z-index:1;
+
+}
+.clickagain{
+	text-align: right;
+	
+}
+.input-group-btn{
+	
+	position:absolute;
+	left:300px;
+	top:21px;/*上下位置*/
+	
+	z-index:1;
+
+}
+.form-controling{
+	
+	position:absolute;
+	
+	top:21px;/*上下位置*/
+	
+	z-index:1;
+
+}
+
