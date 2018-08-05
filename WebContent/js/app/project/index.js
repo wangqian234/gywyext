@@ -49,7 +49,6 @@ var app = angular
 					} ];
 				});
 
-
 //路由配置
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/addCompany', {
@@ -63,7 +62,6 @@ app.config([ '$routeProvider', function($routeProvider) {
 		controller : 'indexProController'
 	})
 } ]);
-
 
 app.constant('baseUrl', '/gywyext/');
 app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
@@ -112,7 +110,7 @@ app.controller('indexProController', [
 			indexpro.addCompany = function(){
 				var companyInfo = JSON.stringify(indexpro.company);
 				var projectInfo = JSON.stringify(indexpro.project);
-				if(companyInfo.comp_name == "" || companyInfo.comp_name == undefined){
+				if(indexpro.company.comp_name == "" || indexpro.company.comp_name == undefined){
 					$(".companyname").show();
 					return ;
 				} else {

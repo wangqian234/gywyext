@@ -33,7 +33,7 @@ public class IndexServiceImpl implements IndexService {
 					Map<String, String> map = new HashMap<String, String>();
 					map.put("comp_id", listSource1.get(i).getComp_id().toString());
 					map.put("comp_name", listSource1.get(i).getComp_name());
-					map.put("proj_id", listSource2.get(i).getProj_id().toString());
+					map.put("proj_id", listSource2.get(j).getProj_id().toString());
 					map.put("proj_name", listSource2.get(j).getProj_name());
 					listMap.add(map);
 				}
