@@ -153,6 +153,10 @@ app
 							// 添加用户信息
 						staffInfo.addStaff = function() {
 								alert(JSON.stringify(staffInfo.staff))
+								 if(!((/^0\d{2,3}-?\d{7,8}$/.test(staffInfo.staff.user_tel))||(/^1(3|4|5|7|8)\d{9}$/.test(staffInfo.staff.user_tel)))){
+									 alert("电话格式有误，请重填!");
+									 return;
+								}
 								var staffFormData = JSON
 										.stringify(staffInfo.staff);
 								services.addStaff({

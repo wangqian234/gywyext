@@ -77,24 +77,7 @@ public @ResponseBody String addStaff(HttpServletRequest request, HttpSession ses
 	user.setUser_tel(jsonObject.getString("user_tel"));}
 	if (jsonObject.containsKey("user_email")) {
 	user.setUser_email(jsonObject.getString("user_email"));}
-
-
-	
-	//if (jsonObject.containsKey("user_acct")) {
-	//	travel.setTravel_cprice(Float.parseFloat(jsonObject.getString("user_acct")));
-	//}
-//	if (jsonObject.containsKey("user_acct")) {
-	//	travel.setTravel_insurance(Float.parseFloat(jsonObject.getString("user_acct")));
-//	}
-//	if (jsonObject.containsKey("user_name")) {
-//		DecimalFormat df = new DecimalFormat("#.00");
-//		String str = df.format(Float.parseFloat(jsonObject.getString("travel_discount")));
-//		travel.setTravel_discount(Float.parseFloat(str));
-	//	travel.setTravel_discount(Float.parseFloat(jsonObject.getString("travel_discount")));
-	//}
-	
-	//}
-	//user.set_Isdeleted(0);
+	user.setUser_isdeleted(0);
 	boolean result;
 	if (jsonObject.containsKey("user_id")) {
 		user.setUser_id(Integer.valueOf(jsonObject.getString("User_id")));
