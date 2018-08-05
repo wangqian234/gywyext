@@ -200,7 +200,6 @@ app
 							equipment.count = [1];
 							equipment.test = function(){
 								equipment.count.push("1");
-								alert(equipment.count)
 							}
 							// 换页
 							function pageTurn(totalPage, page, Func) {
@@ -261,8 +260,6 @@ app
 							equipment.equip_state = 0;
 							// state、Type限制
 							equipment.getELByTS = function() {
-								alert(equipment.equip_room);
-								alert(equipment.equip_state);
 								services.getEquipRoomListByPage({
 									page : 1,
 									equipmentRoom : equipment.equip_room,
@@ -317,6 +314,12 @@ app
 								sessionStorage.setItem('equipmentId',
 										equipmentId);
 							};
+							
+							equipment.getEquipmentDetail = function(e){
+								var equipmentDetail = JSON.stringify(e)
+								sessionStorage.setItem('equipmentDetail', equipmentDetail);
+								$location.path("/equipDetail")
+							}
 
 							//根据proj_id查找设备信息
 							equipment.selectBaseInfoProj_id;							
@@ -338,6 +341,20 @@ app
 									equipment.equipments = data.list;
 								});
 							}
+							//判断输入时间是否正确
+							function compareDateTime(equip_pdate, equip_bdate,equip_idate,equip_udate,equip_ndate) {
+								var date1 = new Date(equip_pdate);
+								var date2 = new Date(equip_bdate);
+								var date3 = new Date(equip_idate);
+								var date4 = new Date(equip_udate);
+								var date5 = new Date(equip_ndate);	
+								if (date1.getTime() < date2.getTime()< date3.getTime()< date4.getTime()< date5.getTime()) {
+									return true;
+								} else {
+									return false;
+								}
+							}
+							
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！")
@@ -368,7 +385,6 @@ app
 									services.getInitLeft().success(function(data) {
 										var arr = data.leftResult;
 										
-
 										var map = {}, dest = [];
 										for (var i = 0; i < arr.length; i++) {
 											var ai = arr[i];
@@ -391,31 +407,40 @@ app
 										}
 										
 										equipment.leftData = dest;
-										services.selectBaseInfoByProj({
-											page : 1,
-											proj_id : 1
-										}).success(function(data) {
-											equipments="";
-											equipment.equipments = data.equipment;
-											equipment.equiproom_p = data.room;
-										});
 										
-/*										searchKey = null;
+										var leftData = JSON.stringify(dest)
+										sessionStorage.setItem('leftData', leftData);
+										
+										searchKey = null;
 										services.getEquipmentListByPage({
 											page : 1,
 											searchKey : searchKey
 										}).success(function(data) {
 											equipment.equipments = data.list;
-
+											var res = JSON.Stringify(equipment.equipments[0].equip_ndate);// str为你接到的date数据 
 											pageTurn(
 													data.totalPage,
 													1,
 													getEquipmentListByPage);
 
-										});*/
+										});
 
 									})
+								} else if($location.path().indexOf('/equipDetail') == 0){
+									equipment.equipmentDetail = JSON.parse(sessionStorage.getItem('equipmentDetail'));
+									equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
 								}
 							}
 							initPage();
 						} ]);
+
+//时间戳转换
+app.filter('timer', function() {
+	return function(input) {
+		if(input == "" || input == undefined){
+			return "";
+		}
+	    var t = new Date(input).toLocaleString(); 
+	    return t.substring(0,9); 
+	}
+});
