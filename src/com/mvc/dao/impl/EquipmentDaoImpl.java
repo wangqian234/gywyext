@@ -40,7 +40,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		return true;
 
 	}
-	//根据限制条件筛选信息
+/*	//根据限制条件筛选信息
 		@SuppressWarnings({ "unchecked" })
 		@Override
 		public Integer countTotal(String eqType, String eqState) {
@@ -83,7 +83,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			List<Equipment> list = query.getResultList();
 			em.close();
 			return list;
-		}
+		}*/
 	    
 		//  查询设备信息总条数
 		@SuppressWarnings("unchecked")
@@ -98,7 +98,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			em.close();
 			return Integer.parseInt(totalRow.get(0).toString());
 		}
-		// 根据页数筛选全部设备信息列表
+		// 根据页数显示全部设备信息列表
 		@SuppressWarnings("unchecked")
 		@Override
 		public List<Equipment> selectEquipmentByPage(String searchKey, Integer offset, Integer end) {
@@ -118,19 +118,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			return list;
 		}
 	        
-		//  查询设备安装位置信息总条数
-			@SuppressWarnings("unchecked")
-			public Integer countRoomTotal(String searchKey) {
-				EntityManager em = emf.createEntityManager();
-				String countSql = " select count(equip_room_id) from equip_room tr where equip_room_isdeleted=0 ";
-				if (null != searchKey) {
-					countSql += " equip_room_name like '%" + searchKey + "%' ";
-				}
-				Query query = em.createNativeQuery(countSql);
-				List<Object> totalRow = query.getResultList();
-				em.close();
-				return Integer.parseInt(totalRow.get(0).toString());
-			}
+
 			// 根据页数筛选全部设备安装位置信息列表
 			@SuppressWarnings("unchecked")
 			@Override
@@ -144,69 +132,58 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				return list;
 			}
 
-		
-			//  查询项目信息总条数
-					@SuppressWarnings("unchecked")
-					public Integer countProjTotal(String searchKey) {
-						EntityManager em = emf.createEntityManager();
-						String countSql = " select count(proj_id) from project tr where proj_isdeleted=0 ";
-						if (null != searchKey) {
-							countSql += " proj_name like '%" + searchKey + "%' ";
-						}
-						Query query = em.createNativeQuery(countSql);
-						List<Object> totalRow = query.getResultList();
-						em.close();
-						return Integer.parseInt(totalRow.get(0).toString());
-					}
-					// 根据页数筛选全部项目信息列表
-					@SuppressWarnings("unchecked")
-					@Override
-					public List<Project> selectProjectByPage(String searchKey, Integer offset, Integer end) {
-						EntityManager em = emf.createEntityManager();
-						String selectSql = "select * from project where proj_isdeleted=0";
-					// 判断查找关键字是否为空
-						if (null != searchKey) {
-							selectSql +=  " proj_name like '%" + searchKey + "%' ";
-						}
-						selectSql += " order by proj_id desc limit :offset, :end";
-						Query query = em.createNativeQuery(selectSql, Project.class);
-						query.setParameter("offset", offset);
-						query.setParameter("end", end);
-						List<Project> list = query.getResultList();
-						em.close();
-						System.out.println(list);
-						return list;
-					}
+		   //  查询设备信息总条数
+			@SuppressWarnings("unchecked")
+			public Integer countProjTotal(String searchKey) {
+				EntityManager em = emf.createEntityManager();
+				String countSql = " select count(proj_id) from project tr where proj_isdeleted=0 ";
+				if (null != searchKey) {
+					countSql += " proj_name like '%" + searchKey + "%' ";
+				}
+				Query query = em.createNativeQuery(countSql);
+				List<Object> totalRow = query.getResultList();
+				em.close();
+				return Integer.parseInt(totalRow.get(0).toString());
+			}
+			
+			
+			// 根据页数筛选全部项目信息列表
+			@SuppressWarnings("unchecked")
+			@Override
+			public List<Project> selectProjectByPage(String searchKey, Integer offset, Integer end) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from project where proj_isdeleted=0";
+			// 判断查找关键字是否为空
+				if (null != searchKey) {
+					selectSql +=  " proj_name like '%" + searchKey + "%' ";
+				}
+				selectSql += " order by proj_id desc limit :offset, :end";
+				Query query = em.createNativeQuery(selectSql, Project.class);
+				query.setParameter("offset", offset);
+				query.setParameter("end", end);
+				List<Project> list = query.getResultList();
+				em.close();
+				System.out.println(list);
+				return list;
+			}
 					
-					
-					@Override
-					public List<Equipment> selectEquipByRoom(List<Integer> roomId, int offset, int end) {
-						EntityManager em = emf.createEntityManager();
-						String selectSql = "select * from equipment where equip_isdeleted=0 and ";
-						for(int i=0;i<roomId.size()-1;i++){
-							selectSql += " equip_room = '" +roomId.get(i) + "' or ";
-						}
-						selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ";
-						selectSql += " limit :offset, :end";
-						Query query = em.createNativeQuery(selectSql, Equipment.class);
-						query.setParameter("offset", offset);
-						query.setParameter("end", end);
-						List<Equipment> list = query.getResultList();
-						em.close();
-						System.out.println(list);
-						return list;
-					}
-
-
-
-
-
-
-
-
-
-
-
-
+			//根据安装位置筛选设备
+			@Override
+			public List<Equipment> selectEquipByRoom(List<Integer> roomId, int offset, int end) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_isdeleted=0 and ";
+				for(int i=0;i<roomId.size()-1;i++){
+					selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+				}
+				selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ";
+				selectSql += " limit :offset, :end";
+				Query query = em.createNativeQuery(selectSql, Equipment.class);
+				query.setParameter("offset", offset);
+				query.setParameter("end", end);
+				List<Equipment> list = query.getResultList();
+				em.close();
+				System.out.println(list);
+				return list;
+			}
 
 }

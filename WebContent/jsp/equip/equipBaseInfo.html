@@ -37,7 +37,7 @@
 						<th>设备分类</th>
 						<th>设备健康状态</th>
 						<th>设备负责人</th>
-						<!-- <th>下次维保时间</th> -->
+						<th>下次维保时间</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -50,13 +50,13 @@
 						<td>{{e.equip_type.equip_type_name}}</td>
 						<td><progress value="{{e.equip_state}}" max="10"></progress></td>
 						<td>{{e.user.user_name}}</td>
-						<!-- <td>{{e.equip_ndate}}</td> -->
-						<td><a class="click" href="#/equipDetail">查看设备详情</a><!-- 修改，删除操作放置到编辑操作里面 -->
-					    <a href="#/equipUpdate" ng-click="getEquipmentId(e.equip_id)"class="tablelink"	
+						<td>{{e.equip_ndate.time | timer}}</td>
+						<td><a class="tablelink"  href="#/equipDetail" ng-click="getEquipmentDetail(e)">查看设备详情</a><!-- 修改，删除操作放置到编辑操作里面 -->
+					     <a href="#/equipUpdate" ng-click="getEquipmentId(e.equip_id)"class="tablelink"	
 				        has-permission='tEdit'> 修改</a>
 					    <a href="#equipBaseInfo" ng-click="deleteEquipmentInfo(e.equip_id)" class="tablelink"
 					     has-permission='tDel'> 删除</a></td>
-				
+				   </tr>
 				</tbody>
 				
 			</table>
