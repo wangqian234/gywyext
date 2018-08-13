@@ -16,7 +16,7 @@ import com.mvc.dao.StaffInfoDao;
 import com.mvc.entityReport.User;
 
 @Repository("staffInfoDaoImpl")
-public class StaffInfoDaoImpl implements StaffInfoDao {
+public  class StaffInfoDaoImpl implements StaffInfoDao {
 
 	@Autowired
 	@Qualifier("entityManagerFactory")
@@ -66,20 +66,21 @@ public class StaffInfoDaoImpl implements StaffInfoDao {
 				query.setParameter("end", end);
 				List<User> list = query.getResultList();
 				em.close();
+				System.out.println(list);
 				return list;
 			}
 			
 			/**
-			 * 删除旅游信息
+			 * 删除用户信息
 			 */
 			public Boolean updateState(Integer user_id) {
 				EntityManager em = emf.createEntityManager();
 				em.getTransaction().begin();
 				try {
-					String selectSql = " update user set user_isdeleted =:is_delete where user_id=:user_id";
+					String selectSql = " update user set user_isdeleted =:user_isdeleted where user_id=:user_id";
 					Query query = em.createNativeQuery(selectSql);
 					query.setParameter("user_id", user_id);
-					query.setParameter("is_delete", IsDelete.YES.value);
+					query.setParameter("user_isdeleted", IsDelete.YES.value);
 					query.executeUpdate();
 					em.flush();
 					em.getTransaction().commit();
@@ -89,6 +90,8 @@ public class StaffInfoDaoImpl implements StaffInfoDao {
 				return true;
 
 			}
+
+	
 		
 
 		
