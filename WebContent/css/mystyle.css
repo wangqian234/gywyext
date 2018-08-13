@@ -65,6 +65,115 @@
 	padding: 15px 20px;
 	text-align: right;
 	color: #ccc;
+}	
+
+.tablelist {
+	width: 100%;
+	clear: both;
+	border-collapse: collapse;
+}
+.tablelist th {
+	padding-top:4px;
+	padding-bottom:4px; 
+	background-color:#F0F5F7;
+	border-bottom: solid 1px #b6cad2;
+	text-indent: 11px;
+	/* text-align: left; */
+	text-align: center;
+}
+
+.tablelist caption{
+	margin:24px auto 12px auto;
+	font-size:16px;
+	font-weight:bold;
+}
+
+.report-tr th{
+	max-width:166px;
+}
+
+.tablelist td {
+	border: solid 1px #cbcbcb;
+	line-height: 35px;
+	text-indent: 11px;
+}
+
+.tablelink {
+	margin-right: 8px;
+	color: #056dae;
+	cursor: pointer;
+}
+
+.tablelist tbody tr.odd {
+	background: #f5f8fa;
+}
+
+.tablelist tbody tr:hover {
+	background: #e5ebee;
+}
+
+.text-center {
+	text-align: center;
+}
+.dfinput {
+	width: 280px;
+	height: 32px;
+	margin-right: 12px;
+	line-height: 32px;
+	border-top: solid 1px #a7b5bc;
+	border-left: solid 1px #a7b5bc;
+	border-right: solid 1px #ced9df;
+	border-bottom: solid 1px #ced9df;
+	text-indent: 10px;
+}
+.tipbtn {
+	margin-left: 125px;
+}
+.sure, .cancel {
+	width: 96px;
+	height: 35px;
+	line-height: 35px;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.cancel {
+	background: url(../images/btnbg2.png) repeat-x;
+	color: #000;
+	font-weight: normal;
+}
+.overlayer {
+	/* width:100%;
+	height:100%; */
+	display: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #000;
+	opacity: 0.4;
+	filter: alpha(opacity = 40);
+	z-index: 1111;
+}
+
+.tip {
+	width: 520px;
+	height: 500px;
+	position: fixed;
+	top: 10%;
+	left: 50%;
+	margin-left: -270px;
+	background: #fff;
+	box-shadow: 1px 2px 2px 1px #9b9b9b;
+	border-radius: 1px;
+	behavior: url(js/pie.htc);
+	display: none;
+	z-index: 111111;
+	opacity: 1;
+	filter: alpha(opacity = 100);
 }
 /* 南健pageCSS结束 */
 .form-group label {
