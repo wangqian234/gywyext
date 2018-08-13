@@ -1,8 +1,5 @@
 <div id="page-wrapper"  style="margin-left: 260px;padding-top:100px">
-<!-- 这是内容的开始 -->
-<style type="text/css">.left{  width:200px;  height:500px;  float:left;}.right{  width:200px;  height:500px;  float:left;}</style>
-<p>表头导航栏位置</p>
-      
+<!-- 这是内容的开始 -->   
   <div class="row">
 			  <div class="col-md-12">
 			<div class="panel panel-default">
@@ -10,35 +7,43 @@
 				<h3>设备详细基本信息</h3>
 				</div>        
 							  
-							<div class="panel-body" ng-model="equipmentDetail.equip_name">
-								<table>  
-								<div class="left">
-								<div><strong>设备名称: {{equipmentDetail.equip_name}}</strong></div><br>
-								<div><strong>设备型号: {{equipmentDetail.equip_no}}</strong></div><br>
-								<div><strong>设备规格: {{equipmentDetail.equip_spec}}</strong></div><br>
-								<div><strong>设备寿命: {{equipmentDetail.equip_atime}}</strong></div><br>
-								<div><strong>设备分类: {{equipmentDetail.equip_type.equip_type_name}}</strong></div><br>
-								<div><strong>设备制造商: {{equipmentDetail.equip_manu.equip_manu_name}}</strong></div><br>	
-								<div><strong>设备安装位置: {{equipmentDetail.equip_room.equip_room_name}}</strong></div><br>
-								<div><strong>设备负责人: {{equipmentDetail.user.user_name}}</strong></div><br><br><br>
-								<div><strong>设备备注: {{equipmentDetail.equip_memo}}</strong></div>
-								</div>  
-								<div class="right">
-								<div><strong>设备生产日期: {{equipmentDetail.equip_pdate | timer}}</strong></div><br>
-								<div><strong>设备购买日期: {{equipmentDetail.equip_bdate | timer}}</strong></div><br>
-								<div><strong>设备安装日期: {{equipmentDetail.equip_idate | timer}}</strong></div><br>
-								<div><strong>设备使用日期: {{equipmentDetail.equip_udate | timer}}</strong></div><br>
-								<div><strong>设备安装费用: {{equipmentDetail.equip_ifee}}元</strong></div><br>
-								<div><strong>设备购买费用: {{equipmentDetail.equip_bfee}}元</strong></div><br>
-								<div><strong>设备维护周期: {{equipmentDetail.equip_mdate}}天</strong></div><br>
-								<div><strong>设备下次维保时间: {{equipmentDetail.equip_ndate | timer}}</strong></div><br>	
-								</div>
-								</table>
-								
-								           <div>二维码放置的位置（右上角）</div>
-								             <div>图片放置的位置<（右边整片空白）</div>
-					
-							</div>
+							<div class="panel-body">
+<table class="tbl tablelist">
+          <tr>
+            <td colspan='2'>设备名称:{{equipmentDetail.equip_name}}</td>
+			<td colspan='2'>设备型号:{{equipmentDetail.equip_no}}</td>	
+            <td colspan='2' >设备编号:{{equipmentDetail.equip_num}}</td>
+         </tr>
+          <tr>
+            <td colspan='2' >安装位置:{{equipmentDetail.equip_room.equip_room_name}}</td>
+			<td colspan='2' >出厂日期:{{equipmentDetail.equip_pdate | timer}}</td>	
+            <td colspan='2' >使用日期:{{equipmentDetail.equip_udate | timer}}</td>
+          </tr>
+          <tr>
+            <td colspan='2' >出厂序号:{{equipmentDetail.equip_snum}}</td>
+			<td colspan='2' >设备价格:{{equipmentDetail.equip_bfee}}元</td>
+            <td colspan='2' >折旧年限:{{equipmentDetail.equip_life}}年</td>	
+          </tr>
+          <tr>
+            <td colspan='2' >所属系统:{{equipmentDetail.equip_type.equip_type_name}}</td>
+			<td colspan='2' >制造厂家:{{equipmentDetail.equip_manu}}</td>	
+            <td colspan='2' >联系方法:{{equipmentDetail.equip_manu.equip_manu_tel}}</td>	
+          </tr>
+          <tr>
+            <td colspan='2' >设备负责人:{{equipmentDetail.user.user_name}}</td>
+			<td colspan='2' >设备维护周期:{{equipmentDetail.equip_mdate}}天</td>	
+            <td colspan='2' >下次维保时间:{{equipmentDetail.equip_ndate | timer}}</td>	
+          </tr>  
+          <tr>
+			<td colspan='2' >设备主要参数:{{}}</td> 
+            <td colspan='2' >设备图片:{{equipmentDetail.equip_pic}}</td> 
+          </tr>  
+          <tr>
+		 	<td colspan='2' >备注:{{equipmentDetail.equip_memo}}</td>    
+          </tr> 
+     
+        </table>
+				</div>
 				</div>
 			    </div>						
 				</div>                                         

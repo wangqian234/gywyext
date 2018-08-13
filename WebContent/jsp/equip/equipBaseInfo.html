@@ -4,9 +4,9 @@
 	<div ng-app="" class="tools">
 		<form class="toolbar">
 			<!-- 根据设备分类筛选设备信息 -->
-			请选择设备区域： <select class="dfselect" ng-model="equip_room" ng-change="getELByTS()" style="width: 167px">
+			请选择设备区域： <select class="dfselect" ng-model="equip_room_id" style="width: 167px" ng-change=getRoomId()>
 				<option value="0">全部</option>
-				<option ng-repeat="erm in equiproom_p" value="erm.equip_room_id">{{erm.equip_room_name}}</option>
+				<option ng-repeat="erm in equiproom_p" value="{{erm.equip_room_id}}" >{{erm.equip_room_name}}</option>
 			</select>
 				
 			<!-- 根据健康状态筛选设备信息 -->
@@ -20,9 +20,9 @@
 		
 		</form>	
 	<ul class="toolbar1" >
-			<li class="click" ><a href="#/equipAdd"><span></span>新建</a></li>
+			<li><a href="#/equipAdd"><span></span>新建</a></li>
 		</ul>
-	</div>
+	</div>	
 	</div>
 	<div class="panel-body">
 		<div class="table-responsive">
@@ -33,10 +33,10 @@
 						<th>编号</th>
 						<th>设备名称</th>
 						<th>设备型号</th>
-						<th>设备规格</th>
-						<th>设备分类</th>
-						<th>设备健康状态</th>
-						<th>设备负责人</th>
+						<th>安装位置</th>
+						<th>所属系统</th>
+						<th>健康状态</th>
+						<th>负责人</th>
 						<th>下次维保时间</th>
 						<th>操作</th>
 					</tr>
@@ -46,7 +46,7 @@
 						<td>{{$index + 1}}</td>
 						<td>{{e.equip_name}}</td>
 						<td>{{e.equip_no}}</td>
-						<td>{{e.equip_spec}}</td>
+						<td>{{e.equip_room.equip_room_name}}</td>
 						<td>{{e.equip_type.equip_type_name}}</td>
 						<td><progress value="{{e.equip_state}}" max="10"></progress></td>
 						<td>{{e.user.user_name}}</td>
