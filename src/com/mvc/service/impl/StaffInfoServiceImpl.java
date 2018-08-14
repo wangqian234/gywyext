@@ -1,18 +1,23 @@
 package com.mvc.service.impl;
 
+import java.text.ParseException;
+
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mvc.dao.StaffInfoDao;
-
+import com.mvc.entityReport.Role;
 import com.mvc.entityReport.User;
 import com.mvc.repository.StaffInfoRepository;
 import com.mvc.service.StaffInfoService;
 
+import net.sf.json.JSONObject;
+
 @Service("staffInfoServiceImpl")
-public class StaffInfoServiceImpl implements StaffInfoService {
+public class  StaffInfoServiceImpl implements StaffInfoService {
 	
 	@Autowired
 	StaffInfoRepository staffInfoRepository;
@@ -25,7 +30,7 @@ public class StaffInfoServiceImpl implements StaffInfoService {
 	}
 
 	/**
-	 * 添加、修改旅游信息
+	 * 添加用户信息
 	 */
 	public boolean save(User user) {
 		User result = staffInfoRepository.saveAndFlush(user);
@@ -34,11 +39,13 @@ public class StaffInfoServiceImpl implements StaffInfoService {
 		else
 			return false;
 	}
+	
+
 	// 筛选角色列表
-	//	@Override
-	//	public List<User> findRoleAlls() {
-	//		return staffInfoRepository.findAlls();
-	//	}
+		@Override
+		public List<Role> findRoleAlls() {
+		return staffInfoDao.findRoleAlls();
+		}
 	// 根据userAcct查询用户账号是否存在,返回1存在，返回0不存在
 		//public Long isExist(String userAcct) {
 		//	Long result = staffInfoRepository.countByUserAcct(userAcct);
@@ -46,7 +53,7 @@ public class StaffInfoServiceImpl implements StaffInfoService {
 		//}
 	
 	// 根据页数筛选全部用户信息列表
-		@Override
+		
 		public List<User> findUserByPage(String searchKey, Integer offset, Integer end) {
 			return  staffInfoDao.findUserByPage(searchKey, offset, end);
 		}
@@ -61,4 +68,29 @@ public class StaffInfoServiceImpl implements StaffInfoService {
 			public boolean deleteIsdelete(Integer user_id) {
 				return staffInfoDao.updateState(user_id );
 			}
-}
+			// 根据ID获取用户信息
+						@Override
+						public User selectUserById(Integer user_id) {
+							return staffInfoRepository.selectUserById(user_id);
+						}
+			// 修改用户基本信息
+						@Override
+						public Boolean updateUserBase(Integer user_id, JSONObject jsonObject, User user) throws ParseException {
+							User user1 = staffInfoRepository.selectUserById(user_id);
+							if (user1 != null) {
+								if (jsonObject.containsKey("user_name")) {
+									user1.setUser_name(jsonObject.getString("user_name"));}
+									if (jsonObject.containsKey("user_tel")) {
+										user1.setUser_tel(jsonObject.getString("user_tel"));}
+									if (jsonObject.containsKey("user_email")) {
+										user1.setUser_email(jsonObject.getString("user_email"));}
+									if (jsonObject.containsKey("user_acct")) {
+										user1.setUser_acct(jsonObject.getString("user_acct"));}
+							}
+							user1 = staffInfoRepository.saveAndFlush(user1);		
+							if (user1.getUser_id() != null)
+								return true;
+							else
+								return false;
+							}
+						}

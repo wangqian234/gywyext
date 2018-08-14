@@ -83,6 +83,7 @@ public class EquipmentController {
 			jsonObject.put("totalPage", pager.getTotalPage());
 			return jsonObject.toString();
 		}		
+			
 		//添加设备信息
 		@RequestMapping(value = "/addEquipment.do")
 		public @ResponseBody String addEquipment(HttpServletRequest request, HttpSession session) throws ParseException {

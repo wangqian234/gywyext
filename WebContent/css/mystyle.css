@@ -299,3 +299,147 @@ a.leftSecond:hover,a.leftSecond:active{
 	background-color:#E6E6E6 !important;
 	color: #32C2CD !important;
 }
+.form-control{
+	width:400px;
+            height:50px;
+            border:1px solid #00ffff;
+}
+.radio-inlinea{
+	position:absolute;
+	left:180px;
+}
+.username{
+	display: none;
+}
+/* 用户管理左侧菜单栏 */
+/* nav{
+	margin:100px auto;
+	text-align:center;
+}
+nav ul{
+	border-radius:10px 10px;
+	background:#ff8040;
+	background:linear-gradient(to bottom,#efefef,#bbbbbb); 
+	pading:0 20px;
+	display:inline-table;
+	position:relative;
+	top:-60px;
+	box-shadow:1px 1px 3px #400040;
+	width:200px;
+	text-align:center;
+	
+}
+	
+nav ul ul{
+	display:none;
+}
+nav ul li{
+	float:center;
+}
+nav ul::after{
+	content:"";
+	display:block;
+	clear:both;
+}
+nav ul li a{
+	display:block;
+	pading:25px 40px;
+	color:#000;
+	text-decoration:none;
+	font-family:"微软雅黑";
+}
+nav ul li:hover>ul{
+	display:block;
+}
+nav ul li:hover{
+	 background:#808000;
+	border-radius:10px 10px;
+	 background:linear-gradient(to bottom,#4f5964,#5f6975); 
+}
+nav ul li:hover a{
+	color:#FFF;
+}
+nav ul ul{
+	background:#808000;
+	border-radius:5px 5px;
+	position:absolute;
+	top:100%;
+	pading:0;
+	
+}
+nav ul ul li{
+	float:none;
+	border-top:1px thin #00ffff;
+	border-bottom:1px thin #00ffff;
+}
+nav ul ul li a{
+	color:#ffff00;
+}
+nav ul ul li a:hover{
+	background:#8080ff;
+}
+nav ul ul {
+	width:100%;
+	position：absolute;
+	left:10%;
+	top:100%;
+	height:320%;
+	  color:#00ff80;  
+} */
+/* 用户左侧菜单栏结束 */
+/* 单个用户删除	 */
+.tips {
+	width: 520px;
+	height: 500px;
+	position: fixed;
+	top: 10%;
+	left: 50%;
+	margin-left: -270px;
+	background: #fff;
+	box-shadow: 1px 2px 2px 1px #9b9b9b;
+	border-radius: 1px;
+	behavior: url(js/pie.htc); 
+	display: none;
+	z-index: 111111;
+	opacity: 1;
+	filter: alpha(opacity = 100);
+}
+.tipinfo {
+	padding-top: 35px;
+	margin-left: 36px;
+	height: 35px;
+}
+.tipinfo span {
+	width: 95px;
+	height: 35px;
+	float: left;
+}
+.tipright cite {
+	color: #858686;
+}
+.tipright {
+	float: left;
+	padding-top: 15px;
+	padding-left: 10px;
+}
+.tipright p {
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 35px;
+}
+.tipbtns {
+	/* margin-top: 25px; */
+	margin-left: 125px;
+}
+.sures, .cancels {
+	width: 96px;
+	height: 35px;
+	line-height: 35px;
+	color: #fff;
+	/* background: url(../images/btnbg1.png) repeat-x; */
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 3px;
+	cursor: pointer;
+}
+/* 单个用户删除结束 */

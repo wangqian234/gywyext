@@ -2,40 +2,46 @@
 	<div class="panel-heading">Advanced Tables</div>
 	<div class="panel-body">
 		<div class="table-responsive">
-			<ul class="click"  >
+			 <!-- <ul class="click"  >
 			<a href="#/staffAdd">
 				
 			<button class="fa fa-edit">&nbsp;&nbsp;新建</button></a>
 			</ul> 
-			<ul class="clicking">
+			 <ul class="clicking">
 			<a href="#/userList">
 			<button class="btn btn-default"><i class=" fa fa-edit " ></i>&nbsp;&nbsp;查询</button></a>
-			</ul> 
+			</ul>   -->
 			
 			<table class="table table-striped table-bordered table-hover"
 				id="dataTables-example">
 				<thead>
 					<tr>
+						
 						<th>编号</th>
 						<th>用户姓名</th>
 						<th>用户角色</th>
 						<th>用户账号</th>
 						<th>用户性别</th>
 						<th>手机号码</th>
+						<th>用户密码</th>
 						<th>用户邮箱</th>
-						<th>操作</th>
+						 <!-- <th>操作</th> --> 
 					</tr>
 				</thead>
 				<tbody>
+					
 					<tr class="gradeU" ng-repeat="u in user">
 						<td>{{index}}</td>
+						<!-- <td><input name="atask" type="checkbox" id="ask" value="<s:property value="#stask[0]" />" class="np"></td> -->
 						<td>{{u.user_name}}</td>
 						<td>{{u.role.role_name}}</td>
 						<td>{{u.user_acct}}</td>
 						<td>{{u.user_sex}}</td>
 						<td>{{u.user_tel}}</td>
+						<td>{{u.user_pwd}}</td>
 						<td class="center">{{u.user_email}}</td>
-						<td class="center"><a>编辑</a></td><!-- 隐藏删除操作，将删除操作放置到编辑操作里面 -->
+						<!-- <td><a href="#" onclick="check()">删除</a></td> -->
+						 <!-- <td class="center"><a>编辑</a></td> --> <!-- 隐藏删除操作，将删除操作放置到编辑操作里面 -->
 					</tr>
 				</tbody>
 			</table>
@@ -43,3 +49,15 @@
 
 	</div>
 </div>
+<div  class="tcdPageCode">页码容器</div>
+
+
+
+      
+     
+        
+<script type="text/javascript" src="/gywyext/js/lib/pageTurn.js">
+						
+   
+					
+						

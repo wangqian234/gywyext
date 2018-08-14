@@ -1,5 +1,5 @@
 <div class="place">
-	<span>位置：</span>
+	
 	<ul class="placeul">
 	
 	
@@ -8,29 +8,34 @@
 </div>
 <!-- 录入旅游信息 -->
 <div class="formbody">
+	<!-- ng-submit:表单提交后执行updateUser() -->
+	<form ng-submit="updateUser()">
 	
-	<form ng-submit="updateTravel()">
 		<div class="formtitle">
-			<span>用户信息</span>
+			
 		</div>
 		
 		
         <div class="form-group">
           	<label>姓名<b>*</b></label>
-          	<input  ng-model="staff.user_name" class="form-control">
+          	<input  ng-model="users.user_name" class="form-control">
         </div>
 		
 		<div class="form-group">
           	<label>电话<b>*</b></label>
-          	<input  ng-model="staff.user_tel" class="form-control">
+          	<input  ng-model="users.user_tel" class="form-control">
         </div>
 		<div class="form-group">
           	<label>邮箱&nbsp;</label>
-          	<input  ng-model="staff.user_tel" class="form-control">
+          	<input  ng-model="users.user_mail" class="form-control">
         </div>
         <div class="form-group">
           	<label>账号<b>*</b></label>
-          	<input  ng-model="staff.user_tel" class="form-control">
+          	<input  ng-model="users.user_acct" class="form-control">
+        </div>
+        <div class="form-group">
+          	<label>密码<b>*</b></label>
+          	<input  ng-model="users.user_pwd" class="form-control">
         </div>
         <div class="form-group">
 	         <label>性别<b>*</b></label>
@@ -51,8 +56,9 @@
                  <option>普通用户</option>
              </select>
         </div>
-<button	 style="display:block;margin:0 auto" type="submit"	ng-click="addStaff()" class="btn btn-default" >提交修改</button>
-    
+   <li><label>&nbsp;</label><input href="#userList" type="submit" id="addStaff"
+				class="btn" value="提交修改" /></li> 
  	</form>
 </div>       
+
 		
