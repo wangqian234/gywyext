@@ -25,6 +25,7 @@ public class Equipment {
 	private String equip_qrcode;//设备二维码
 	private EquipType equip_type;//设备分类编号，外键
 	private String equip_manu;//设备制造商
+	private String equip_tel;//制造商联系方式
 	private Date equip_pdate;//设备生产日期
 	private Date equip_udate;//设备使用日期
 	private Float equip_bfee;//设备购买费用
@@ -106,6 +107,13 @@ public class Equipment {
 		this.equip_manu = equip_manu;
 	}
 	
+	@Column(name = "equip_tel", length = 32)
+	public String getEquip_tel() {
+		return equip_tel;
+	}
+	public void setEquip_tel(String equip_tel) {
+		this.equip_tel = equip_tel;
+	}
 
 	@Column(name = "equip_snum", length = 32)
 	public Integer getEquip_snum() {

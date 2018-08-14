@@ -158,15 +158,6 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 		});
 	};
 
-	//获取设备安装位置信息
-	services.getEquipRoomInfo = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'equipEquipment/getEquipRoomInfo.do',
-			data : data
-		});
-	};
-
 	//获取设备分类信息
 	services.getEquipTypeInfo = function(data) {
 		return $http({
@@ -195,13 +186,14 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 	};
 
 	//添加设备特征参数信息
-	services.selectProjectById = function(data) {
+	services.selectEquipRoomByProj = function(data) {
 		return $http({
 			method : 'post',
-			url : baseUrl + 'equipEquipment/selectProjectById.do',
+			url : baseUrl + 'equipEquipment/selectEquipRoomByProj.do',
 			data : data
 		});
 	};
+
 	
 	
 	return services;
@@ -256,20 +248,18 @@ app
 									}).success(function(data) {
 
 										equipment.result = data;
-										if (data == "true") {
-											console.log("删除设备信息成功！");
+											alert("删除设备信息成功！");
 											$location.path('equipBaseInfo/');
-										} else {
-											console.log("删除失败！");
-										}
-
 									});
 								}
 							}						
-
+							equipment.equipmentInfo;
 							// 添加设备信息
 							equipment.addEquipment = function() {
-								
+								if(!compareDateTime(equipment.equipmentInfo.equip_pdate,equipment.equipmentInfo.equip_udate,equipment.equipmentInfo.equip_ndate)){
+									alert("请输入正确的时间")
+									return;
+								};
 								var equipmentFormData = JSON.stringify(equipment.equipmentInfo);
 								if (confirm("是否添加该设备信息？") == true) {
 								services.addEquipment({
@@ -342,6 +332,12 @@ app
 
 							// 修改设备信息
 							equipment.updateEquipment = function() {
+								if(!compareDateTime(equipment.equipmentInfo.equip_pdate,equipment.equipmentInfo.equip_udate,equipment.equipmentInfo.equip_ndate)){
+									alert("请检查输入时间")
+									return;
+								};
+								equipment.equipmentInfo.equip_type = equipment.equipmentInfo.equip_type.equip_type_id;
+								equipment.equipmentInfo.equip_room = equipment.equipmentInfo.equip_room.equip_room_id;
 								var EqFormData = JSON.stringify(equipment.equipmentInfo);
 								if (confirm("是否修改该设备信息？") == true) {
 								services.updateEquipmentById({
@@ -363,6 +359,7 @@ app
 							//根据proj_id查找设备信息
 							equipment.selectBaseInfoProj_id;							
 							equipment.selectBaseInfoByProj = function(proj_id){
+								sessionStorage.setItem("proj_id",proj_id);       //新建中的设备获取用到
 								equipment.selectBaseInfoProj_id = proj_id;
 								services.selectBaseInfoByProj({
 									page : 1,
@@ -380,32 +377,29 @@ app
 									equipment.equipments = data.list;
 								});
 							}
-							
-							//获得安装位置id
-							equip_room.getRoomId = function(){
-								alert(equip_room.equip_room_id)
 								
-							}
-							
-							
-							
-							
-							
-				/*			//判断输入时间是否正确
-							function compareDateTime(equip_pdate, equip_bdate,equip_idate,equip_udate,equip_ndate) {
-								var date1 = new Date(equip_pdate);
-								var date2 = new Date(equip_bdate);
-								var date3 = new Date(equip_idate);
-								var date4 = new Date(equip_udate);
-								var date5 = new Date(equip_ndate);	
-								if (date1.getTime() < date2.getTime()< date3.getTime()< date4.getTime()< date5.getTime()) {
-									return true;
-								} else {
-									return false;
-								}
-							}*/
-							
-				
+							// 读取设备安装位置信息
+							equip_room.selectEquipRoomById = function(proj_id) {
+								
+								 proj_id = sessionStorage.getItem('proj_id');
+								services.selectEquipmentById(
+									proj_id
+								).success(function(data) {
+									equip_room.equip_room = data.equip_room;
+								});
+							};
+								
+						
+                            //时间样式转化
+                            function changeDateType(date) {
+                            if (date != "") {
+                            var DateTime = new Date(date.time).toLocaleDateString().replace(/\//g, '-');
+                             } else {
+	                           var DateTime = "";
+                             }
+	                           return DateTime;
+                             }
+													
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！")
@@ -432,16 +426,31 @@ app
 												equip_id : equip_id
 									}).success(function(data) {
 										equipment.equipmentInfo = data.equipment;
+									if (data.equipment.equip_pdate) {
+										equipment.equipmentInfo.equip_pdate = changeDateType(data.equipment.equip_pdate);
+										}		
+									if (data.equipment.equip_udate) {
+										equipment.equipmentInfo.equip_udate = changeDateType(data.equipment.equip_udate);
+										}
+									if (data.equipment.equip_ndate) {
+										equipment.equipmentInfo.equip_ndate = changeDateType(data.equipment.equip_ndate);
+										}
 									});
-									services.getEquipRoomInfo().success(function(data){
-										equip_room.equip_room = data.result;
+									var proj_id=sessionStorage.getItem('proj_id');
+									services.selectEquipRoomByProj({
+										proj_id : proj_id
+									}).success(function(data){
+										equip_room.equip_room = data.equip_room;
 									})
 									services.getEquipTypeInfo().success(function(data1){
 										equip_type.equip_type = data1.result;
 									})
 								}else if ($location.path().indexOf('/equipAdd') == 0){
-									services.getEquipRoomInfo().success(function(data){
-										equip_room.equip_room = data.result;
+									var proj_id=sessionStorage.getItem('proj_id');
+									services.selectEquipRoomByProj({
+										proj_id : proj_id
+									}).success(function(data){
+										equip_room.equip_room = data.equip_room;
 									})
 									services.getEquipTypeInfo().success(function(data1){
 										equip_type.equip_type = data1.result;
@@ -502,13 +511,62 @@ app
 //时间戳转换
 app.filter('timer', function() {
 	return function(input) {
-		if(input == "" || input == undefined){
-			return "";
+		var type = "";
+		if (input != null) {
+			type = new Date(input).toLocaleDateString().replace(/\//g, '-');
 		}
-	    var t = new Date(input).toLocaleString(); 
-	    return t.substring(0,9); 
+
+		return type;
 	}
 });
 
+//电话格式判断
+function checkTel(obj){
+	 var tel=document.getElementById("equipmentInfo.equip_tel").value;
+	 if(!((/^0\d{2,3}-?\d{7,8}$/.test(tel))||(/^1(3|4|5|7|8)\d{9}$/.test(tel)))){
+		 alert("电话格式有误，请重填!");
+		 obj.value='';
+	}
+	}
+//只允许输入两位小数的正则判断
+function changeTwoNum(obj){
+	//清除"数字"和"."以外的字符
+	  obj.value = obj.value.replace(/[^\d.]/g,"");
+	  
+    //验证第一个字符是数字而不是.
+	  obj.value = obj.value.replace(/^\./g,"");
+	 
+	//只保留第一个. 清除多余的
+	  obj.value = obj.value.replace(/\.{2,}/g,".");
+	  obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+	 
+	//只能输入两个小数 
+	  obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');
+}
+
+//没有输入详情显示为空 
+app.filter('sgFilter',function() { 
+	return function(input){ 
+		if(input == "" || input == null){
+			var input = "空";
+			return input; 		
+		}
+		else{
+			return input;
+		}
+	}
+});
+
+	//判断输入时间是否正确
+function compareDateTime(equip_pdate,equip_udate,equip_ndate) {
+	var date1 = new Date(equip_pdate);
+	var date2 = new Date(equip_udate);
+	var date3 = new Date(equip_ndate);
+	if (date1.getTime() <= date2.getTime() && date2.getTime()<= date3.getTime()) {
+		return true;
+	} else {
+		return false;
+	}
+}
 
 

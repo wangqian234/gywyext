@@ -29,7 +29,7 @@ public interface EquipmentService {
 	List<Equipment> selectEquipmentByPage(String searchKey, Integer offset, Integer end);
 
 	// 根据页数筛选全部设备安装位置列表
-	List<EquipRoom> selectEquipRoomByPage(String searchKey);
+	List<EquipRoom> selectEquipRoomByProj(String searchKey);
 	//根据Room获取设备
 	List<Equipment> selectEquipByRoom(List<EquipRoom> room, int i, int j);
 	
@@ -44,35 +44,26 @@ public interface EquipmentService {
 	// 添加设备安装位置信息
 	boolean save(EquipRoom equip_room);
 	
-	// 添加设备分类信息
-	boolean save(EquipType equip_type);
+/*	// 添加设备分类信息
+	boolean save(EquipType equip_type);*/
 
-	// 添加设备制造商信息
-	boolean save(EquipManu equip_manu);
-
-	//获取安装位置信息
-	List<EquipRoom> getEquipRoomInfo();
+/*	// 添加设备制造商信息
+	boolean save(EquipManu equip_manu);*/
 
 	//获取设备分类信息
 	List<EquipType> getEquipTypeInfo();
 
-	//获取设备制造商信息
+/*	//获取设备制造商信息
 	List<EquipManu> getEquipManuInfo();
-
+*/
     //添加设备特征参数信息
 	boolean save(EquipPara equip_para);
 
- 	// 根据ID获取设备安装位置信息
-	EquipRoom selectEquipRoomById(Integer equip_room_id);
-
- 	// 根据ID获取用户信息
+ /*	// 根据ID获取用户信息
 	User selectUserById(Integer user_id);
 
  	// 根据ID获取设备特征参数信息
-	EquipPara selectEquipParaById(Integer equip_para_id);
-
- 	// 根据ID获取项目信息
-	Project selectProjectById(Integer proj_id);
+	EquipPara selectEquipParaById(Integer equip_para_id);*/
 
 	// 查询维保信息总条数
 	Integer countEmTotal(String searchKey);

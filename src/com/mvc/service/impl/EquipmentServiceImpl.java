@@ -109,12 +109,16 @@ public class EquipmentServiceImpl implements EquipmentService {
 //							equipment.setEquip_qrcode(jsonObject.getString("equip_qrcode"));}
 						if (jsonObject.containsKey("equip_type")) {
 							EquipType et = new EquipType();
+							System.out.println(jsonObject.getString("equip_type"));
 							et.setEquip_type_id(Integer.valueOf(jsonObject.getString("equip_type")));
 							equipment.setEquip_type(et);	
 						}
 						if (jsonObject.containsKey("equip_manu")) {
 							equipment.setEquip_manu(jsonObject.getString("equip_manu"));
 							}
+						if (jsonObject.containsKey("equip_tel")) {
+						    equipment.setEquip_tel(jsonObject.getString("equip_tel"));
+						}
 						if (jsonObject.containsKey("equip_pdate")) {
 							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 							Date date = sdf.parse(jsonObject.getString("equip_pdate"));
@@ -171,8 +175,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 				
 				// 根据页数筛选全部设备信息列表
 					@Override
-					public List<EquipRoom> selectEquipRoomByPage(String searchKey) {
-						return equipmentDao.selectEquipRoomByPage(searchKey);
+					public List<EquipRoom> selectEquipRoomByProj(String searchKey) {
+						return equipmentDao.selectEquipRoomByProj(searchKey);
 					}				
 				
 				//根据安装位置筛选设备信息
@@ -197,41 +201,35 @@ public class EquipmentServiceImpl implements EquipmentService {
 						return false;
 				}
 
-				//添加设备分类信息
+/*				//添加设备分类信息
 				public boolean save(EquipType equip_type) {
 					EquipType result = equipTypeRepository.saveAndFlush(equip_type);
 					if (result.getEquip_type_id() != null)
 						return true;
 					else
 						return false;
-				}
+				}*/
 				
-				//添加设备制造商信息
+/*				//添加设备制造商信息
 				public boolean save(EquipManu equip_manu) {
 					EquipManu result = equipManuRepository.saveAndFlush(equip_manu);
 					if (result.getEquip_manu_id() != null)
 						return true;
 					else
 						return false;
-				}
-
-				//获取安装位置信息
-				@Override
-				public List<EquipRoom> getEquipRoomInfo() {
-					return equipRoomRepository.getEquipRoomInfo();
-				}			
-				
+				}*/
+					
 				//获取设备分类信息
 				@Override
 				public List<EquipType> getEquipTypeInfo() {
 					return equipTypeRepository.getEquipTypeInfo();
 				}
 				
-				//获取设备制造商信息
+/*			//获取设备制造商信息
 				@Override
 				public List<EquipManu> getEquipManuInfo() {
 					return equipManuRepository.getEquipManuInfo();
-				}
+				}*/
 				
 				//添加设备特征参数信息
 				public boolean save(EquipPara equip_para) {
@@ -242,13 +240,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 						return false;
 				}
 				
-				// 根据ID获取设备安装位置信息
-				@Override
-				public EquipRoom selectEquipRoomById(Integer equip_room_id) {
-					return equipRoomRepository.selectEquipRoomById(equip_room_id);
-				}
-				
-				// 根据ID获取用户信息
+		/*		// 根据ID获取用户信息
 				@Override
 				public User selectUserById(Integer user_id) {
 					return userRepository.selectUserById(user_id);
@@ -258,13 +250,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				@Override
 				public EquipPara selectEquipParaById(Integer equip_para_id) {
 					return equipParaRepository.selectEquipParaById(equip_para_id);
-				}
-				
-				// 根据ID获取项目信息
-				@Override
-				public Project selectProjectById(Integer proj_id) {
-					return projectRepository.selectProjectById(proj_id);
-				}
+				}*/
 
 				// 查询设备维保信息总条数
 				@Override
@@ -277,10 +263,5 @@ public class EquipmentServiceImpl implements EquipmentService {
 				public List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end) {
 					return equipmentDao.selectEquipMainByPage(searchKey, offset, end);
 				}
-
-
-
-
-
 
 }

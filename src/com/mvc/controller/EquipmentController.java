@@ -81,7 +81,6 @@ public class EquipmentController {
 			List<Equipment> list = equipmentService.selectEquipmentByPage(searchKey, pager.getOffset(), pager.getLimit());
 			jsonObject.put("list", list);
 			jsonObject.put("totalPage", pager.getTotalPage());
-			System.out.println("totalPage:" + pager.getTotalPage());
 			return jsonObject.toString();
 		}		
 			
@@ -112,6 +111,9 @@ public class EquipmentController {
 			if (jsonObject.containsKey("equip_manu")) {
 				equipment.setEquip_manu(jsonObject.getString("equip_manu"));
 				}
+			if (jsonObject.containsKey("equip_tel")) {
+			    equipment.setEquip_tel(jsonObject.getString("equip_tel"));
+			}
 			if (jsonObject.containsKey("equip_pdate")) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				Date date = sdf.parse(jsonObject.getString("equip_pdate"));
@@ -194,6 +196,17 @@ public class EquipmentController {
 			return jsonObject.toString();
 		}
 
+		//根据项目获取安装位置信息
+		@RequestMapping("/selectEquipRoomByProj.do")
+		public @ResponseBody String selectEquipRoomByProj(HttpServletRequest request, HttpSession session) {
+			JSONObject jsonObject = new JSONObject();
+			String searchKey = request.getParameter("proj_id");
+			List<EquipRoom> equip_room = equipmentService.selectEquipRoomByProj(searchKey);
+			
+			jsonObject.put("equip_room", equip_room);
+			return jsonObject.toString();
+		}
+		
 		//根据项目编号筛选设备信息
 		@RequestMapping("/selectBaseInfoByProj.do")
 		public @ResponseBody String selectBaseInfoByProj(HttpServletRequest request, HttpSession session) {
@@ -207,7 +220,7 @@ public class EquipmentController {
 				proj_id = request.getParameter("proj_id");
 			};
 			
-			room = equipmentService.selectEquipRoomByPage(proj_id);
+			room = equipmentService.selectEquipRoomByProj(proj_id);
 			List<Equipment> list = equipmentService.selectEquipByRoom(room, pager.getOffset(), pager.getLimit());
 			
 			JSONObject jsonObject = new JSONObject();
@@ -293,15 +306,6 @@ public class EquipmentController {
 					return JSON.toJSONString(result);
 				}*/
 
-				//查找安装位置信息
-				@RequestMapping("/getEquipRoomInfo.do")
-				public @ResponseBody String getEquipRoomInfo(HttpServletRequest request) {
-					JSONObject jsonObject = new JSONObject();		
-					List<EquipRoom> result = equipmentService.getEquipRoomInfo();		
-					jsonObject.put("result", result);
-					return jsonObject.toString();
-				}
-
 				//查找安装分类信息
 				@RequestMapping("/getEquipTypeInfo.do")
 				public @ResponseBody String getEquipTypeInfo(HttpServletRequest request) {
@@ -361,18 +365,7 @@ public class EquipmentController {
 					return JSON.toJSONString(result);
 				}
 
-				//根据id获取设备安装位置信息
-				@RequestMapping("/selectEquipRoomById.do")
-				public @ResponseBody String selectEquipRoomById(HttpServletRequest request, HttpSession session) {
-					int equip_room_id = Integer.parseInt(request.getParameter("equip_room_id"));
-					session.setAttribute("equip_room_id", equip_room_id);
-					EquipRoom equiproom = equipmentService.selectEquipRoomById(equip_room_id);
-					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("equip_room", equiproom);
-					return jsonObject.toString();
-				}
-
-				//根据id获取用户信息
+			/*	//根据id获取用户信息
 				@RequestMapping("/selectUserById.do")
 				public @ResponseBody String selectUserById(HttpServletRequest request, HttpSession session) {
 					int user_id = Integer.parseInt(request.getParameter("user_id"));
@@ -381,9 +374,9 @@ public class EquipmentController {
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("user", user);
 					return jsonObject.toString();
-				}
+				}*/
 				
-				//根据id获取设备特征信息
+				/*//根据id获取设备特征信息
 				@RequestMapping("/selectEquipParaById.do")
 				public @ResponseBody String selectEquipParaById(HttpServletRequest request, HttpSession session) {
 					int equip_para_id = Integer.parseInt(request.getParameter("equip_para_id"));
@@ -392,18 +385,8 @@ public class EquipmentController {
 					JSONObject jsonObject = new JSONObject();
 					jsonObject.put("equip_para", equippara);
 					return jsonObject.toString();
-				}
+				}*/
 				
-				//根据id获取设备信息
-				@RequestMapping("/selectProjectById.do")
-				public @ResponseBody String selectProjectById(HttpServletRequest request, HttpSession session) {
-					int proj_id = Integer.parseInt(request.getParameter("proj_id"));
-					session.setAttribute("proj_id", proj_id);
-					Project project = equipmentService.selectProjectById(proj_id);
-					JSONObject jsonObject = new JSONObject();
-					jsonObject.put("project", project);
-					return jsonObject.toString();
-				}
 
 				//根据页数显示设备信息列表
 				@RequestMapping(value = "/getEquipMainListByPage.do")

@@ -16,8 +16,8 @@
          </tr>
           <tr>
             <td colspan='2' >安装位置:{{equipmentDetail.equip_room.equip_room_name}}</td>
-			<td colspan='2' >出厂日期:{{equipmentDetail.equip_pdate | timer}}</td>	
-            <td colspan='2' >使用日期:{{equipmentDetail.equip_udate | timer}}</td>
+			<td colspan='2' >出厂日期:{{equipmentDetail.equip_pdate.time | timer}}</td>	
+            <td colspan='2' >使用日期:{{equipmentDetail.equip_udate.time | timer}}</td>
           </tr>
           <tr>
             <td colspan='2' >出厂序号:{{equipmentDetail.equip_snum}}</td>
@@ -27,12 +27,12 @@
           <tr>
             <td colspan='2' >所属系统:{{equipmentDetail.equip_type.equip_type_name}}</td>
 			<td colspan='2' >制造厂家:{{equipmentDetail.equip_manu}}</td>	
-            <td colspan='2' >联系方法:{{equipmentDetail.equip_manu.equip_manu_tel}}</td>	
+            <td colspan='2' >联系方法:{{equipmentDetail.equip_tel}}</td>	
           </tr>
           <tr>
             <td colspan='2' >设备负责人:{{equipmentDetail.user.user_name}}</td>
 			<td colspan='2' >设备维护周期:{{equipmentDetail.equip_mdate}}天</td>	
-            <td colspan='2' >下次维保时间:{{equipmentDetail.equip_ndate | timer}}</td>	
+            <td colspan='2' >下次维保时间:{{equipmentDetail.equip_ndate.time | timer}}</td>	
           </tr>  
           <tr>
 			<td colspan='2' >设备主要参数:{{}}</td> 
