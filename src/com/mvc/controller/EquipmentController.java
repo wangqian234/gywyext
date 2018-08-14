@@ -79,14 +79,12 @@ public class EquipmentController {
 			pager.setPage(Integer.valueOf(request.getParameter("page")));
 			pager.setTotalRow(Integer.parseInt(totalRow.toString()));
 			List<Equipment> list = equipmentService.selectEquipmentByPage(searchKey, pager.getOffset(), pager.getLimit());
-			for(int i=0;i<list.size();i++){
-				System.out.println(list.get(i).getEquip_ndate());
-			}
 			jsonObject.put("list", list);
 			jsonObject.put("totalPage", pager.getTotalPage());
 			System.out.println("totalPage:" + pager.getTotalPage());
 			return jsonObject.toString();
 		}		
+			
 		//添加设备信息
 		@RequestMapping(value = "/addEquipment.do")
 		public @ResponseBody String addEquipment(HttpServletRequest request, HttpSession session) throws ParseException {

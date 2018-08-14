@@ -3,7 +3,7 @@
 <form role="form">
 	<div class="form-group input-group">
 
-		<input type="text" class="form-controling" placeholder="姓名或账号" ng-model="userName"
+		<input type="text" class="form-controling" placeholder="姓名或账号" ng-model="userName" id="userName" 
 			style="width: 300px; height: 35px">
 		<span class="input-group-btn">
 			<button style="width: 50px; height: 36px"
@@ -45,6 +45,7 @@
 						<th>邮箱</th>
 						<th>性别</th>
 						<th>角色</th>
+						<th>密码</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -56,10 +57,12 @@
 						<td>{{user.user_email}}</td>
 						<td>{{user.user_sex}}</td>
 						<td>{{user.role_id}}</td>
-						<td><a href="#/userUpdate" ng-click="getuserId(user.user_id)"
-							class="tablelink" has-permission='tUserEdit'> 修改</a> <a
-							href="#userList" ng-click="deleteUser(user.user_id)"
-							class="tablelink" has-permission='tUserDel'> 删除</a></td>
+						<td>{{user.user_pwd}}</td>
+						<td> <a href="#/userUpdate" ng-click="getUserId(user.user_id)"class="tablelink"	
+				has-permission='tEdit'> 修改</a>
+				<a href="#userList" ng-click="deleteUser(user.user_id)" class="tablelink"
+					has-permission='tDel'> 删除</a></td>
+					<!-- # 保持在当前页面 -->
 					</tr>
 
 				</tbody>
@@ -69,3 +72,25 @@
 	</div>
 </div>
 
+<!-- 删除模态框 -->
+				<div class="tips" id="tipDelUser"
+					style="height: 160px; width: 260px; margin-top: 230px; margin-left: -120px;">
+					<div class="tiptop">
+						<span>提示信息</span><a></a>
+					</div>
+					<div class="tipinfo" style="padding-top: 10px;">
+						<div class="tipright" style="padding-top: 0px; padding-left: 0px;">
+							<label class="text_style">确定删除该信息？ </label>
+							
+						</div>
+					</div>
+
+					<div class="tipbtns" style="margin-top: 40px; margin-left: 120px;">
+						<input name="" type="button" class="sures" id="sureDelUser" value="确定"
+							style="height: 25px; width: 50px; font-size: 10px; line-height: 0px;" />&nbsp;
+						<input name="" type="button" class="cancels" id="cancelDelUser"
+							value="取消"
+							style="height: 25px; width: 50px; font-size: 10px; line-height: 0px;" />&nbsp;
+					</div>
+				</div>
+				<!-- 模态框完  -->

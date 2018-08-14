@@ -104,13 +104,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	services.selectuserByName = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'systemStaff/selectuserByName.do',
-			data : data
-		});
-	};
+	
 	services.getUserListByPage = function(data) {
 		return $http({
 			method : 'post',
@@ -118,14 +112,35 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-/*	services.getAllRoleList = function(data) {
+	services.selectuserByName = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/selectuserByName.do',
+			data : data
+		});
+	};
+	services.selectUserById = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/selectUserById.do',
+			data : data
+		});
+	};
+	services.updateUserById = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/updateUserById.do',
+			data : data,
+		});
+	};
+	services.getAllRoleList = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'systemStaff/getAllRoleList.do',
 			data : data
 		});
 	};
-	*/
+	
 	return services;
 } ]);
 app
@@ -139,74 +154,262 @@ app
 							var staffInfo = $scope;
 							
 							staffInfo.staff = {
+									user_acct:"",
 									user_name:"",
 									user_email:'',
 									user_tel:"",
-									user_age:'' ,
-									role_id:" ", /*设计编辑功能的时候可以输入进去123deng，新增""*/
+									user_sex:'' ,
+									role_id:" ", 
+									user_pwd:"",/*设计编辑功能的时候可以输入进去123deng，新增""*/
 										
-							}
+							};
 /*							staffInfo.addStaff = function(){
 								alert(JSON.stringify(staffInfo.staff))//alert:网页打开时弹窗提示
-							}*/
+							}
+							*/
 							
-							// 添加用户信息
-						staffInfo.addStaff = function() {
-								alert(JSON.stringify(staffInfo.staff))
-								 if(!((/^0\d{2,3}-?\d{7,8}$/.test(staffInfo.staff.user_tel))||(/^1(3|4|5|7|8)\d{9}$/.test(staffInfo.staff.user_tel)))){
-									 alert("电话格式有误，请重填!");
-									 return;
-								}
-								var staffFormData = JSON
-										.stringify(staffInfo.staff);
-								services.addStaff({
-									staff : staffFormData
-								}).success(function(data) {
-									alert("新建成功！");
-								});
-							};
-							// 删除用户信息
-							staffInfo.deleteUser = function(user_id) {
-								if (confirm("是否删除该用户信息？") == true) {
-									services.deleteUser({
-										userId : user_id
-									}).success(function(data) {
-
-										user.result = data;
-										if (data == "true") {
-											console.log("删除用户信息成功！");
-										} else {
-											console.log("删除失败！");
+							// 换页
+							function pageTurn(totalPage, page, Func) {
+								$(".tcdPageCode").empty();
+								var pa = 1
+								var $pages = $(".tcdPageCode");
+								if ($pages.length != 0) {
+									$(".tcdPageCode").createPage({
+										pageCount : totalPage,
+										current : page,
+										backFn : function(p) {
+											pa = p;
+											Func(p);
 										}
-										initData();
 									});
 								}
 							}
-							// 根据页数获取用户列表
+						
+							// 添加用户信息
+						staffInfo.addStaff = function() {
+								/*alert(JSON.stringify(staffInfo.staff))
+								 if(!((/^0\d{2,3}-?\d{7,8}$/.test(staffInfo.staff.user_tel))||(/^1(3|4|5|7|8)\d{9}$/.test(staffInfo.staff.user_tel)))){
+									 alert("电话格式有误，请重填!");
+									 return;*/
+								
+								var user = JSON.stringify(staffInfo.staff);
+								if(staffInfo.staff.user_name == "" || staffInfo.staff.user_name == undefined){
+									$(".username").show();
+									return ;
+								} else {
+									$(".username").hide();
+								};
+								var staffFormData = JSON
+								.stringify(staffInfo.staff);
+								services.addStaff({
+									staff : staffFormData
+								}).success(function(data) {
+									alert("新建成功");
+									return;
+								});
+					};	
+								    	
+										
+						/*// 获取角色列表
+						function getAllRoleList() {
+							services.getAllRoleList({}).success(
+									function(data) {
+									
+										staffInfo.roles = data;
+									});
+						}*/
+					// 读取旅游信息
+				staffInfo.selectUserById=function(userId) {
+				console.log(userId);
+				var user_id = sessionStorage.getItem('userId');
+				alert(userId);
+				services.selectUserById({
+						user_id : userId
+						})
+						.success(
+								function(data) {
+									staffInfo.users = data.user;
+									staffInfo.staff = data.user;
+									
+								});
+				};							
+									
+						
+						
+					// 修改旅游用户		
+						staffInfo.updateUser = function() {
+							
+							var useFormData = JSON.stringify(staffInfo.users);
+							services.updateUserById({
+								users :useFormData
+							}).success(function(data) {
+								
+								alert("修改成功！");
+								$location.path('userList/');
+							});
+						};
+						
+						// 查看ID，并记入sessionStorage
+						staffInfo.getUserId = function(userId) {
+							sessionStorage.setItem('userId', userId);
+							
+						};
+
+						// 根据输入筛选信息
+						staffInfo.selectuserByName = function() {
+							searchKey = staffInfo.userName;
+							
+							services.getUserListByPage({
+								page : 1,
+								searchKey : searchKey
+							}).success(function(data) {
+								staffInfo.users = data.list;
+								initData();
+								//console.log(staffInfo.users)
+								//pageTurn(data.totalPage, 1, getUserListByPage)
+							});
+						};
+					//初始化页面信息
+					function initData() {
+						
+						console.log("初始化页面信息");
+						
+						/*$("#user").show();*/
+						if ($location.path().indexOf('/userList') == 0) {
+							searchKey = staffInfo.userName;
+							services.getUserListByPage({
+								page : 1,
+								searchKey : searchKey
+							}).success(function(data) {
+								staffInfo.Users = data.list;
+								/*pageTurn(data.totalPage, 1, getUserListByPage);*/
+								
+							});
+						}
+						/*else if ($location.path().indexOf('/travelTradeList') == 0) {
+							searchKey = null;
+							services.getTravelTradeListByPage({
+								page : 1,
+								searchKey : searchKey
+							}).success(function(data) {
+								traveltrade.traveltrades = data.list;
+								traveltrade.totalRow="打印："+data.totalRow;
+								traveltrade.totalP="打印："+data.totalPage;
+								pageTurn(data.totalPage, 1, getTravelTradeListByPage);
+								
+							});
+						}*/
+						else if ($location.path().indexOf('/staffBaseInfo') == 0) {
+							/*if(sessionStorage.getItem('leftData')){
+								equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
+							}*/
+							searchKey = null;
+							services.getUserListByPage({
+								page : 1,
+								searchKey : searchKey
+							}).success(function(data) {
+								
+								staffInfo.user = data.list;
+								pageTurn(
+										data.totalPage,
+										1,
+										getUserListByPage);
+
+							});
+						}
+						 else if ($location.path().indexOf('/staffAdd') == 0) {
+							 services.getAllRoleList().success(function(data){
+								 staffInfo.role_state = data;
+								})
+							
+						 }
+						 else if ($location.path().indexOf('/userUpdate') == 0) {
+							
+						// 根据ID获取信息
+						var user_id = sessionStorage.getItem('userId');
+						alert(user_id)
+						services.selectUserById({
+								user_id: user_id
+								})
+								.success(											
+										function(data) {
+											/*alert("!!!");*/
+											staffInfo.users = data.user;//"user"是controller里get的到的"user","users"对应html中的"users.user_xxx"
+										
+											/*staffInfo.users = data.user;*/
+										});
+						 			}
+						
+									}
+								initData();
+								//获取信息完
+								
+								//批量删除用户信息
+								/*function check() {
+
+							        var msg = "您真的确定要删除吗？";   
+							        if (confirm(msg)==true){   
+							            var allcheckbox = "";
+							            var becheckbox = "";
+							            $("input[name=atask]").each(function(){ //遍历table里的全部checkbox
+							                allcheckbox += $(this).val() + ","; //获取所有checkbox的值
+							                if($(this).attr("checked")) //如果被选中
+							                    becheckbox += $(this).val() + ","; //获取被选中的值
+							            });
+
+							            if(becheckbox.length > 0) //如果获取到
+							                becheckbox = becheckbox.substring(0, becheckbox.length - 1); //把最后一个逗号去掉
+							                window.location = "astask_batch_delete.action?checkTnum="+becheckbox;
+							        }else{   
+							        return false;   
+							        }   
+							}*/
+												
+						
+				// 删除单个用户信息
+										
+				staffInfo.deleteUser = function(user_id) {								
+					$(".overlayer").fadeIn(200);
+					$("#tipDelUser").fadeIn(200);								
+					sessionStorage.setItem("userId",user_id);
+					
+				}
+				$(".tiptop a").click(function() {
+					$("#tipDelUser").fadeOut(100);
+					$(".overlayer").fadeOut(200);
+					});
+				
+				$("#sureDelUser").click(function(){
+					$("#tipDelUser").fadeOut(100);
+					$(".overlayer").fadeOut(200);
+					//进入后台
+					var user_id=sessionStorage.getItem("userId");
+					alert(user_id)
+					services.deleteUser({
+						userId : user_id
+					}).success(function(data) {
+						initData();
+						
+					});
+					});
+				$("#cancelDelUser").click(function(){
+					$("#tipDelUser").fadeOut(100);
+					$(".overlayer").fadeOut(200);
+					});
+						// 根据页数获取用户列表
 							function getUserListByPage(page) {
 								services.getUserListByPage({
 									page : page,
 									searchKey : searchKey
 								}).success(function(data) {
-									User.Users = data.list;
-									
-								});
+									staffInfo.user = data.list;
+								
+							});
 							}
-
-							// 根据输入筛选信息
-							staffInfo.selectuserByName = function() {
-								searchKey = staffInfo.userName;
-								services.getUserListByPage({
-									page : 1,
-									searchKey : searchKey
-								}).success(function(data) {
-									staffInfo.Users = data.list;
-									console.log(staffInfo.Users)
-									//pageTurn(data.totalPage, 1, getUserListByPage)
-								});
-							};
-						
-/*							
+									
+									
+									
+									/*							
 							staffInfo.addStaff = function(e) {
 								preventDefault(e);
 								services.getAllRoleList().success(
@@ -224,37 +427,65 @@ app
 								};
 
 							};
-	*/
-							function checkradio()
-							{
-							   var parms=document.getElementsByName("radio1");
-							//获取所有的单选框
-							   var i;
-							   for( i=0;i<parms.length;i++)              
-							//遍历单选框
-							   {
-							       if(parms[i].checked)                     
-							//如果选择了此单选框
-							          alert("您选择了"+ parms[i].value);     
-							//提示用户的选择
-							   }
-							}
-						
-							function getAllStaff(){
-								services.getStaffInfo().success(function(data){
-									console.log(data.Result)
-									staffInfo.user = data.Result;
-								})
-							}
-							
-							function initPage() {
-								console.log("初始化成功staffInfoController！")
-								if ($location.path().indexOf('/staffBaseInfo') == 0) {
-									getAllStaff();
-								}
-
-							}
-
-							initPage();
+									 */
+									/*function checkradio()
+									{
+										var parms=document.getElementsByName("radio1");
+										//获取所有的单选框
+										var i;
+										for( i=0;i<parms.length;i++)              
+											//遍历单选框
+										{
+											if(parms[i].checked)                     
+												//如果选择了此单选框
+												alert("您选择了"+ parms[i].value);     
+											//提示用户的选择
+										}
+									}*/
+									
+									function getAllStaff(){
+										services.getStaffInfo().success(function(data){
+											console.log(data.Result)
+											staffInfo.user = data.Result;
+										})
+									}
+									
+									function initPage() {
+										console.log("初始化成功staffInfoController！")
+										if ($location.path().indexOf('/staffBaseInfo') == 0) {
+											getAllStaff();
+										}
+										
+									}
+									
+									initPage();
 						} ]);
+						
+							
+							
+							
+								 
+									
+									
+												
+										
+									
+									
+									
+									
+									
+											
+													
+														
+													
+														
+													
+														
+														
+								
+								
+								
+
+					
+						
 
