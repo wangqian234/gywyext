@@ -20,7 +20,7 @@ public interface EquipmentDao {
 	List<Equipment> selectEquipmentByPage(String searchKey, Integer offset, Integer end);
 
 	// 根据页数筛选全部安装位置信息列表
-	List<EquipRoom> selectEquipRoomByPage(String searchKey);
+	List<EquipRoom> selectEquipRoomByProj(String searchKey);
 
 	//根据room查找设备
 	List<Equipment> selectEquipByRoom(List<Integer> roomId, int offset, int end);

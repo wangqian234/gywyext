@@ -24,22 +24,24 @@
 			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_num" required /> </td>	
          </tr>
           <tr>
-            <td colspan='2' class="width15 text-center">安装位置*</td><!-- 待改进 -->
+            <td colspan='2' class="width15 text-center">安装位置*</td>
 			<td colspan='2'><select class="dfinput" ng-model="equipmentInfo.equip_room" required> 
 			<option ng-repeat="er in equip_room" value="{{er.equip_room_id}}">{{er.equip_room_name}}</option>	
 			</select></td>
 			<td colspan='2' class="width15 text-center">出厂日期*</td>
-			<td colspan='2'><input class="dfinput" type="date" ng-model="equipmentInfo.equip_pdate"  required/> </td>	
+			<td colspan='2'><input class="dfinput" type="text" ng-model="equipmentInfo.equip_pdate"  
+			onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/> </td>	
             <td colspan='2' class="width15 text-center">使用日期*</td>
-			<td colspan='2'><input class="dfinput" type="date" ng-model="equipmentInfo.equip_udate"  required/> </td>	
+			<td colspan='2'><input class="dfinput" type="text" ng-model="equipmentInfo.equip_udate"  
+			onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/> </td>	
           </tr>
           <tr>
             <td colspan='2' class="width15 text-center">出厂序号</td>
-			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_snum" /> </td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_snum" onkeyup="changeTwoNum(this)"/> </td>
 			<td colspan='2' class="width15 text-center">设备价格</td>
-			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_bfee" />元</td>	
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_bfee" onkeyup="changeTwoNum(this)"/>元</td>	
             <td colspan='2' class="width15 text-center">折旧年限</td>
-			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_life" />年</td>	
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_life" onkeyup="changeTwoNum(this)"/>年</td>	
           </tr>
           <tr>
             <td colspan='2' class="width15 text-center">所属系统*</td>
@@ -48,16 +50,17 @@
 			</select></td>
 			<td colspan='2' class="width15 text-center">制造厂家</td>
 			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_manu"/></td>	
-            <td colspan='2' class="width15 text-center">联系方法</td><!-- 目前有错 -->
-			<td colspan='2'><!-- <input class="dfinput" ng-model="equipmentInfo.equip_manu.equip_manu_tel"  /> --> </td>	
+            <td colspan='2' class="width15 text-center">联系方法</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_tel" id="equipmentInfo.equip_tel" onchange="checkTel(this)"/>  </td>	
           </tr>
           <tr>
            <td colspan='2' class="width15 text-center">设备负责人编号*</td>
-			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.user" required/> </td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.user" required onkeyup="changeTwoNum(this)"/> </td>
 			<td colspan='2' class="width15 text-center">设备维护周期</td>
-			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_mdate" />天</td>	
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_mdate" onkeyup="changeTwoNum(this)"/>天</td>	
             <td colspan='2' class="width15 text-center">下次维保时间*</td>
-			<td colspan='2'><input class="dfinput" type="date" ng-model="equipmentInfo.equip_ndate"  required/> </td>	
+			<td colspan='2'><input class="dfinput" type="text" ng-model="equipmentInfo.equip_ndate" 
+			onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/> </td>	
           </tr>
          
           <tr>
@@ -69,10 +72,10 @@
           <tr>
 		 	<td colspan='2' class="width15 text-center">备注</td>
 			<td colspan='6'><input type="text" class="dfinput" ng-model="equipmentInfo.equip_memo"/></td> 
-         
-          </tr> 
-     
+         </tr>   
         </table>
+
+        
         <div class="buttonbox">
 			<input type="submit" class="btn btn-default" value="确认提交" />
 	</div>

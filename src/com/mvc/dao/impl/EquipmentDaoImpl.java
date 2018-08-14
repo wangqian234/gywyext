@@ -123,7 +123,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			// 根据页数筛选全部设备安装位置信息列表
 			@SuppressWarnings("unchecked")
 			@Override
-			public List<EquipRoom> selectEquipRoomByPage(String searchKey) {
+			public List<EquipRoom> selectEquipRoomByProj(String searchKey) {
 				EntityManager em = emf.createEntityManager();
 				String selectSql = "select * from equip_room where equip_room_isdeleted=0 and proj_id = '" + searchKey + "'";
 				Query query = em.createNativeQuery(selectSql, EquipRoom.class);
@@ -151,7 +151,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				return list;
 			}
                                                  /*设备维保信息表内容*/
-		//  查询设备信息总条数
+		//  查询信息总条数
 			@SuppressWarnings("unchecked")
 			public Integer countEmTotal(String searchKey) {
 				EntityManager em = emf.createEntityManager();
@@ -164,7 +164,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				em.close();
 				return Integer.parseInt(totalRow.get(0).toString());
 			}
-			// 根据页数显示全部设备信息列表
+			// 根据页数显示全部信息列表
 			@SuppressWarnings("unchecked")
 			@Override
 			public List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end) {
