@@ -312,14 +312,14 @@ a.leftSecond:hover,a.leftSecond:active{
 	display: none;
 }
 /* 用户管理左侧菜单栏 */
-nav{
+/* nav{
 	margin:100px auto;
 	text-align:center;
 }
 nav ul{
 	border-radius:10px 10px;
 	background:#ff8040;
-	/* background:linear-gradient(to bottom,#efefef,#bbbbbb) */; 
+	background:linear-gradient(to bottom,#efefef,#bbbbbb); 
 	pading:0 20px;
 	display:inline-table;
 	position:relative;
@@ -354,7 +354,7 @@ nav ul li:hover>ul{
 nav ul li:hover{
 	 background:#808000;
 	border-radius:10px 10px;
-	 /* background:linear-gradient(to bottom,#4f5964,#5f6975); */ 
+	 background:linear-gradient(to bottom,#4f5964,#5f6975); 
 }
 nav ul li:hover a{
 	color:#FFF;
@@ -385,7 +385,7 @@ nav ul ul {
 	top:100%;
 	height:320%;
 	  color:#00ff80;  
-}
+} */
 /* 用户左侧菜单栏结束 */
 /* 单个用户删除	 */
 .tips {
