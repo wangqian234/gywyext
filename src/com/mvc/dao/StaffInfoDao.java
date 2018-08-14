@@ -2,6 +2,7 @@ package com.mvc.dao;
 
 import java.util.List;
 
+import com.mvc.entityReport.Role;
 import com.mvc.entityReport.User;
 
 public interface StaffInfoDao {
@@ -16,6 +17,9 @@ public interface StaffInfoDao {
 		
 	// 删除用户信息
 		Boolean updateState(Integer user_id);
+
+		//查找所有角色
+		List<Role> findRoleAlls();
 	
 
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.base.constants.SessionKeyConstants;
-
+import com.mvc.entityReport.Role;
 import com.mvc.entityReport.User;
 
 import com.mvc.service.StaffInfoService;
@@ -104,6 +104,8 @@ public @ResponseBody String addStaff(HttpServletRequest request, HttpSession ses
 	}
 	return JSON.toJSONString(result);
 	}
+	
+	
 
 /**
  * 筛选角色列表
@@ -112,10 +114,11 @@ public @ResponseBody String addStaff(HttpServletRequest request, HttpSession ses
  * @param session
  * @return
  */
-//@RequestMapping(value = "/getAllRoleList.do")
-//public @ResponseBody String getAllStores(HttpServletRequest request, HttpSession session) {
-	//List<User> result = staffInfoService.findRoleAlls();
-	//return JSON.toJSONString(result);
+@RequestMapping(value = "/getAllRoleList.do")
+public @ResponseBody String getAllStores(HttpServletRequest request, HttpSession session) {
+	List<Role> result = staffInfoService.findRoleAlls();
+	return JSON.toJSONString(result);
+}
 /**
  * 根据页数筛选用户信息列表
  * 
@@ -132,6 +135,7 @@ public @ResponseBody String getUsersByPrarm(HttpServletRequest request, HttpSess
 	pager.setPage(Integer.valueOf(request.getParameter("page")));
 	pager.setTotalRow(Integer.parseInt(totalRow.toString()));
 	List<User> list = staffInfoService.findUserByPage(searchKey, pager.getOffset(), pager.getLimit());
+	
 	jsonObject.put("list", list);
 	jsonObject.put("totalPage", pager.getTotalPage());
 	System.out.println("totalPage:" + pager.getTotalPage());
@@ -159,6 +163,7 @@ public @ResponseBody Integer updateUserById(HttpServletRequest request, HttpSess
 	else
 		return 0;
 }
+
 /**
  * 根据ID获取用户信息
  * 

@@ -133,14 +133,14 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data,
 		});
 	};
-/*	services.getAllRoleList = function(data) {
+	services.getAllRoleList = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'systemStaff/getAllRoleList.do',
 			data : data
 		});
 	};
-	*/
+	
 	return services;
 } ]);
 app
@@ -165,8 +165,26 @@ app
 							};
 /*							staffInfo.addStaff = function(){
 								alert(JSON.stringify(staffInfo.staff))//alert:网页打开时弹窗提示
-							}*/
+							}
+							*/
 							
+							// 换页
+							function pageTurn(totalPage, page, Func) {
+								$(".tcdPageCode").empty();
+								var pa = 1
+								var $pages = $(".tcdPageCode");
+								if ($pages.length != 0) {
+									$(".tcdPageCode").createPage({
+										pageCount : totalPage,
+										current : page,
+										backFn : function(p) {
+											pa = p;
+											Func(p);
+										}
+									});
+								}
+							}
+						
 							// 添加用户信息
 						staffInfo.addStaff = function() {
 								/*alert(JSON.stringify(staffInfo.staff))
@@ -175,24 +193,32 @@ app
 									 return;*/
 								
 								var user = JSON.stringify(staffInfo.staff);
-								
-								
-									if(staffInfo.staff.user_name == "" || staffInfo.staff.user_name == undefined){
-										$(".username").show();
-										return ;
-									} else {
-										$(".username").hide();
-									};
-									var staffFormData = JSON
-									.stringify(staffInfo.staff);
-									services.addStaff({
-										staff : staffFormData
-									}).success(function(data) {
-										alert("新建成功");
-										return;
+								if(staffInfo.staff.user_name == "" || staffInfo.staff.user_name == undefined){
+									$(".username").show();
+									return ;
+								} else {
+									$(".username").hide();
+								};
+								var staffFormData = JSON
+								.stringify(staffInfo.staff);
+								services.addStaff({
+									staff : staffFormData
+								}).success(function(data) {
+									alert("新建成功");
+									return;
+								});
+					};	
+								    	
+										
+						/*// 获取角色列表
+						function getAllRoleList() {
+							services.getAllRoleList({}).success(
+									function(data) {
+									
+										staffInfo.roles = data;
 									});
-						};
-// 读取旅游信息
+						}*/
+					// 读取旅游信息
 				staffInfo.selectUserById=function(userId) {
 				console.log(userId);
 				var user_id = sessionStorage.getItem('userId');
@@ -210,7 +236,7 @@ app
 									
 						
 						
-	// 修改旅游用户		
+					// 修改旅游用户		
 						staffInfo.updateUser = function() {
 							
 							var useFormData = JSON.stringify(staffInfo.users);
@@ -223,13 +249,13 @@ app
 							});
 						};
 						
-// 查看ID，并记入sessionStorage
+						// 查看ID，并记入sessionStorage
 						staffInfo.getUserId = function(userId) {
 							sessionStorage.setItem('userId', userId);
 							
 						};
 
-	// 根据输入筛选信息
+						// 根据输入筛选信息
 						staffInfo.selectuserByName = function() {
 							searchKey = staffInfo.userName;
 							
@@ -243,12 +269,12 @@ app
 								//pageTurn(data.totalPage, 1, getUserListByPage)
 							});
 						};
-//初始化
+					//初始化页面信息
 					function initData() {
 						
 						console.log("初始化页面信息");
 						
-						$("#user").show();
+						/*$("#user").show();*/
 						if ($location.path().indexOf('/userList') == 0) {
 							searchKey = staffInfo.userName;
 							services.getUserListByPage({
@@ -256,7 +282,7 @@ app
 								searchKey : searchKey
 							}).success(function(data) {
 								staffInfo.Users = data.list;
-								//pageTurn(data.totalPage, 1, getTravelListByPage);
+								/*pageTurn(data.totalPage, 1, getUserListByPage);*/
 								
 							});
 						}
@@ -273,9 +299,30 @@ app
 								
 							});
 						}*/
-						 else if ($location.path().indexOf('/staffAdd') == 0) {
-							
+						else if ($location.path().indexOf('/staffBaseInfo') == 0) {
+							/*if(sessionStorage.getItem('leftData')){
+								equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
+							}*/
+							searchKey = null;
+							services.getUserListByPage({
+								page : 1,
+								searchKey : searchKey
+							}).success(function(data) {
+								
+								staffInfo.user = data.list;
+								pageTurn(
+										data.totalPage,
+										1,
+										getUserListByPage);
+
+							});
 						}
+						 else if ($location.path().indexOf('/staffAdd') == 0) {
+							 services.getAllRoleList().success(function(data){
+								 staffInfo.role_state = data;
+								})
+							
+						 }
 						 else if ($location.path().indexOf('/userUpdate') == 0) {
 							
 						// 根据ID获取信息
@@ -286,7 +333,7 @@ app
 								})
 								.success(											
 										function(data) {
-											alert("!!!");
+											/*alert("!!!");*/
 											staffInfo.users = data.user;//"user"是controller里get的到的"user","users"对应html中的"users.user_xxx"
 										
 											/*staffInfo.users = data.user;*/
@@ -295,8 +342,9 @@ app
 						
 									}
 								initData();
-			//获取信息完
-//批量删除用户信息
+								//获取信息完
+								
+								//批量删除用户信息
 								/*function check() {
 
 							        var msg = "您真的确定要删除吗？";   
@@ -318,7 +366,7 @@ app
 							}*/
 												
 						
-// 删除用户信息
+				// 删除单个用户信息
 										
 				staffInfo.deleteUser = function(user_id) {								
 					$(".overlayer").fadeIn(200);
@@ -348,16 +396,16 @@ app
 					$("#tipDelUser").fadeOut(100);
 					$(".overlayer").fadeOut(200);
 					});
-									// 根据页数获取用户列表
-//							function getUserListByPage(page) {
-//								services.getUserListByPage({
-//									page : page,
-//									searchKey : searchKey
-//								}).success(function(data) {
-//									User.Users = data.list;
-//									
-//								});
-//							}
+						// 根据页数获取用户列表
+							function getUserListByPage(page) {
+								services.getUserListByPage({
+									page : page,
+									searchKey : searchKey
+								}).success(function(data) {
+									staffInfo.user = data.list;
+								
+							});
+							}
 									
 									
 									
@@ -380,7 +428,7 @@ app
 
 							};
 									 */
-									function checkradio()
+									/*function checkradio()
 									{
 										var parms=document.getElementsByName("radio1");
 										//获取所有的单选框
@@ -393,7 +441,7 @@ app
 												alert("您选择了"+ parms[i].value);     
 											//提示用户的选择
 										}
-									}
+									}*/
 									
 									function getAllStaff(){
 										services.getStaffInfo().success(function(data){

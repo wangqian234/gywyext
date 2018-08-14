@@ -1,21 +1,110 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<div id="page-wrapper"  style="margin-left: 260px;padding-top:100px">
+<!-- 这是内容的开始 -->   
+  <div class="row">
+			  <div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+				<h3>设备详细基本信息</h3>
+				</div>        
+							  
+							<div class="panel-body">
+<table class="tbl tablelist">
+          <tr>
+            <td colspan='2'>设备名称:{{equipmentDetail.equip_name}}</td>
+			<td colspan='2'>设备型号:{{equipmentDetail.equip_no}}</td>	
+            <td colspan='2' >设备编号:{{equipmentDetail.equip_num}}</td>
+         </tr>
+          <tr>
+            <td colspan='2' >安装位置:{{equipmentDetail.equip_room.equip_room_name}}</td>
+			<td colspan='2' >出厂日期:{{equipmentDetail.equip_pdate | timer}}</td>	
+            <td colspan='2' >使用日期:{{equipmentDetail.equip_udate | timer}}</td>
+          </tr>
+          <tr>
+            <td colspan='2' >出厂序号:{{equipmentDetail.equip_snum}}</td>
+			<td colspan='2' >设备价格:{{equipmentDetail.equip_bfee}}元</td>
+            <td colspan='2' >折旧年限:{{equipmentDetail.equip_life}}年</td>	
+          </tr>
+          <tr>
+            <td colspan='2' >所属系统:{{equipmentDetail.equip_type.equip_type_name}}</td>
+			<td colspan='2' >制造厂家:{{equipmentDetail.equip_manu}}</td>	
+            <td colspan='2' >联系方法:{{equipmentDetail.equip_manu.equip_manu_tel}}</td>	
+          </tr>
+          <tr>
+            <td colspan='2' >设备负责人:{{equipmentDetail.user.user_name}}</td>
+			<td colspan='2' >设备维护周期:{{equipmentDetail.equip_mdate}}天</td>	
+            <td colspan='2' >下次维保时间:{{equipmentDetail.equip_ndate | timer}}</td>	
+          </tr>  
+          <tr>
+			<td colspan='2' >设备主要参数:{{}}</td> 
+            <td colspan='2' >设备图片:{{equipmentDetail.equip_pic}}</td> 
+          </tr>  
+          <tr>
+		 	<td colspan='2' >备注:{{equipmentDetail.equip_memo}}</td>    
+          </tr> 
+     
+        </table>
+				</div>
+				</div>
+			    </div>						
+				</div>                                         
 
 
 
 
 
+<!-- 这是内容的结束 -->
+</div>
 
+         <nav class="navbar-default navbar-side" role="navigation">
+		<div id="sideNav"><i class="fa fa-caret-right"></i></div>
+            <div class="sidebar-collapse">
+                
+               <ul class="nav" id="main-menu">
+                     <li ng-repeat="ld in leftData">
+                        <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" ng-repeat="ldd in ld.data">
+                            <li>
+                                <a class="leftSecond" href="" ng-click="selectBaseInfoByProj(ldd.proj_id)">{{ldd.proj_name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                 </ul>
+                 
+            </div>
+        </nav>
+        
+        <script>
+        $("#main-menu").on("click",function(e){
+        	if(e.target.nodeName == "A"){
+        		$(this).find("a").removeClass("clickin");
+        		$(e.target).addClass("clickin");
+        	}
+        })
+        
+         $(document).ready(function () {
+    		$("#sideNav").click(function(){
+    			if($(this).hasClass('closed')){
+    				$('.navbar-side').animate({left: '0px'});
+    				$(this).removeClass('closed');
+    				$('#page-wrapper').animate({'margin-left' : '260px'});
+    				
+    			}
+    			else{
+    			    $(this).addClass('closed');
+    				$('.navbar-side').animate({left: '-260px'});
+    				$('#page-wrapper').animate({'margin-left' : '0px'}); 
+    			}
+    		});
+        });
 
-
-
-
-
-
-</body>
-</html>
+        $(window).bind("load resize", function () {
+            if ($(this).width() < 768) {
+                $('div.sidebar-collapse').addClass('collapse')
+            } else {
+                $('div.sidebar-collapse').removeClass('collapse')
+            }
+        });
+        
+        </script>
+        
+<script type="text/javascript" src="/gywyext/js/lib/pageTurn.js"></script>

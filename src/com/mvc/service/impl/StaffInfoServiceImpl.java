@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mvc.dao.StaffInfoDao;
-
+import com.mvc.entityReport.Role;
 import com.mvc.entityReport.User;
 import com.mvc.repository.StaffInfoRepository;
 import com.mvc.service.StaffInfoService;
@@ -39,11 +39,13 @@ public class  StaffInfoServiceImpl implements StaffInfoService {
 		else
 			return false;
 	}
+	
+
 	// 筛选角色列表
-	//	@Override
-	//	public List<User> findRoleAlls() {
-	//		return staffInfoRepository.findAlls();
-	//	}
+		@Override
+		public List<Role> findRoleAlls() {
+		return staffInfoDao.findRoleAlls();
+		}
 	// 根据userAcct查询用户账号是否存在,返回1存在，返回0不存在
 		//public Long isExist(String userAcct) {
 		//	Long result = staffInfoRepository.countByUserAcct(userAcct);
@@ -51,7 +53,7 @@ public class  StaffInfoServiceImpl implements StaffInfoService {
 		//}
 	
 	// 根据页数筛选全部用户信息列表
-		@Override
+		
 		public List<User> findUserByPage(String searchKey, Integer offset, Integer end) {
 			return  staffInfoDao.findUserByPage(searchKey, offset, end);
 		}

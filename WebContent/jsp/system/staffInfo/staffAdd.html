@@ -48,17 +48,25 @@
             </label>
          </div>
          
-        <div class="form-group">
+         <div class="form-group">
              <label>角色<b>*</b></label>
-             <select class="form-control">
-             	 <option>请选择</option>	
-                 <option>管理员</option>
-                 <option>总经理</option>
-                 <option>普通用户</option>
+             <select class="form-control"	ng-model="role_state">
+             	 	
+                 <option value="0">管理员</option>
+                 <option value="1">总经理</option>
+                 <option value="2">普通用户</option>
+                 <option ng-repeat="role in roles" value="role.role_id">{{role.role_name}}</option>
              </select>
-        </div>
+             
+             	<select class="form-control">
+					<option ng-repeat="role in role_state" value={{role.role_id}}
+						ng-model="role_state"><span>{{role.role_name}}</span>
+					</option>
+				</select>
+				
+        </div> 
      
-     	 <button style="margin-left:420px;class="btn btn-default" >提交</button>
+     	 <button style="margin-left:420px;class="btn btn-default" ng_click="addStaff()">提交</button>
      	
  	</form>
 </div>         

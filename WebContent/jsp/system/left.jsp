@@ -5,7 +5,7 @@
 				<li><a	href="${pageContext.request.contextPath}/jsp/system/index.jsp" >用户管理</a>
 					<ul>
 						
-					    <li><a href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffBaseInfo" >全部用户信息</a></li> 
+					    <li><a href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffBaseInfo">全部用户信息</a></li> 
 	  					<li><a href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffAdd">新建用户信息</a></li>
 						<li><a href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/userList">查询用户信息</a></li>
 					 </ul>

@@ -72,6 +72,9 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/equipAdd', {
 		templateUrl : '/gywyext/jsp/equip/equipAdd.html',
 		controller : 'equipmentController'
+	}).when('/equipRoomAdd', {
+		templateUrl : '/gywyext/jsp/equip/equipRoomAdd.html',
+		controller : 'equipmentController'
 	}).when('/equipDetail', {
 		templateUrl : '/gywyext/jsp/equip/equipDetail.html',
 		controller : 'equipmentController'
@@ -97,12 +100,6 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 		});
 	};
 
-	services.getEquipmentInfo = function() {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'equipEquipment/getEquipmentInfo.do',
-		});
-	};
 	// 删除
 	services.deleteEquipmentInfo = function(data) {
 		return $http({
@@ -111,35 +108,12 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	// 限制条件筛选
-	services.getEquipmentListByTS = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'equipEquipment/getEquipmentListByTS.do',
-			data : data
-		});
-	};
+
 	// 根据页数获取设备信息
 	services.getEquipmentListByPage = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'equipEquipment/getEquipmentListByPage.do',
-			data : data
-		});
-	};
-	// 根据页数获取设备安装位置信息
-	services.getEquipRoomListByPage = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'equipEquipment/getEquipRoomListByPage.do',
-			data : data
-		});
-	};
-	// 根据页数获取项目信息
-	services.getProjectListByPage = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'equipEquipment/getProjectListByPage.do',
 			data : data
 		});
 	};
@@ -152,7 +126,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 		});
 	};
 	// 修改设备信息
-	services.updateEquipment = function(data) {
+	services.updateEquipmentById = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'equipEquipment/updateEquipmentById.do',
@@ -175,7 +149,61 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	//添加设备安装位置信息
+	services.addEquipRoom = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/addEquipRoom.do',
+			data : data
+		});
+	};
 
+	//获取设备安装位置信息
+	services.getEquipRoomInfo = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/getEquipRoomInfo.do',
+			data : data
+		});
+	};
+
+	//获取设备分类信息
+	services.getEquipTypeInfo = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/getEquipTypeInfo.do',
+			data : data
+		});
+	};	
+	
+/*	//获取设备制造商信息
+	services.getEquipManuInfo = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/getEquipManuInfo.do',
+			data : data
+		});
+	};*/
+	
+	//添加设备特征参数信息
+	services.addEquipPara = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/addEquipPara.do',
+			data : data
+		});
+	};
+
+	//添加设备特征参数信息
+	services.selectProjectById = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/selectProjectById.do',
+			data : data
+		});
+	};
+	
+	
 	return services;
 } ]);
 app
@@ -187,7 +215,9 @@ app
 						'$location',
 						function($scope, services, $location) {
 							var equipment = $scope;
-
+							var equip_room = $scope;
+							var equip_type = $scope;
+							var equip_para = $scope;
 							// 根据页数获取设备列表
 							function getEquipmentListByPage(page) {
 								services.getEquipmentListByPage({
@@ -200,7 +230,6 @@ app
 							equipment.count = [1];
 							equipment.test = function(){
 								equipment.count.push("1");
-								alert(equipment.count)
 							}
 							// 换页
 							function pageTurn(totalPage, page, Func) {
@@ -221,14 +250,14 @@ app
 
 							// 删除设备信息
 							equipment.deleteEquipmentInfo = function(equip_id) {
-								if (confirm("是否删除该旅游信息？") == true) {
+								if (confirm("是否删除该设备信息？") == true) {
 									services.deleteEquipmentInfo({
 										equipmentId : equip_id
 									}).success(function(data) {
 
 										equipment.result = data;
 										if (data == "true") {
-											console.log("删除旅游信息成功！");
+											console.log("删除设备信息成功！");
 											$location.path('equipBaseInfo/');
 										} else {
 											console.log("删除失败！");
@@ -236,63 +265,74 @@ app
 
 									});
 								}
-							}
-							// 限制条件筛选
-							// 根据页数获取设备信息
-							/*function getEquipRoomListByPage(page) {
-								var eqLimit = null;
-								var eqSLimit = null;
-								if (JSON.stringify(equipment.EQTLimit) != null && JSON.stringify(equipment.EQTLimit) != "") {
-									eqLimit = JSON.stringify(equipment.EQTLimit);
-								}
-								if (JSON.stringify(equipment.EQSLimit) != null && JSON.stringify(equipment.EQSLimit) != "") {
-									EQSLimit = JSON.stringify(equipment.EQSLimit);
-								}
-								
-								services.getEquipmentListByTS({
-									page : page,
-									equipmentType : eqLimit,
-									equipmentState : eqSLimit
-								}).success(function(data) {
-									equipment.equipments = data.list;
-								});
-							}*/
-							equipment.equip_room = 0;
-							equipment.equip_state = 0;
-							// state、Type限制
-							equipment.getELByTS = function() {
-								alert(equipment.equip_room);
-								alert(equipment.equip_state);
-								services.getEquipRoomListByPage({
-									page : 1,
-									equipmentRoom : equipment.equip_room,
-									equipmentState : equipment.equip_state
-								}).success(
-										function(data) {
-											$scope.equipment = data.list;
-											pageTurn(data.totalPage, page,
-													getEquipRoomListByPage)
-										});
-							}
+							}						
 
 							// 添加设备信息
 							equipment.addEquipment = function() {
-
-								var equipmentFormData = JSON
-										.stringify(equipment.equipmentInfo);
 								
+								var equipmentFormData = JSON.stringify(equipment.equipmentInfo);
+								if (confirm("是否添加该设备信息？") == true) {
 								services.addEquipment({
 									equipment : equipmentFormData
 								}).success(function(equipment) {
-									$location.path('equipBaseInfo/');
-								});
+                                        alert("添加成功！")
+										$location.path('equipBaseInfo/');
+
+         						});
+							}
 							}
 
+							// 添加设备位置信息
+							equip_room.addEquipRoom = function() {
+								var equiproomFormData = JSON.stringify(equip_room.equiproomInfo);
+								if (confirm("是否添加该安装位置信息？") == true) {
+								services.addEquipRoom({
+									equip_room : equiproomFormData
+								}).success(function(equip_room) {
+									alert("添加成功！")
+										$location.path('equipAdd/');
+         						});
+							}
+							}	
+							
+							// 添加设备特征参数信息
+							equip_para.addEquipPara = function() {
+								var equipparaFormData = JSON.stringify(equip_para.equipparaInfo);			
+								if (confirm("是否添加该属性？") == true) {
+								services.addEquipPara({
+									equip_para : equipparaFormData
+								}).success(function(equip_para) {
+										$location.path('equipAdd/');
+         						});
+							}
+							}	
+							// 点击新建按钮事件
+							equip_para.addNewEquipPara = function(e) {
+								preventDefault(e);
+								equip_para.equipparaInfo = "";
+								$(".overlayer").fadeIn(200);
+								$(".tip").fadeIn(200);
+								$("#addEquipPara-form").slideDown(200);
+								};
+								function preventDefault(e) {
+									if (e && e.preventDefault) {
+										// 阻止默认浏览器动作(W3C)
+										e.preventDefault();
+									} else {
+										// IE中阻止函数器默认动作的方式
+										window.event.returnValue = false;
+										return false;
+									}
+								}
+							
+							// 查看ID，并记入sessionStorage
+							equipment.getEquipmentId = function(equipmentId) {
+								sessionStorage.setItem('equipmentId',equipmentId);
+								};
 							// 读取设备信息
 							equipment.selectEquipmentById = function(equipmentId) {
 								
-								var equip_id = sessionStorage
-										.getItem('equipmentId');
+								var equip_id = sessionStorage.getItem('equipmentId');
 								services.selectEquipmentById({
 									equip_id : equipmentId
 								}).success(function(data) {
@@ -302,21 +342,23 @@ app
 
 							// 修改设备信息
 							equipment.updateEquipment = function() {
-
-								var EqFormData = JSON
-										.stringify(equipment.equipmentInfo);
+								var EqFormData = JSON.stringify(equipment.equipmentInfo);
+								if (confirm("是否修改该设备信息？") == true) {
 								services.updateEquipmentById({
 									equipment : EqFormData
 								}).success(function(data) {
-									alert("修改成功！");
-									$location.path('equipBaseInfo/');
-								});
-							};
-							// 查看ID，并记入sessionStorage
-							equipment.getEquipmentId = function(equipmentId) {
-								sessionStorage.setItem('equipmentId',
-										equipmentId);
-							};
+									    alert("修改成功！")
+										$location.path('equipBaseInfo/');
+									})
+								}
+							}
+						
+							//查看设备详细信息
+							equipment.getEquipmentDetail = function(e){
+								var equipmentDetail = JSON.stringify(e);
+								sessionStorage.setItem('equipmentDetail', equipmentDetail);
+								$location.path("/equipDetail");
+							}
 
 							//根据proj_id查找设备信息
 							equipment.selectBaseInfoProj_id;							
@@ -327,7 +369,7 @@ app
 									proj_id : proj_id
 								}).success(function(data) {
 									equipment.equipments = data.equipment;
-									equipment.equiproom_p = data.room;
+									equipment.equiproom_p = data.room;									
 								});
 							}
 							function selectBaseInfoByProjPag(page){
@@ -338,11 +380,40 @@ app
 									equipment.equipments = data.list;
 								});
 							}
+							
+							//获得安装位置id
+							equip_room.getRoomId = function(){
+								alert(equip_room.equip_room_id)
+								
+							}
+							
+							
+							
+							
+							
+				/*			//判断输入时间是否正确
+							function compareDateTime(equip_pdate, equip_bdate,equip_idate,equip_udate,equip_ndate) {
+								var date1 = new Date(equip_pdate);
+								var date2 = new Date(equip_bdate);
+								var date3 = new Date(equip_idate);
+								var date4 = new Date(equip_udate);
+								var date5 = new Date(equip_ndate);	
+								if (date1.getTime() < date2.getTime()< date3.getTime()< date4.getTime()< date5.getTime()) {
+									return true;
+								} else {
+									return false;
+								}
+							}*/
+							
+				
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！")
 
 								if ($location.path().indexOf('/equipBaseInfo') == 0) {
+									if(sessionStorage.getItem('leftData')){
+										equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
+									}
 									searchKey = null;
 									services.getEquipmentListByPage({
 										page : 1,
@@ -356,19 +427,30 @@ app
 
 									});
 								} else if ($location.path().indexOf('/equipUpdate') == 0) {
-									var equip_id = sessionStorage
-											.getItem("equipmentId");
+									var equip_id = sessionStorage.getItem("equipmentId");
 									services.selectEquipmentById({
 												equip_id : equip_id
-									})
-									.success(function(data) {
+									}).success(function(data) {
 										equipment.equipmentInfo = data.equipment;
 									});
-								} else if ($location.path().indexOf('/leftInit') == 0) {
+									services.getEquipRoomInfo().success(function(data){
+										equip_room.equip_room = data.result;
+									})
+									services.getEquipTypeInfo().success(function(data1){
+										equip_type.equip_type = data1.result;
+									})
+								}else if ($location.path().indexOf('/equipAdd') == 0){
+									services.getEquipRoomInfo().success(function(data){
+										equip_room.equip_room = data.result;
+									})
+									services.getEquipTypeInfo().success(function(data1){
+										equip_type.equip_type = data1.result;
+									})
+
+								}else if ($location.path().indexOf('/leftInit') == 0) {
 									services.getInitLeft().success(function(data) {
 										var arr = data.leftResult;
 										
-
 										var map = {}, dest = [];
 										for (var i = 0; i < arr.length; i++) {
 											var ai = arr[i];
@@ -391,31 +473,42 @@ app
 										}
 										
 										equipment.leftData = dest;
-										services.selectBaseInfoByProj({
-											page : 1,
-											proj_id : 1
-										}).success(function(data) {
-											equipments="";
-											equipment.equipments = data.equipment;
-											equipment.equiproom_p = data.room;
-										});
 										
-/*										searchKey = null;
+										var leftData = JSON.stringify(dest)
+										sessionStorage.setItem('leftData', leftData);
+										
+										searchKey = null;
 										services.getEquipmentListByPage({
 											page : 1,
-											searchKey : searchKey
+											searchKey : ""
 										}).success(function(data) {
 											equipment.equipments = data.list;
-
 											pageTurn(
 													data.totalPage,
 													1,
 													getEquipmentListByPage);
 
-										});*/
+										});
 
 									})
+								} else if($location.path().indexOf('/equipDetail') == 0){
+									equipment.equipmentDetail = JSON.parse(sessionStorage.getItem('equipmentDetail'));
+									equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
 								}
 							}
 							initPage();
 						} ]);
+
+//时间戳转换
+app.filter('timer', function() {
+	return function(input) {
+		if(input == "" || input == undefined){
+			return "";
+		}
+	    var t = new Date(input).toLocaleString(); 
+	    return t.substring(0,9); 
+	}
+});
+
+
+

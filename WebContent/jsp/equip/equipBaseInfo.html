@@ -4,7 +4,7 @@
 	<div ng-app="" class="tools">
 		<form class="toolbar">
 			<!-- 根据设备分类筛选设备信息 -->
-			请选择设备区域： <select class="dfselect" ng-model="equip_room" ng-change="getELByTS()" style="width: 167px">
+			请选择设备区域： <select class="dfselect" ng-model="equip_room"  style="width: 167px">
 				<option value="0">全部</option>
 				<option ng-repeat="erm in equiproom_p" value="erm.equip_room_id">{{erm.equip_room_name}}</option>
 			</select>
@@ -19,7 +19,7 @@
 			</select>
 		
 		</form>	
-	<ul class="toolbar1" >
+	<ul class="toolbar131232" >
 			<li class="click" ><a href="#/equipAdd"><span></span>新建</a></li>
 		</ul>
 	</div>
@@ -65,8 +65,7 @@
 		</div>
 	</div>
 		<div  class="tcdPageCode">页码容器</div>
-</div>
-</div>
+
 
          <nav class="navbar-default navbar-side" role="navigation">
 		<div id="sideNav"><i class="fa fa-caret-right"></i></div>

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.base.enums.IsDelete;
 import com.mvc.dao.StaffInfoDao;
-
+import com.mvc.entityReport.Role;
 import com.mvc.entityReport.User;
 
 @Repository("staffInfoDaoImpl")
@@ -89,6 +89,17 @@ public  class StaffInfoDaoImpl implements StaffInfoDao {
 				}
 				return true;
 
+			}
+
+
+			@Override
+			public List<Role> findRoleAlls() {
+				EntityManager em = emf.createEntityManager();
+				String countSql = " select * from role where role_isdeleted = 0 ";
+				Query query = em.createNativeQuery(countSql, Role.class);
+				List<Role> role = query.getResultList();
+				em.close();
+				return role;
 			}
 
 	
