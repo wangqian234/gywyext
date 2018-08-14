@@ -5,102 +5,83 @@
 <title>修改设备信息</title>
 </head>
 <body>
+<div class="formbody">
  <div class="row">
                 <div class="col-lg-12">
                     <div class="panel panel-default">
+                       <br><br><br>
                         <div class="panel-heading">
-                                                                                      修改设备信息
+                                                                                      添加设备信息
                         </div>
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <form role="form" ng-submit="addEquipment()">
-                                        <div class="form-group">
-                                            <label>设备名称<b>*</b></label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_name" required />                                           
-                                        </div>
-                                        <div class="form-group">
-                                            <label>设备型号<b>*</b></label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_no" required />                                           
-                                        </div>
-                                        <div class="form-group">
-                                            <label>设备图片</label>
-                                            <input type="file" ng-model="equipmentInfo.equip_pic"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>设备二维码</label>
-                                            <input type="file" ng-model="equipmentInfo.equip_qrcode"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>设备规格</label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_spec"  />                                           
-                                        </div>
-                                        <div class="form-group">
-                                            <label>设备分类编号<b>*</b></label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_type"  required />                                           
-                                        <p class="help-block">1:消防设备 2:电气设备 3:温湿度检测设备 4:其它</p>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>设备制造商编号<b>*</b></label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_manu"  required />                                           
-                                        </div>
-                                        <p class="help-block">1:X公司 2:Y公司 3:Z公司 4:其它</p>
-                                        <div class="form-group">           
-                                            <label>设备生产日期</label><input type="date"  required
-					                        ng-model="equipmentInfo.equip_pdate" class="form-control"/>
-					                    </div>
-					                    <div class="form-group">           
-                                            <label>设备购买日期</label><input type="datetime-local"  required
-					                        ng-model="equipmentInfo.equip_bdate" class="form-control"/>
-					                    </div>
-					                    <div class="form-group">           
-                                            <label>设备安装日期</label><input type="datetime-local"  required
-					                        ng-model="equipmentInfo.equip_idate" class="form-control"/>
-					                    </div>
-					                    <div class="form-group">           
-                                            <label>设备使用日期</label><input type="datetime-local"  required
-					                        ng-model="equipmentInfo.equip_udate" class="form-control"/>
-					                    </div>
-                                         <div class="form-group">
-                                            <label>设备安装费用</label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_ifee"  />                                           
-                                        </div>                               
-                                        <div class="form-group">
-                                            <label>设备购买费用</label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_bfee"  />                                           
-                                        </div>
-                                        <div class="form-group">
-                                            <label>设备健康状态<b>*</b></label><input class="form-control" max="10"
-                                            ng-model="equipmentInfo.equip_state"  required/>                                           
-                                        <p class="help-block">健康值最大为10</p>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>设备维护周期</label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_mdate"  />                                           
-                                        </div>
-                                       <div class="form-group">           
-                                            <label>设备下次维保时间<b>*</b></label><input type="datetime-local"  required
-					                        ng-model="equipmentInfo.equip_ndate" class="form-control"/>
-					                    </div>
-                                        <div class="form-group">
-                                            <label>设备寿命</label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_atime"  />                                           
-                                        </div>
-                                        <div class="form-group">
-                                            <label>设备负责人编号<b>*</b></label><input class="form-control" 
-                                            ng-model="equipmentInfo.user"  required/>                                           
-                                        </div>
-                                         <div class="form-group">
-                                            <label>设备安装位置编号<b>*</b></label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_room"  required/>                                           
-                                         <p class="help-block">1:水泵房 2:电梯井 3:地下车库 4:其它</p>
-                                         </div>
-                                        <div class="form-group">
-                                            <label>设备备注</label><input class="form-control" 
-                                            ng-model="equipmentInfo.equip_memo" />                                           
-                                         </div>
-                                        <li id="addEquipment" ><label>&nbsp;</label><input href="#equipDetail" type="submit"
-				                            class="btn" value="提交修改" /></li>
+              <div class="row">
+        
+          <form role="form" ng-submit="updateEquipment()">                                 
+          <table class="tbl tablelist">
+             <tr>
+            <td colspan='2' class="width15 text-center">设备名称*</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_name" required /> </td>
+			<td colspan='2' class="width15 text-center">设备型号*</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_no" required /> </td>		
+            <td colspan='2' class="width15 text-center">设备编号*</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_num" required /> </td>	
+         </tr>
+          <tr>
+            <td colspan='2' class="width15 text-center">安装位置*</td>
+			<td colspan='2'><select class="dfinput" ng-model="equipmentInfo.equip_room" required> 
+			<option ng-repeat="er in equip_room" ng-selected="er.equip_room_id==equipmentInfo.equip_room.equip_room_id" value="{{er.equip_room_id}}">{{er.equip_room_name}}</option>	
+			</select></td>
+			<td colspan='2' class="width15 text-center">出厂日期*</td>
+			<td colspan='2'><input class="dfinput" type="text" ng-model="equipmentInfo.equip_pdate"  
+			onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/> </td>	
+            <td colspan='2' class="width15 text-center">使用日期*</td>
+			<td colspan='2'><input class="dfinput" type="text" ng-model="equipmentInfo.equip_udate" 
+			onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/> </td>	
+          </tr>
+          <tr>
+            <td colspan='2' class="width15 text-center">出厂序号</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_snum" onkeyup="changeTwoNum(this)"/> </td>
+			<td colspan='2' class="width15 text-center">设备价格</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_bfee" onkeyup="changeTwoNum(this)"/>元</td>	
+            <td colspan='2' class="width15 text-center">折旧年限</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_life" onkeyup="changeTwoNum(this)"/>年</td>	
+          </tr>
+          <tr>
+            <td colspan='2' class="width15 text-center">所属系统*</td>
+			<td colspan='2'><select class="dfinput" ng-model="equipmentInfo.equip_type" required > 
+			<option ng-repeat="et in equip_type" ng-selected="et.equip_type_id==equipmentInfo.equip_type.equip_type_id" value="{{et.equip_type_id}}">{{et.equip_type_name}}</option>
+			</select></td>
+			<td colspan='2' class="width15 text-center">制造厂家</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_manu"/></td>	
+            <td colspan='2' class="width15 text-center">联系方法</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_tel" id="equipmentInfo.equip_tel" onchange="checkTel(this)"/> </td>	
+          </tr>
+          <tr>
+           <td colspan='2' class="width15 text-center">设备负责人编号*</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.user"  required/> </td>
+			<td colspan='2' class="width15 text-center">设备维护周期</td>
+			<td colspan='2'><input class="dfinput" ng-model="equipmentInfo.equip_mdate" onkeyup="changeTwoNum(this)"/>天</td>	
+            <td colspan='2' class="width15 text-center">下次维保时间*</td>
+			<td colspan='2'><input class="dfinput" type="text" ng-model="equipmentInfo.equip_ndate" 
+			onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/> </td>	
+          </tr>
+         
+          <tr>
+			<td colspan='2' class="width15 text-center">设备主要参数</td>
+			<td colspan='6'><input type="text"  class="dfinput" /></td> 
+            <td colspan='2' class="width15 text-center">设备图片</td>
+			<td colspan='6'><input class="dfinput" type="file" ng-model="equipmentInfo.equip_pic" /></td> 
+          </tr>  
+          <tr>
+		 	<td colspan='2' class="width15 text-center">备注</td>
+			<td colspan='6'><input type="text" class="dfinput" ng-model="equipmentInfo.equip_memo"/></td> 
+         
+          </tr> 
+     
+        </table>
+            <div class="buttonbox">
+			<input type="submit" class="btn btn-default" value="确认提交" />
+	        </div>
                                     </form>
                                 </div>
      

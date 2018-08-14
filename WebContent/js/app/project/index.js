@@ -108,8 +108,10 @@ app.controller('indexProController', [
 			indexpro.count = 3;
 			
 			indexpro.addCompany = function(){
+				alert()
 				var companyInfo = JSON.stringify(indexpro.company);
 				var projectInfo = JSON.stringify(indexpro.project);
+				alert("123")
 				if(indexpro.company.comp_name == "" || indexpro.company.comp_name == undefined){
 					$(".companyname").show();
 					return ;

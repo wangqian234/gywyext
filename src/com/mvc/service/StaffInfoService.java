@@ -1,9 +1,12 @@
 package com.mvc.service;
 
+import java.text.ParseException;
 import java.util.List;
 
-
+import com.mvc.entityReport.Role;
 import com.mvc.entityReport.User;
+
+import net.sf.json.JSONObject;
 
 
 public interface StaffInfoService {
@@ -11,9 +14,11 @@ public interface StaffInfoService {
 	List<User> getStaffInfo();
 	
 	boolean save(User user);
+	
+	
 
 	// 筛选角色列表
-	//List<User> findRoleAlls();
+	List<Role> findRoleAlls();
 	
 	// 根据userAcct查询用户账号是否存在,返回1存在，返回0不存在
 	//	Long isExist(String userAcct);
@@ -27,5 +32,10 @@ public interface StaffInfoService {
 	//根据ID删除
 	boolean deleteIsdelete(Integer user_id);
 	
-	
+	// 修改用户基本信息
+		Boolean updateUserBase(Integer user_id, JSONObject jsonObject, User user) throws ParseException;
+		
+	// 根据ID获取用户信息
+	User selectUserById(Integer user_id);
+		
 }

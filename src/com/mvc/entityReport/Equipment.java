@@ -17,22 +17,22 @@ import javax.persistence.Table;
 public class Equipment {
 	
 	
-	private Integer equip_id;//设备编号，主键
+	private Integer equip_id;//设备id，主键
 	private String equip_no;//设备型号
+	private String equip_num;//设备编号
 	private String equip_name;//设备名称
 	private String equip_pic;//设备图片
 	private String equip_qrcode;//设备二维码
-	private String equip_spec;//设备规格
 	private EquipType equip_type;//设备分类编号，外键
-	private EquipManu equip_manu;//设备制造商编号，外键
+	private String equip_manu;//设备制造商
+	private String equip_tel;//制造商联系方式
 	private Date equip_pdate;//设备生产日期
-	private Date equip_bdate;//设备购买日期
-	private Date equip_idate;// 设备安装日期
 	private Date equip_udate;//设备使用日期
-	private Float equip_ifee;//设备安装费用
 	private Float equip_bfee;//设备购买费用
-	private Integer equip_state;//设备健康状态 0：正常 1：需要维修 2：需要更换
+	private Integer equip_snum;//设备出厂序号
+	private Integer equip_state;//设备健康状态 
 	private Integer equip_mdate;//设备维护周期
+	private Integer equip_life;//设备折旧年限
 	private Date equip_ndate;//设备下次维保时间
 	private Integer equip_atime;//设备寿命
 	private User user;//设备负责人编号，外键
@@ -56,6 +56,14 @@ public class Equipment {
 	}
 	public void setEquip_no(String equip_no) {
 		this.equip_no = equip_no;
+	}
+	
+	@Column(name = "equip_num", length = 32)
+	public String getEquip_num() {
+		return equip_num;
+	}
+	public void setEquip_num(String equip_num) {
+		this.equip_num = equip_num;
 	}
 	
 	@Column(name = "equip_name", length = 64)
@@ -82,14 +90,6 @@ public class Equipment {
 		this.equip_qrcode = equip_qrcode;
 	}
 	
-	@Column(name = "equip_spec", length = 64)
-	public String getEquip_spec() {
-		return equip_spec;
-	}
-	public void setEquip_spec(String equip_spec) {
-		this.equip_spec = equip_spec;
-	}
-	
 	@ManyToOne
 	@JoinColumn(name="equip_type")
 	public EquipType getEquip_type() {
@@ -99,13 +99,28 @@ public class Equipment {
 		this.equip_type = equip_type;
 	}
 	
-	@ManyToOne
-	@JoinColumn(name="equip_manu")
-	public EquipManu getEquip_manu() {
+	@Column(name = "equip_manu", length = 64)
+	public String getEquip_manu() {
 		return equip_manu;
 	}
-	public void setEquip_manu(EquipManu equip_manu) {
+	public void setEquip_manu(String equip_manu) {
 		this.equip_manu = equip_manu;
+	}
+	
+	@Column(name = "equip_tel", length = 32)
+	public String getEquip_tel() {
+		return equip_tel;
+	}
+	public void setEquip_tel(String equip_tel) {
+		this.equip_tel = equip_tel;
+	}
+
+	@Column(name = "equip_snum", length = 32)
+	public Integer getEquip_snum() {
+		return equip_snum;
+	}
+	public void setEquip_snum(Integer equip_snum) {
+		this.equip_snum = equip_snum;
 	}
 	
 	@Column(name = "equip_state", length = 1)
@@ -157,23 +172,7 @@ public class Equipment {
 	public void setEquip_pdate(Date equip_pdate) {
 		this.equip_pdate = equip_pdate;
 	}
-	
-	@Column(name = "equip_bdate")
-	public Date getEquip_bdate() {
-		return equip_bdate;
-	}
-	public void setEquip_bdate(Date equip_bdate) {
-		this.equip_bdate = equip_bdate;
-	}
-	
-	@Column(name = "equip_idate")
-	public Date getEquip_idate() {
-		return equip_idate;
-	}
-	public void setEquip_idate(Date equip_idate) {
-		this.equip_idate = equip_idate;
-	}
-	
+
 	@Column(name = "equip_udate")
 	public Date getEquip_udate() {
 		return equip_udate;
@@ -181,15 +180,7 @@ public class Equipment {
 	public void setEquip_udate(Date equip_udate) {
 		this.equip_udate = equip_udate;
 	}
-	
-	@Column(name = "equip_ifee")
-	public Float getEquip_ifee() {
-		return equip_ifee;
-	}
-	public void setEquip_ifee(Float equip_ifee) {
-		this.equip_ifee = equip_ifee;
-	}
-	
+
 	@Column(name = "equip_bfee")
 	public Float getEquip_bfee() {
 		return equip_bfee;
@@ -204,6 +195,14 @@ public class Equipment {
 	}
 	public void setEquip_mdate(Integer equip_mdate) {
 		this.equip_mdate = equip_mdate;
+	}
+	
+	@Column(name = "equip_life")
+	public Integer getEquip_life() {
+		return equip_life;
+	}
+	public void setEquip_life(Integer equip_life) {
+		this.equip_life = equip_life;
 	}
 	
 	@Column(name = "equip_ndate")
