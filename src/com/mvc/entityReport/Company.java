@@ -15,11 +15,11 @@ public class Company {
 	private Integer comp_id;//公司编号，主键
 	private String comp_name;//公司名称
 	private String comp_rank;// 公司级别，1：优质，2：一般，3：待开发
-	private String cmop_addr;// 公司地址
-	private Integer cmop_num;//公司员工数量
+	private String comp_addr;// 公司地址
+	private Integer comp_num;//公司员工数量
 	private User user;//负责人编号，外键
-	private String cmop_memo;//备注
-	private Integer cmop_isdeleted;//公司状态，0：存在，1：已删除
+	private String comp_memo;//备注
+	private Integer comp_isdeleted;//公司状态，0：存在，1：已删除
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,20 +44,7 @@ public class Company {
 	public void setComp_rank(String comp_rank) {
 		this.comp_rank = comp_rank;
 	}
-	@Column(name = "cmop_addr",length = 255)
-	public String getCmop_addr() {
-		return cmop_addr;
-	}
-	public void setCmop_addr(String cmop_addr) {
-		this.cmop_addr = cmop_addr;
-	}
-	@Column(name = "cmop_num",length = 11)
-	public Integer getCmop_num() {
-		return cmop_num;
-	}
-	public void setCmop_num(Integer cmop_num) {
-		this.cmop_num = cmop_num;
-	}
+
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	public User getUser() {
@@ -66,18 +53,32 @@ public class Company {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	@Column(name = "cmop_memo",length = 255)
-	public String getCmop_memo() {
-		return cmop_memo;
+	@Column(name = "comp_num",length = 11)
+	public Integer getComp_num() {
+		return comp_num;
 	}
-	public void setCmop_memo(String cmop_memo) {
-		this.cmop_memo = cmop_memo;
+	public void setComp_num(Integer comp_num) {
+		this.comp_num = comp_num;
 	}
-	@Column(name = "cmop_isdeleted",length = 1,columnDefinition = "INT not null default 0")
-	public Integer getCmop_isdeleted() {
-		return cmop_isdeleted;
+	@Column(name = "comp_addr",length = 255)
+	public String getComp_addr() {
+		return comp_addr;
 	}
-	public void setCmop_isdeleted(Integer cmop_isdeleted) {
-		this.cmop_isdeleted = cmop_isdeleted;
+	public void setComp_addr(String comp_addr) {
+		this.comp_addr = comp_addr;
+	}
+	@Column(name = "comp_memo",length = 255)
+	public String getComp_memo() {
+		return comp_memo;
+	}
+	public void setComp_memo(String comp_memo) {
+		this.comp_memo = comp_memo;
+	}
+	@Column(name = "comp_isdeleted",length = 1,columnDefinition = "INT not null default 0")
+	public Integer getComp_isdeleted() {
+		return comp_isdeleted;
+	}
+	public void setComp_isdeleted(Integer comp_isdeleted) {
+		this.comp_isdeleted = comp_isdeleted;
 	}
 }

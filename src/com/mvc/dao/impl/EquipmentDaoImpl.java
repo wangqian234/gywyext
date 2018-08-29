@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 import com.mvc.dao.EquipmentDao;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.EquipRoom;
-import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipMain;
+import com.mvc.entityReport.EquipPara;
 
 @Repository("equipmentDaoImpl")
 public class EquipmentDaoImpl implements EquipmentDao {
@@ -31,7 +31,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			String selectSql = " update equipment set equip_isdeleted =:equip_isdeleted where equip_id =:equip_id ";
 			Query query = em.createNativeQuery(selectSql);
 			query.setParameter("equip_id", equip_id);
-			query.setParameter("equip_isdeleted", IsDelete.YES.value);
+			query.setParameter("equip_isdeleted", 1);
 			query.executeUpdate();
 			em.flush();
 			em.getTransaction().commit();
@@ -45,7 +45,6 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		@SuppressWarnings({ "unchecked" })
 		@Override
 		public Integer countTotal(String eqType, String eqState) {
-			// TODO 自动生成的方法存根
 			EntityManager em = emf.createEntityManager();
 			String countSql = " select count(equip_id) from equipment tr where equip_isdeleted=0 " ;
 			if((eqState != null && !eqState.equals("")) && (eqType != null && !eqType.equals(""))){
@@ -65,7 +64,6 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		@SuppressWarnings("unchecked")
 		@Override
 		public List<Equipment> findEquipmentByPage(String eqType, String eqState, Integer offset, Integer limit) {
-			// TODO 自动生成的方法存根
 			EntityManager em = emf.createEntityManager();
 			String selectSql = " select * from equipment where equip_isdeleted=0 ";
 			if((eqState != null && !eqState.equals("")) && (eqType != null && !eqType.equals(""))){
@@ -183,12 +181,20 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				System.out.println(list);
 				return list;
 			}
-			
-			
-			
-			
-			
-			
-			
-			
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public List<EquipPara> getEquipPara(String searchKey) {
+				List<EquipPara> list;
+				EntityManager em = emf.createEntityManager();
+				try {
+					String selectSql = " select * from equip_para where equip_para_isdeleted = 0 and equip_id = '" + searchKey + "'";
+					Query query = em.createNativeQuery(selectSql, EquipPara.class);
+					list = query.getResultList();
+				} finally {
+					em.close();
+				}
+				return list;
+			}
+
 }

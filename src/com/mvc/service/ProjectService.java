@@ -11,4 +11,6 @@ public interface ProjectService {
 
 	List<Company> getCompanyInfo();
 
+	boolean addProject(Project project);
+
 }

@@ -80,6 +80,13 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data,
 		});
 	};
+	services.addProject = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemProject/addProject.do',
+			data : data,
+		});
+	};
 	return services;
 } ]);
 
@@ -147,6 +154,11 @@ app.controller('indexProController', [
 			indexpro.addProject = function(){
 				var projectInfo = JSON.stringify(indexpro.project);
 				alert(projectInfo)
+				services.addProject({
+					project : projectInfo
+				}).success(function(data) {
+				
+				})
 			}
 			
 /*			function addProject(){

@@ -5,6 +5,7 @@ import java.util.List;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.EquipMain;
+import com.mvc.entityReport.EquipPara;
 
 public interface EquipmentDao {
 
@@ -30,5 +31,7 @@ public interface EquipmentDao {
 	Integer countEmTotal(String searchKey);
 	// 根据页数筛选全部设备信息列表
 	List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end);
- 
+	
+	//根据设备id查找设备特征参数
+	List<EquipPara> getEquipPara(String searchKey);
 }

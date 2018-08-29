@@ -1,5 +1,6 @@
 package com.mvc.controller;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.base.constants.SessionKeyConstants;
-import com.mvc.entityReport.EquipManu;
 import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.EquipType;
 import com.mvc.entityReport.Equipment;
+import com.mvc.entityReport.Files;
 import com.mvc.entityReport.User;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipPara;
@@ -28,6 +29,7 @@ import com.mvc.entityReport.EquipMain;
 import com.utils.Pager;
 import com.mvc.service.EquipmentService;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -81,6 +83,7 @@ public class EquipmentController {
 			List<Equipment> list = equipmentService.selectEquipmentByPage(searchKey, pager.getOffset(), pager.getLimit());
 			jsonObject.put("list", list);
 			jsonObject.put("totalPage", pager.getTotalPage());
+			System.out.println(jsonObject.toString());
 			return jsonObject.toString();
 		}		
 			
@@ -88,7 +91,10 @@ public class EquipmentController {
 		@RequestMapping(value = "/addEquipment.do")
 		public @ResponseBody String addEquipment(HttpServletRequest request, HttpSession session) throws ParseException {
 			JSONObject jsonObject = new JSONObject();
+			JSONObject jsonPara = new JSONObject();
+			List<EquipPara> equipParas = new ArrayList<EquipPara>();
 			jsonObject = JSONObject.fromObject(request.getParameter("equipment"));
+
 			Equipment equipment = new Equipment();
 			if (jsonObject.containsKey("equip_no")) {
 			    equipment.setEquip_no(jsonObject.getString("equip_no"));
@@ -99,10 +105,11 @@ public class EquipmentController {
 			if (jsonObject.containsKey("equip_num")) {
 				equipment.setEquip_num(jsonObject.getString("equip_num"));
 			}		
-//			if (jsonObject.containsKey("equip_pic")) {
-//				equipment.setEquip_pic(jsonObject.getString("equip_pic"));}
-//			if (jsonObject.containsKey("equip_qrcode")) {
-//				equipment.setEquip_qrcode(jsonObject.getString("equip_qrcode"));}
+			if (jsonObject.containsKey("file_id")) {
+				Files file = new Files();
+				file.setFile_id(Integer.parseInt(jsonObject.getString("file_id")));
+				equipment.setFile_id(file);
+			}
 			if (jsonObject.containsKey("equip_type")) {
 				EquipType et = new EquipType();
 				et.setEquip_type_id(Integer.valueOf(jsonObject.getString("equip_type")));
@@ -158,14 +165,59 @@ public class EquipmentController {
 			if (jsonObject.containsKey("equip_memo")) {
 				equipment.setEquip_memo(jsonObject.getString("equip_memo"));
 			}
+			if (jsonObject.containsKey("equip_type")) {
+				EquipType et = new EquipType();
+				et.setEquip_type_id(Integer.valueOf(jsonObject.getString("equip_type")));
+				equipment.setEquip_type(et);	
+			}
 			equipment.setEquip_isdeleted(0);
-			boolean result;
+			
+			Equipment result;
 			if (jsonObject.containsKey("equip_id")) {
 				equipment.setEquip_id(Integer.valueOf(jsonObject.getString("equip_id")));
 				result = equipmentService.save(equipment);// 添加信息
+				
+				jsonPara = JSONObject.fromObject(request.getParameter("equipmentpara"));
+				JSONArray objName = (JSONArray) jsonPara.get("paraname");
+				JSONArray objValue = (JSONArray) jsonPara.get("paravalue");
+				JSONArray objRe = (JSONArray) jsonPara.get("parare");
+				Object[] paraName = objName.toArray();
+				Object[] paraValue = objValue.toArray();
+				Object[] paraRe = objRe.toArray();
+				for(int i=0;i<paraValue.length;i++){
+					EquipPara ep = new EquipPara();
+					ep.setEquip_para_name(paraName[i].toString());
+					ep.setEquip_para_rate(Float.parseFloat(paraValue[i].toString()));;
+					ep.setEquip_para_memo(paraRe[i].toString());
+					ep.setEquip_para_isdeleted(0);
+					ep.setEquipment(equipment);
+					equipParas.add(ep);
+				}
+				System.out.print(equipParas);
+				equipmentService.saveParas(equipParas);
 			} else {
-				result = equipmentService.save(equipment); 
+				result = equipmentService.save(equipment);
+				
+				jsonPara = JSONObject.fromObject(request.getParameter("equipmentpara"));
+				JSONArray objName = (JSONArray) jsonPara.get("paraname");
+				JSONArray objValue = (JSONArray) jsonPara.get("paravalue");
+				JSONArray objRe = (JSONArray) jsonPara.get("parare");
+				Object[] paraName = objName.toArray();
+				Object[] paraValue = objValue.toArray();
+				Object[] paraRe = objRe.toArray();
+				for(int i=0;i<paraValue.length;i++){
+					EquipPara ep = new EquipPara();
+					ep.setEquip_para_name(paraName[i].toString());
+					ep.setEquip_para_rate(Float.parseFloat(paraValue[i].toString()));;
+					ep.setEquip_para_memo(paraRe[i].toString());
+					ep.setEquip_para_isdeleted(0);
+					ep.setEquipment(equipment);
+					equipParas.add(ep);
+				}
+				System.out.print(equipParas);
+				equipmentService.saveParas(equipParas);
 			}
+			
 			return JSON.toJSONString(result);
 		}	
         
@@ -342,7 +394,7 @@ public class EquipmentController {
 						equip_para.setEquip_para_unit(jsonObject.getString("equip_para_unit"));
 					}
 					if (jsonObject.containsKey("equip_para_rate")) {
-						equip_para.setEquip_para_rate(jsonObject.getString("equip_para_rate"));
+						equip_para.setEquip_para_rate(Float.parseFloat(jsonObject.getString("equip_para_rate")));
 					}
 					if (jsonObject.containsKey("equip_para_max")) {
 						equip_para.setEquip_para_max(Float.parseFloat(jsonObject.getString("equip_para_max")));
@@ -351,7 +403,8 @@ public class EquipmentController {
 						equip_para.setEquip_para_min(Float.parseFloat(jsonObject.getString("equip_para_min")));
 					}
 					if (jsonObject.containsKey("equip_para_memo")) {
-						equip_para.setEquip_para_memo(jsonObject.getString("equip_para_memo"));}
+						equip_para.setEquip_para_memo(jsonObject.getString("equip_para_memo"));
+					}
 
 					equip_para.setEquip_para_isdeleted(0);
 					
@@ -403,6 +456,20 @@ public class EquipmentController {
 					System.out.println("totalPage:" + pager.getTotalPage());
 					return jsonObject.toString();
 				}
+		
+		//根据设备id查找设备特征参数
+		@RequestMapping(value = "/getEquipPara.do")
+		public @ResponseBody String getEquipPara(HttpServletRequest request, HttpSession session){
+			JSONObject jsonObject = new JSONObject();
+			try{
+				String searchKey = request.getParameter("equip_id");
+				List<EquipPara> result = equipmentService.getEquipPara(searchKey);
+				jsonObject.put("result", result);
+			} catch (Exception e){
+				jsonObject.put("error", "暂未找到相关数据");
+			}
+			return jsonObject.toString();
+		}
 
 }
 

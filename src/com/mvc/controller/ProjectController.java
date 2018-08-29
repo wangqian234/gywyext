@@ -38,20 +38,20 @@ public class ProjectController {
 		}
 		if (jsonCom.containsKey("comp_addr")){
 			if (StringUtil.strIsNotEmpty(jsonCom.getString("comp_addr"))){
-				company.setCmop_addr(jsonCom.getString("comp_addr"));
+				company.setComp_addr(jsonCom.getString("comp_addr"));
 			}
 		}
 		if (jsonCom.containsKey("comp_num")){
 			if (StringUtil.strIsNotEmpty(jsonCom.getString("comp_num"))){
-				company.setCmop_num(Integer.parseInt(jsonCom.getString("comp_num")));
+				company.setComp_num(Integer.parseInt(jsonCom.getString("comp_num")));
 			}	
 		}
 		if (jsonCom.containsKey("comp_memo")){
 			if (StringUtil.strIsNotEmpty(jsonCom.getString("comp_memo"))){
-				company.setCmop_memo(jsonCom.getString("comp_memo"));
+				company.setComp_memo(jsonCom.getString("comp_memo"));
 			}
 		}
-		company.setCmop_isdeleted(0);
+		company.setComp_isdeleted(0);
 		
 		JSONObject jsonPro= JSONObject.fromObject(request.getParameter("project"));
 		if (jsonPro.containsKey("proj_name")){
@@ -77,6 +77,49 @@ public class ProjectController {
 		project.setProj_isdeleted(0);
 		
 		boolean result = projectService.addCompany(company,project);
+		
+		
+		jsonObject.put("Result", result);
+		return jsonObject.toString();
+	}
+	
+	//	增加项目信息
+	@RequestMapping("/addProject.do")
+	public @ResponseBody String addProject(HttpServletRequest request) {
+		JSONObject jsonObject = new JSONObject();
+		Project project = new Project();
+		Company company = new Company();
+		
+		JSONObject jsonPro= JSONObject.fromObject(request.getParameter("project"));
+		if (jsonPro.containsKey("proj_name")){
+			if (StringUtil.strIsNotEmpty(jsonPro.getString("proj_name"))){
+				project.setProj_name(jsonPro.getString("proj_name"));
+			}
+		}
+		if (jsonPro.containsKey("proj_addr")){
+			if (StringUtil.strIsNotEmpty(jsonPro.getString("proj_addr"))){
+				project.setProj_addr(jsonPro.getString("proj_addr"));
+			}
+		}
+		if (jsonPro.containsKey("proj_num")){
+			if (StringUtil.strIsNotEmpty(jsonPro.getString("proj_num"))){
+				project.setProj_num(Integer.parseInt(jsonPro.getString("proj_num")));
+			}	
+		}
+		if (jsonPro.containsKey("proj_memo")){
+			if (StringUtil.strIsNotEmpty(jsonPro.getString("proj_memo"))){
+				project.setProj_memo(jsonPro.getString("proj_memo"));
+			}
+		}
+		if (jsonPro.containsKey("company")){
+			if (StringUtil.strIsNotEmpty(jsonPro.getString("company"))){
+				company.setComp_id(Integer.parseInt(jsonPro.getString("company")));
+				project.setCompany(company);
+			}
+		}
+		project.setProj_isdeleted(0);
+		
+		boolean result = projectService.addProject(project);
 		
 		
 		jsonObject.put("Result", result);
