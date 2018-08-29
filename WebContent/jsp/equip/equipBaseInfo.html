@@ -19,8 +19,8 @@
 			</select>
 		
 		</form>	
-	<ul class="toolbar131232" >
-			<li class="click" ><a href="#/equipAdd"><span></span>新建</a></li>
+	<ul class="toolbar" >
+			<li ><a href="#/equipAdd"><span></span>新建</a></li>
 		</ul>
 	</div>
 	</div>
@@ -51,8 +51,9 @@
 						<td><progress value="{{e.equip_state}}" max="10"></progress></td>
 						<td>{{e.user.user_name}}</td>
 						<!-- <td>{{e.equip_ndate}}</td> -->
-						<td><a class="click" href="#/equipDetail">查看设备详情</a><!-- 修改，删除操作放置到编辑操作里面 -->
-					    <a href="#/equipUpdate" ng-click="getEquipmentId(e.equip_id)"class="tablelink"	
+						<td>
+						<a class="tablelink" ng-click="getEquipmentDetail(e)">查看设备详情</a>
+					    <a href="#/equipUpdate" ng-click="getEquipmentId(e.equip_id)" class="tablelink"	
 				        has-permission='tEdit'> 修改</a>
 					    <a href="#equipBaseInfo" ng-click="deleteEquipmentInfo(e.equip_id)" class="tablelink"
 					     has-permission='tDel'> 删除</a></td>

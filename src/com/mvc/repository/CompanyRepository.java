@@ -10,8 +10,7 @@ import com.mvc.entityReport.Company;
 
 public interface CompanyRepository extends JpaRepository<Company, Integer>{
 
-	@Query("select c from Company c where cmop_isdeleted=0")
-	List<Company> getCompanyInfo();
-	
+	@Query("select c from Company c where comp_isdeleted=0")
+	public List<Company> getCompanyInfo();
 
 }

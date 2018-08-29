@@ -18,7 +18,7 @@ public class EquipPara {
 	private Equipment equipment;//设备编号，外键
 	private String equip_para_name;//特征参数名称
 	private String equip_para_unit;//特征参数单位
-	private String equip_para_rate;//特征参数额定值
+	private Float equip_para_rate;//特征参数额定值
 	private Float equip_para_max;//特征参数报警最大值
 	private Float equip_para_min;//特征参数报警最小值
 	private String equip_para_memo;//特征参数备注
@@ -59,11 +59,11 @@ public class EquipPara {
 		this.equip_para_unit = equip_para_unit;
 	}
 	
-	@Column(name = "equip_para_rate", length = 32)
-	public String getEquip_para_rate() {
+	@Column(name = "equip_para_rate", length = 16)
+	public Float getEquip_para_rate() {
 		return equip_para_rate;
 	}
-	public void setEquip_para_rate(String equip_para_rate) {
+	public void setEquip_para_rate(Float equip_para_rate) {
 		this.equip_para_rate = equip_para_rate;
 	}
 	

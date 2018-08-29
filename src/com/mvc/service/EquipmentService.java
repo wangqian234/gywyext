@@ -34,7 +34,7 @@ public interface EquipmentService {
 	List<Equipment> selectEquipByRoom(List<EquipRoom> room, int i, int j);
 	
 	// 添加设备信息
-	boolean save(Equipment equipment);
+	Equipment save(Equipment equipment);
 	
 	// 修改设备基本信息
 	boolean updateEquipmentBase(Integer equip_id, JSONObject jsonObject, User user) throws ParseException;
@@ -59,16 +59,21 @@ public interface EquipmentService {
     //添加设备特征参数信息
 	boolean save(EquipPara equip_para);
 
- /*	// 根据ID获取用户信息
-	User selectUserById(Integer user_id);
+	// 根据ID获取用户信息
+	//User selectUserById(Integer user_id);
 
  	// 根据ID获取设备特征参数信息
-	EquipPara selectEquipParaById(Integer equip_para_id);*/
+	//EquipPara selectEquipParaById(Integer equip_para_id);
 
 	// 查询维保信息总条数
 	Integer countEmTotal(String searchKey);
 	// 根据页数筛选全部设备维保信息列表
 	List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end);
+
+	//根据设备id查找设备特征参数
+	List<EquipPara> getEquipPara(String searchKey);
+
+	void saveParas(List<EquipPara> equipParas);
 
 
 

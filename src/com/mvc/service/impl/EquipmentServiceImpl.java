@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +21,10 @@ import com.mvc.repository.ProjectRepository;
 
 import com.mvc.dao.EquipmentDao;
 import com.mvc.entityReport.User;
-import com.mvc.entityReport.EquipManu;
 import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.EquipType;
 import com.mvc.entityReport.Equipment;
 import com.mvc.service.EquipmentService;
-import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.EquipMain;
 
@@ -82,12 +80,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 	
 	//添加信息
-	public boolean save(Equipment equipment) {
+	public Equipment save(Equipment equipment) {
 		Equipment result = equipmentRepository.saveAndFlush(equipment);
-		if (result.getEquip_id() != null)
-			return true;
-		else
-			return false;
+		return result;
 	}
 	// 修改设备基本信息
 				@Override
@@ -182,7 +177,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				//根据安装位置筛选设备信息
 				@Override
 				public List<Equipment> selectEquipByRoom(List<EquipRoom> room, int offset, int end) {
-					List<Integer> roomId = new ArrayList();;
+					List<Integer> roomId = new ArrayList();
 					for(int k=0;k<room.size();k++){
 						System.out.println(room.get(k).getEquip_room_id());
 						roomId.add(room.get(k).getEquip_room_id());
@@ -263,5 +258,22 @@ public class EquipmentServiceImpl implements EquipmentService {
 				public List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end) {
 					return equipmentDao.selectEquipMainByPage(searchKey, offset, end);
 				}
+
+		//根据设备id查找设备特征参数
+		@Override
+		public List<EquipPara> getEquipPara(String searchKey) {
+			List<EquipPara> list = equipmentDao.getEquipPara(searchKey);
+			for(int i=0;i<list.size();i++){
+				list.get(i).setEquipment(null);
+			}
+			return equipmentDao.getEquipPara(searchKey);
+		}
+
+		@Override
+		public void saveParas(List<EquipPara> equipParas) {
+			for(int i=0;i<equipParas.size();i++){
+				equipParaRepository.saveAndFlush(equipParas.get(i));
+			}
+		}
 
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <jsp:include page="/jsp/equip/top.jsp" />
-<section>
+<section ng-app="equipmentApp">
 <div ng-view></div>
 </section>
 <%-- <jsp:include page="/jsp/equip/left.jsp" /> --%>

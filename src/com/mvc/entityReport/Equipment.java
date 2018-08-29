@@ -21,7 +21,7 @@ public class Equipment {
 	private String equip_no;//设备型号
 	private String equip_num;//设备编号
 	private String equip_name;//设备名称
-	private String equip_pic;//设备图片
+	private Files file_id;//设备图片
 	private String equip_qrcode;//设备二维码
 	private EquipType equip_type;//设备分类编号，外键
 	private String equip_manu;//设备制造商
@@ -72,14 +72,6 @@ public class Equipment {
 	}
 	public void setEquip_name(String equip_name) {
 		this.equip_name = equip_name;
-	}
-	
-	@Column(name = "equip_pic", length = 255)
-	public String getEquip_pic() {
-		return equip_pic;
-	}
-	public void setEquip_pic(String equip_pic) {
-		this.equip_pic = equip_pic;
 	}
 	
 	@Column(name = "equip_qrcode", length = 255)
@@ -219,6 +211,15 @@ public class Equipment {
 	}
 	public void setEquip_atime(Integer equip_atime) {
 		this.equip_atime = equip_atime;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="file_id")
+	public Files getFile_id() {
+		return file_id;
+	}
+	public void setFile_id(Files file_id) {
+		this.file_id = file_id;
 	}
 
 

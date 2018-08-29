@@ -1,7 +1,7 @@
 var app = angular
 		.module(
 				'equipmentApp',
-				[ 'ngRoute' ],
+				[ 'ngRoute','angularFileUpload' ],
 				function($httpProvider) {// ngRoute引入路由依赖
 					$httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
 					$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -93,10 +93,11 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
 	
 	//获取左侧菜单栏
-	services.getInitLeft = function() {
+	services.getInitLeft = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'index/getInitLeft.do',
+			data : data
 		});
 	};
 
@@ -184,6 +185,15 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	
+	//根据设备id查找设备特征参数
+	services.getEquipPara = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/getEquipPara.do',
+			data : data
+		});
+	};
 
 	//添加设备特征参数信息
 	services.selectEquipRoomByProj = function(data) {
@@ -205,7 +215,8 @@ app
 						'$scope',
 						'services',
 						'$location',
-						function($scope, services, $location) {
+						'FileUploader',
+						function($scope, services, $location, FileUploader) {
 							var equipment = $scope;
 							var equip_room = $scope;
 							var equip_type = $scope;
@@ -220,9 +231,9 @@ app
 								});
 							}
 							equipment.count = [1];
-							equipment.test = function(){
-								equipment.count.push("1");
-							}
+//							equipment.test = function(){
+//								equipment.count.push("1");
+//							}
 							// 换页
 							function pageTurn(totalPage, page, Func) {
 								$(".tcdPageCode").empty();
@@ -256,17 +267,37 @@ app
 							equipment.equipmentInfo;
 							// 添加设备信息
 							equipment.addEquipment = function() {
-								if(!compareDateTime(equipment.equipmentInfo.equip_pdate,equipment.equipmentInfo.equip_udate,equipment.equipmentInfo.equip_ndate)){
-									alert("请输入正确的时间")
-									return;
-								};
+//								if(!compareDateTime(equipment.equipmentInfo.equip_pdate,equipment.equipmentInfo.equip_udate,equipment.equipmentInfo.equip_ndate)){
+//									alert("请输入正确的时间")
+//									return;
+//								};
+								equipment.para = {
+										paraname:[],
+										paravalue:[],
+										parare:[]
+									}
+								$("input[name='paraname']").each(function(){
+									equipment.para.paraname.push($(this).val());
+								})
+								$("input[name='paravalue']").each(function(){
+									equipment.para.paravalue.push($(this).val());
+								})
+								$("input[name='parare']").each(function(){
+									equipment.para.parare.push($(this).val());
+								})
+								if(sessionStorage.getItem("PicFile")){
+									console.log(sessionStorage.getItem("PicFile"));
+									equipment.equipmentInfo.file_id = JSON.stringify(sessionStorage.getItem("PicFile")).file_id;
+								}
+								var equipmentpara = JSON.stringify(equipment.para);
 								var equipmentFormData = JSON.stringify(equipment.equipmentInfo);
 								if (confirm("是否添加该设备信息？") == true) {
 								services.addEquipment({
-									equipment : equipmentFormData
+									equipment : equipmentFormData,
+									equipmentpara : equipmentpara
 								}).success(function(equipment) {
-                                        alert("添加成功！")
-										$location.path('equipBaseInfo/');
+                                    alert("添加成功！")
+									$location.path('equipBaseInfo/');
 
          						});
 							}
@@ -369,6 +400,9 @@ app
 									equipment.equiproom_p = data.room;									
 								});
 							}
+							equipment.test = function(){
+								console.log($scope.fileBean);
+							}
 							function selectBaseInfoByProjPag(page){
 								services.selectBaseInfoByProj({
 									page : page,
@@ -380,7 +414,6 @@ app
 								
 							// 读取设备安装位置信息
 							equip_room.selectEquipRoomById = function(proj_id) {
-								
 								 proj_id = sessionStorage.getItem('proj_id');
 								services.selectEquipmentById(
 									proj_id
@@ -388,7 +421,6 @@ app
 									equip_room.equip_room = data.equip_room;
 								});
 							};
-								
 						
                             //时间样式转化
                             function changeDateType(date) {
@@ -399,6 +431,9 @@ app
                              }
 	                           return DateTime;
                              }
+
+							equipment.equip_state = 0;
+							equipment.equip_room = 0;
 													
 							// 初始化
 							function initPage() {
@@ -455,9 +490,8 @@ app
 									services.getEquipTypeInfo().success(function(data1){
 										equip_type.equip_type = data1.result;
 									})
-
 								}else if ($location.path().indexOf('/leftInit') == 0) {
-									services.getInitLeft().success(function(data) {
+									services.getInitLeft({}).success(function(data) {
 										var arr = data.leftResult;
 										
 										var map = {}, dest = [];
@@ -499,14 +533,127 @@ app
 
 										});
 
-									})
+									});
+									
 								} else if($location.path().indexOf('/equipDetail') == 0){
 									equipment.equipmentDetail = JSON.parse(sessionStorage.getItem('equipmentDetail'));
 									equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
+									services.getEquipPara({
+										equip_id : equipment.equipmentDetail.equip_id
+									}).success(function(data){
+										if(data.error){
+											alert(data.error);
+											history.go(-1);
+											return;
+										}
+										equipment.equipmentPara = data.result;
+										console.log(equipment.equipmentPara);
+									})
 								}
 							}
+							
 							initPage();
 						} ]);
+
+app
+.controller(
+		"UploadController",
+		[
+				'$scope',
+				'FileUploader',
+				function($scope, FileUploader) {
+					/* ！！！上传文件 */
+					var uploader = $scope.uploader = new FileUploader({
+						url : '/gywyext/file/upload.do',
+					});
+					var fileSizeNum=0;
+					$scope.fileBean;
+
+					// FILTERS
+
+					uploader.filters.push({
+						name : 'customFilter',
+						fn : function(
+								item /* {File|FileLikeObject} */,
+								options) {
+							return this.queue.length < 10;
+						}
+					});
+					
+					$scope.picture;
+
+					$scope.uploadAll=function(){
+							if(fileSizeNum>=31457280){
+								alert("一次性文件上传量不能超过30M");
+								return false;
+							}else{
+								uploader.uploadAll();
+							}
+					}
+					// CALLBACKS
+
+					uploader.onWhenAddingFileFailed = function(
+							item /* {File|FileLikeObject} */, filter,
+							options) {
+						console.info('onWhenAddingFileFailed', item,
+								filter, options);
+					};
+					uploader.onAfterAddingFile = function(fileItem) {
+						fileSizeNum+=fileItem.file.size;
+						console.info('onAfterAddingFile', fileItem);
+					};
+					uploader.onAfterAddingAll = function(addedFileItems) {
+					
+						console
+								.info('onAfterAddingAll',
+										addedFileItems);
+					};
+					uploader.onBeforeUploadItem = function(item) {
+						var a=1;
+						
+						if(a==0){
+							return true;
+						}else{
+							return false;
+						}
+						console.info('onBeforeUploadItem', item);
+					};
+					uploader.onProgressItem = function(fileItem,
+							progress) {
+						console.info('onProgressItem', fileItem,
+								progress);
+					};
+					uploader.onProgressAll = function(progress) {
+						console.info('onProgressAll', progress);
+					};
+					uploader.onSuccessItem = function(fileItem,
+							response, status, headers) {
+						console.info('onSuccessItem', fileItem,
+								response, status, headers);
+					};
+					uploader.onErrorItem = function(fileItem, response,
+							status, headers) {
+						console.info('onErrorItem', fileItem, response,
+								status, headers);
+					};
+					uploader.onCancelItem = function(fileItem,
+							response, status, headers) {
+						console.info('onCancelItem', fileItem,
+								response, status, headers);
+					};
+					uploader.onCompleteItem = function(fileItem,
+							response, status, headers) {
+						console.info('onCompleteItem', fileItem,
+								response, status, headers);
+						$scope.fileBean = response
+						sessionStorage.setItem("picFile",response);
+					};
+					uploader.onCompleteAll = function() {
+						alert("文件上传成功！");
+					};
+					console.info('uploader', uploader);
+					/* ！！！上传文件完 */
+				} ]);
 
 //时间戳转换
 app.filter('timer', function() {

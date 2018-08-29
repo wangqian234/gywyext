@@ -36,4 +36,14 @@ public class ProjectServiceImpl implements ProjectService {
 		return companyRepository.getCompanyInfo();
 	}
 
+	@Override
+	public boolean addProject(Project project) {
+		try{
+			projectRepository.saveAndFlush(project);
+			return true;
+		} catch (Exception e){
+			return false;
+		}
+	}
+
 }

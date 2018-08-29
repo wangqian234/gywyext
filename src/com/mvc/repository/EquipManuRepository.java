@@ -16,5 +16,5 @@ public interface EquipManuRepository extends JpaRepository<EquipManu, Integer> {
 
 	//获取生产公司信息
 	@Query("select em from EquipManu em where equip_manu_isdeleted=0")
-	List< EquipManu> getEquipManuInfo();
+	public List< EquipManu> getEquipManuInfo();
 }

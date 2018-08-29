@@ -1,77 +1,81 @@
-<div id="page-wrapper"  style="margin-left: 260px;padding-top:100px">
+<div id="page-wrapper"  style="margin-left: 0px;padding-top:100px">
 <!-- 这是内容的开始 -->   
   <div class="row">
-			  <div class="col-md-12">
-			<div class="panel panel-default">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">      
 				<div class="panel-heading">
-				<h3>设备详细基本信息</h3>
-				</div>        
-							  
-							<div class="panel-body">
-<table class="tbl tablelist">
-          <tr>
-            <td colspan='2'>设备名称:{{equipmentDetail.equip_name}}</td>
-			<td colspan='2'>设备型号:{{equipmentDetail.equip_no}}</td>	
-            <td colspan='2' >设备编号:{{equipmentDetail.equip_num}}</td>
-         </tr>
-          <tr>
-            <td colspan='2' >安装位置:{{equipmentDetail.equip_room.equip_room_name}}</td>
-			<td colspan='2' >出厂日期:{{equipmentDetail.equip_pdate.time | timer}}</td>	
-            <td colspan='2' >使用日期:{{equipmentDetail.equip_udate.time | timer}}</td>
-          </tr>
-          <tr>
-            <td colspan='2' >出厂序号:{{equipmentDetail.equip_snum}}</td>
-			<td colspan='2' >设备价格:{{equipmentDetail.equip_bfee}}元</td>
-            <td colspan='2' >折旧年限:{{equipmentDetail.equip_life}}年</td>	
-          </tr>
-          <tr>
-            <td colspan='2' >所属系统:{{equipmentDetail.equip_type.equip_type_name}}</td>
-			<td colspan='2' >制造厂家:{{equipmentDetail.equip_manu}}</td>	
-            <td colspan='2' >联系方法:{{equipmentDetail.equip_tel}}</td>	
-          </tr>
-          <tr>
-            <td colspan='2' >设备负责人:{{equipmentDetail.user.user_name}}</td>
-			<td colspan='2' >设备维护周期:{{equipmentDetail.equip_mdate}}天</td>	
-            <td colspan='2' >下次维保时间:{{equipmentDetail.equip_ndate.time | timer}}</td>	
-          </tr>  
-          <tr>
-			<td colspan='2' >设备主要参数:{{}}</td> 
-            <td colspan='2' >设备图片:{{equipmentDetail.equip_pic}}</td> 
-          </tr>  
-          <tr>
-		 	<td colspan='2' >备注:{{equipmentDetail.equip_memo}}</td>    
-          </tr> 
-     
-        </table>
+					<a href="#" onclick="javascript:history.go(-1);">设备主页</a><span>>设备详细基本信息</span>
+				</div>  
+				<div class="panel-body">
+							
+					<table class="tablelist">
+						<tr>
+							<td style="width:400px;" rowspan="7" class="width15 text-center">
+								<div>
+									<img src="../../images/fileUpLoad.png">
+								</div>
+							</td>
+							<td class="width15 text-center">设备名称*</td>
+							<td >{{equipmentDetail.equip_name}}</td>
+							<td class="width15 text-center">设备型号*</td>
+							<td >{{equipmentDetail.equip_no}}</td>
+							<td class="width15 text-center">设备编号*</td>
+							<td >{{equipmentDetail.equip_num}}</td>	
+						</tr>
+						<tr>
+				         	<td class="width15 text-center">安装位置*</td>
+							<td >{{equipmentDetail.equip_room.equip_room_name}}</td>
+							<td class="width15 text-center">出厂日期*</td>
+							<td >{{equipmentDetail.equip_pdate.time | timer}}</td>	
+          						<td class="width15 text-center">使用日期*</td>
+							<td >{{equipmentDetail.equip_udate.time | timer}}</td>	
+						</tr>
+						<tr>
+							<td class="width15 text-center">出厂序号</td>
+							<td >{{equipmentDetail.equip_snum}}</td>
+							<td class="width15 text-center">设备价格</td>
+							<td >{{equipmentDetail.equip_bfee}}元</td>	
+				            <td class="width15 text-center">折旧年限</td>
+							<td >{{equipmentDetail.equip_life}}年</td>	
+						</tr>
+						<tr>
+						    <td class="width15 text-center">所属系统*</td>
+							<td >{{equipmentDetail.equip_type.equip_type_name}}</td>
+							<td class="width15 text-center">制造厂家</td>
+							<td >{{equipmentDetail.equip_manu}}</td>	
+          					<td class="width15 text-center">联系方法</td>
+							<td >{{equipmentDetail.equip_tel}}</td>	
+        				</tr>
+        				<tr>
+				            <td class="width15 text-center">设备负责人编号*</td>
+							<td >{{equipmentDetail.user.user_name}}</td>
+							<td class="width15 text-center">设备维护周期</td>
+							<td >{{equipmentDetail.equip_mdate}}天</td>	
+				            <td class="width15 text-center">下次维保时间*</td>
+							<td >{{equipmentDetail.equip_ndate.time | timer}}</td>	
+				         </tr>
+				         <tr>
+						 	<td class="width15 text-center">设备参数</td>
+							<td colspan='6' id="addEparaDiv">
+								<div ng-repeat="ep in equipmentPara">
+								<span>{{ep.equip_para_name}}</span>
+								<span>{{ep.equip_para_unit}}</span>
+								<span>{{ep.equip_para_memo}}</span>
+								<span>{{ep.equip_para_max}}</span>
+								</div>
+							</td>
+				         </tr>
+				         <tr style="height:100px;">
+						 	<td class="width15 text-center">备注</td>
+							<td colspan='15'>{{equipmentDetail.equip_memo}}</td>
+				         </tr>
+					</table>
 				</div>
-				</div>
-			    </div>						
-				</div>                                         
-
-
-
-
-
+			</div>
+		</div>						
+	</div>
 <!-- 这是内容的结束 -->
 </div>
-
-         <nav class="navbar-default navbar-side" role="navigation">
-		<div id="sideNav"><i class="fa fa-caret-right"></i></div>
-            <div class="sidebar-collapse">
-                
-               <ul class="nav" id="main-menu">
-                     <li ng-repeat="ld in leftData">
-                        <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level" ng-repeat="ldd in ld.data">
-                            <li>
-                                <a class="leftSecond" href="" ng-click="selectBaseInfoByProj(ldd.proj_id)">{{ldd.proj_name}}</a>
-                            </li>
-                        </ul>
-                    </li>
-                 </ul>
-                 
-            </div>
-        </nav>
         
         <script>
         $("#main-menu").on("click",function(e){
