@@ -14,6 +14,7 @@ import com.mvc.dao.EquipmentDao;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.EquipMain;
+import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 
 @Repository("equipmentDaoImpl")
@@ -31,7 +32,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			String selectSql = " update equipment set equip_isdeleted =:equip_isdeleted where equip_id =:equip_id ";
 			Query query = em.createNativeQuery(selectSql);
 			query.setParameter("equip_id", equip_id);
-			query.setParameter("equip_isdeleted", 1);
+			query.setParameter("equip_isdeleted", IsDelete.YES.value);
 			query.executeUpdate();
 			em.flush();
 			em.getTransaction().commit();
@@ -107,13 +108,13 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			if (null != searchKey) {
 				selectSql += " and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
 			}
-			selectSql += " order by equip_id desc limit :offset, :end";
+			selectSql += " order by equip_id asc limit :offset, :end";
 			Query query = em.createNativeQuery(selectSql, Equipment.class);
 			query.setParameter("offset", offset);
 			query.setParameter("end", end);
 			List<Equipment> list = query.getResultList();
 			em.close();
-			System.out.println(list);
+			/*System.out.println(list);*/
 			return list;
 		}
 	        
@@ -178,22 +179,41 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				query.setParameter("end", end);
 				List<EquipMain> list = query.getResultList();
 				em.close();
-				System.out.println(list);
+				/*System.out.println(list);*/
 				return list;
 			}
 
 			@SuppressWarnings("unchecked")
 			@Override
 			public List<EquipPara> getEquipPara(String searchKey) {
-				List<EquipPara> list;
+				List<EquipPara> list = null;
 				EntityManager em = emf.createEntityManager();
 				try {
-					String selectSql = " select * from equip_para where equip_para_isdeleted = 0 and equip_id = '" + searchKey + "'";
+					/*String selectSql = " select * from equip_para where equip_para_isdeleted = 0 and equip_id = '" + searchKey + "'";*/
+					String selectSql = " select * from equip_para where equip_para_isdeleted = 0 ";
 					Query query = em.createNativeQuery(selectSql, EquipPara.class);
 					list = query.getResultList();
 				} finally {
 					em.close();
 				}
+				/*System.out.println(list);*/
+				return list;
+			}
+			
+			@SuppressWarnings("unchecked")
+			@Override
+			public List<EquipOper> getEquipRealData(String searchKey) {
+				System.out.println("数据流建立成功");
+				List<EquipOper> list = null;
+				EntityManager em = emf.createEntityManager();
+				try {
+					String selectSql = " select * from equip_oper where equip_para_id = '" + searchKey + "'";
+					Query query = em.createNativeQuery(selectSql, EquipOper.class);
+					list = query.getResultList();
+				} finally {
+					em.close();
+				}
+				/*System.out.println(list);*/
 				return list;
 			}
 

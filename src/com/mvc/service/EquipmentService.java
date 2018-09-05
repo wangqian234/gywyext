@@ -9,6 +9,7 @@ import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipType;
 import com.mvc.entityReport.EquipManu;
+import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.EquipMain;
 
@@ -74,6 +75,9 @@ public interface EquipmentService {
 	List<EquipPara> getEquipPara(String searchKey);
 
 	void saveParas(List<EquipPara> equipParas);
+	
+    //根据设备参数id查询设备参数实时数据
+	List<EquipOper> getEquipRealData(String searchKey);
 
 
 
