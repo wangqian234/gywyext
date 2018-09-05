@@ -25,7 +25,7 @@ import com.mvc.entityReport.User;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.EquipMain;
-
+import com.mvc.entityReport.EquipOper;
 import com.utils.Pager;
 import com.mvc.service.EquipmentService;
 
@@ -83,7 +83,8 @@ public class EquipmentController {
 			List<Equipment> list = equipmentService.selectEquipmentByPage(searchKey, pager.getOffset(), pager.getLimit());
 			jsonObject.put("list", list);
 			jsonObject.put("totalPage", pager.getTotalPage());
-			System.out.println(jsonObject.toString());
+			/*System.out.println(jsonObject.toString());*/
+			
 			return jsonObject.toString();
 		}		
 			
@@ -453,7 +454,7 @@ public class EquipmentController {
 					List<EquipMain> list = equipmentService.selectEquipMainByPage(searchKey, pager.getOffset(), pager.getLimit());
 					jsonObject.put("list", list);
 					jsonObject.put("totalPage", pager.getTotalPage());
-					System.out.println("totalPage:" + pager.getTotalPage());
+					/*System.out.println("totalPage:" + pager.getTotalPage());*/
 					return jsonObject.toString();
 				}
 		
@@ -462,9 +463,23 @@ public class EquipmentController {
 		public @ResponseBody String getEquipPara(HttpServletRequest request, HttpSession session){
 			JSONObject jsonObject = new JSONObject();
 			try{
-				String searchKey = request.getParameter("equip_id");
+				String searchKey = request.getParameter("searchKey");
 				List<EquipPara> result = equipmentService.getEquipPara(searchKey);
 				jsonObject.put("result", result);
+			} catch (Exception e){
+				jsonObject.put("error", "暂未找到相关数据");
+			}
+			return jsonObject.toString();
+		}
+		
+		//根据设备参数id查找设备特征参数实时数据
+		@RequestMapping(value = "/getEquipRealData.do")
+		public @ResponseBody String getEquipRealData(HttpServletRequest request, HttpSession session){
+			JSONObject jsonObject = new JSONObject();
+			try{
+				String searchKey = request.getParameter("searchKey");
+				List<EquipOper> data = equipmentService.getEquipRealData(searchKey);
+				jsonObject.put("data", data);
 			} catch (Exception e){
 				jsonObject.put("error", "暂未找到相关数据");
 			}

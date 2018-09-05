@@ -27,6 +27,7 @@ import com.mvc.entityReport.Equipment;
 import com.mvc.service.EquipmentService;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.EquipMain;
+import com.mvc.entityReport.EquipOper;
 
 import net.sf.json.JSONObject;
 
@@ -274,6 +275,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 			for(int i=0;i<equipParas.size();i++){
 				equipParaRepository.saveAndFlush(equipParas.get(i));
 			}
+		}
+		@Override
+		public List<EquipOper> getEquipRealData(String searchKey) {
+			List<EquipOper> data = equipmentDao.getEquipRealData(searchKey);
+			for(int i=0;i<data.size();i++){
+				data.get(i).setEquip_para_id(null);
+			}
+			return equipmentDao.getEquipRealData(searchKey);
 		}
 
 }

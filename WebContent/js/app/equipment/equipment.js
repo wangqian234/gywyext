@@ -85,6 +85,8 @@ app.config([ '$routeProvider', function($routeProvider) {
 		templateUrl : '/gywyext/jsp/equip/equipBaseInfo.html',
 		controller : 'equipmentController'
 	})
+	
+	
 } ]);
 
 app.constant('baseUrl', '/gywyext/');
@@ -93,11 +95,10 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
 	
 	//获取左侧菜单栏
-	services.getInitLeft = function(data) {
+	services.getInitLeft = function() {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'index/getInitLeft.do',
-			data : data
 		});
 	};
 
@@ -491,7 +492,7 @@ app
 										equip_type.equip_type = data1.result;
 									})
 								}else if ($location.path().indexOf('/leftInit') == 0) {
-									services.getInitLeft({}).success(function(data) {
+									services.getInitLeft().success(function(data) {
 										var arr = data.leftResult;
 										
 										var map = {}, dest = [];
@@ -519,22 +520,20 @@ app
 										
 										var leftData = JSON.stringify(dest)
 										sessionStorage.setItem('leftData', leftData);
-										
-										searchKey = null;
-										services.getEquipmentListByPage({
-											page : 1,
-											searchKey : ""
-										}).success(function(data) {
-											equipment.equipments = data.list;
-											pageTurn(
-													data.totalPage,
-													1,
-													getEquipmentListByPage);
-
-										});
 
 									});
-									
+									searchKey = null;
+									services.getEquipmentListByPage({
+										page : 1,
+										searchKey : ""
+									}).success(function(data) {
+										equipment.equipments = data.list;
+										pageTurn(
+												data.totalPage,
+												1,
+												getEquipmentListByPage);
+
+									});
 								} else if($location.path().indexOf('/equipDetail') == 0){
 									equipment.equipmentDetail = JSON.parse(sessionStorage.getItem('equipmentDetail'));
 									equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));

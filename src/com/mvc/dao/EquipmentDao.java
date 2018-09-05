@@ -5,6 +5,7 @@ import java.util.List;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.EquipMain;
+import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 
 public interface EquipmentDao {
@@ -34,4 +35,7 @@ public interface EquipmentDao {
 	
 	//根据设备id查找设备特征参数
 	List<EquipPara> getEquipPara(String searchKey);
+	
+	//根据设备参数id查询设备参数实时数据
+	List<EquipOper> getEquipRealData(String searchKey);
 }
