@@ -178,7 +178,7 @@ app
 									equipment.equiparadata = data.data;
 									console.log("1");
 								});
-							};
+							}
 							//分离数据
 							function divide(d,l){
 								var xdata = [];
