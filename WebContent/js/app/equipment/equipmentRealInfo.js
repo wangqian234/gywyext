@@ -182,35 +182,33 @@ app
 									}
 								});
 							}
+              equipment.Id = 0;
 							function callbackFn(){
-								console.log('callbackFn进来了')
-								
-								data = equipment.equiparadata;
-								console.log(data);
-								start = equipment.equiparadata[9].equip_oper_id;
 								var xdata = [];
 								var ydata = [];
-								for(var i = 0;i<10;i++){
-									if((i+1) == 10)
-									start = data[i].equip_oper_id;
+								data = equipment.equiparadata;
+								/*start = equipment.equiparadata[9].equip_oper_id;*/
+								for(var i = 0;i<data.length;i++){
 									var x = data[i].equip_oper_time;
 									var y = data[i].equip_oper_info;
-
-										xdata.push(x);
-										ydata.push(y);
-									
+									xdata.push(x);
+									ydata.push(y);
 								};
+								try1(xdata,ydata,equipment.equipara[equipment.Id]);
 							}
-							equipment.start = 0
-							equipment.xdata = [];
-							equipment.ydata = [];
+							
 							//根据参数id，查询实时数据
 							equipment.getEquipRealData = function(equipParaId){
 								start = 0;
 								var data = [];
-								$interval(function(){getRealData(equipParaId,start,callbackFn)},1000);
+								equipment.equipParaId = equipParaId;
+								console.log(equipment.equipara[equipParaId]);
+								getRealData(equipParaId,start,callbackFn);
+								/*setInterval(function(){
+									getRealData(equipParaId,start,callbackFn);
+									console.log(equipment.xdata);
+									},1000);*/
 							};
-							
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！");

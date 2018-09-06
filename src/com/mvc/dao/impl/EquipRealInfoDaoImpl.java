@@ -79,8 +79,9 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			List<EquipOper> list = null;
 			EntityManager em = emf.createEntityManager();
 			try {
-				String selectSql = " select * from equip_oper where  equip_oper_id > '" + start + "' and  "
-						+ " equip_para_id = '" + searchKey + "' limit 10";
+				/*String selectSql = " select * from equip_oper where  equip_oper_id > '" + start + "' and  "
+						+ " equip_para_id = '" + searchKey + "' limit 10";*/
+				String selectSql = " select * from equip_oper where equip_para_id = '" + searchKey + "'";
 				Query query = em.createNativeQuery(selectSql, EquipOper.class);
 				/*query.setParameter("start", start);*/
 				System.out.println(start);
