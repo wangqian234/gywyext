@@ -121,8 +121,8 @@ app
 						'$scope',
 						'services',
 						'$location',
-						/*'FileUploader',*/
-						function($scope, services, $location/*, FileUploader*/) {
+						'$interval',
+						function($scope, services, $location,$interval) {
 							var equipment = $scope;
 							var equip_room = $scope;
 							var equip_type = $scope;
@@ -177,12 +177,12 @@ app
 									start : start,
 								}).success(function(data) {
 									equipment.equiparadata = data.data;
-									console.log(equipment.equiparadata);
 									if(typeof callbackFn == 'function'){
 										callbackFn();
 									}
 								});
 							}
+              equipment.Id = 0;
 							function callbackFn(){
 								var xdata = [];
 								var ydata = [];
@@ -196,18 +196,11 @@ app
 								};
 								try1(xdata,ydata,equipment.equipara[equipment.Id]);
 							}
-							equipment.Id = 0
 							
 							//根据参数id，查询实时数据
 							equipment.getEquipRealData = function(equipParaId){
 								start = 0;
 								var data = [];
-								//查询参数对应的设备信息
-								for(var i=0;i<equipment.equipara.length;i++){
-									if(equipment.equipara[i].equip_para_id == equipParaId){
-										equipment.Id = i;
-									}
-								}
 								equipment.equipParaId = equipParaId;
 								console.log(equipment.equipara[equipParaId]);
 								getRealData(equipParaId,start,callbackFn);
