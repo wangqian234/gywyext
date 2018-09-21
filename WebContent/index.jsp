@@ -62,9 +62,9 @@
 		</style>
   </head>  
   <body>       
-        <a href="${pageContext.request.contextPath}/routeController/toSystemIndex.do">ajaxPage</a><br>
+     <%--    <a href="${pageContext.request.contextPath}/routeController/toSystemIndex.do">ajaxPage</a><br> --%>
         <div class="container">
-			<a class="col-4" href="routeController/toSystemIndex.do">
+			<a class="col-4" href="jsp/system/index.jsp">
 				<div class="col-img">
 					<img src="images/school-badge.png">
 				</div>
