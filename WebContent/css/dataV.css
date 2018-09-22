@@ -1,0 +1,40 @@
+   /* 马迪 
+   2018/9/15
+   */
+div.container
+{
+	width:1600px;
+	height:900px;
+	background-image:url(../images/dataV.gif);
+	background-size:contain;
+}
+div.c1
+{
+	width:498px;
+	height:898px;
+	border: 1px solid gray;
+	float:left; 
+}
+div.c2
+{
+	width:1098px;
+	height:898px;
+	border: 1px solid gray;
+	float:left;
+}
+div.d2
+{
+	width: 496px;
+	height:396px;
+	border: 1px solid gray;
+	float:top;
+}
+iframe.f1
+{
+	allowtransparency:true;
+	width:494px;
+	height:394px;
+	frameborder:0;
+	scrolling:no;
+}
+

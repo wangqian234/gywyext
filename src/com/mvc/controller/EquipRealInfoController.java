@@ -61,15 +61,32 @@ public class EquipRealInfoController {
 				}
 				return jsonObject.toString();
 			}
+	//根据设备参数名字查找设备特征参数信息
+			@RequestMapping(value = "/getEquipParaByName.do")
+			public @ResponseBody String getEquipParaByName(HttpServletRequest request, HttpSession session){
+				JSONObject jsonObject = new JSONObject();
+				try{
+					String searchKey = request.getParameter("searchKey");
+					List<EquipPara> result = equipRealInfoService.getEquipParaByName(searchKey);
+					jsonObject.put("result", result);
+				} catch (Exception e){
+					jsonObject.put("error", "暂未找到相关数据");
+				}
+				System.out.println(jsonObject.toString());
+				return jsonObject.toString();
+			}
 			
 			//根据设备参数id查找设备特征参数实时数据
 	@RequestMapping(value = "/getEquipRealData.do")
 			public @ResponseBody String getEquipRealData(HttpServletRequest request, HttpSession session){
 				JSONObject jsonObject = new JSONObject();
+				System.out.println("123");
 				try{
 					String searchKey = request.getParameter("searchKey");
-					String start = request.getParameter("start");
-					List<EquipOper> data = equipRealInfoService.getEquipRealData(searchKey,start);
+					String startDate = request.getParameter("startDate");
+					System.out.println(searchKey);
+					System.out.println(startDate);
+					List<EquipOper> data = equipRealInfoService.getEquipRealData(searchKey,startDate);
 					jsonObject.put("data", data);
 				} catch (Exception e){
 					jsonObject.put("error", "暂未找到相关数据");
