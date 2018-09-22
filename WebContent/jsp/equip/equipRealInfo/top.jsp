@@ -11,7 +11,6 @@
     <!-- Custom Styles-->
     <link href="${pageContext.request.contextPath}/css/custom-styles.css" rel="stylesheet" />
     <link href="${pageContext.request.contextPath}/css/mystyle.css" rel="stylesheet" />
-<script src="${pageContext.request.contextPath}/js/lib/echarts.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/jquery.json-2.2.min.js"></script>
 </head>
@@ -23,7 +22,11 @@
             </div>
 			<div>
 				<a class="topspan" href="javascript:;"><span>设备基本信息</span></a>
+<<<<<<< HEAD
 				<a class="topspan" href="../equip/equipRealInfo/index.jsp#/equipRealInfo"><span>设备实时状态</span></a>
+=======
+				<a class="topspan" href="../equip/equipRealInfo/index.jsp"><span>设备实时状态</span></a>
+>>>>>>> 44e836a79ab69dc593b9e2c0d1ef09a06db735b6
 				<a class="topspan" href="javascript:;"><span>设备报警信息</span></a>
 			</div>
         </nav>

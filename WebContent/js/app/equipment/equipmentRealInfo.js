@@ -66,6 +66,7 @@ app.run([ '$rootScope', '$location', function($rootScope, $location) {
 
 // 路由配置
 app.config([ '$routeProvider', function($routeProvider) {
+<<<<<<< HEAD
 	$routeProvider.when('/equipRealInfo', {
 		templateUrl : '/gywyext/jsp/equip/equipRealInfo/equipRealInfo.html',//md
 		controller : 'equipRealInfoController'
@@ -75,6 +76,11 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/dataV', {
 		templateUrl : '/gywyext/jsp/equip/equipRealInfo/dataV.html',
 		controller : 'equipRealInfoController'
+=======
+	$routeProvider.when('/equipBaseInfo', {
+		templateUrl : '/gywyext/jsp/equip/equipBaseInfo.html',
+		controller : 'equipmentController'
+>>>>>>> 44e836a79ab69dc593b9e2c0d1ef09a06db735b6
 	})
 } ]);
 
@@ -82,6 +88,7 @@ app.constant('baseUrl', '/gywyext/');
 app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 	
 	var services = {};
+<<<<<<< HEAD
 	//获取左侧菜单栏
 	services.getInitLeft = function() {
 		return $http({
@@ -121,6 +128,8 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	}
+=======
+>>>>>>> 44e836a79ab69dc593b9e2c0d1ef09a06db735b6
 	
 	return services;
 } ]);
@@ -131,12 +140,13 @@ app
 						'$scope',
 						'services',
 						'$location',
-						'$interval',
-						function($scope, services, $location,$interval) {
+						'FileUploader',
+						function($scope, services, $location, FileUploader) {
 							var equipment = $scope;
 							var equip_room = $scope;
 							var equip_type = $scope;
 							var equip_para = $scope;
+<<<<<<< HEAD
 							
 							//md
 							// 根据页数获取设备列表
@@ -223,3 +233,11 @@ app
 								}
 							initPage();
 						} ]);
+=======
+
+							// 初始化
+							function initPage() {
+								console.log("初始化成功equipmentController！")
+							}
+						} ]);
+>>>>>>> 44e836a79ab69dc593b9e2c0d1ef09a06db735b6

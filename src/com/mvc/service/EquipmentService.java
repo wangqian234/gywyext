@@ -9,7 +9,6 @@ import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipType;
 import com.mvc.entityReport.EquipManu;
-import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.EquipMain;
 
@@ -19,10 +18,9 @@ public interface EquipmentService {
 
 	// 根据id删除
 	boolean deleteIsdelete(Integer equip_id);
-	
-	/*//根据限制条件筛选信息
-	Integer countTotal(String eqType, String eqState);
-	List<Equipment> findEquipmentByPage(String eqType, String eqState, Integer offset, Integer limit);*/
+
+	// 根据room，state筛选信息
+	List<Equipment> selectEquipmentByRS(String eqRoom, String eqState, Integer offset, Integer end);
 	
 	// 查询设备总条数
 	Integer countEqTotal(String searchKey);
@@ -54,11 +52,13 @@ public interface EquipmentService {
 	//获取设备分类信息
 	List<EquipType> getEquipTypeInfo();
 
+	//获取设备分类信息
+	List<User> getUserInfo();
 /*	//获取设备制造商信息
 	List<EquipManu> getEquipManuInfo();
 */
-    //添加设备特征参数信息
-	boolean save(EquipPara equip_para);
+/*    //添加设备特征参数信息
+	boolean save(EquipPara equip_para);*/
 
 	// 根据ID获取用户信息
 	//User selectUserById(Integer user_id);
@@ -66,18 +66,14 @@ public interface EquipmentService {
  	// 根据ID获取设备特征参数信息
 	//EquipPara selectEquipParaById(Integer equip_para_id);
 
-	// 查询维保信息总条数
+	/*// 查询维保信息总条数
 	Integer countEmTotal(String searchKey);
 	// 根据页数筛选全部设备维保信息列表
-	List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end);
+	List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end);*/
 
 	//根据设备id查找设备特征参数
 	List<EquipPara> getEquipPara(String searchKey);
-
 	void saveParas(List<EquipPara> equipParas);
-	
-    //根据设备参数id查询设备参数实时数据
-	List<EquipOper> getEquipRealData(String searchKey);
 
 
 

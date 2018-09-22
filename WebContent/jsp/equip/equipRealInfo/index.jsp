@@ -4,15 +4,11 @@
 <div ng-view></div>
 </section>
 <jsp:include page="/jsp/footer.jsp" />
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 44e836a79ab69dc593b9e2c0d1ef09a06db735b6
 <script src="${pageContext.request.contextPath}/js/app/equipment/equipmentRealInfo.js"></script>
-<script src="${pageContext.request.contextPath}/js/lib/My97DatePicker/WdatePicker.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/echarts.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/app/chart.js"></script>
-
-<!--md-->
-
-<%-- <script src="${pageContext.request.contextPath}/js/app/equipment/equipmentRealInfo.js"></script> --%>
 </body>
 </html>

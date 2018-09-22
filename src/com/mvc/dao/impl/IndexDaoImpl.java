@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import com.mvc.dao.IndexDao;
 import com.mvc.entityReport.Company;
+import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.Project;
+import com.utils.StringUtil;
 
 @Repository("indexDaoImpl")
 public class IndexDaoImpl implements IndexDao {
@@ -21,8 +23,6 @@ public class IndexDaoImpl implements IndexDao {
 	@Qualifier("entityManagerFactory")
 	EntityManagerFactory emf;
 
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<Company> getInitLeft1() {
 		EntityManager em = emf.createEntityManager();
 		String selectSql = "select * from company where comp_isdeleted = 0";
@@ -33,8 +33,6 @@ public class IndexDaoImpl implements IndexDao {
 		return list;
 	}
 	
-	@SuppressWarnings("unchecked")
-	@Override
 	public List<Project> getInitLeft2() {
 		EntityManager em = emf.createEntityManager();
 		String selectSql = "select * from project where proj_isdeleted = 0";

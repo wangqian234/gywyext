@@ -456,7 +456,7 @@ nav ul ul {
 	left:0;
 }
 .eparainput {
-	width: 20%;
+	width: 16%;
 	height: 32px;
 	margin-right: 12px;
 	line-height: 32px;
@@ -528,3 +528,30 @@ nav ul ul {
 .topspan:visited {font-size:20px;}	/* 已访问的链接 */
 .topspan:hover {font-size:20px;color:white}	/* 鼠标移动到链接上 */
 .topspan:active {font-size:20px;}	/* 选定的链接 */
+
+
+/* progress
+{
+   color:#ff0000; 兼容IE10的已完成进度背景
+   border:none;
+   background:#d7d7d7;这个属性也可当作Chrome的已完成进度背景，只不过被下面的::progress-bar覆盖了      
+   
+}
+
+progress::-webkit-progress-bar      背景进度条
+
+{
+   background:#d7d7d7;
+}
+
+ progress::-webkit-progress-value,  实际进度条
+progress::-moz-progress-bar
+{
+     background:#ff0000;
+}  */
+
+
+
+
+
+

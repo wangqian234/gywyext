@@ -1,68 +1,67 @@
-
-<div class="formbody">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-default">
-				<br>
-				<br>
-				<br>
-				<div class="panel-heading">
-					<a href="#" onclick="javascript:history.go(-1);">设备主页</a><span>>添加设备信息</span>
-				</div>
-				<ul class="toolbar1">
-					<li><a href="#/equipRoomAdd"><span></span>新建安装位置信息</a></li>
-				</ul>
+<div id="page-wrapper"  style="margin-left: 0px;padding-top:100px">   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">    
+				<div class="panel-heading" href="#" onclick="javascript:history.go(-1);">
+				 <a href="#" onclick="javascript:history.go(-1);">设备主页</a><span>>添加设备信息</span>
+				</div>  			
+				<!-- <ul class="toolbar1">
+					<a href="#/equipRoomAdd"><span></span>新建安装位置信息</a>
+				</ul> -->
 				<div class="panel-body">
 					<div class="row">
 						<!-- <form style="padding:0 30px;" role="form" enctype="multipart/form-data" ng-submit="addEquipment()"> -->
-						<form style="padding:0 30px;" role="form">
+						<form style="padding:0 30px;" role="form" ng-submit="addEquipment()">
 							<table class="tablelist">
 								<tr>
-									<td style="width:400px;" rowspan="7" ng-controller="UploadController" nv-file-drop="" 
+									 <td style="width:400px;" rowspan="7" ng-controller="UploadController" nv-file-drop="" 
 										uploader="uploader" filters="queueLimit, customFilter" class="width15 text-center">
 										<div>
-											<div class="progress" style="margin-bottom: 0;">
+											<!-- <div class="progress" style="margin-bottom: 0;">
 												<div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-											</div>
+											</div> -->
 											<img src="../../images/fileUpLoad.png">
 										</div>
 										<form method="post" enctype="multipart/form-data">
 											<input type="file" accept="image/*" nv-file-select="" uploader="uploader" >
 											<button type="button" class="btn" ng-click="uploadAll()" >全部上传</button>
 										</form>
-									</td>
-									<td class="width15 text-center">设备名称*</td>
-									<td ><input class="dfinput" ng-model="equipmentInfo.equip_name" required /> </td>
-									<td class="width15 text-center">设备型号*</td>
-									<td ><input class="dfinput" ng-model="equipmentInfo.equip_no" required /> </td>
-									<td class="width15 text-center">设备编号*</td>
-									<td ><input class="dfinput" ng-model="equipmentInfo.equip_num" required /> </td>	
+									</td> 
+									<style>
+                                    b{color:red;}
+                                    </style>
+									<td class="width15 text-center">设备名称<b>*</b></td>
+									<td><input class="dfinput" ng-model="equipmentInfo.equip_name" required/></td>
+									<td class="width15 text-center">设备型号<b>*</b></td>
+									<td><input class="dfinput" ng-model="equipmentInfo.equip_no" required/></td>
+									<td class="width15 text-center">设备编号<b>*</b></td>
+									<td><input class="dfinput" ng-model="equipmentInfo.equip_num" required/></td>	
 								</tr>
 								<tr>
-						         	<td class="width15 text-center">安装位置*</td>
-									<td ><select class="dfinput" ng-model="equipmentInfo.equip_room" required> 
-										<option ng-repeat="er in equip_room" value="{{er.equip_room_id}}">{{er.equip_room_name}}</option>	
+						         	<td class="width15 text-center">安装位置<b>*</b></td>
+									<td ><select class="dfinput" ng-model="equipmentInfo.equip_room" required>
+										<option ng-repeat="er in equip_rooms" value="{{er.equip_room_id}}">{{er.equip_room_name}}</option>	
 										</select>
 									</td>
-									<td class="width15 text-center">出厂日期*</td>
+									<td class="width15 text-center">出厂日期<b>*</b></td>
 									<td ><input class="dfinput" type="text" ng-model="equipmentInfo.equip_pdate"  
 										onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/> </td>	
-            						<td class="width15 text-center">使用日期*</td>
+            						<td class="width15 text-center">使用日期<b>*</b></td>
 									<td ><input class="dfinput" type="text" ng-model="equipmentInfo.equip_udate"  
 										onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/> </td>	
 								</tr>
 								<tr>
 									<td class="width15 text-center">出厂序号</td>
-									<td ><input class="dfinput" ng-model="equipmentInfo.equip_snum" onkeyup="changeTwoNum(this)"/> </td>
+									<td ><input class="dfinput" ng-model="equipmentInfo.equip_snum" onkeyup="value=value.replace(/\D/g,'')" /> </td>
 									<td class="width15 text-center">设备价格</td>
-									<td ><input class="dfinput" ng-model="equipmentInfo.equip_bfee" onkeyup="changeTwoNum(this)"/>元</td>	
+									<td ><input class="dfinput" ng-model="equipmentInfo.equip_bfee" onkeyup="changeTwoNum(this)" />元</td>	
 						            <td class="width15 text-center">折旧年限</td>
-									<td ><input class="dfinput" ng-model="equipmentInfo.equip_life" onkeyup="changeTwoNum(this)"/>年</td>	
+									<td ><input class="dfinput" ng-model="equipmentInfo.equip_life" onkeyup="value=value.replace(/\D/g,'')" placeholder="请输入整数"/>年</td>	
 								</tr>
 								<tr>
-								    <td class="width15 text-center">所属系统*</td>
+								    <td class="width15 text-center">所属系统<b>*</b></td>
 									<td ><select class="dfinput" ng-model="equipmentInfo.equip_type" required > 
-										<option ng-repeat="et in equip_type" value="{{et.equip_type_id}}">{{et.equip_type_name}}</option>
+										<option ng-repeat="et in equip_types" value="{{et.equip_type_id}}">{{et.equip_type_name}}</option>
 										</select></td>
 									<td class="width15 text-center">制造厂家</td>
 									<td ><input class="dfinput" ng-model="equipmentInfo.equip_manu"/></td>	
@@ -70,29 +69,33 @@
 									<td ><input class="dfinput" ng-model="equipmentInfo.equip_tel" id="equipmentInfo.equip_tel" onchange="checkTel(this)"/>  </td>	
           						</tr>
           						<tr>
-						            <td class="width15 text-center">设备负责人编号*</td>
-									<td ><input class="dfinput" ng-model="equipmentInfo.user" required onkeyup="changeTwoNum(this)"/> </td>
+						            <td class="width15 text-center">设备负责人<b>*</b></td>
+									<td ><select class="dfinput" ng-model="equipmentInfo.user" required > 
+										<option ng-repeat="eu in users" value="{{eu.user_id}}">{{eu.user_name}}</option>
+										</select></td>
 									<td class="width15 text-center">设备维护周期</td>
-									<td ><input class="dfinput" ng-model="equipmentInfo.equip_mdate" onkeyup="changeTwoNum(this)"/>天</td>	
-						            <td class="width15 text-center">下次维保时间*</td>
+									<td ><input class="dfinput" ng-model="equipmentInfo.equip_mdate" onkeyup="value=value.replace(/\D/g,'')" placeholder="请输入整数"/>天</td>	
+						            <td class="width15 text-center">下次维保时间<b>*</b></td>
 									<td ><input class="dfinput" type="text" ng-model="equipmentInfo.equip_ndate" 
 										onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/> </td>	
 						         </tr>
 						         <tr>
-								 	<td class="width15 text-center">设备参数</td>
+								 	<td class="width15 text-center">设备特征参数</td>
 									<td colspan='6' id="addEparaDiv">
 										<div class="eparadiv">
-								            <span class="width15 text-center">参数名称</span>
+								            <span class="width1 text-center">参数名称</span>
 											<input name="paraname" class="eparainput" />
 											<span class="width15 text-center">参数值</span>
-											<input name="paravalue" class="eparainput" />
-								            <span class="width15 text-center">参数备注</span>
+											<input name="paravalue" class="eparainput" value="0"/>
+								            <span class="width15 text-center">单位</span>
+											<input name="paraunit" class="eparainput" />
+								            <span class="width15 text-center">特征参数备注</span>
 											<input name="parare" class="eparainput" type="text" />
 											<img class="addeparaimg" onclick='addEpara()' src="../../images/addEpara.png">
-											<img class="deeparaimg" src="../../images/deEpara.png">
+											<img class="deeparaimg">
 										</div>
 									</td>
-						         </tr>
+						         </tr>   
 						         <tr style="height:100px;">
 								 	<td class="width15 text-center">备注</td>
 									<td colspan='15'><textarea class="dfinput" ng-model="equipmentInfo.equip_memo"/></td>
@@ -101,12 +104,11 @@
 
 							<div class="buttonbox">
 								<!-- <input type="submit" class="btn btn-default" value="确认提交" /> -->
-								<input ng-click="addEquipment()" class="btn btn-default" value="确认提交" />
+								<input class="btn btn-default" type="submit" value="确认提交" />
 							</div>
 						</form>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -117,16 +119,49 @@ function addEpara(){
 	var tableScontent = $('#addEparaDiv');
 	var $div = $("<div class='eparadiv'></div>");
 	var $input1 = $("<span class='width15 text-center'>参数名称&thinsp;&thinsp;</span><input name='paraname' class='eparainput' />");
-	var $input2 = $("<span class='width15 text-center'>参数值&thinsp;&thinsp;</span><input name='paravalue' class='eparainput' />");
-	var $input3 = $("<span class='width15 text-center'>参数备注&thinsp;&thinsp;</span><input name='parare' class='eparainput' type='text' />");
-	var $input4 = $("<img class='addeparaimg' onclick='addEpara()' src='../../images/addEpara.png'><img class='deeparaimg' src='../../images/deEpara.png'>");
+	var $input2 = $("<span class='width15 text-center'>参数值&thinsp;&thinsp;</span><input name='paravalue' class='eparainput' value='0'/>");
+	var $input3 = $("<span class='width15 text-center'>单位&thinsp;&thinsp;</span><input name='paraunit' class='eparainput' />");
+	var $input4 = $("<span class='width15 text-center'>特征参数备注&thinsp;&thinsp;</span><input name='parare' class='eparainput' type='text'/>");
+	var $input5 = $("<img class='addeparaimg' onclick='addEpara()' src='../../images/addEpara.png'><img class='deeparaimg' src='../../images/deEpara.png'>");
 	$div.append($input1);
 	$div.append($input2);
 	$div.append($input3);
 	$div.append($input4);
+	$div.append($input5);
 	tableScontent.append($div);
 	$('.deeparaimg').click(function(e){
 		$(e.target).parent().empty();
 	})
 }
+
+$("#main-menu").on("click",function(e){
+	if(e.target.nodeName == "A"){
+		$(this).find("a").removeClass("clickin");
+		$(e.target).addClass("clickin");
+	}
+})
+
+ $(document).ready(function () {
+	$("#sideNav").click(function(){
+		if($(this).hasClass('closed')){
+			$('.navbar-side').animate({left: '0px'});
+			$(this).removeClass('closed');
+			$('#page-wrapper').animate({'margin-left' : '260px'});
+			
+		}
+		else{
+		    $(this).addClass('closed');
+			$('.navbar-side').animate({left: '-260px'});
+			$('#page-wrapper').animate({'margin-left' : '0px'}); 
+		}
+	});
+});
+
+$(window).bind("load resize", function () {
+    if ($(this).width() < 768) {
+        $('div.sidebar-collapse').addClass('collapse')
+    } else {
+        $('div.sidebar-collapse').removeClass('collapse')
+    }
+});
 </script>

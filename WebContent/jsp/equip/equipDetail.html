@@ -32,11 +32,11 @@
 						</tr>
 						<tr>
 							<td class="width15 text-center">出厂序号</td>
-							<td >{{equipmentDetail.equip_snum}}</td>
+							<td >{{equipmentDetail.equip_snum | sgFilter}}</td>
 							<td class="width15 text-center">设备价格</td>
-							<td >{{equipmentDetail.equip_bfee}}元</td>	
+							<td >{{equipmentDetail.equip_bfee | number:2}}元</td>	
 				            <td class="width15 text-center">折旧年限</td>
-							<td >{{equipmentDetail.equip_life}}年</td>	
+							<td >{{equipmentDetail.equip_life | sgFilter}}年</td>	
 						</tr>
 						<tr>
 						    <td class="width15 text-center">所属系统*</td>
@@ -47,21 +47,26 @@
 							<td >{{equipmentDetail.equip_tel}}</td>	
         				</tr>
         				<tr>
-				            <td class="width15 text-center">设备负责人编号*</td>
+				            <td class="width15 text-center">设备负责人*</td>
 							<td >{{equipmentDetail.user.user_name}}</td>
 							<td class="width15 text-center">设备维护周期</td>
-							<td >{{equipmentDetail.equip_mdate}}天</td>	
+							<td >{{equipmentDetail.equip_mdate | sgFilter}}天</td>	
 				            <td class="width15 text-center">下次维保时间*</td>
 							<td >{{equipmentDetail.equip_ndate.time | timer}}</td>	
 				         </tr>
 				         <tr>
-						 	<td class="width15 text-center">设备参数</td>
-							<td colspan='6' id="addEparaDiv">
+						 	<td class="width15 text-center">设备特征参数</td>
+							<td colspan='3' id="addEparaDiv">
 								<div ng-repeat="ep in equipmentPara">
 								<span>{{ep.equip_para_name}}</span>
+								<span>{{ep.equip_para_rate | sgFilter}}</span>
 								<span>{{ep.equip_para_unit}}</span>
+								</div>
+							</td>
+							<td class="width15 text-center">特征参数备注</td>
+							<td>
+								<div ng-repeat="ep in equipmentPara">
 								<span>{{ep.equip_para_memo}}</span>
-								<span>{{ep.equip_para_max}}</span>
 								</div>
 							</td>
 				         </tr>
