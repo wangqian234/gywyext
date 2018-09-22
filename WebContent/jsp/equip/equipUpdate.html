@@ -82,11 +82,13 @@
 							<td colspan='6' id="addEparaDiv">
 								<div ng-repeat="ep in equipmentPara">
 				                 <span class="width15 text-center">参数名称</span>
-				                 <input class="eparainput" ng-model="ep.equip_para_name"/>
+				                 <input name="paraname" class="eparainput" ng-model="ep.equip_para_name"/>
 				                 <span class="width15 text-center">参数值</span>
-				                 <input class="eparainput" ng-model="ep.equip_para_rate"/>
+				                 <input name="paravalue" class="eparainput" ng-model="ep.equip_para_rate"/>
+				                 <span class="width15 text-center">单位</span>
+								<input name="paraunit" class="eparainput" ng-model="ep.equip_para_unit"/>
 				                 <span class="width15 text-center">特征参数备注</span>
-				                 <input class="eparainput" ng-model="ep.equip_para_memo"/>
+				                 <input name="parare" class="eparainput" ng-model="ep.equip_para_memo" />
 								<img class="addeparaimg" onclick='addEpara()' src="../../images/addEpara.png">
 								<img class="deeparaimg" src="../../images/deEpara.png">
 								</div>
@@ -116,12 +118,14 @@ function addEpara(){
 	var $div = $("<div class='eparadiv'></div>");
 	var $input1 = $("<span class='width15 text-center'>参数名称&thinsp;&thinsp;</span><input name='paraname' class='eparainput' />");
 	var $input2 = $("<span class='width15 text-center'>参数值&thinsp;&thinsp;</span><input name='paravalue' class='eparainput' />");
-	var $input3 = $("<span class='width15 text-center'>特征参数备注&thinsp;&thinsp;</span><input name='parare' class='eparainput' type='text' />");
-	var $input4 = $("<img class='addeparaimg' onclick='addEpara()' src='../../images/addEpara.png'><img class='deeparaimg' src='../../images/deEpara.png'>");
+	var $input3 = $("<span class='width15 text-center'>单位&thinsp;&thinsp;</span><input name='paraunit' class='eparainput' />");
+	var $input4 = $("<span class='width15 text-center'>特征参数备注&thinsp;&thinsp;</span><input name='parare' class='eparainput' type='text' />");
+	var $input5 = $("<img class='addeparaimg' onclick='addEpara()' src='../../images/addEpara.png'><img class='deeparaimg' src='../../images/deEpara.png'>");
 	$div.append($input1);
 	$div.append($input2);
 	$div.append($input3);
 	$div.append($input4);
+	$div.append($input5);
 	tableScontent.append($div);
 	$('.deeparaimg').click(function(e){
 		$(e.target).parent().empty();
