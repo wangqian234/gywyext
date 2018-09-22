@@ -10,11 +10,11 @@ import com.mvc.entityReport.EquipPara;
 
 public interface EquipParaRepository extends JpaRepository<EquipPara, Integer> {	
 
-	//根据ID获取安装位置信息
+	//根据ID获取特征参数信息
 	@Query("select ep from EquipPara ep where equip_para_id=:equip_para_id ")
 	public EquipPara selectEquipParaById(@Param("equip_para_id") Integer equip_para_id);
 
-	//获取安装位置信息
+	//获取特征参数信息
 	@Query("select ep from EquipPara ep where equip_para_isdeleted=0")
 	List< EquipPara> getEquipParaInfo();
 
