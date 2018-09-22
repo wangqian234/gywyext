@@ -333,6 +333,7 @@ app
 									console.log(sessionStorage.getItem("PicFile"));
 									equipment.equipmentInfo.file_id = JSON.stringify(sessionStorage.getItem("PicFile")).file_id;
 								}
+
 								var equipmentpara = JSON.stringify(equipment.para);
 								var equipmentFormData = JSON.stringify(equipment.equipmentInfo);
 								if (confirm("是否添加该设备信息？") == true) {
@@ -384,7 +385,7 @@ app
 									return;
 								}
 								;
-								/*equipment.para = {
+								equipment.para = {
 										paraname : [],
 										paravalue : [],
 										parare : [],
@@ -392,29 +393,26 @@ app
 									}
 									$("input[name='paraname']").each(
 											function() {
-												equipment.para.paraname
-														.push($(this).val());
+												equipment.para.paraname.push($(this).val());
 											})
 									$("input[name='paravalue']").each(
 											function() {
-												equipment.para.paravalue.push($(
-														this).val());
+												equipment.para.paravalue.push($(this).val());
 											})
 									$("input[name='parare']").each(function() {
 										equipment.para.parare.push($(this).val());
 									})
 									$("input[name='paraunit']").each(
 											function() {
-												equipment.para.paraunit
-														.push($(this).val());
-											})*/
-								/* var equipmentpara =JSON.stringify(equipment.para);
-								alert(equipmentpara)*/
+										equipment.para.paraunit.push($(this).val());
+											})
+								 var equipmentpara =JSON.stringify(equipment.para);
+								alert(equipmentpara)
 								 var EqFormData = JSON.stringify(equipment.equipmentInfo);
 								if (confirm("是否修改该设备信息？") == true) {
 									services.updateEquipmentById({
 										equipment : EqFormData,							
-									   /* equipmentpara : equipmentpara*/									
+									   equipmentpara : equipmentpara									
 									}).success(function(data) {
 										alert("修改成功！")
 										$location.path('equipBaseInfo/');

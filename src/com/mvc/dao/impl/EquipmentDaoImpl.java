@@ -45,27 +45,42 @@ public class EquipmentDaoImpl implements EquipmentDao {
 	//根据room，state筛选信息
 		@SuppressWarnings("unchecked")
 		@Override
-		public List<Equipment> selectEquipmentByRS(String eqRoom, String eqState, Integer offset, Integer end) {
-			EntityManager em = emf.createEntityManager();
-			String selectSql = " select * from equipment where equip_isdeleted=0 ";
-			if((eqState != null && !eqState.equals("")) && (eqRoom != null && !eqRoom.equals(""))){
-				selectSql += " and equip_state = " + eqState + " and equip_room = " + eqRoom;
+		public List<Equipment> selectEquipmentByRS(String eqRoom, Integer eqState, Integer offset, Integer end) {
+			EntityManager em = emf.createEntityManager();			
+			String selectSql = " select * from equipment where equip_isdeleted=0 ";					
+			if((eqState == 1) && (eqRoom != null && !eqRoom.equals(""))){
+				selectSql += "  and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" + " and equip_room = " + eqRoom;
 			}
-			if((eqState != null && !eqState.equals("")) && (eqRoom == null || eqRoom.equals(""))){
-				selectSql += " and equip_state = " + eqState;
+			if((eqState == 1) && (eqRoom == null || eqRoom.equals(""))){
+				selectSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)";
+			}				
+			if((eqState == 2) && (eqRoom != null && !eqRoom.equals(""))){
+				selectSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + " and equip_room = " + eqRoom;
 			}
-			if((eqRoom != null && !eqRoom.equals("")) && (eqState == null || eqState.equals(""))){
+			if((eqState == 2) && (eqRoom == null || eqRoom.equals(""))){
+				selectSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)";
+			}					
+			if((eqState == 3) && (eqRoom != null && !eqRoom.equals(""))){
+				selectSql += " and (equip_state = 1 or equip_state = 2)" + "and equip_room = " + eqRoom;
+			}
+			if((eqState == 3) && (eqRoom == null || eqRoom.equals(""))){
+				selectSql += " and (equip_state = 1 or equip_state = 2)" ;
+			}	
+			if((eqState == 4) && (eqRoom != null && !eqRoom.equals(""))){
+				selectSql += " and equip_state = 0" + " and equip_room = " + eqRoom;
+			}
+			if((eqState == 4) && (eqRoom == null || eqRoom.equals(""))){
+				selectSql += " and equip_state = 0";
+			}
+			if((eqState == 0) && (eqRoom != null && !eqRoom.equals(""))){
 				selectSql += " and equip_room = " + eqRoom;
 			}
-			if((eqRoom == null || eqRoom.equals("")) && (eqState == null || eqState.equals(""))){
-				selectSql += " ";
-			}
-			selectSql += " order by equip_id desc limit :offset, :end";
-			Query query = em.createNativeQuery(selectSql, Equipment.class);
+			selectSql += " order by equip_id desc limit :offset, :end";			
+			Query query = em.createNativeQuery(selectSql, Equipment.class);			
 			query.setParameter("offset", offset);
-			query.setParameter("end", end);
+			query.setParameter("end", end);			
 			List<Equipment> list = query.getResultList();
-			em.close();
+			em.close();			
 			return list;
 		}
 	    
