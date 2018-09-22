@@ -72,6 +72,9 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/echartsShow', {
 		templateUrl : '/gywyext/jsp/equip/equipRealInfo/echartsShow.html',
 		controller : 'equipRealInfoController'
+	}).when('/dataV', {
+		templateUrl : '/gywyext/jsp/equip/equipRealInfo/dataV.html',
+		controller : 'equipRealInfoController'
 	})
 } ]);
 
@@ -79,6 +82,13 @@ app.constant('baseUrl', '/gywyext/');
 app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 	
 	var services = {};
+	//获取左侧菜单栏
+	services.getInitLeft = function() {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/getInitLeft.do',
+		});
+	};
 	// 根据页数获取设备信息
 	services.getEquipmentListByPage = function(data) {
 		return $http({
@@ -169,15 +179,16 @@ app
 								});
 							};
 							//读取设备参数实时数据
-							function getRealData(equipParaId,start,callbackFn){
-								console.log('start='+start)
+							function getRealData(equipParaId,startDate,callbackFn){
+								/*console.log('start='+start)*/
 								var equip_para_id = equipParaId;
+								var startDate = startDate;
 								services.getEquipRealData({
 									searchKey : equip_para_id,
-									start : start,
+									startDate : startDate,
 								}).success(function(data) {
 									equipment.equiparadata = data.data;
-									console.log(equipment.equiparadata);
+									/*console.log(equipment.equiparadata);*/
 									if(typeof callbackFn == 'function'){
 										callbackFn();
 									}
@@ -187,40 +198,60 @@ app
 								var xdata = [];
 								var ydata = [];
 								data = equipment.equiparadata;
-								/*start = equipment.equiparadata[9].equip_oper_id;*/
 								for(var i = 0;i<data.length;i++){
 									var x = data[i].equip_oper_time;
 									var y = data[i].equip_oper_info;
 									xdata.push(x);
 									ydata.push(y);
 								};
+								console.log(equipment.equipara[equipment.Id]);
 								try1(xdata,ydata,equipment.equipara[equipment.Id]);
 							}
-							equipment.Id = 0
-							
-							//根据参数id，查询实时数据
-							equipment.getEquipRealData = function(equipParaId){
-								start = 0;
-								var data = [];
+							equipment.Id = 0;
+	                        
+							equipment.getEquipRealData1 = function(equipParaId){
+								var startDate = null;
+								var divid = echart;//传递显示图表的id
+								console.log(equipParaId);
+								if(equipment.startTime != null)
+								startDate = equipment.startTime+" 00:00:00";//默认从起始日期凌晨开始显示数据
 								//查询参数对应的设备信息
+								console.log(startDate);
 								for(var i=0;i<equipment.equipara.length;i++){
 									if(equipment.equipara[i].equip_para_id == equipParaId){
 										equipment.Id = i;
 									}
 								}
 								equipment.equipParaId = equipParaId;
-								console.log(equipment.equipara[equipParaId]);
-								getRealData(equipParaId,start,callbackFn);
-								/*setInterval(function(){
-									getRealData(equipParaId,start,callbackFn);
-									console.log(equipment.xdata);
-									},1000);*/
+								if(startDate != null)
+								try2(startDate,equipment.equipara[equipment.Id],divid);
+								else alert("请输入起始时间");
+							}
+							
+							//根据参数id，查询实时数据
+							equipment.getEquipRealData = function(equipParaId){
+								
+								var data = [];
+								var startDate = null;
+								console.log(equipParaId);
+								if(equipment.startTime != null)
+								startDate = equipment.startTime+" 00:00:00";//默认从起始日期凌晨开始显示数据
+								//查询参数对应的设备信息
+								console.log(startDate);
+								for(var i=0;i<equipment.equipara.length;i++){
+									if(equipment.equipara[i].equip_para_id == equipParaId){
+										equipment.Id = i;
+									}
+								}
+								equipment.equipParaId = equipParaId;
+								if(startDate != null)
+								getRealData(equipParaId,startDate,callbackFn);
+								else alert("请输入起始时间");
 							};
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！");
 								if ($location.path().indexOf('/equipRealInfo') == 0) {
-									
 									searchKey = null;
 									services.getEquipmentListByPage({
 										page : 1,
@@ -236,13 +267,9 @@ app
 								else if ($location.path().indexOf('/echartsShow') == 0){
 									getEquipPara()
 								}
-							}
+								else if ($location.path().indexOf('/dataV') == 0){
+									console.log("可以吃饭了");
+								}
+								}
 							initPage();
 						} ]);
-
-                          //Echarts图表展示
-                          function echarts(data) {
-                        	  
-                          }
-
-

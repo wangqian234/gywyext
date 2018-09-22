@@ -16,8 +16,12 @@ public interface EquipRealInfoDao {
 
 	//根据设备id查找设备特征参数
 	List<EquipPara> getEquipPara(String searchKey);
+	
+	//根据设备参数名字查找设备特征参数信息
+	List<EquipPara> getEquipParaByName(String searchKey);
 
 	//根据设备参数id查询设备参数实时数据
-	List<EquipOper> getEquipRealData(String searchKey, String start);
+	List<EquipOper> getEquipRealData(String searchKey, String startDate);
+
 
 }
