@@ -21,6 +21,7 @@
 												<div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
 											</div> -->
 											<img src="../../images/fileUpLoad.png">
+											<img src="{{equipment.equipmentInfo.files.file_path}}">
 										</div>
 										<form method="post" enctype="multipart/form-data">
 											<input type="file" accept="image/*" nv-file-select="" uploader="uploader" >
@@ -85,11 +86,11 @@
 										<div class="eparadiv">
 								            <span class="width1 text-center">参数名称</span>
 											<input name="paraname" class="eparainput" />
-											<span class="width15 text-center">参数值</span>
+											<span class="width1 text-center">参数值</span>
 											<input name="paravalue" class="eparainput" value="0"/>
-								            <span class="width15 text-center">单位</span>
+								            <span class="width1 text-center">单位</span>
 											<input name="paraunit" class="eparainput" />
-								            <span class="width15 text-center">特征参数备注</span>
+								            <span class="width1 text-center">特征参数备注</span>
 											<input name="parare" class="eparainput" type="text" />
 											<img class="addeparaimg" onclick='addEpara()' src="../../images/addEpara.png">
 											<img class="deeparaimg">

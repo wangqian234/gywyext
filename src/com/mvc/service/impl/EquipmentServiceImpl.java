@@ -60,7 +60,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	// 根据room，state筛选信息
 	@Override
-	public List<Equipment> selectEquipmentByRS(String eqRoom, String eqState, Integer offset, Integer end){
+	public List<Equipment> selectEquipmentByRS(String eqRoom, Integer eqState, Integer offset, Integer end){
 		return equipmentDao.selectEquipmentByRS( eqRoom, eqState, offset, end);
 	}
 	
@@ -83,9 +83,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 	// 修改设备基本信息
 				@Override
-				public boolean updateEquipmentBase(Integer equip_id, JSONObject jsonObject, User user) throws ParseException {
+				public boolean updateEquipmentBase(Integer equip_id, JSONObject jsonObject) throws ParseException {
 					Equipment equipment = equipmentRepository.selectEquipmentById(equip_id);
-					/*JSONObject jsonPara = new JSONObject();
+				/*	JSONObject jsonPara = new JSONObject();
 					List<EquipPara> equipParas = new ArrayList<EquipPara>();*/
 					if (equipment != null) {
 						if (jsonObject.containsKey("equip_no")) {
@@ -97,7 +97,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 						if (jsonObject.containsKey("equip_num")) {
 							equipment.setEquip_num(jsonObject.getString("equip_num"));
 						}		
-					/*	if (jsonObject.containsKey("file_id")) {
+						/*if (jsonObject.containsKey("file_id")) {
 							Files file = new Files();
 							file.setFile_id(Integer.parseInt(jsonObject.getString("file_id")));
 							equipment.setFile_id(file);
@@ -175,6 +175,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 						ep.setEquipment(equipment);
 						equipParas.add(ep);
 						}
+					
 					for(int i=0;i<equipParas.size();i++){
 						equipParaRepository.saveAndFlush(equipParas.get(i));
 					}*/
