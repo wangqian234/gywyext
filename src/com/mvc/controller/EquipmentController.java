@@ -52,6 +52,7 @@ public class EquipmentController {
 		public @ResponseBody String getEquipmentsByPrarm(HttpServletRequest request, HttpSession session) {
 			JSONObject jsonObject = new JSONObject();
 			String searchKey = request.getParameter("searchKey");
+			System.out.println("-----------------"+request.getParameter("page")+"-----------------");
 			Integer totalRow = equipmentService.countEqTotal(searchKey);
 			Pager pager = new Pager();
 			pager.setPage(Integer.valueOf(request.getParameter("page")));
