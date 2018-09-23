@@ -20,6 +20,9 @@ public interface EquipRealInfoService {
 	//根据设备参数id查询设备参数实时数据
 	List<EquipOper> getEquipRealData(String searchKey, String start);
 
-	/*Integer countEDTotal(String searchKey);*/
+	//根据设备名字查找设备特征参数
+	List<EquipPara> getEquipParaByName(String searchKey);
+
+
 
 }

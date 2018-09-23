@@ -1,7 +1,7 @@
 package com.mvc.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -67,23 +67,37 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			} finally {
 				em.close();
 			}
-			/*System.out.println(list);*/
 			return list;
 		}
+		
+
+		//根据设备参数名字查找设备特征参数信息
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<EquipPara> getEquipParaByName(String searchKey) {
+			List<EquipPara> list = new ArrayList<EquipPara>();
+			EntityManager em = emf.createEntityManager();
+			try {
+				String selectSql = " select * from equip_para where equip_para_isdeleted = 0 and equip_para_name = '" + searchKey + "'";
+				Query query = em.createNativeQuery(selectSql, EquipPara.class);
+				list = query.getResultList();
+			} finally {
+				em.close();
+			}
+			return list;
+		}
+		
 		
 		//根据设备参数id查询设备参数实时数据
 		@SuppressWarnings("unchecked")
 		@Override
-		public List<EquipOper> getEquipRealData(String searchKey,String start) {
-			/*System.out.println("数据流建立成功");*/
+		public List<EquipOper> getEquipRealData(String searchKey,String startDate) {
 			List<EquipOper> list = null;
 			EntityManager em = emf.createEntityManager();
 			try {
-				String selectSql = " select * from equip_oper where  equip_oper_id > '" + start + "' and  "
-						+ " equip_para_id = '" + searchKey + "' limit 10";
+				String selectSql = " select * from equip_oper where  equip_oper_time > '" + startDate + "' and  "
+						+ " equip_para_id = '" + searchKey + "'";
 				Query query = em.createNativeQuery(selectSql, EquipOper.class);
-				/*query.setParameter("start", start);*/
-				System.out.println(start);
 				list = query.getResultList();
 			} finally {
 				em.close();

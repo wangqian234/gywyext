@@ -22,7 +22,7 @@
             </div>
 			<div>
 				<a class="topspan" href="javascript:;"><span>设备基本信息</span></a>
-				<a class="topspan" href="../equip/equipRealInfo/index.jsp"><span>设备实时状态</span></a>
+				<a class="topspan" href="../equip/equipRealInfo/index.jsp#/equipRealInfo"><span>设备实时状态</span></a>
 				<a class="topspan" href="javascript:;"><span>设备报警信息</span></a>
 			</div>
         </nav>

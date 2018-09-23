@@ -66,17 +66,24 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 				}
 				return equipRealInfoDao.getEquipPara(searchKey);
 			}
+
+	//根据设备参数名字查找设备特征参数信息
+			@Override
+			public List<EquipPara> getEquipParaByName(String searchKey) {
+				List<EquipPara> list = equipRealInfoDao.getEquipParaByName(searchKey);
+				for(int i=0;i<list.size();i++){
+					list.get(i).setEquipment(null);
+				}
+				return equipRealInfoDao.getEquipParaByName(searchKey);
+			}
 	//根据特征参数id，获取设备实时数据
 	@Override
-	public List<EquipOper> getEquipRealData(String searchKey, String start) {
-		List<EquipOper> data = equipRealInfoDao.getEquipRealData(searchKey,start);
+	public List<EquipOper> getEquipRealData(String searchKey, String startDate) {
+		List<EquipOper> data = equipRealInfoDao.getEquipRealData(searchKey,startDate);
 		for(int i=0;i<data.size();i++){
 			data.get(i).setEquip_para_id(null);
 		}
-		return equipRealInfoDao.getEquipRealData(searchKey,start);
+		return equipRealInfoDao.getEquipRealData(searchKey,startDate);
 	}
-	
-	
-	
 
 }
