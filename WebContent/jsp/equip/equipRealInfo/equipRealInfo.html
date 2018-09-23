@@ -19,7 +19,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="e in equipments track by $index" ng-init="outerIndex = $index"id={{e.equip_id}}>
+					<tr ng-repeat="e in equipments track by $index" id={{e.equip_id}}>
 						<td>{{$index + 1}}</td>
 						<td>{{e.equip_name}}</td>
 						<td><a href="#/echartsShow"  class="tablelink" ng-click="getequipmentId(e.equip_id)">查看设备实时状态</a></td>
