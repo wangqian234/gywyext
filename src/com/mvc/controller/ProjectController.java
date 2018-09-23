@@ -1,5 +1,6 @@
 package com.mvc.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -134,6 +135,21 @@ public class ProjectController {
 		List<Company> result = projectService.getCompanyInfo();
 		
 		jsonObject.put("result", result);
+		return jsonObject.toString();
+	}
+	
+	//根据公司信息查找项目信息
+	@RequestMapping("/getProjectInfo.do")
+	public @ResponseBody String getProjectInfo(HttpServletRequest request) {
+
+		JSONObject jsonObject = new JSONObject();
+		List<Project> project = new ArrayList<Project>();
+		
+		if (request.getParameter("company_id") != null){
+			project = projectService.getProjectInfo(Integer.parseInt(request.getParameter("company_id")));
+		}
+		
+		jsonObject.put("result", project);
 		return jsonObject.toString();
 	}
 	

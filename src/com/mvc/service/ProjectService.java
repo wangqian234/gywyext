@@ -13,4 +13,6 @@ public interface ProjectService {
 
 	boolean addProject(Project project);
 
+	List<Project> getProjectInfo(Integer parameter);
+
 }

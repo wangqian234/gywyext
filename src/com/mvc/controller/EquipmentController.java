@@ -52,6 +52,7 @@ public class EquipmentController {
 		public @ResponseBody String getEquipmentsByPrarm(HttpServletRequest request, HttpSession session) {
 			JSONObject jsonObject = new JSONObject();
 			String searchKey = request.getParameter("searchKey");
+			System.out.println("-----------------"+request.getParameter("page")+"-----------------");
 			Integer totalRow = equipmentService.countEqTotal(searchKey);
 			Pager pager = new Pager();
 			pager.setPage(Integer.valueOf(request.getParameter("page")));
@@ -67,15 +68,16 @@ public class EquipmentController {
 		public @ResponseBody String getEquipmentsByPrarm1(HttpServletRequest request, HttpSession session) {
 			JSONObject jsonObject = new JSONObject();
 			String eqRoom = request.getParameter("eqRoom");
-			String eqState = request.getParameter("eqState");
-			Pager pager = new Pager();
-			pager.setPage(Integer.valueOf(request.getParameter("page")));
-			List<Equipment> list = equipmentService.selectEquipmentByRS(eqRoom , eqState,pager.getOffset(), pager.getLimit());
+			Integer eqState = Integer.parseInt(request.getParameter("eqState"));
+			/*String eqState = request.getParameter("eqState");*/
+			Pager pager = new Pager();			
+			pager.setPage(Integer.parseInt(request.getParameter("page")));	
+			List<Equipment> list = equipmentService.selectEquipmentByRS(eqRoom ,eqState,pager.getOffset(), pager.getLimit());
 			jsonObject.put("list", list);
 			jsonObject.put("totalPage", pager.getTotalPage());
 			return jsonObject.toString();
 		}
-	
+
 		//添加设备信息
 		@RequestMapping(value = "/addEquipment.do")
 		public @ResponseBody String addEquipment(HttpServletRequest request, HttpSession session) throws ParseException {
@@ -214,13 +216,36 @@ public class EquipmentController {
 		//修改设备信息
 		@RequestMapping("/updateEquipmentById.do")
 		public @ResponseBody Integer updateEquipmentById(HttpServletRequest request, HttpSession session) throws ParseException {
-			User user = (User) session.getAttribute(SessionKeyConstants.LOGIN);
+
+			JSONObject jsonPara = new JSONObject();
+			List<EquipPara> equipParas = new ArrayList<EquipPara>();
 			JSONObject jsonObject = JSONObject.fromObject(request.getParameter("equipment"));
 			Integer equip_id = null;
 			if (jsonObject.containsKey("equip_id")) {
 				equip_id = Integer.parseInt(jsonObject.getString("equip_id"));
+				jsonPara = JSONObject.fromObject(request.getParameter("equipmentpara"));
+				JSONArray objName = (JSONArray) jsonPara.get("paraname");
+				JSONArray objValue = (JSONArray) jsonPara.get("paravalue");
+				JSONArray objRe = (JSONArray) jsonPara.get("parare");
+				JSONArray objUnit = (JSONArray) jsonPara.get("paraunit");
+				Object[] paraName = objName.toArray();
+				Object[] paraValue = objValue.toArray();
+				Object[] paraRe = objRe.toArray();
+				Object[] paraUnit = objUnit.toArray();
+				for(int i=0;i<paraValue.length;i++){
+					EquipPara ep = new EquipPara();
+					ep.setEquip_para_name(paraName[i].toString());
+					
+					ep.setEquip_para_rate(Float.parseFloat(paraValue[i].toString()));;
+					ep.setEquip_para_memo(paraRe[i].toString());
+					ep.setEquip_para_unit(paraUnit[i].toString());
+					ep.setEquip_para_isdeleted(0);
+					/*ep.setEquipment(equipment);*/
+					equipParas.add(ep);
+				}
+				equipmentService.saveParas(equipParas);
 			}
-			Boolean flag = equipmentService.updateEquipmentBase(equip_id, jsonObject, user);
+			Boolean flag = equipmentService.updateEquipmentBase(equip_id, jsonObject);
 			if (flag == true)
 				return 1;
 			else
