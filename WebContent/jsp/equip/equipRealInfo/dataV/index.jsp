@@ -11,6 +11,7 @@
 <script type="text/javascript" src="../../../../js/lib/echarts.js"></script>
 <script type="text/javascript" src="../../../../js/lib/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="../../../../js/app/chart.js"></script>
+<script type="text/javascript" src="../../../../js/app/ezuikit.js"></script>
 
 
 

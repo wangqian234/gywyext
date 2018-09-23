@@ -76,7 +76,25 @@ app.constant('baseUrl', '/gywyext/');
 app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 	
 	var services = {};
+	//gaogaogao
+	//控制云台
+	services.getTurn = function (data){
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipRealInfo/getTurn.do',
+			data : data,
+		})
+	}
+	//停止云台控制
+	services.getStop = function (data){
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipRealInfo/getStop.do',
+			data : data,
+		})
+	}
 	
+	//haile
 	return services;
 } ]);
 app
@@ -92,17 +110,38 @@ app
 							var equip_room = $scope;
 							var equip_type = $scope;
 							var equip_para = $scope;
+							
+							//gaogaogaogao
+							//开始云台操作
+							equipment.getTurn = function (id){
+								services.getTurn({
+									turn_id : id
+								}).success(function(data){
+									equipment.yunTurn = data;
+									if(equipment.yunTurn.result.code != "200"){
+										alert(equipment.yunTurn.result.msg);
+									}
+								})
+							}
+							//停止云台操作
+							equipment.getStop = function (id){
+								services.getStop({
+									turn_id : id
+								}).success(function(data){
+									equipment.yunStop = data;
+									if(equipment.yunTurn.result.code != "200"){
+										alert(equipment.yunStop.result.msg);
+									}
+								})
+							}
+							//haile	
+							
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！");
 								d444();
 								d555();
 								d666(3);
-								/*d777();*/
-								/*d333();*/
-								/*if ($location.path().indexOf('/equipRealInfo') == 0) {
-									console.log("真的可以去吃饭了");
-								}*/
 							}
 							initPage();
 						} ]);

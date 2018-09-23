@@ -66,6 +66,7 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 				}
 				return equipRealInfoDao.getEquipPara(searchKey);
 			}
+
 	//根据设备参数名字查找设备特征参数信息
 			@Override
 			public List<EquipPara> getEquipParaByName(String searchKey) {
@@ -84,4 +85,5 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 		}
 		return equipRealInfoDao.getEquipRealData(searchKey,startDate);
 	}
+
 }

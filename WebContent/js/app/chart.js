@@ -1313,7 +1313,7 @@ function d666(id){
 		        dataType: "json",
 		        data: { searchKey: "水泵房湿度"},
 		        success:function(data){
-		        	var startDate ="2018-08-26 00:00:00"
+		        	var startDate ="2018-08-26 00:00:00";
 		        	try2(startDate,data.result[0],d7)
 					}
 		    })
@@ -1427,4 +1427,4 @@ function d777(){
 				};
 				d7.setOption(option);
 			    d7.hideLoading();
-	   }
+ }

@@ -2,7 +2,6 @@ package com.mvc.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -68,10 +67,10 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			} finally {
 				em.close();
 			}
-			/*System.out.println(list);*/
 			return list;
 		}
 		
+
 		//根据设备参数名字查找设备特征参数信息
 		@SuppressWarnings("unchecked")
 		@Override
@@ -88,20 +87,17 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			return list;
 		}
 		
+		
 		//根据设备参数id查询设备参数实时数据
 		@SuppressWarnings("unchecked")
 		@Override
 		public List<EquipOper> getEquipRealData(String searchKey,String startDate) {
-			/*System.out.println("数据流建立成功");*/
 			List<EquipOper> list = null;
 			EntityManager em = emf.createEntityManager();
 			try {
 				String selectSql = " select * from equip_oper where  equip_oper_time > '" + startDate + "' and  "
 						+ " equip_para_id = '" + searchKey + "'";
-				/*String selectSql = " select * from equip_oper where equip_para_id = '" + searchKey + "'";*/
 				Query query = em.createNativeQuery(selectSql, EquipOper.class);
-				/*query.setParameter("start", start);*/
-				/*System.out.println(startDate);*/
 				list = query.getResultList();
 			} finally {
 				em.close();

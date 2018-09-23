@@ -187,6 +187,9 @@ app
 								try2(startDate,equipment.equipara[equipment.Id],divid);
 								else alert("请输入起始时间");
 							}
+							
+							
+							
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！");

@@ -9,7 +9,17 @@
 		   scrolling="no" >
 		  </iframe>
 		</div>
-		<div id="d3" style="width: 496px; height:398px; border: 1px solid gray;float:top;"></div>
+		<div id="d3" style="width: 496px; height:398px; border: 1px solid gray;float:top;">
+		   <video id="myPlayer" style = "width:450px;height:350px" poster="" controls playsInline webkit-playsinline autoplay>
+             <source src="http://hls.open.ys7.com/openlive/bd2083cf239a4432836124f2888656f1.m3u8" type="application/x-mpegURL" />
+           </video>
+           <td>
+				<button ng-mousedown="getTurn(0)" ng-mouseup="getStop(0)">上移</button>
+				<button ng-mousedown="getTurn(1)" ng-mouseup="getStop(1)">下移</button>
+				<button ng-mousedown="getTurn(2)" ng-mouseup="getStop(2)">左移</button>
+				<button ng-mousedown="getTurn(3)" ng-mouseup="getStop(3)">右移</button>
+		  </td>
+		</div>
 	</div>
 	<div class="c2">
 		<div style="width: 1096px;height:698px;border: 1px solid gray;float:top;">
@@ -27,11 +37,22 @@
 <script type="text/javascript">
    //var d1 = echarts.init(document.getElementById('d1')); 
    //var d2 = echarts.init(document.getElementById('d2'));
-   var d3 = echarts.init(document.getElementById('d3'));
+   //var d3 = echarts.init(document.getElementById('d3'));
    var d4 = echarts.init(document.getElementById('d4')); 
    var d5 = echarts.init(document.getElementById('d5'));
    var d6 = echarts.init(document.getElementById('d6'));
    var d7 = echarts.init(document.getElementById('d7'));
+   
+   var player = new EZUIPlayer('myPlayer');
+   // 日志
+   player.on('log', log);
+
+   function log(str){
+       var div = document.createElement('DIV');
+       /* div.innerHTML = (new Date()).Format('yyyy-MM-dd hh:mm:ss.S') + JSON.stringify(str); */
+       document.body.appendChild(div);
+   }
+
 </script>
 
 
