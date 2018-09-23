@@ -1,5 +1,6 @@
 package com.mvc.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,18 @@ public class ProjectServiceImpl implements ProjectService {
 			return true;
 		} catch (Exception e){
 			return false;
+		}
+	}
+
+	@Override
+	public List<Project> getProjectInfo(Integer parameter) {
+		List<Project> project = new ArrayList<Project>();
+		try{
+			project = projectRepository.getProjectInfo(parameter);
+		} catch (Exception e){
+			
+		} finally {
+			return project;
 		}
 	}
 
