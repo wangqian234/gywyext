@@ -23,6 +23,9 @@ public interface EquipRealInfoService {
 	//根据设备名字查找设备特征参数
 	List<EquipPara> getEquipParaByName(String searchKey);
 
+	//根据起始时间 向后查100条
+	List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate);
+
 
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.mvc.entityReport.AlarmLog;
+import com.mvc.entityReport.EquipMain;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.Equipment;
 import com.mvc.service.MobileService;
@@ -77,6 +78,20 @@ public class MobileController {
 		}catch(Exception e){
 			return JSON.toJSONString(e);
 		}
+	}
+	
+	//获取维保信息
+	@RequestMapping(value = "/getmaintenance.do")
+	public @ResponseBody String getmaintenance(HttpServletRequest request, HttpSession session) {
+		JSONObject jsonObject = new JSONObject();
+		List<EquipMain> equipMains = new ArrayList<EquipMain>();
+		try{
+			equipMains = mobileService.getmaintenance();
+			jsonObject.put("result",equipMains);
+		}catch(Exception e){
+			return JSON.toJSONString(e);
+		}
+		return jsonObject.toString();
 	}
 		
 }

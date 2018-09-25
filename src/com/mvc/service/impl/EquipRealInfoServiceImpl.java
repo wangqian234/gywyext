@@ -85,5 +85,11 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 		}
 		return equipRealInfoDao.getEquipRealData(searchKey,startDate);
 	}
+	
+	//根据起始时间 向后查100条
+	@Override
+	public List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate) {
+		return equipRealInfoDao.getEquipRealDataByTime(equip_para_id,startDate);
+	}
 
 }

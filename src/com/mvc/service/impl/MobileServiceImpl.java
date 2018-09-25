@@ -1,11 +1,15 @@
 package com.mvc.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mvc.entityReport.AlarmLog;
+import com.mvc.entityReport.EquipMain;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.repository.AlarmLogRepository;
+import com.mvc.repository.EquipMainRepository;
 import com.mvc.repository.EquipOperRepository;
 import com.mvc.service.MobileService;
 
@@ -16,6 +20,8 @@ public class MobileServiceImpl implements MobileService {
 	AlarmLogRepository alarmLogRepository;
 	@Autowired
 	EquipOperRepository equipOperRepository;
+	@Autowired
+	EquipMainRepository equipMainRepository;
 	
 	@Override
 	public AlarmLog addAlarm(AlarmLog alarmLog) {
@@ -27,6 +33,12 @@ public class MobileServiceImpl implements MobileService {
 	public EquipOper addOpeartion(EquipOper equipOper) {
 		EquipOper result = equipOperRepository.saveAndFlush(equipOper);
 		return result;
+	}
+
+	@Override
+	public List<EquipMain> getmaintenance() {
+		List<EquipMain> equipMains = equipMainRepository.getmaintenance();
+		return equipMains;
 	}
 
 }
