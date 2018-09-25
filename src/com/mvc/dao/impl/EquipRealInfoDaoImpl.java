@@ -104,5 +104,21 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			}
 			return list;
 		}
+		
+		//
+		@Override
+		public List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate) {
+			List<EquipOper> list = null;
+			EntityManager em = emf.createEntityManager();
+			try {
+				String selectSql = " select * from equip_oper where  equip_oper_time > '" + startDate + "' and  "
+						+ " equip_para_id = '" + equip_para_id + "' limit 0,100 ";
+				Query query = em.createNativeQuery(selectSql, EquipOper.class);
+				list = query.getResultList();
+			} finally {
+				em.close();
+			}
+			return list;
+		}
 
 }

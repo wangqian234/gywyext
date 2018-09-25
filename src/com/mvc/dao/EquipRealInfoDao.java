@@ -24,5 +24,8 @@ public interface EquipRealInfoDao {
 	//根据设备参数id查询设备参数实时数据
 	List<EquipOper> getEquipRealData(String searchKey, String startDate);
 
+	//根据起始时间 向后查100条
+	List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate);
+
 
 }
