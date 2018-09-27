@@ -30,28 +30,32 @@
 								</div>
 								<div id="collapseOne" class="panel-collapse collapse"
 									style="height: auto;">
-									<div class="panel-body">
-										<div class="form-group">
+									 <div class="panel-body"   > 
+									
+										<div class="form-group"	 >
 											<label>项目名称:&nbsp;&nbsp;&nbsp;</label> <input
 												ng-model="project.proj_name" class="form-control">
-										</div>
-										<div class="form-group">
+										 </div>
+										<div class="form-group" >   
 											<label>项目地址:&nbsp;&nbsp;&nbsp;</label> <input
 												ng-model="project.proj_addr" class="form-control">
-										</div>
-										<div class="form-group">
+										 </div>
+										<div class="form-group" > 
 											<label>业主数量:&nbsp;&nbsp;&nbsp;</label> <input
 												ng-model="project.proj_num" class="form-control">
-										</div>
+										 </div>
 
-										<div class="form-group">
+										<div class="form-group" > 
 											<label>备注:&nbsp;&nbsp;&nbsp;</label>
 											<textarea ng-model="project.proj_memo" class="form-control"
 												rows="3"></textarea>
 										</div>
-									</div>
+										
+								 	</div> 
 									<div class="add-project">
-										继续添加项目信息&nbsp;<img src="/gywyext/images/rightappear.png">
+										 <!-- 继续添加项目信息&nbsp;  <img src="/gywyext/images/rightappear.png"> --> 
+										<img class="addeparaimg" onclick='addProject()' src="../../images/addEpara.png">
+									    <img class="deeparaimg" src="../../images/deEpara.png"> 
 									</div>
 								</div>
 							</div>
@@ -80,3 +84,23 @@
 	</div>
 </div>
 <script type="text/javascript" src="/gywyext/js/lib/bootstrap.min.js"></script>
+<script>
+function addProject(){
+	var tableScontent = $('#collapseOne');
+	var $div = $("<div class='panel-body'></div>");
+	var $input1 = $("<div class='form-group'><lable>项目名称:&nbsp;&nbsp;&nbsp;</lable></div><input	name='projname'  class='form-control' />");
+	var $input2 = $("<div class='form-group'><lable >项目地址:&thinsp;&thinsp;&thinsp;</lable></div><input 	name='projaddr'	class='form-control' />");
+	var $input3 = $("<div class='form-group'><lable>业主数量:&thinsp;&thinsp;&thinsp;</lable></div><input name='projnum'	class='form-control'  />");
+	var $input4 = $("<div class='form-group'><lable>备注:&thinsp;&thinsp;&thinsp;</lable></div><input  name='projmemo'	class='form-control' 	type='text' />");
+	var $input5 = $("<img class='addeparaimg' onclick='addProject()' src='../../images/addEpara.png'><img class='deeparaimg' src='../../images/deEpara.png'>");
+	$div.append($input1);
+	$div.append($input2);
+	$div.append($input3);
+	$div.append($input4);
+	$div.append($input5);
+	tableScontent.append($div);
+	$('.deeparaimg').click(function(e){
+		$(e.target).parent().empty();
+	})
+}
+</script>

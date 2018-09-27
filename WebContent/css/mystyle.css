@@ -263,10 +263,11 @@ textarea.dfinput {
 	    color: #5bc0de;
 }
 .clicking{
-	text_align:left
+	text_align:right;
 	position:absolute;
 	
-	top:150px;/*上下位置*/
+	top:120px;/*上下位置*/
+	right:120px;
 	width:100px;
 	height:100px;
 	z-index:1;

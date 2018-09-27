@@ -161,7 +161,7 @@ app
 									user_sex:'' ,
 									role_id:" ", 
 									user_pwd:"",/*设计编辑功能的时候可以输入进去123deng，新增""*/
-										
+									role:""	
 							};
 /*							staffInfo.addStaff = function(){
 								alert(JSON.stringify(staffInfo.staff))//alert:网页打开时弹窗提示
@@ -185,29 +185,29 @@ app
 								}
 							}
 						
-							// 添加用户信息
-						staffInfo.addStaff = function() {
-								/*alert(JSON.stringify(staffInfo.staff))
-								 if(!((/^0\d{2,3}-?\d{7,8}$/.test(staffInfo.staff.user_tel))||(/^1(3|4|5|7|8)\d{9}$/.test(staffInfo.staff.user_tel)))){
-									 alert("电话格式有误，请重填!");
-									 return;*/
-								
-								var user = JSON.stringify(staffInfo.staff);
-								if(staffInfo.staff.user_name == "" || staffInfo.staff.user_name == undefined){
-									$(".username").show();
-									return ;
-								} else {
-									$(".username").hide();
-								};
-								var staffFormData = JSON
-								.stringify(staffInfo.staff);
-								services.addStaff({
-									staff : staffFormData
-								}).success(function(data) {
-									alert("新建成功");
-									return;
-								});
-					};	
+				// 添加用户信息
+			staffInfo.addStaff = function() {
+					/*alert(JSON.stringify(staffInfo.staff))
+					 if(!((/^0\d{2,3}-?\d{7,8}$/.test(staffInfo.staff.user_tel))||(/^1(3|4|5|7|8)\d{9}$/.test(staffInfo.staff.user_tel)))){
+						 alert("电话格式有误，请重填!");
+						 return;*/
+					
+					var user = JSON.stringify(staffInfo.staff);
+					if(staffInfo.staff.user_name == "" || staffInfo.staff.user_name == undefined){
+						$(".username").show();
+						return ;
+					} else {
+						$(".username").hide();
+					};
+					var staffFormData = JSON
+					.stringify(staffInfo.staff);
+					services.addStaff({
+						staff : staffFormData
+					}).success(function(data) {
+						alert("新建成功");
+						return;
+					});
+		};	
 								    	
 										
 						/*// 获取角色列表
@@ -218,131 +218,131 @@ app
 										staffInfo.roles = data;
 									});
 						}*/
-					// 读取旅游信息
-				staffInfo.selectUserById=function(userId) {
-				console.log(userId);
-				var user_id = sessionStorage.getItem('userId');
-				alert(userId);
-				services.selectUserById({
-						user_id : userId
+			// 读取用户信息
+		staffInfo.selectUserById=function(userId) {
+		console.log(userId);
+		var user_id = sessionStorage.getItem('userId');
+		alert(userId);
+		services.selectUserById({
+				user_id : userId
+				})
+				.success(
+						function(data) {
+							staffInfo.users = data.user;
+							staffInfo.staff = data.user;
+							
+						});
+		};							
+							
+						
+				
+			// 修改用户信息		
+				staffInfo.updateUser = function() {
+					
+					var useFormData = JSON.stringify(staffInfo.users);
+					services.updateUserById({
+						users :useFormData
+					}).success(function(data) {
+						
+						alert("修改成功！");
+						$location.path('userList/');
+					});
+				};
+						
+				// 查看ID，并记入sessionStorage
+				staffInfo.getUserId = function(userId) {
+					sessionStorage.setItem('userId', userId);
+					
+				};
+
+				// 根据输入筛选信息
+				staffInfo.selectuserByName = function() {
+					searchKey = staffInfo.userName;
+					
+					services.getUserListByPage({
+						page : 1,
+						searchKey : searchKey
+					}).success(function(data) {
+						staffInfo.users = data.list;
+						initData();
+						//console.log(staffInfo.users)
+						//pageTurn(data.totalPage, 1, getUserListByPage)
+					});
+				};
+			//初始化页面信息
+			function initData() {
+				
+				console.log("初始化页面信息");
+				
+				/*$("#user").show();*/
+				if ($location.path().indexOf('/userList') == 0) {
+					searchKey = staffInfo.userName;
+					services.getUserListByPage({
+						page : 1,
+						searchKey : searchKey
+					}).success(function(data) {
+						staffInfo.Users = data.list;
+						/*pageTurn(data.totalPage, 1, getUserListByPage);*/
+						
+					});
+				}
+				/*else if ($location.path().indexOf('/travelTradeList') == 0) {
+					searchKey = null;
+					services.getTravelTradeListByPage({
+						page : 1,
+						searchKey : searchKey
+					}).success(function(data) {
+						traveltrade.traveltrades = data.list;
+						traveltrade.totalRow="打印："+data.totalRow;
+						traveltrade.totalP="打印："+data.totalPage;
+						pageTurn(data.totalPage, 1, getTravelTradeListByPage);
+						
+					});
+				}*/
+				else if ($location.path().indexOf('/staffBaseInfo') == 0) {
+					/*if(sessionStorage.getItem('leftData')){
+						equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
+					}*/
+					searchKey = null;
+					services.getUserListByPage({
+						page : 1,
+						searchKey : searchKey
+					}).success(function(data) {
+						
+						staffInfo.user = data.list;
+						pageTurn(
+								data.totalPage,
+								1,
+								getUserListByPage);
+
+					});
+				}
+				 else if ($location.path().indexOf('/staffAdd') == 0) {
+					 services.getAllRoleList().success(function(data){
+						 staffInfo.role_state = data;
 						})
-						.success(
+					
+				 }
+				 else if ($location.path().indexOf('/userUpdate') == 0) {
+					
+				// 根据ID获取信息
+				var user_id = sessionStorage.getItem('userId');
+				alert(user_id)
+				services.selectUserById({
+						user_id: user_id
+						})
+						.success(											
 								function(data) {
-									staffInfo.users = data.user;
-									staffInfo.staff = data.user;
-									
+									/*alert("!!!");*/
+									staffInfo.users = data.user;//"user"是controller里get的到的"user","users"对应html中的"users.user_xxx"
+								
+									/*staffInfo.users = data.user;*/
 								});
-				};							
-									
-						
-						
-					// 修改旅游用户		
-						staffInfo.updateUser = function() {
-							
-							var useFormData = JSON.stringify(staffInfo.users);
-							services.updateUserById({
-								users :useFormData
-							}).success(function(data) {
-								
-								alert("修改成功！");
-								$location.path('userList/');
-							});
-						};
-						
-						// 查看ID，并记入sessionStorage
-						staffInfo.getUserId = function(userId) {
-							sessionStorage.setItem('userId', userId);
-							
-						};
-
-						// 根据输入筛选信息
-						staffInfo.selectuserByName = function() {
-							searchKey = staffInfo.userName;
-							
-							services.getUserListByPage({
-								page : 1,
-								searchKey : searchKey
-							}).success(function(data) {
-								staffInfo.users = data.list;
-								initData();
-								//console.log(staffInfo.users)
-								//pageTurn(data.totalPage, 1, getUserListByPage)
-							});
-						};
-					//初始化页面信息
-					function initData() {
-						
-						console.log("初始化页面信息");
-						
-						/*$("#user").show();*/
-						if ($location.path().indexOf('/userList') == 0) {
-							searchKey = staffInfo.userName;
-							services.getUserListByPage({
-								page : 1,
-								searchKey : searchKey
-							}).success(function(data) {
-								staffInfo.Users = data.list;
-								/*pageTurn(data.totalPage, 1, getUserListByPage);*/
-								
-							});
-						}
-						/*else if ($location.path().indexOf('/travelTradeList') == 0) {
-							searchKey = null;
-							services.getTravelTradeListByPage({
-								page : 1,
-								searchKey : searchKey
-							}).success(function(data) {
-								traveltrade.traveltrades = data.list;
-								traveltrade.totalRow="打印："+data.totalRow;
-								traveltrade.totalP="打印："+data.totalPage;
-								pageTurn(data.totalPage, 1, getTravelTradeListByPage);
-								
-							});
-						}*/
-						else if ($location.path().indexOf('/staffBaseInfo') == 0) {
-							/*if(sessionStorage.getItem('leftData')){
-								equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
-							}*/
-							searchKey = null;
-							services.getUserListByPage({
-								page : 1,
-								searchKey : searchKey
-							}).success(function(data) {
-								
-								staffInfo.user = data.list;
-								pageTurn(
-										data.totalPage,
-										1,
-										getUserListByPage);
-
-							});
-						}
-						 else if ($location.path().indexOf('/staffAdd') == 0) {
-							 services.getAllRoleList().success(function(data){
-								 staffInfo.role_state = data;
-								})
-							
-						 }
-						 else if ($location.path().indexOf('/userUpdate') == 0) {
-							
-						// 根据ID获取信息
-						var user_id = sessionStorage.getItem('userId');
-						alert(user_id)
-						services.selectUserById({
-								user_id: user_id
-								})
-								.success(											
-										function(data) {
-											/*alert("!!!");*/
-											staffInfo.users = data.user;//"user"是controller里get的到的"user","users"对应html中的"users.user_xxx"
-										
-											/*staffInfo.users = data.user;*/
-										});
-						 			}
-						
-									}
-								initData();
-								//获取信息完
+				 			}
+				
+							}
+						initData();
+						//获取信息完
 								
 								//批量删除用户信息
 								/*function check() {
@@ -449,15 +449,18 @@ app
 											staffInfo.user = data.Result;
 										})
 									}
-									
+									//改动过
 									function initPage() {
 										console.log("初始化成功staffInfoController！")
 										if ($location.path().indexOf('/staffBaseInfo') == 0) {
 											getAllStaff();
-										}
-										
+										}else if($location.path().indexOf('/getProjectInfo') == 0){
+											services.getProjectInfo().success(function(data){
+												indexpro.project = data.result;
+												console.log(JSON.stringify(indexpro.project))
+											})
 									}
-									
+									}
 									initPage();
 						} ]);
 						
