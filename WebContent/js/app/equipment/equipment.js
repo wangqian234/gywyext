@@ -150,6 +150,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	
 	// 根据proj_id查找设备
 	services.selectBaseInfoByProj = function(data) {
 		return $http({
@@ -225,6 +226,7 @@ app
 							var equip_types;
 							var equip_para;
 							var users;
+							var projects;
 							var pa = 1
 
 							// 换页
@@ -259,7 +261,8 @@ app
 								services.getEquipmentListByRS({
 									page : page,
 									eqRoom : eqRoom,
-									eqState : eqState
+									eqState : eqState,
+									proj_id : proj_id
 								}).success(function(data) {
 									equipment.equipments = data.list;
 								});
@@ -282,7 +285,8 @@ app
 								services.getEquipmentListByRS({
 									page : 1,
 									eqRoom : eqRoom,
-									eqState : eqState
+									eqState : eqState,
+									proj_id : equipment.selectBaseInfoProj_id									
 								}).success(function(data) {
 									equipment.equipments = data.list;
 								});
@@ -374,7 +378,7 @@ app
 									equipment.equipment = data.equipment;
 								});
 							};
-
+							
 							// 修改设备信息
 							equipment.updateEquipment = function() {
 								if (!compareDateTime(
@@ -407,7 +411,6 @@ app
 										equipment.para.paraunit.push($(this).val());
 											})
 								 var equipmentpara =JSON.stringify(equipment.para);
-								alert(equipmentpara)
 								 var EqFormData = JSON.stringify(equipment.equipmentInfo);
 								if (confirm("是否修改该设备信息？") == true) {
 									services.updateEquipmentById({
@@ -428,9 +431,10 @@ app
 							}
 
 							// 根据proj_id查找设备基本信息			
-							equipment.selectBaseInfoByProj = function(proj_id) {
+							equipment.selectBaseInfoByProj = function(proj_id,name) {
 								sessionStorage.setItem("proj_id", proj_id); // 新建中的设备获取用到
 								equipment.selectBaseInfoProj_id = proj_id;
+								equipment.project_name = name
 								services.selectBaseInfoByProj({
 									page : 1,
 									proj_id : proj_id
@@ -482,7 +486,8 @@ app
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！")
-								if ($location.path().indexOf('/equipBaseInfo') == 0) {
+
+								if ($location.path().indexOf('/equipBaseInfo') == 0) {		//此页面暂时无用	
 									if (sessionStorage.getItem('leftData')) {
 										equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
 									}
@@ -499,21 +504,23 @@ app
 																getEquipmentListByPage);
 													});
 									
-									eqRoom = null;
-									eqState = null;
+									equipment.equipRoomm = "0";
+									equipment.equipStatee = "0";
+									var eqRoom = JSON.stringify(equipment.equipRoomm) ;
+									eqState = JSON.stringify(equipment.equipStatee)
 									services.getEquipmentListByRS({
-												page : 1,
-												eqRoom : eqRoom,
-												eqState : eqState
-											})
-											.success(
-													function(data) {
-														equipment.equipments = data.list;
-														pageTurn(
-																data.totalPage,
-																1,
-																getEquipmentListByRS);
-													});									
+										page : 1,
+										eqRoom : eqRoom,
+										eqState : eqState
+									})
+									.success(
+											function(data) {
+												equipment.equipments = data.list;
+												pageTurn(
+														data.totalPage,
+														1,
+														getEquipmentListByRS);
+											});									
 								} else if ($location.path().indexOf('/equipUpdate') == 0) {
 									var equip_id = sessionStorage.getItem("equipmentId");
 									services.selectEquipmentById({
@@ -579,6 +586,7 @@ app
 										equipment.users = data2.result;
 										})
 								} else if ($location.path().indexOf('/leftInit') == 0) {
+									
 									services.getInitLeft({}).success(
 													function(data) {
 														var arr = data.leftResult;
@@ -624,7 +632,25 @@ app
 																		});
 
 													});
-
+									
+									equipment.equipRoomm = "0";
+									equipment.equipStatee = "0";
+									var eqRoom = JSON.stringify(equipment.equipRoomm) ;
+									eqState = JSON.stringify(equipment.equipStatee)
+									services.getEquipmentListByRS({
+										page : 1,
+										eqRoom : eqRoom,
+										eqState : eqState
+									})
+									.success(
+											function(data) {
+												equipment.equipments = data.list;
+												pageTurn(
+														data.totalPage,
+														1,
+														getEquipmentListByRS);
+											});							
+									
 								} else if ($location.path().indexOf('/equipDetail') == 0) {
 									equipment.equipmentDetail = JSON.parse(sessionStorage.getItem('equipmentDetail'));
 									equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));

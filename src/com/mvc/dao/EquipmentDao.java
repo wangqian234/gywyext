@@ -13,7 +13,7 @@ public interface EquipmentDao {
 	Boolean updateState(Integer equip_id);
 
 	//根据room，state筛选信息
-	List<Equipment> selectEquipmentByRS(String eqRoom, Integer eqState, Integer offset, Integer end);
+	List<Equipment> selectEquipmentByRS(List<Integer> roomId ,String eqRoom, String eqState, Integer offset, Integer end);
 	
 	// 查询设备信息总条数
 	Integer countEqTotal(String searchKey);
@@ -33,5 +33,8 @@ public interface EquipmentDao {
 	List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end);*/
 	
 	//根据设备id查找设备特征参数
-	List<EquipPara> getEquipPara(String searchKey);
+	List<EquipPara> getEquipPara(Integer searchKey);
+	
+	//学姐测试专用
+	List<Equipment> selectEquipmentByRoom(String room);
 }

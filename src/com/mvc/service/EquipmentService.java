@@ -20,7 +20,7 @@ public interface EquipmentService {
 	boolean deleteIsdelete(Integer equip_id);
 
 	// 根据room，state筛选信息
-	List<Equipment> selectEquipmentByRS(String eqRoom, Integer eqState, Integer offset, Integer end);
+	List<Equipment> selectEquipmentByRS(List<EquipRoom> room, String eqRoom, String eqState, Integer offset, Integer end);
 	
 	// 查询设备总条数
 	Integer countEqTotal(String searchKey);
@@ -35,8 +35,8 @@ public interface EquipmentService {
 	// 添加设备信息
 	Equipment save(Equipment equipment);
 	
-	// 修改设备基本信息
-	boolean updateEquipmentBase(Integer equip_id, JSONObject jsonObject) throws ParseException;
+/*	// 修改设备基本信息
+	boolean updateEquipmentBase(Integer equip_id, JSONObject jsonObject) throws ParseException;*/
  	// 根据ID获取设备信息
 	Equipment selectEquipmentById(Integer equip_id);
 	
@@ -72,9 +72,12 @@ public interface EquipmentService {
 	List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end);*/
 
 	//根据设备id查找设备特征参数
-	List<EquipPara> getEquipPara(String searchKey);
+	List<EquipPara> getEquipPara(Integer searchKey);
 	void saveParas(List<EquipPara> equipParas);
 
+	
+	//学姐测试专用
+	List<Equipment> selectEquipmentByRoom(String room);
 
 
 

@@ -17,7 +17,7 @@ import com.mvc.repository.EquipTypeRepository;
 import com.mvc.repository.EquipManuRepository;
 import com.mvc.repository.EquipParaRepository;
 import com.mvc.repository.UserRepository;
-import com.mvc.repository.ProjectRepository;
+/*import com.mvc.repository.ProjectRepository;*/
 
 import com.mvc.dao.EquipmentDao;
 import com.mvc.entityReport.User;
@@ -25,6 +25,7 @@ import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.EquipType;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.Files;
+import com.mvc.entityReport.Project;
 import com.mvc.service.EquipmentService;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.EquipMain;
@@ -46,9 +47,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	EquipParaRepository equipParaRepository;
 	@Autowired
 	UserRepository userRepository;
-	@Autowired
-	ProjectRepository projectRepository;
-	
+/*	@Autowired
+	ProjectRepository projectRepository;*/	
 	@Autowired
 	EquipmentDao equipmentDao;
 
@@ -60,8 +60,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	// 根据room，state筛选信息
 	@Override
-	public List<Equipment> selectEquipmentByRS(String eqRoom, Integer eqState, Integer offset, Integer end){
-		return equipmentDao.selectEquipmentByRS( eqRoom, eqState, offset, end);
+	public List<Equipment> selectEquipmentByRS(List<EquipRoom> room , String eqRoom, String eqState, Integer offset, Integer end){
+		List<Integer> roomId = new ArrayList();
+		for(int k=0;k<room.size();k++){
+			System.out.println(room.get(k).getEquip_room_id());
+			roomId.add(room.get(k).getEquip_room_id());
+		}
+	
+		return equipmentDao.selectEquipmentByRS(roomId, eqRoom, eqState, offset, end);
 	}
 	
 	// 查询设备总条数
@@ -81,12 +87,20 @@ public class EquipmentServiceImpl implements EquipmentService {
 		Equipment result = equipmentRepository.saveAndFlush(equipment);
 		return result;
 	}
-	// 修改设备基本信息
+	
+	// 根据ID获取设备信息(用于设备信息的修改）
+	@Override
+	public Equipment selectEquipmentById(Integer equip_id) {
+		return equipmentRepository.selectEquipmentById(equip_id);
+	}
+	
+	
+	/*// 修改设备基本信息
 				@Override
 				public boolean updateEquipmentBase(Integer equip_id, JSONObject jsonObject) throws ParseException {
 					Equipment equipment = equipmentRepository.selectEquipmentById(equip_id);
-				/*	JSONObject jsonPara = new JSONObject();
-					List<EquipPara> equipParas = new ArrayList<EquipPara>();*/
+				    
+					List<EquipPara> equipParas = new ArrayList<EquipPara>();
 					if (equipment != null) {
 						if (jsonObject.containsKey("equip_no")) {
 						    equipment.setEquip_no(jsonObject.getString("equip_no"));
@@ -97,11 +111,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 						if (jsonObject.containsKey("equip_num")) {
 							equipment.setEquip_num(jsonObject.getString("equip_num"));
 						}		
-						/*if (jsonObject.containsKey("file_id")) {
+						if (jsonObject.containsKey("file_id")) {
 							Files file = new Files();
 							file.setFile_id(Integer.parseInt(jsonObject.getString("file_id")));
 							equipment.setFile_id(file);
-						}*/
+						}
 						if (jsonObject.containsKey("equip_type")) {
 							EquipType et = new EquipType();
 							et.setEquip_type_id(Integer.valueOf(jsonObject.getString("equip_type")));
@@ -154,13 +168,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 							equipment.setUser(eu);	
 						}
 					}
-
-					equipment = equipmentRepository.saveAndFlush(equipment);
-		
-					/*JSONArray objName = (JSONArray) jsonPara.get("paraname");
-					JSONArray objValue = (JSONArray) jsonPara.get("paravalue");
-					JSONArray objRe = (JSONArray) jsonPara.get("parare");
-					JSONArray objUnit = (JSONArray) jsonPara.get("paraunit");
+					equipment = equipmentRepository.saveAndFlush(equipment);		
+				
 					Object[] paraName = objName.toArray();
 					Object[] paraValue = objValue.toArray();
 					Object[] paraRe = objRe.toArray();
@@ -178,17 +187,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 					
 					for(int i=0;i<equipParas.size();i++){
 						equipParaRepository.saveAndFlush(equipParas.get(i));
-					}*/
+					}
 					if (equipment.getEquip_id() != null)
 						return true;
 					else
 						return false;
-					}
- 				// 根据ID获取设备信息(用于设备信息的修改）
-				@Override
-				public Equipment selectEquipmentById(Integer equip_id) {
-					return equipmentRepository.selectEquipmentById(equip_id);
-				}
+					}*/
+ 				
 
 				
 				// 根据页数筛选全部设备信息列表
@@ -289,7 +294,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 		//根据设备id查找设备特征参数
 		@Override
-		public List<EquipPara> getEquipPara(String searchKey) {
+		public List<EquipPara> getEquipPara(Integer searchKey) {
 			List<EquipPara> list = equipmentDao.getEquipPara(searchKey);
 			for(int i=0;i<list.size();i++){
 				list.get(i).setEquipment(null);
@@ -305,4 +310,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 			}
 		}
 
+
+		// 学姐测试专用
+		@Override
+		public List<Equipment> selectEquipmentByRoom(String room) {
+			return equipmentDao.selectEquipmentByRoom(room);
+		}
 }
