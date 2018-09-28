@@ -133,7 +133,7 @@ public class Equipment {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="equip_room")
+	@JoinColumn(name="equip_room_id")
 	public EquipRoom getEquip_room() {
 		return equip_room;
 	}

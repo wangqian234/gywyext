@@ -16,6 +16,10 @@ public interface EquipRoomRepository extends JpaRepository<EquipRoom, Integer> {
 
 	//获取安装位置信息
 	@Query("select er from EquipRoom er where equip_room_isdeleted=0")
-	List< EquipRoom> getEquipRoomInfo();
+	public List<EquipRoom> getEquipRoomInfo();
+	
+	//根据ID获取安装位置信息
+	@Query("select er from EquipRoom er where proj_id=:proj_id")
+	public List<EquipRoom> getRoomByProId(@Param("proj_id") Integer proj_id);
 
 }
