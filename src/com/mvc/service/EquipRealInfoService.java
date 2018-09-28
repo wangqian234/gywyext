@@ -2,6 +2,7 @@ package com.mvc.service;
 
 import java.util.List;
 
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
@@ -22,6 +23,9 @@ public interface EquipRealInfoService {
 
 	//根据设备名字查找设备特征参数
 	List<EquipPara> getEquipParaByName(String searchKey);
+	
+	//获取设备报警信息
+	List<AlarmLog> getWaringNews(String searchKey);
 
 
 

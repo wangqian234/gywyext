@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1"/>
 <title>可视化大屏</title>
  <link rel="stylesheet" type="text/css" href="../../../../css/dataV.css">
 <script src="../../../../js/lib/echarts.js"></script>

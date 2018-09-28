@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mvc.dao.EquipRealInfoDao;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipMain;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
@@ -84,6 +85,16 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 			data.get(i).setEquip_para_id(null);
 		}
 		return equipRealInfoDao.getEquipRealData(searchKey,startDate);
+	}
+	
+	//获取设备报警信息
+	@Override
+	public List<AlarmLog> getWaringNews(String searchKey) {
+		List<AlarmLog> data = equipRealInfoDao.getWaringNews(searchKey);
+		for(int i=0;i<data.size();i++){
+			data.get(i).setAlarm_log_id(null);
+		}
+		return equipRealInfoDao.getWaringNews(searchKey);
 	}
 
 }

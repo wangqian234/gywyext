@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.mvc.dao.EquipRealInfoDao;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
@@ -98,6 +99,22 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 				String selectSql = " select * from equip_oper where  equip_oper_time > '" + startDate + "' and  "
 						+ " equip_para_id = '" + searchKey + "'";
 				Query query = em.createNativeQuery(selectSql, EquipOper.class);
+				list = query.getResultList();
+			} finally {
+				em.close();
+			}
+			return list;
+		}
+		
+		//获取设备报警信息
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<AlarmLog> getWaringNews(String searchKey) {
+			List<AlarmLog> list =null;
+			EntityManager em = emf.createEntityManager();
+			try {
+				String selectSql = " select * from alarm_log where  alarm_log_ischecked = 0";
+				Query query = em.createNativeQuery(selectSql, AlarmLog.class);
 				list = query.getResultList();
 			} finally {
 				em.close();

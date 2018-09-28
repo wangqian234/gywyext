@@ -2,6 +2,7 @@ package com.mvc.dao;
 
 import java.util.List;
 
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
@@ -23,6 +24,9 @@ public interface EquipRealInfoDao {
 
 	//根据设备参数id查询设备参数实时数据
 	List<EquipOper> getEquipRealData(String searchKey, String startDate);
+
+	//获取设备报警信息
+	List<AlarmLog> getWaringNews(String searchKey);
 
 
 }
