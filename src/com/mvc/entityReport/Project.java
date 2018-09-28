@@ -30,6 +30,7 @@ public class Project {
 	public void setProj_id(Integer proj_id) {
 		this.proj_id = proj_id;
 	}
+	
 	@ManyToOne
 	@JoinColumn(name="comp_id")
 	public Company getCompany() {
@@ -89,4 +90,7 @@ public class Project {
 	public void setProj_isdeleted(Integer proj_isdeleted) {
 		this.proj_isdeleted = proj_isdeleted;
 	}
+	
 }
+
+
