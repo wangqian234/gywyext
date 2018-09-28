@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
@@ -40,7 +41,6 @@ public class EquipRealInfoController {
 	//根据页数显示设备信息列表
 			@RequestMapping(value = "/getEquipmentListByPage.do")
 			public @ResponseBody String getEquipmentListByPage(HttpServletRequest request, HttpSession session) {
-				System.out.println("Controller");
 				JSONObject jsonObject = new JSONObject();
 				String searchKey = request.getParameter("searchKey");
 				Integer totalRow = equipRealInfoService.countEqTotal(searchKey);
@@ -50,8 +50,6 @@ public class EquipRealInfoController {
 				List<Equipment> list = equipRealInfoService.selectEquipmentByPage(searchKey, pager.getOffset(), pager.getLimit());
 				jsonObject.put("list", list);
 				jsonObject.put("totalPage", pager.getTotalPage());
-				/*System.out.println(jsonObject.toString());*/
-				
 				return jsonObject.toString();
 			}
 			
@@ -79,20 +77,15 @@ public class EquipRealInfoController {
 				} catch (Exception e){
 					jsonObject.put("error", "暂未找到相关数据");
 				}
-				System.out.println(jsonObject.toString());
 				return jsonObject.toString();
 			}
  //根据设备参数id查找设备特征参数实时数据
 	        @RequestMapping(value = "/getEquipRealData.do")
 			public @ResponseBody String getEquipRealData(HttpServletRequest request, HttpSession session){
 				JSONObject jsonObject = new JSONObject();
-
-				System.out.println("123");
 				try{
 					String searchKey = request.getParameter("searchKey");
 					String startDate = request.getParameter("startDate");
-					System.out.println(searchKey);
-					System.out.println(startDate);
 					List<EquipOper> data = equipRealInfoService.getEquipRealData(searchKey,startDate);
 					jsonObject.put("data", data);
 				} catch (Exception e){
@@ -126,17 +119,17 @@ public class EquipRealInfoController {
         String url = null;			     
 	    String param = null;
         if(turn_id.equals("0")){
-        	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.aedabs5ic4xy3ihwc949ethndttqp4au-1hprl09j6x-0tzlkhp-n0bw8skni&deviceSerial=C24186733&channelNo=1&direction=0&speed=1";
+        	 url = "https://open.ys7.com/api/lapp/device/ptz/start";
+		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=0&speed=1";
         }else if(turn_id.equals("1")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.aedabs5ic4xy3ihwc949ethndttqp4au-1hprl09j6x-0tzlkhp-n0bw8skni&deviceSerial=C24186733&channelNo=1&direction=1&speed=1";
+		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=1&speed=1";
         }else if(turn_id.equals("2")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.aedabs5ic4xy3ihwc949ethndttqp4au-1hprl09j6x-0tzlkhp-n0bw8skni&deviceSerial=C24186733&channelNo=1&direction=2&speed=1";
+		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=2&speed=1";
         }else if(turn_id.equals("3")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.aedabs5ic4xy3ihwc949ethndttqp4au-1hprl09j6x-0tzlkhp-n0bw8skni&deviceSerial=C24186733&channelNo=1&direction=3&speed=1";
+		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=3&speed=1";
         }
         try {
             URL realUrl = new URL(url);
@@ -190,13 +183,13 @@ public class EquipRealInfoController {
         String url = "https://open.ys7.com/api/lapp/device/ptz/stop";			     
 	    String param = null;			        
 	    if(turn_id.equals("0")){
-		     param = "accessToken=at.aedabs5ic4xy3ihwc949ethndttqp4au-1hprl09j6x-0tzlkhp-n0bw8skni&deviceSerial=C24186733&channelNo=1&direction=0";
+		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=0";
         }else if(turn_id.equals("1")){			     
-		     param = "accessToken=at.aedabs5ic4xy3ihwc949ethndttqp4au-1hprl09j6x-0tzlkhp-n0bw8skni&deviceSerial=C24186733&channelNo=1&direction=1";
+		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=1";
         }else if(turn_id.equals("2")){			     
-		     param = "accessToken=at.aedabs5ic4xy3ihwc949ethndttqp4au-1hprl09j6x-0tzlkhp-n0bw8skni&deviceSerial=C24186733&channelNo=1&direction=2";
+		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=2";
         }else if(turn_id.equals("3")){			     
-		     param = "accessToken=at.aedabs5ic4xy3ihwc949ethndttqp4au-1hprl09j6x-0tzlkhp-n0bw8skni&deviceSerial=C24186733&channelNo=1&direction=3";
+		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=3";
         }
 	    try {
             URL realUrl = new URL(url);
@@ -239,9 +232,21 @@ public class EquipRealInfoController {
         jsonObject.put("result", result);					
 		return jsonObject.toString();
 	}
-	
 	//haile
-
 	
-
+	//获取设备报警信息
+    @RequestMapping(value = "/getWaringNews.do")
+	public @ResponseBody String getWaringNews(HttpServletRequest request, HttpSession session){
+		JSONObject jsonObject = new JSONObject();
+		try{
+			String searchKey = request.getParameter("searchKey");
+			//String startDate = request.getParameter("startDate");
+			//List<EquipOper> data = equipRealInfoService.getWaringNews(searchKey,startDate);
+			List<AlarmLog> data = equipRealInfoService.getWaringNews(searchKey);
+			jsonObject.put("data", data);
+		} catch (Exception e){
+			jsonObject.put("error", "暂未找到相关数据");
+		}
+		return jsonObject.toString();
+	}
 }
