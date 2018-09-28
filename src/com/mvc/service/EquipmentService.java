@@ -6,9 +6,9 @@ import java.util.List;
 import com.mvc.entityReport.User;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.EquipRoom;
-import com.mvc.entityReport.Project;
+
 import com.mvc.entityReport.EquipType;
-import com.mvc.entityReport.EquipManu;
+
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.EquipMain;
 
@@ -74,6 +74,10 @@ public interface EquipmentService {
 	//根据设备id查找设备特征参数
 	List<EquipPara> getEquipPara(String searchKey);
 	void saveParas(List<EquipPara> equipParas);
+
+	List<Equipment> selectEquipByRoom(List<EquipRoom> room);
+
+	List<Equipment> selectEquipByRoomMobile(List<EquipRoom> room);
 
 
 

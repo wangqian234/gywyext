@@ -27,6 +27,9 @@ public interface EquipRealInfoDao {
 
 	//获取设备报警信息
 	List<AlarmLog> getWaringNews(String searchKey);
+	
+	//根据起始时间 向后查100条
+	List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate);
 
 
 }

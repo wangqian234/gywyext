@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.aspectj.weaver.ast.Var;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -207,6 +207,25 @@ public class EquipmentServiceImpl implements EquipmentService {
 					}
 					List<Equipment> list = equipmentDao.selectEquipByRoom(roomId,offset, end);
 					
+					return list;
+				}
+				
+				//根据安装位置筛选设备信息
+				@Override
+				public List<Equipment> selectEquipByRoom(List<EquipRoom> room) {
+					List<Integer> roomId = new ArrayList();
+					for(int k=0;k<room.size();k++){
+						roomId.add(room.get(k).getEquip_room_id());
+					}
+					List<Equipment> list = equipmentDao.selectEquipByRoom(roomId);
+					
+					return list;
+				}
+				
+				//根据安装位置筛选设备信息
+				@Override
+				public List<Equipment> selectEquipByRoomMobile(List<EquipRoom> room) {
+					List<Equipment> list = equipmentDao.selectEquipByRoomMobile(room);
 					return list;
 				}
 				

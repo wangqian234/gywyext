@@ -329,9 +329,10 @@ app
 								$("input[name='paraunit']").each(function() {
 									equipment.para.paraunit.push($(this).val());
 								})
-								if (sessionStorage.getItem("PicFile")) {
-									console.log(sessionStorage.getItem("PicFile"));
-									equipment.equipmentInfo.file_id = JSON.stringify(sessionStorage.getItem("PicFile")).file_id;
+								alert(sessionStorage.getItem("picFile"))
+								if (sessionStorage.getItem("picFile") != null) {
+									console.log(sessionStorage.getItem("picFile"));
+									equipment.equipmentInfo.file_id = JSON.parse(sessionStorage.getItem("picFile")).fileBean.file_id;
 								}
 
 								var equipmentpara = JSON.stringify(equipment.para);
@@ -435,6 +436,7 @@ app
 									page : 1,
 									proj_id : proj_id
 								}).success(function(data) {
+									console.log('打印项目包含的设备', data);
 									equipment.equipments = data.equipment;
 									equipment.equiproom_p = data.room;
 								});

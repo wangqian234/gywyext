@@ -93,6 +93,21 @@ public class EquipRealInfoController {
 				}
 				return jsonObject.toString();
 			}
+	        
+	        //根据设备参数id查找设备特征参数实时数据
+	        @RequestMapping(value = "/getEquipRealDataByTime.do")
+			public @ResponseBody String getEquipRealDataByTime(HttpServletRequest request, HttpSession session){
+				JSONObject jsonObject = new JSONObject();
+				try{
+					String equip_para_id = request.getParameter("equip_para_id");
+					String startDate = request.getParameter("startDate");
+					List<EquipOper> data = equipRealInfoService.getEquipRealDataByTime(equip_para_id,startDate);
+					jsonObject.put("data", data);
+				} catch (Exception e){
+					jsonObject.put("error", "暂未找到相关数据");
+				}
+				return jsonObject.toString();
+			}
 	//gaogaogao
 	//控制云台
 	@RequestMapping(value = "/getTurn.do")
