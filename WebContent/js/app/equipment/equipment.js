@@ -436,6 +436,7 @@ app
 									page : 1,
 									proj_id : proj_id
 								}).success(function(data) {
+									console.log('打印项目包含的设备', data);
 									equipment.equipments = data.equipment;
 									equipment.equiproom_p = data.room;
 								});

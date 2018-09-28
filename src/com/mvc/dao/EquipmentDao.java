@@ -34,4 +34,8 @@ public interface EquipmentDao {
 	
 	//根据设备id查找设备特征参数
 	List<EquipPara> getEquipPara(String searchKey);
+
+	List<Equipment> selectEquipByRoom(List<Integer> roomId);
+
+	List<Equipment> selectEquipByRoomMobile(List<EquipRoom> room);
 }

@@ -75,6 +75,10 @@ public interface EquipmentService {
 	List<EquipPara> getEquipPara(String searchKey);
 	void saveParas(List<EquipPara> equipParas);
 
+	List<Equipment> selectEquipByRoom(List<EquipRoom> room);
+
+	List<Equipment> selectEquipByRoomMobile(List<EquipRoom> room);
+
 
 
 

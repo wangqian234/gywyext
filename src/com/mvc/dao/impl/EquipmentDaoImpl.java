@@ -146,6 +146,22 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				System.out.println(list);
 				return list;
 			}
+			
+			//根据安装位置筛选设备
+			@Override
+			public List<Equipment> selectEquipByRoom(List<Integer> roomId) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_isdeleted=0 and ( ";
+				for(int i=0;i<roomId.size()-1;i++){
+					selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+				}
+				selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
+				Query query = em.createNativeQuery(selectSql, Equipment.class);
+				List<Equipment> list = query.getResultList();
+				em.close();
+				System.out.println(list);
+				return list;
+			}
                                                  /*设备维保信息表内容*/
 		/*//  查询信息总条数
 			@SuppressWarnings("unchecked")
@@ -192,6 +208,20 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				} finally {
 					em.close();
 				}
+				return list;
+			}
+
+			@Override
+			public List<Equipment> selectEquipByRoomMobile(List<EquipRoom> room) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_isdeleted=0 and ( ";
+				for(int i=0;i<room.size()-1;i++){
+					selectSql += " equip_room = '" +room.get(i).getEquip_room_id() + "' or ";
+				}
+				selectSql += " equip_room = '" +room.get(room.size()-1).getEquip_room_id() + "' ) ";
+				Query query = em.createNativeQuery(selectSql, Equipment.class);
+				List<Equipment> list = query.getResultList();
+				em.close();
 				return list;
 			}
 

@@ -210,6 +210,25 @@ public class EquipmentServiceImpl implements EquipmentService {
 					return list;
 				}
 				
+				//根据安装位置筛选设备信息
+				@Override
+				public List<Equipment> selectEquipByRoom(List<EquipRoom> room) {
+					List<Integer> roomId = new ArrayList();
+					for(int k=0;k<room.size();k++){
+						roomId.add(room.get(k).getEquip_room_id());
+					}
+					List<Equipment> list = equipmentDao.selectEquipByRoom(roomId);
+					
+					return list;
+				}
+				
+				//根据安装位置筛选设备信息
+				@Override
+				public List<Equipment> selectEquipByRoomMobile(List<EquipRoom> room) {
+					List<Equipment> list = equipmentDao.selectEquipByRoomMobile(room);
+					return list;
+				}
+				
 				//添加设备安装位置信息
 				public boolean save(EquipRoom equip_room) {
 					EquipRoom result = equipRoomRepository.saveAndFlush(equip_room);
