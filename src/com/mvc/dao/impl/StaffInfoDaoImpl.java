@@ -27,7 +27,7 @@ public  class StaffInfoDaoImpl implements StaffInfoDao {
 	public List<User> getStaffInfo() {
 		EntityManager em = emf.createEntityManager();
 		String selectSql = "select * from user";
-
+		/*String selectSql = "select u from User  u where user_isdeleted=0";*/
 		Query query = em.createNativeQuery(selectSql, User.class);
 		List<User> list = query.getResultList();
 		em.close();
@@ -35,7 +35,7 @@ public  class StaffInfoDaoImpl implements StaffInfoDao {
 	}
 	
 	
-		//  查询旅游信息总条数
+		//  查询用户信息总条数
 			@SuppressWarnings("unchecked")
 			public Integer countTotal(String searchKey) {
 				EntityManager em = emf.createEntityManager();
