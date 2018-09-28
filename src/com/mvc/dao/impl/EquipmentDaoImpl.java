@@ -41,54 +41,54 @@ public class EquipmentDaoImpl implements EquipmentDao {
 		return true;
 
 	}
-/*	//根据限制条件筛选信息
-		@SuppressWarnings({ "unchecked" })
-		@Override
-		public Integer countTotal(String eqType, String eqState) {
-			EntityManager em = emf.createEntityManager();
-			String countSql = " select count(equip_id) from equipment tr where equip_isdeleted=0 " ;
-			if((eqState != null && !eqState.equals("")) && (eqType != null && !eqType.equals(""))){
-				countSql += " and equip_state = " + eqState + " and equip_type = " + eqType;
-			}
-			if((eqState != null && !eqState.equals("")) && (eqType == null || eqType.equals(""))){
-				countSql += " and equip_state = " + eqState;
-			}
-			if((eqType != null && !eqType.equals("")) && (eqState == null || eqState.equals(""))){
-				countSql += " and equip_type = " + eqType;
-			}
-			Query query = em.createNativeQuery(countSql);
-			List<Object> totalRow = query.getResultList();
-			em.close();
-			return Integer.parseInt(totalRow.get(0).toString());
-		}
+
+	//根据room，state筛选信息
 		@SuppressWarnings("unchecked")
 		@Override
-		public List<Equipment> findEquipmentByPage(String eqType, String eqState, Integer offset, Integer limit) {
-			EntityManager em = emf.createEntityManager();
-			String selectSql = " select * from equipment where equip_isdeleted=0 ";
-			if((eqState != null && !eqState.equals("")) && (eqType != null && !eqType.equals(""))){
-				selectSql += " and equip_state = " + eqState + " and equip_type = " + eqType;
+		public List<Equipment> selectEquipmentByRS(String eqRoom, Integer eqState, Integer offset, Integer end) {
+			EntityManager em = emf.createEntityManager();			
+			String selectSql = " select * from equipment where equip_isdeleted=0 ";					
+			if((eqState == 1) && (eqRoom != null && !eqRoom.equals(""))){
+				selectSql += "  and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" + " and equip_room = " + eqRoom;
 			}
-			if((eqState != null && !eqState.equals("")) && (eqType == null || eqType.equals(""))){
-				selectSql += " and equip_state = " + eqState;
+			if((eqState == 1) && (eqRoom == null || eqRoom.equals(""))){
+				selectSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)";
+			}				
+			if((eqState == 2) && (eqRoom != null && !eqRoom.equals(""))){
+				selectSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + " and equip_room = " + eqRoom;
 			}
-			if((eqType != null && !eqType.equals("")) && (eqState == null || eqState.equals(""))){
-				selectSql += " and equip_type = " + eqType;
+			if((eqState == 2) && (eqRoom == null || eqRoom.equals(""))){
+				selectSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)";
+			}					
+			if((eqState == 3) && (eqRoom != null && !eqRoom.equals(""))){
+				selectSql += " and (equip_state = 1 or equip_state = 2)" + "and equip_room = " + eqRoom;
 			}
-			selectSql += " order by equip_type limit :offset , :end ";
-			Query query = em.createNativeQuery(selectSql, Equipment.class);
+			if((eqState == 3) && (eqRoom == null || eqRoom.equals(""))){
+				selectSql += " and (equip_state = 1 or equip_state = 2)" ;
+			}	
+			if((eqState == 4) && (eqRoom != null && !eqRoom.equals(""))){
+				selectSql += " and equip_state = 0" + " and equip_room = " + eqRoom;
+			}
+			if((eqState == 4) && (eqRoom == null || eqRoom.equals(""))){
+				selectSql += " and equip_state = 0";
+			}
+			if((eqState == 0) && (eqRoom != null && !eqRoom.equals(""))){
+				selectSql += " and equip_room = " + eqRoom;
+			}
+			selectSql += " order by equip_id desc limit :offset, :end";			
+			Query query = em.createNativeQuery(selectSql, Equipment.class);			
 			query.setParameter("offset", offset);
-			query.setParameter("end", limit);
+			query.setParameter("end", end);			
 			List<Equipment> list = query.getResultList();
-			em.close();
+			em.close();			
 			return list;
-		}*/
+		}
 	    
 		//  查询设备信息总条数
 		@SuppressWarnings("unchecked")
 		public Integer countEqTotal(String searchKey) {
 			EntityManager em = emf.createEntityManager();
-			String countSql = " select count(equip_id) from equipment tr where equip_isdeleted=0 ";
+			String countSql = " select count(equip_id) from equipment where equip_isdeleted=0 ";
 			if (null != searchKey) {
 				countSql += "   and (equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
 			}
@@ -113,10 +113,8 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			query.setParameter("end", end);
 			List<Equipment> list = query.getResultList();
 			em.close();
-			System.out.println(list);
 			return list;
 		}
-	        
 
 			// 根据页数筛选全部设备安装位置信息列表
 			@SuppressWarnings("unchecked")
@@ -149,7 +147,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				return list;
 			}
                                                  /*设备维保信息表内容*/
-		//  查询信息总条数
+		/*//  查询信息总条数
 			@SuppressWarnings("unchecked")
 			public Integer countEmTotal(String searchKey) {
 				EntityManager em = emf.createEntityManager();
@@ -161,8 +159,8 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				List<Object> totalRow = query.getResultList();
 				em.close();
 				return Integer.parseInt(totalRow.get(0).toString());
-			}
-			// 根据页数显示全部信息列表
+			}*/
+			/*// 根据页数显示全部信息列表
 			@SuppressWarnings("unchecked")
 			@Override
 			public List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end) {
@@ -180,7 +178,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				em.close();
 				System.out.println(list);
 				return list;
-			}
+			}*/
 
 			@SuppressWarnings("unchecked")
 			@Override

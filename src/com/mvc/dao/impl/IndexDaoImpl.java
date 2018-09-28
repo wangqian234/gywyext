@@ -75,17 +75,7 @@ public class IndexDaoImpl implements IndexDao {
 			return true;
 
 		}
-		//根据项目查询公司信息
-		@SuppressWarnings("unchecked")
-		@Override
-		public List<Company> selectCompByProj(String searchKey) {
-			EntityManager em = emf.createEntityManager();
-			String selectSql = "select * from company where comp_isdeleted=0 and comp_id = '" + searchKey + "'";
-			Query query = em.createNativeQuery(selectSql, Company.class);
-			List<Company> list = query.getResultList();
-			em.close();
-			return list;
-		}
+	
 		//删除项目信息
 				public Boolean updateStated(Integer proj_id) {
 					EntityManager em = emf.createEntityManager();

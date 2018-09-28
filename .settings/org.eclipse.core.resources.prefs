@@ -1,5 +1,10 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
 encoding//WebContent/jsp/project/left.jsp=UTF-8
+=======
+encoding//WebContent/jsp/equip/equipRealInfo/top.jsp=UTF-8
+encoding//WebContent/jsp/equip/top.jsp=UTF-8
+>>>>>>> 367333e0433ccad3219cb9a4bdf473eaf76c4918
 encoding//WebContent/jsp/system/left.jsp=UTF-8
 encoding//src/com/mvc/service/impl/travelUpdate.html=UTF-8
 encoding/<project>=UTF-8

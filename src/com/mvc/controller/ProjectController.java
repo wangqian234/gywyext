@@ -2,7 +2,6 @@ package com.mvc.controller;
 
 import java.text.ParseException;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -187,6 +186,7 @@ public class ProjectController {
 		jsonObject.put("result", result);
 		return jsonObject.toString();
 	}
+
 	//浏览项目信息
 		@RequestMapping("/getProjectInfo.do")
 		public @ResponseBody String getProjectInfo(HttpServletRequest request) {
@@ -222,16 +222,7 @@ public class ProjectController {
 				else
 					return 0;
 			}
-			//根据项目查询公司信息
-			@RequestMapping("/selectCompByProj.do")
-			public @ResponseBody String selectCompByProj(HttpServletRequest request, HttpSession session) {
-				JSONObject jsonObject = new JSONObject();
-				String searchKey = request.getParameter("proj_id");
-				List<Company> company = projectService.selectCompByProj(searchKey);
-				
-				jsonObject.put("company", company);
-				return jsonObject.toString();
-			}
+		
 			//修改项目信息
 			@RequestMapping("/updateProjectById.do")
 			public @ResponseBody Integer updateProjectById(HttpServletRequest request, HttpSession session) throws ParseException {
@@ -286,4 +277,20 @@ public class ProjectController {
 					boolean result = projectService.deleteIsdeleted(projid);
 					return JSON.toJSONString(result);
 				}
+
+/*	//根据公司信息查找项目信息
+	@RequestMapping("/getProjectInfo.do")
+	public @ResponseBody String getProjectInfo(HttpServletRequest request) {
+
+		JSONObject jsonObject = new JSONObject();
+		List<Project> project = new ArrayList<Project>();
+		
+		if (request.getParameter("company_id") != null){
+			project = projectService.getProjectInfo(Integer.parseInt(request.getParameter("company_id")));
+		}
+		
+		jsonObject.put("result", project);
+		return jsonObject.toString();
+	}*/
+
 }

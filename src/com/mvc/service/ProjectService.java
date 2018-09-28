@@ -19,6 +19,7 @@ public interface ProjectService {
 	boolean addProject(Project project);
 	List<Project> getProjectInfo();
 
+
 	//根据id获取公司信息
 	Company selectCompanyById(Integer comp_id);
 	
@@ -41,8 +42,6 @@ public interface ProjectService {
 	//根据id获取项目信息
 		Project selectProjectById(Integer proj_id);
 		
-	//根据项目查询公司信息
-	List<Company> selectCompByProj(String searchKey);
 	// 查询公司总条数
 	Integer CompCountTotal(String searchKey);
 	
@@ -54,7 +53,8 @@ public interface ProjectService {
 		
 	// 根据页数筛选全部项目信息列表
 	List<Project>  findProjectByPage  (String searchKey, Integer offset, Integer end);
-}
+
+	}
 
 	
 

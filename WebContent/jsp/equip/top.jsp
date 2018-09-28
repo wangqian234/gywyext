@@ -18,12 +18,12 @@
 <body>
         <nav class="navbar navbar-default top-navbar" role="navigation">
             <div class="navbar-header">
-                <a class="navbar-brand" href="../index.html"><i class="fa fa-gear"></i> <strong>公元物业E巡通</strong></a>
+                <a class="navbar-brand" href="/gywyext/index.html"><i class="fa fa-gear"></i> <strong>公元物业E巡通</strong></a>
             </div>
 			<div>
-				<a class="topspan" href="javascript:;"><span>设备基本信息</span></a>
-				<a class="topspan" href="../equip/equipRealInfo/index.jsp"><span>设备实时状态</span></a>
-				<a class="topspan" href="javascript:;"><span>设备报警信息</span></a>
+				<a class="topspan" href="#/equipBaseInfo"><h4 class="fa fa-dashboard">设备基本信息</h4></a>
+				<a class="topspan" href="equipRealInfo/index.jsp#/equipRealInfo"><h4 class="fa fa-tasks">设备实时状态信息</h4></a>
+				<a class="topspan" href="javascript:;"><h4 class="fa fa-bell">设备报警信息</h4></a>
 			</div>
         </nav>
 	<section class="containner">

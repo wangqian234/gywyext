@@ -11,10 +11,10 @@ public interface EquipmentDao {
 
 	//删除设备信息
 	Boolean updateState(Integer equip_id);
-	/*//根据限制条件筛选信息
-	List<Equipment> findEquipmentByPage(String eqType, String eqState, Integer offset, Integer limit);
-	Integer countTotal(String eqType, String eqState);
-	*/
+
+	//根据room，state筛选信息
+	List<Equipment> selectEquipmentByRS(String eqRoom, Integer eqState, Integer offset, Integer end);
+	
 	// 查询设备信息总条数
 	Integer countEqTotal(String searchKey);
 	// 根据页数筛选全部设备信息列表
@@ -26,11 +26,11 @@ public interface EquipmentDao {
 	//根据room查找设备
 	List<Equipment> selectEquipByRoom(List<Integer> roomId, int offset, int end);
 
-                                            /*设备维保信息*/
+/*                                            设备维保信息
 	// 查询设备信息总条数
 	Integer countEmTotal(String searchKey);
 	// 根据页数筛选全部设备信息列表
-	List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end);
+	List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end);*/
 	
 	//根据设备id查找设备特征参数
 	List<EquipPara> getEquipPara(String searchKey);

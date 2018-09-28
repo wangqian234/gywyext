@@ -120,13 +120,13 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	/*services.getProjectInfo = function(data) {
+	services.getProjectInfo = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'systemProject/getProjectInfo.do',
 			data : data,
 		});
-	};*/
+	};
 	//根据公司id查找公司的项目
 	services.getCompProj = function(data) {
 		return $http({
@@ -152,7 +152,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	//根据公司名称或公司地址查询公司信息
+	//根据公司名称查询公司信息
 	services.selectcompanyByName = function(data) {
 		return $http({
 			method : 'post',
@@ -168,14 +168,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	//根据项目查询公司信息
-	services.selectCompByProj = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'systemProject/selectCompByProj.do',
-			data : data
-		});
-	};
+
 	services.getCompanyListByPage = function(data) {
 		return $http({
 			method : 'post',

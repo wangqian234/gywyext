@@ -18,8 +18,6 @@ public interface IndexDao {
 	Boolean updateState(Integer comp_id);
 	//删除项目信息
 	Boolean updateStated(Integer proj_id);
-	//根据项目查询公司信息
-	List<Company> selectCompByProj(String searchKey);
 	// 根据页数筛选全部公司信息列表
 	List<Company> findCompanyByPage(String searchKey, Integer offset, Integer end);
 	// 查询公司信息总条数

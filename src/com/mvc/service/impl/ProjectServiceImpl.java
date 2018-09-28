@@ -1,5 +1,6 @@
 package com.mvc.service.impl;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,16 +12,6 @@ import com.mvc.repository.CompanyRepository;
 import com.mvc.repository.ProjectRepository;
 import com.mvc.service.ProjectService;
 import net.sf.json.JSONObject;
-
-
-
-
-
-
-
-
-
-
 
 @Service("projectServiceImpl")
 public  class ProjectServiceImpl implements ProjectService {
@@ -56,6 +47,7 @@ public  class ProjectServiceImpl implements ProjectService {
 		}
 	}
 	 
+
 
 	
 	@Override
@@ -123,11 +115,6 @@ public  class ProjectServiceImpl implements ProjectService {
 			else
 				return false;
 		}
-		//根据项目查询公司信息
-		@Override
-		public List<Company> selectCompByProj(String searchKey) {
-			return indexDao.selectCompByProj(searchKey);
-		}				
 		
 		//根据公司id查找公司的项目
 		@Override
@@ -186,6 +173,19 @@ public  class ProjectServiceImpl implements ProjectService {
 			return indexDao.ProjCountTotal(searchKey);
 		}
 		
+
+	/*@Override
+	public List<Project> getProjectInfo(Integer parameter) {
+		List<Project> project = new ArrayList<Project>();
+		try{
+			project = projectRepository.getProjectInfo(parameter);
+		} catch (Exception e){
+			
+		} finally {
+			return project;
+		}
+	}
+*/
 }
 					
 		
