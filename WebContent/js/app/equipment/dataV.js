@@ -592,22 +592,44 @@ app
 									    
 								   }); 
 							}
-							var d3=document.getElementById("d3");
-					        var msg1=document.getElementById("msg1");
-					        var msg2=document.getElementById("msg2");
+							
+							
 							//报警信息滚动展示
-					        function myScrollTop(){
-					            if(d3.scrollTop>d3.scrollHeight){
-					            	d3.scrollTop=0;
-					            }else{
-					            	d3.scrollTop++
-					            }
+					        function warningsNews(){
+					        	var area = document.getElementById('d3');//获取div的id
+//					        	var cont1 = document.getElementsByClassName('l1div')[0];//获取列表1的id
+					        	var cont1 = $('.lidiv')[0];//获取列表1的id
+					        	var cont2 = document.getElementById('l2');//获取列表2的id
+					        	
+					        	console.log(area);
+								console.log(cont1);
+								console.log(cont2);
+
+					        	area.scrollTop = 0;
+					        	// 克隆cont1给cont2
+					        	cont2.innerHTML = cont1.innerHTML;
+					        	var time = 50;
+					        	var interval = setInterval(function(){
+					        		if(area.scrollTop >= cont1.scrollHeight) {
+					        	        area.scrollTop = 0;
+					        	    }else {
+					        	        area.scrollTop++;
+					        	    }
+					        	}, time);
+					        	area.onmouseover = function () {
+					        	    clearInterval(interval);
+					        	};
+					        	area.onmouseout = function () {
+					        	    // 继续执行之前的定时器
+					        	    interval = setInterval(function(){
+						        		if(area.scrollTop >= cont1.scrollHeight) {
+						        	        area.scrollTop = 0;
+						        	    }else {
+						        	        area.scrollTop++;
+						        	    }
+						        	}, time);
+					        	};
 					        }
-							function warningNewshowing(){
-						        var timer=100;
-						        d3.scrollTop=0;
-						        setInterval(myScrollTop,timer);
-							}
 							//开始云台操作
 							equipment.getTurn = function(id) {
 								services.getTurn({
@@ -649,8 +671,7 @@ app
 									searchKey : null
 								}).success(function(data) {
 									equipment.warning = data.data;
-									console.log(equipment.warning);
-									warningNewshowing()
+									warningsNews();
 								});
 							}
 							initPage();

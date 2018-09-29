@@ -7,10 +7,8 @@
 	<div class="rightinfo">
 	<form class="toolbar">
 		 <div class="inner">
-		    <input type="text" name="startTime" style="width:25%;float: left"
-				ng-model="startTime" class="dfselect dateLayoutStyle" placeHolder="起始时间"
-				onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) "
-				required>
+		  <input class="dfinput" type="text" style="width:25%;float:left" ng-model="startTime" placeHolder="起始时间" 
+		onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/>
 		 </div>
 		</form>	
 	</div>
