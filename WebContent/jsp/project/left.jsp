@@ -10,6 +10,7 @@
                     <a href="${pageContext.request.contextPath}/jsp/project/index.jsp#/addProject">
                     	<i class="fa fa-sitemap"></i>添加项目信息<span class="fa arrow"></span>
                     </a>
+                   
                     </li>
                 </ul>
             </div>

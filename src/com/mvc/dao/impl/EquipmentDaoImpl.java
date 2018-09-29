@@ -45,63 +45,125 @@ public class EquipmentDaoImpl implements EquipmentDao {
 	//根据room，state筛选信息
 		@SuppressWarnings("unchecked")
 		@Override
-		public List<Equipment> selectEquipmentByRS(List<Integer> roomId ,String eqRoom, String eqState, Integer offset, Integer end) {
+		public List<Equipment> selectEquipmentByRS(List<Integer> roomId ,String eqRoom, String eqState,String searchKey ,Integer offset, Integer end) {
 			EntityManager em = emf.createEntityManager();			
 			String selectSql = " select * from equipment where equip_isdeleted=0 " ;								
-			if (eqState.equals("0") && eqRoom.equals("0")) {
-				selectSql += " and ( ";
+			if (null != searchKey) {				
+				if (eqState.equals("0") && eqRoom.equals("0")) {
+					selectSql += " and ( ";
+					for(int i=0;i<roomId.size()-1;i++){
+						selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+					}
+					selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%') ";
+				}
+				if(eqState.equals("0") && !eqRoom.equals("0")){
+					selectSql += " and equip_room = " + eqRoom + " and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
+				}
+				if(eqState.equals("1") && !eqRoom.equals("0")){
+					selectSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" + " and equip_room = " + eqRoom +
+							" and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
+				}
+				if(eqState.equals("1") && eqRoom.equals("0")){
+					selectSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" +
+							" and ( ";
+					for(int i=0;i<roomId.size()-1;i++){
+						selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+					}
+					selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%') ";				
+				}				
+				if(eqState.equals("2") && !eqRoom.equals("0")){
+					selectSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + " and equip_room = " + eqRoom +
+							" and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
+				}
+				if(eqState.equals("2") && eqRoom.equals("0")){
+					selectSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + 
+							" and ( ";
+					for(int i=0;i<roomId.size()-1;i++){
+						selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+					}
+					selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%') ";
+				}		
+				 
+				if(eqState.equals("3") && !eqRoom.equals("0")){
+					selectSql += " and (equip_state = 1 or equip_state = 2)" + "and equip_room = " + eqRoom +
+							" and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";	
+				}
+				if(eqState.equals("3") && eqRoom.equals("0")){
+					selectSql += " and (equip_state = 1 or equip_state = 2)" + 
+							" and ( ";
+					for(int i=0;i<roomId.size()-1;i++){
+						selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+					}
+					selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%') ";
+				}	
+				if(eqState.equals("4") && !eqRoom.equals("0")){
+					selectSql += " and equip_state = 0" + " and equip_room = " + eqRoom +
+							" and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
+				}
+				if(eqState.equals("4") && eqRoom.equals("0")){
+					selectSql += " and equip_state = 0" +
+							" and ( ";
+					for(int i=0;i<roomId.size()-1;i++){
+						selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+					}
+					selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%') ";
+				}
+				}else if(null == searchKey){
+					if (eqState.equals("0") && eqRoom.equals("0")) {
+						selectSql += " and ( ";
+								for(int i=0;i<roomId.size()-1;i++){
+									selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+								}
+								selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
+					}
+					if(eqState.equals("0") && !eqRoom.equals("0")){
+						selectSql += " and equip_room = " + eqRoom;
+					}
+					if(eqState.equals("1") && !eqRoom.equals("0")){
+						selectSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" + " and equip_room = " + eqRoom;
+					}
+					if(eqState.equals("1") && eqRoom.equals("0")){
+						selectSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" +
+								" and ( ";
 						for(int i=0;i<roomId.size()-1;i++){
 							selectSql += " equip_room = '" +roomId.get(i) + "' or ";
 						}
 						selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
-			}
-			if(eqState.equals("0") && !eqRoom.equals("0")){
-				selectSql += " and equip_room = " + eqRoom;
-			}
-			if(eqState.equals("1") && !eqRoom.equals("0")){
-				selectSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" + " and equip_room = " + eqRoom;
-			}
-			if(eqState.equals("1") && eqRoom.equals("0")){
-				selectSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" +
-						" and ( ";
-				for(int i=0;i<roomId.size()-1;i++){
-					selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+					}				
+					if(eqState.equals("2") && !eqRoom.equals("0")){
+						selectSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + " and equip_room = " + eqRoom;
+					}
+					if(eqState.equals("2") && eqRoom.equals("0")){
+						selectSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + 
+								" and ( ";
+						for(int i=0;i<roomId.size()-1;i++){
+							selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+						}
+						selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
+					}					
+					if(eqState.equals("3") && !eqRoom.equals("0")){
+						selectSql += " and (equip_state = 1 or equip_state = 2)" + "and equip_room = " + eqRoom;
+					}
+					if(eqState.equals("3") && eqRoom.equals("0")){
+						selectSql += " and (equip_state = 1 or equip_state = 2)" + 
+								" and ( ";
+						for(int i=0;i<roomId.size()-1;i++){
+							selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+						}
+						selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
+					}	
+					if(eqState.equals("4") && !eqRoom.equals("0")){
+						selectSql += " and equip_state = 0" + " and equip_room = " + eqRoom;
+					}
+					if(eqState.equals("4") && eqRoom.equals("0")){
+						selectSql += " and equip_state = 0" +
+								" and ( ";
+						for(int i=0;i<roomId.size()-1;i++){
+							selectSql += " equip_room = '" +roomId.get(i) + "' or ";
+						}
+						selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
+					}
 				}
-				selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
-			}				
-			if(eqState.equals("2") && !eqRoom.equals("0")){
-				selectSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + " and equip_room = " + eqRoom;
-			}
-			if(eqState.equals("2") && eqRoom.equals("0")){
-				selectSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + 
-						" and ( ";
-				for(int i=0;i<roomId.size()-1;i++){
-					selectSql += " equip_room = '" +roomId.get(i) + "' or ";
-				}
-				selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
-			}					
-			if(eqState.equals("3") && !eqRoom.equals("0")){
-				selectSql += " and (equip_state = 1 or equip_state = 2)" + "and equip_room = " + eqRoom;
-			}
-			if(eqState.equals("3") && eqRoom.equals("0")){
-				selectSql += " and (equip_state = 1 or equip_state = 2)" + 
-						" and ( ";
-				for(int i=0;i<roomId.size()-1;i++){
-					selectSql += " equip_room = '" +roomId.get(i) + "' or ";
-				}
-				selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
-			}	
-			if(eqState.equals("4") && !eqRoom.equals("0")){
-				selectSql += " and equip_state = 0" + " and equip_room = " + eqRoom;
-			}
-			if(eqState.equals("4") && eqRoom.equals("0")){
-				selectSql += " and equip_state = 0" +
-						" and ( ";
-				for(int i=0;i<roomId.size()-1;i++){
-					selectSql += " equip_room = '" +roomId.get(i) + "' or ";
-				}
-				selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
-			}
 			selectSql += " order by equip_id desc limit :offset, :end";			
 			Query query = em.createNativeQuery(selectSql, Equipment.class);			
 			query.setParameter("offset", offset);
@@ -111,36 +173,131 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			return list;
 		}
 	    
-		//  查询设备信息总条数
+		//  查询设备信息总条数(翻页功能)
 		@SuppressWarnings("unchecked")
-		public Integer countEqTotal(String searchKey) {
+		public Integer countEqTotal(List<Integer> roomId,String eqRoom,String eqState,String searchKey) {
 			EntityManager em = emf.createEntityManager();
 			String countSql = " select count(equip_id) from equipment where equip_isdeleted=0 ";
-			if (null != searchKey) {
-				countSql += "   and (equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
+			if (null != searchKey) {				
+			if (eqState.equals("0") && eqRoom.equals("0")) {
+				countSql += " and ( ";
+				for(int i=0;i<roomId.size()-1;i++){
+					countSql += " equip_room = '" +roomId.get(i) + "' or ";
+				}
+				countSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%') ";
 			}
+			if(eqState.equals("0") && !eqRoom.equals("0")){
+				countSql += " and equip_room = " + eqRoom + " and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
+			}
+			if(eqState.equals("1") && !eqRoom.equals("0")){
+				countSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" + " and equip_room = " + eqRoom +
+						" and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
+			}
+			if(eqState.equals("1") && eqRoom.equals("0")){
+				countSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" +
+						" and ( ";
+				for(int i=0;i<roomId.size()-1;i++){
+					countSql += " equip_room = '" +roomId.get(i) + "' or ";
+				}
+				countSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%') ";				
+			}				
+			if(eqState.equals("2") && !eqRoom.equals("0")){
+				countSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + " and equip_room = " + eqRoom +
+						" and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
+			}
+			if(eqState.equals("2") && eqRoom.equals("0")){
+				countSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + 
+						" and ( ";
+				for(int i=0;i<roomId.size()-1;i++){
+					countSql += " equip_room = '" +roomId.get(i) + "' or ";
+				}
+				countSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%') ";
+			}		
+			 
+			if(eqState.equals("3") && !eqRoom.equals("0")){
+				countSql += " and (equip_state = 1 or equip_state = 2)" + "and equip_room = " + eqRoom +
+						" and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";	
+			}
+			if(eqState.equals("3") && eqRoom.equals("0")){
+				countSql += " and (equip_state = 1 or equip_state = 2)" + 
+						" and ( ";
+				for(int i=0;i<roomId.size()-1;i++){
+					countSql += " equip_room = '" +roomId.get(i) + "' or ";
+				}
+				countSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%') ";
+			}	
+			if(eqState.equals("4") && !eqRoom.equals("0")){
+				countSql += " and equip_state = 0" + " and equip_room = " + eqRoom +
+						" and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
+			}
+			if(eqState.equals("4") && eqRoom.equals("0")){
+				countSql += " and equip_state = 0" +
+						" and ( ";
+				for(int i=0;i<roomId.size()-1;i++){
+					countSql += " equip_room = '" +roomId.get(i) + "' or ";
+				}
+				countSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%') ";
+			}
+			}else if(null == searchKey){
+				if (eqState.equals("0") && eqRoom.equals("0")) {
+					countSql += " and ( ";
+							for(int i=0;i<roomId.size()-1;i++){
+								countSql += " equip_room = '" +roomId.get(i) + "' or ";
+							}
+							countSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
+				}
+				if(eqState.equals("0") && !eqRoom.equals("0")){
+					countSql += " and equip_room = " + eqRoom;
+				}
+				if(eqState.equals("1") && !eqRoom.equals("0")){
+					countSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" + " and equip_room = " + eqRoom;
+				}
+				if(eqState.equals("1") && eqRoom.equals("0")){
+					countSql += " and (equip_state = 10 or equip_state = 9 or equip_state = 8 or equip_state = 7)" +
+							" and ( ";
+					for(int i=0;i<roomId.size()-1;i++){
+						countSql += " equip_room = '" +roomId.get(i) + "' or ";
+					}
+					countSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
+				}				
+				if(eqState.equals("2") && !eqRoom.equals("0")){
+					countSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + " and equip_room = " + eqRoom;
+				}
+				if(eqState.equals("2") && eqRoom.equals("0")){
+					countSql += " and (equip_state = 3 or equip_state = 4 or equip_state = 5 or equip_state = 6)" + 
+							" and ( ";
+					for(int i=0;i<roomId.size()-1;i++){
+						countSql += " equip_room = '" +roomId.get(i) + "' or ";
+					}
+					countSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
+				}					
+				if(eqState.equals("3") && !eqRoom.equals("0")){
+					countSql += " and (equip_state = 1 or equip_state = 2)" + "and equip_room = " + eqRoom;
+				}
+				if(eqState.equals("3") && eqRoom.equals("0")){
+					countSql += " and (equip_state = 1 or equip_state = 2)" + 
+							" and ( ";
+					for(int i=0;i<roomId.size()-1;i++){
+						countSql += " equip_room = '" +roomId.get(i) + "' or ";
+					}
+					countSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
+				}	
+				if(eqState.equals("4") && !eqRoom.equals("0")){
+					countSql += " and equip_state = 0" + " and equip_room = " + eqRoom;
+				}
+				if(eqState.equals("4") && eqRoom.equals("0")){
+					countSql += " and equip_state = 0" +
+							" and ( ";
+					for(int i=0;i<roomId.size()-1;i++){
+						countSql += " equip_room = '" +roomId.get(i) + "' or ";
+					}
+					countSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
+				}
+			}			
 			Query query = em.createNativeQuery(countSql);
 			List<Object> totalRow = query.getResultList();
 			em.close();
 			return Integer.parseInt(totalRow.get(0).toString());
-		}
-		// 根据页数显示全部设备信息列表
-		@SuppressWarnings("unchecked")
-		@Override
-		public List<Equipment> selectEquipmentByPage(String searchKey, Integer offset, Integer end) {
-			EntityManager em = emf.createEntityManager();
-			String selectSql = "select * from equipment where equip_isdeleted=0";
-		// 判断查找关键字是否为空
-			if (null != searchKey) {
-				selectSql += " and ( equip_name like '%" + searchKey + "%' or equip_no like '%" + searchKey + "%')";
-			}
-			selectSql += " order by equip_id desc limit :offset, :end";
-			Query query = em.createNativeQuery(selectSql, Equipment.class);
-			query.setParameter("offset", offset);
-			query.setParameter("end", end);
-			List<Equipment> list = query.getResultList();
-			em.close();
-			return list;
 		}
 
 			// 根据页数筛选全部设备安装位置信息列表
@@ -155,7 +312,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				return list;
 			}
 					
-			//根据安装位置筛选设备
+			//根据安装位置信息获取设备信息
 			@Override
 			public List<Equipment> selectEquipByRoom(List<Integer> roomId, int offset, int end) {
 				EntityManager em = emf.createEntityManager();
@@ -164,7 +321,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 					selectSql += " equip_room = '" +roomId.get(i) + "' or ";
 				}
 				selectSql += " equip_room = '" +roomId.get(roomId.size()-1) + "' ) ";
-				selectSql += " limit :offset, :end";
+				selectSql += " order by equip_id desc limit :offset, :end";
 				Query query = em.createNativeQuery(selectSql, Equipment.class);
 				query.setParameter("offset", offset);
 				query.setParameter("end", end);
@@ -173,43 +330,11 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				System.out.println(list);
 				return list;
 			}
-                                                 /*设备维保信息表内容*/
-		/*//  查询信息总条数
-			@SuppressWarnings("unchecked")
-			public Integer countEmTotal(String searchKey) {
-				EntityManager em = emf.createEntityManager();
-				String countSql = " select count(equip_main_id) from equip_main";
-				if (null != searchKey) {
-					countSql +=" equip_main_info like '%" + searchKey + "%' ";
-				}
-				Query query = em.createNativeQuery(countSql);
-				List<Object> totalRow = query.getResultList();
-				em.close();
-				return Integer.parseInt(totalRow.get(0).toString());
-			}*/
-			/*// 根据页数显示全部信息列表
-			@SuppressWarnings("unchecked")
-			@Override
-			public List<EquipMain> selectEquipMainByPage(String searchKey, Integer offset, Integer end) {
-				EntityManager em = emf.createEntityManager();
-				String selectSql = "select * from equip_main ";
-			// 判断查找关键字是否为空
-				if (null != searchKey) {
-					selectSql += "  equip_main_info like '%" + searchKey + "%' ";
-				}
-				selectSql += " order by equip_main_info desc limit :offset, :end";
-				Query query = em.createNativeQuery(selectSql, EquipMain.class);
-				query.setParameter("offset", offset);
-				query.setParameter("end", end);
-				List<EquipMain> list = query.getResultList();
-				em.close();
-				System.out.println(list);
-				return list;
-			}*/
 
+			//根据id获取特征参数信息
 			@SuppressWarnings("unchecked")
 			@Override
-			public List<EquipPara> getEquipPara(Integer searchKey) {
+			public List<EquipPara> getEquipPara(String searchKey) {
 				List<EquipPara> list;
 				EntityManager em = emf.createEntityManager();
 				try {
@@ -221,20 +346,5 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				}
 				return list;
 			}
-
-			
-		//  学姐测试专用
-			@SuppressWarnings("unchecked")
-			public List<Equipment> selectEquipmentByRoom(String room){
-				EntityManager em = emf.createEntityManager();
-				String selectSql = " select equipment from equipment where equip_isdeleted=0 ";
-				if (null != room) {
-					selectSql += "   and (equip_room like '%" + room + "%' )";
-				}
-				Query query = em.createNativeQuery(selectSql, Equipment.class);
-				List<Equipment> list = query.getResultList();
-				em.close();
-				return list;
-			}			
-			
+		
 }
