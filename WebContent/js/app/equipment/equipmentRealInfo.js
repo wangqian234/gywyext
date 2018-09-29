@@ -168,7 +168,6 @@ app
 								if(equipment.startTime != null)
 								startDate = equipment.startTime+" 00:00:00";//默认从起始日期凌晨开始显示数据
 								//查询参数对应的设备信息
-								console.log(startDate);
 								for(var i=0;i<equipment.equipara.length;i++){
 									if(equipment.equipara[i].equip_para_id == equipParaId){
 										equipment.Id = i;

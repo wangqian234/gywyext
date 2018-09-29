@@ -575,7 +575,7 @@ app
 									else if(params.data.itemStyle.borderColor=="#ffa800"){
 										console.log(params);
 										exchange();
-										selectsrc();
+										//selectsrc();
 										services.refresh({}).success(function(data){});//纯粹的刷新作用
 										$.ajax({
 									        url:"/gywyext/equipRealInfo/getEquipParaByName.do",
@@ -591,22 +591,6 @@ app
 								});
 									    
 								   }); 
-							}
-							var d3=document.getElementById("d3");
-					        var msg1=document.getElementById("msg1");
-					        var msg2=document.getElementById("msg2");
-							//报警信息滚动展示
-					        function myScrollTop(){
-					            if(d3.scrollTop>d3.scrollHeight){
-					            	d3.scrollTop=0;
-					            }else{
-					            	d3.scrollTop++
-					            }
-					        }
-							function warningNewshowing(){
-						        var timer=100;
-						        d3.scrollTop=0;
-						        setInterval(myScrollTop,timer);
 							}
 							//开始云台操作
 							equipment.getTurn = function(id) {
@@ -649,8 +633,6 @@ app
 									searchKey : null
 								}).success(function(data) {
 									equipment.warning = data.data;
-									console.log(equipment.warning);
-									warningNewshowing()
 								});
 							}
 							initPage();
