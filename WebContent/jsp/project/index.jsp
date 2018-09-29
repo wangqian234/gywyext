@@ -6,5 +6,7 @@
 <jsp:include page="/jsp/project/left.jsp" />
 <jsp:include page="/jsp/footer.jsp" />
 <script src="${pageContext.request.contextPath}/js/app/project/index.js"></script>
+<script src="${pageContext.request.contextPath}/js/app/project/ezuikit.js"></script>
+<!-- gaohaile 添加内容-->
 </body>
 </html>

@@ -11,10 +11,10 @@ import net.sf.json.JSONObject;
 
 public interface StaffInfoService {
 
-	List<User> getStaffInfo();
+	
 	
 	boolean save(User user);
-	
+	List<User> getStaffInfo();
 	
 
 	// 筛选角色列表

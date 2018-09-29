@@ -10,7 +10,20 @@
                     <a href="${pageContext.request.contextPath}/jsp/project/index.jsp#/addProject">
                     	<i class="fa fa-sitemap"></i>添加项目信息<span class="fa arrow"></span>
                     </a>
+<<<<<<< HEAD
                    
+=======
+                     <a href="${pageContext.request.contextPath}/jsp/project/index.jsp#/getCompanyInfo">
+                    	<i class="fa fa-sitemap"></i>浏览公司信息<span class="fa arrow"></span>
+                    </a>
+                     <a href="${pageContext.request.contextPath}/jsp/project/index.jsp#/getProjectInfo">
+                    	<i class="fa fa-sitemap"></i>浏览项目信息<span class="fa arrow"></span>
+                    </a>
+                    <!-- 高海乐添加 -->
+                  <%--   <a href="${pageContext.request.contextPath}/jsp/project/index.jsp#/demo">
+                    	<i class="fa fa-sitemap"></i>视频<span class="fa arrow"></span>
+                    </a> --%>
+>>>>>>> ee33fbe6f9f28160216aee039ffa4d2acf3eea87
                     </li>
                 </ul>
             </div>

@@ -1,520 +1,535 @@
-//
-function try2(xdata,ydata){    
-    //初始化echarts实例
-	echart.clear();
-    /*var base = + new Date(2017,3,8);*/
-   /* var oneDay = 24*3600*1000;*/
-    var date = [];
-    /*var data = [Math.random()*150];*/
-    var data = [];
-    /*var now = new Date(base);*/
-    var day = 30;
-    /*function addData(shift){*/
-    function addData(x,y,shift){
-        /*now = [now.getFullYear(),now.getMonth()+1,now.getDate()].join('/');   */  
-        date.push(x);      
-        data.push(y);
-        if (shift) {
-            console.log(data);
-            date.shift();
-            data.shift();
-        }
-        /*now = new Date(+new Date(now)+oneDay);   */     
-    }
-
-    for (var i = 0; i < day; i++) {
-    	var x = xdata[i];
-    	var y = ydata[i];
-        addData(x,y);
-    }
-    //设置图标配置项
-    var option = {
-        title:{
-            text:'ECharts 30天内数据实时更新'
-        },
-        xAxis:{
-            type:"category",
-            boundaryGap:false,
-            data:date
-        },
-        yAxis:{
-            boundaryGap:[0,'100%'],
-            type:'value'
-        },
-        series:[{
-            name:'成交',
-            type:'line',
-            smooth:true, //数据光滑过度
-            symbol:'none', //下一个数据点
-            stack:'a',
-            /*areaStyle:{
-                normal:{  
-                    color:'red'
-                }
-            },*/
-            data:data
-        }]
-    }
-    var j = 0;
-    setInterval(function(){
-    	for(var i=0;i<10;i++)
-    	{
-    		var x = xdata[j+i];
-    		var y = ydata[j+i];
-    		addData(x,y);
-    		j = j+1;
-    	}
-        /*addData(true);*/
-        echart.setOption({
-            xAxis:{
-                data:date
-            },
-            series:[{
-                name:'成交',
-                data:data
-            }]
-        });
-    },1000)
-    echart.setOption(option);
-}
-
-
-function try1(xdata,ydata){
-								
-			echart.clear();
+var interval;
+function try1(xdata,ydata,elsedata,divid){
+			var x = [];
+			var y = [];
+			var l =0;
+			var pp =0;
+			divid.clear();
+			clearInterval(interval);
+			function addData(shift){
+			    x.push(xdata[l]);
+			    //水泵房湿度数值处理
+			    if(elsedata.equip_para_id == 2 )
+			    y.push((ydata[l]/10));
+			    else if(elsedata.equip_para_id == 3 )
+				    y.push((ydata[l]/10));
+			    else  y.push(ydata[l]);
+			    if (shift) {
+			        x.shift();
+			        y.shift();
+			    }
+			}
+			function divide(data){
+				for(var i = 0;i<data.length;i++){
+					var x = data[i].equip_oper_time;
+					var y = data[i].equip_oper_info;
+					xdata.push(x);
+					ydata.push(y);
+				};
+				pp = 0;
+			}
+			for (var i = 0; i < 50; i++) {
+			    addData();
+			    l++
+			}
 			
 			var option = {
+					title: {
+				        text: elsedata.equip_para_name+'实时数据',
+				        textStyle:{
+				        	color:'white',
+				        	fontSize:'12',
+				        	fontFamily: 'lighter'    
+				        }
+				    },
+				    tooltip : {
+				        trigger: 'axis',
+				        axisPointer: {
+				        	type: 'cross',
+				            /*label: {
+				                backgroundColor: '#6a7985'
+				            }*/
+				        }
+				    },
+				    /*legend: {
+				          data: [elsedata.equip_para_name],
+				          x: 'center',
+			        	  textStyle:{
+					        	color:'white',
+					        	fontFamily: 'lighter'    
+					        } 
+				      },*/
 					toolbox: {
 				        show: true,
 				        feature: {
-				            dataZoom: {},
 				            dataView: {readOnly: true},
 				            magicType: {type: ['line','bar']},
-				            restore: {},
-				            saveAsImage: {}
 				        }
+				    },
+				    grid: {
+				        left: '10%',
+				        right: '15%',
+				        /*bottom: '25%',
+				        top: '5%',
+				        height: '23%',*/
+				        /*containLabel: true,*/
+				        /*z: 22*/
 				    },
 				    xAxis: {
 				        type: 'category',
-				        data: xdata
+				        data: x,
+				        //坐标轴样式设置
+				        axisLabel:{
+				        	interArrivar:0,
+				        	rotate:-15,
+				        },
+				        axisLine:{
+				        	lineStyle:{
+				        		color:'#00ffee',
+				        		width:1,
+				        	},
+				        	symbol:['none','arrow']
+				        }
 				    },
 				    yAxis: {
 				        type: 'value',
+				        name: '单位：'+elsedata.equip_para_unit,
+				      //y轴横线样式设置
+				        splitLine:{
+				        	show:false,
+				        },
+				        axisLabel:{
+				        	interArrivar:0,
+				        },
+				        axisLine:{
+				        	lineStyle:{
+				        		/*color:'#00ffee',*/
+				        		color:'#00ffee',
+				        		width:1,
+				        	},
+				        	symbol:['none','arrow']
+				        },            
+				        boundaryGap: [0, '10%'],
 				    },
 				    series: [{
-				        data: ydata,
+				    	name:elsedata.equip_para_name,
+				        data: y,
 				        type: 'line',
-				        smooth: true
+				        smooth: true,
+				        itemStyle: {
+				            // 点的颜色。
+				            color: '#00feff'
+				        },
+				        markPoint: {
+				                data: [
+				                    {type: 'max', name: '最大值'},
+				                    {type: 'min', name: '最小值'}
+				                ],
+				                itemStyle :{
+				                	color:'red',
+				                }
+				            },
+				            markLine: {
+				                data: [
+				                     {name: '',yAxis: elsedata.equip_para_min,label: {
+				                            normal: {
+				                                formatter: '最小值'
+				                            }
+				                        }},
+				                        {name: '',yAxis: elsedata.equip_para_max,label: {
+				                            normal: {
+				                                formatter: '最大值'
+				                            }
+				                        }}
+				                ],
+				                itemStyle :{
+				                	color:'blue',
+				                }
+				            }
 				    }]
 				};
-			console.log(xdata[0]);
-			echart.setOption(option);
+			    interval = setInterval(function () {
+				if(l >= xdata.length)
+					clearInterval(interval);
+			    addData(true);
+			    l++;
+			    if(pp == 0){
+			    	if((l+50) >xdata.length){
+			    		pp = 1;
+			    		$.ajax({
+			    	        url:"/gywyext/equipRealInfo/getEquipRealData.do",
+			    	        type:"post",
+			    	        dataType: "json",
+			    	        data: { searchKey: elsedata.equip_para_id, startDate: xdata[xdata.length-1] },
+			    	        success:function(data){
+			    	        	divide(data.data);
+			    	        }
+			    	    })
+			    	    }
+			    }
+			    divid.setOption({
+			        xAxis: {
+			            data: x
+			        },
+			        series: [{
+			            data: y
+			        }]
+			    });
+			}, 800);
+		    var ppp=1;
+		    divid.on('mouseover',function(param){
+		    	console.log(param);
+		        if (param!=null||ppp==1) {
+		            ppp=2;
+		            clearInterval(interval);
+		        }
+		    })
+		    divid.on('click',function(param){
+		    	if (param!=null||ppp==2) {
+		            ppp=1;
+		            clearInterval(interval);
+		            interval = setInterval(function () {
+						if(l >= xdata.length)
+							clearInterval(interval);
+					    addData(true);
+					    l++;
+					    if(pp == 0){
+					    	if((l+50) >xdata.length){
+					    		pp = 1;
+					    		$.ajax({
+					    	        url:"/gywyext/equipRealInfo/getEquipRealData.do",
+					    	        type:"post",
+					    	        dataType: "json",
+					    	        data: { searchKey: elsedata.equip_para_id, startDate: xdata[xdata.length-1] },
+					    	        success:function(data){
+					    	        	divide(data.data);
+					    	        }
+					    	    })
+					    	    }
+					    }
+					    divid.setOption({
+					        xAxis: {
+					            data: x
+					        },
+					        series: [{
+					            data: y
+					        }]
+					    });
+					}, 800);
+		        }
+		    })
+			divid.setOption(option);
+			divid.hideLoading();			
 		} 
-//
-//DynamicData+TimeAxis
-function DDTA(data) {
-}
-function selectRealTimeData(xdata,ydata){
-	echart.clear();
-	/*function randomData(i) {
-	    value = ydata[i];
-	    return {
-	        value: [
-	           xdata[i].join('/'),
-	            Math.round(value)
-	        ]
-	    }
-	}*/
-	function addData(xdata,ydata,i,shift){
-        /*now = [now.getFullYear(),now.getMonth()+1,now.getDate()].join('/');*/        
-        date.push(xdata[i]);        
-        data.push(ydata[i]);
-        if (shift) {
-            console.log(data);
-            date.shift();
-            data.shift();
-        }
-    /*    now = new Date(+new Date(now)+oneDay);*/        
-    }
-	var data = [];
-	var date = [];
-	/*console.log(xdata);*/
-	/*for (var i = 0; i < 63; i++) {
-		data.push(randomData());
-	}*/
-	/*var value = null;*/
-	for (var i = 0; i < 100; i++) {
-	   /* data.push(randomData());*/
-	    addData(xdata,ydata,i);
-	}
 
+function try2(startDate,elsedata,divid){
+	console.log("try2");
+	var xdata=[];
+	var ydata=[];
+	function getdata(startDate,equiparaId,divide){//获取特征参数实时数据
+		$.ajax({
+	        url:"/gywyext/equipRealInfo/getEquipRealData.do",
+	        type:"post",
+	        dataType: "json",
+	        data: { searchKey: equiparaId, startDate: startDate },
+	        success:function(data){
+	        	if(typeof divide == 'function'){
+	        		divide(data.data);
+				}
+	        }
+	    })
+	}
+	function divide(data){//数据处理
+		for(var i = 0;i<data.length;i++){
+			var x = data[i].equip_oper_time;
+			var y = data[i].equip_oper_info;
+			xdata.push(x);
+			ydata.push(y);
+		};
+		try1(xdata,ydata,elsedata,divid);
+	}
+	getdata(startDate,elsedata.equip_para_id,divide)
+}
+
+//以下为大屏专用echarts封装函数
+function d777(data){
+	console.log("d777");
+	d7.clear();
+	d7.showLoading({text:'正在缓冲...'});
+	var xData = [],
+	    yData = [];
+	for(var i=0;i<data.length;i++){
+		xData.push(data[i].name);
+		yData.push(data[i].value);
+	}
+	
+	var option = {  
+			title: {
+		        text: '故障种类分析',
+		        left: 'left',
+		        textStyle:{
+		        	color:"#00ffee",
+		        	fontWeight:'lighter',
+    	        	  fontSize:12,
+		        }
+		    },
+			grid: {
+			        //left: '5%',
+			        //right: '5%',
+			        bottom: '5%',
+			        top: '15%',
+			        containLabel: true,
+			        z: 22
+			    },
+			    xAxis: [{
+			        type: 'category',
+			        gridIndex: 0,
+			        data: xData,
+			        axisTick: {
+			            alignWithLabel: true
+			        },
+			        axisLabel:{
+			        	interArrivar:0,
+			        	rotate:+30,
+			        },
+			        axisLine: {//x轴颜色设置
+			            lineStyle: {
+			                color: '#00ffee'
+			            },
+			            symbol:['none','arrow']
+			        }
+			    }],
+			    yAxis: [{
+			            type: 'value',
+			            gridIndex: 0,
+			            splitLine: {
+			                show: false
+			            },
+			            axisTick: {
+			                show: false
+			            },
+			            min: 0,
+			            max: 50,
+			            axisLine: {
+			                lineStyle: {
+			                    color: '#00ffee'
+			                },
+			                symbol:['none','arrow']
+			            }
+			        }
+			    ],
+			    calculable : true,
+			    series : [{
+		            name: '合格率',
+		            type: 'bar',
+		            barWidth: '30%',
+		            xAxisIndex: 0,
+		            yAxisIndex: 0,
+		            itemStyle: {
+		                normal: {
+		                    barBorderRadius: 30,
+		                    color: new echarts.graphic.LinearGradient(
+		                        0, 0, 0, 1, [{
+		                                offset: 0,
+		                                color: '#00feff'
+		                            },
+		                            {
+		                                offset: 0.5,
+		                                color: '#027eff'
+		                            },
+		                            {
+		                                offset: 1,
+		                                color: '#0286ff'
+		                            }
+		                        ]
+		                    )
+		                },
+			            label:{}
+		            },
+		            data: yData,
+		            zlevel: 11
+
+		        }]
+	};
+	d7.setOption(option);
+	window.onresize = d7.resize;//自适应窗口大小
+	d7.hideLoading();
+}
+function d888(data){
+	console.log("d888");
+	d8.clear();
+	d8.showLoading({text:'正在缓冲...'});
+	          var lineStyle = {
+	              normal: {
+	                  width: 1,
+	                  opacity: 0.8
+	              }
+	          };
+
+	          option = {
+	              title: {
+	                  text: '设备健康状态分析',
+	                  left: 'left',
+	                  textStyle: {
+	                      color: '#00ffee',
+	                      fontWeight:'lighter',
+	      	        	  fontSize:12,
+	                  }
+	              },
+	              radar: {
+	                  indicator: [
+	                      {name: '可靠度', max: 100,color:'#00ffee'},
+	                      {name: '健康指数', max: 100,color:'#00ffee'},
+	                      {name: '剩余寿命', max: 100,color:'#00ffee'},
+	                  
+	                  ],
+	                  shape: 'polygon',
+	                  splitNumber: 5,
+	                  name: {
+	                      textStyle: {
+	                          color: '#fff'
+	                      }
+	                  },
+	                  splitLine: {
+	                      lineStyle: {
+	                          color: [
+	                              '#449cff',
+	                          ]
+	                      }
+	                  },
+	                  splitArea: {
+	                      show: false
+	                  },
+	                  axisLine: {
+	                      lineStyle: {
+	                          color: '#449cff'
+	                      }
+	                  }
+	              },
+	              series: [
+	                  {
+	                      name: ' ',
+	                      type: 'radar',
+	                      lineStyle: lineStyle,
+	                      data: data,
+	                      symbol: 'none',
+	                      itemStyle: {
+	                          normal: {
+	                              color: 'red'
+	                          }
+	                      },
+	                      areaStyle: {
+	                      normal: {
+	                          color: {
+	                              type: 'linear',
+	                              x: 0,
+	                              y: 0,
+	                              x2: 0,
+	                              y2: 1,
+	                              colorStops: [{
+	                                  offset: 0,
+	                                  color: '#44ff86'
+	                              }, {
+	                                  offset: 1,
+	                                  color: '#0060ff'
+	                              }],
+	                              globalCoord: false
+	                          }
+	                      }
+	                  },
+	                  }
+	              ]
+	          };
+	d8.setOption(option);
+	window.onresize = d8.resize;//自适应窗口大小
+	d8.hideLoading();
+}
+function d999(data){
+	console.log("d999");
+	d9.clear();
+	d9.showLoading({text:'正在缓冲...'});
+	var value = [100,56];
+	var title = ['上次维护时间','下次维护时间'];
+	var Color1 = ['#F57474','#1089E7'];
 	option = {
-	    title: {
-	        text: '某水箱实时压力曲线'
-	    },
-	    tooltip: {
-	        trigger: 'axis',
-	        formatter: function (params) {
-	            params = params[0];
-	            var date = new Date(params.name);
-	            /*return date.getSeconds()+'/'+date.getMinutes()+'/'+date.getHours()+'/'+
-	            date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];*/
-	            return date.getFullYear()+'/'+(date.getMonth() + 1)+'/'+date.getDate()+'  '+
-	            date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()+' : '+params.value[1];
-	        },
-	        axisPointer: {
-	            animation: false
-	        }
-	    },
-	    legend: {
-	          data: ['流量'],
-	          x: 'center'
-	      },
-	       toolbox: {
-	        show: true,
-	        feature: {
-	            dataZoom: {},
-	            dataView: {readOnly: true},
-	            magicType: {type: ['line','bar']},
-	            restore: {},
-	            saveAsImage: {}
-	        }
-	    },
 	    xAxis: {
-	        type: 'category',
-	        data: date,
+	        show: false
+	    },
+	    //color: '#00ffee',
+	    yAxis: [{
+	        show: true,
+	        data: title,
+	        inverse: true,
+	        axisLine: {
+	            show: false
+	        },
 	        splitLine: {
 	            show: false
 	        },
-	        /*splitNumber:10*/
-	    },
-	    yAxis: {
-	        type: 'value',
-	        name: '单位:MPa',
-	        boundaryGap: [0, '100%'],
-	        splitLine: {
-	            show: true
-	        }
-	    },
-	    series: [{
-	        name: '流量',
-	        type: 'line',
-	        showSymbol: false,
-	        hoverAnimation: false,
-	        data: data,
-	        itemStyle: {
-	            // 点的颜色。
-	            color: 'gray'
+	        axisTick: {
+	            show: false
 	        },
-	        markPoint: {
-	                data: [
-	                    {type: 'max', name: '最大值'},
-	                    {type: 'min', name: '最小值'}
-	                ],
-	                itemStyle :{
-	                	color:'red',
-	                }
-	            },
-	            markLine: {
-	                data: [
-	                     {name: '',yAxis: '',label: {
-	                            normal: {
-	                                formatter: '最小值'
-	                            }
-	                        }},
-	                        {name: '',yAxis: '',label: {
-	                            normal: {
-	                                formatter: '最大值'
-	                            }
-	                        }}
-	                ],
-	                itemStyle :{
-	                	color:'blue',
-	                }
+	        axisLabel: {color: '#00ffee',}
+	    }],
+	    grid: {
+	        left: '5%',
+	        right: '10%',
+	        bottom: '25%',
+	        top: '5%',
+	        height: '50%',
+	        width: '80%',
+	        containLabel: true,
+	        z: 22
+			},
+	    series: [{
+	        name: '条',
+	        type: 'bar',
+	        yAxisIndex: 0,
+	        data: value,
+	        barWidth: 15,
+	        itemStyle: {
+	            normal: {
+	                barBorderRadius: 30,
+	                color: function(params) {
+	                    var num = Color1.length;
+	                    return Color1[params.dataIndex % num]
+	                },
 	            }
-	            
-	    }]
-	};
-	var j = 0;
-
-	setInterval(function () {
-
-	    /*for (var i = 0; i < 10; i++) {
-	    	j = j+i;
-	        data.shift();
-	        data.push(randomData(j));
-	        
-	    }
-
-	    echart.setOption({
-	        series: [{
-	            data: data
-	        }]*/
-	    
-	    addData(true);
-	    echart.setOption({
-            xAxis:{
-                data:date
-            },
-            series:[{
-               /* name:'成交',*/
-                data:data
-            }]
-        });
-	    
-	    /*});*/
-	}, 2000);
-	echart.setOption(option);
-	echart.hideLoading();
-	/*echarts1.setInterval();*/
-}
-
-//md
-function try3(x_data,y_data){
-	console.log("12");
-	echart.clear();
-	function Data(x,y) {
-	    date.push(x);
-	    data.push(y);
-	}
-	var date = [];
-	var data = [];
-	for (var i = 0; i < 10; i++) {
-		if((i+1)!=10){
-			if(x_data[i] != x_data[i+1])
-			Data(x_data[i],y_data[i]);
-		}
-		else Data(x_data[i],y_data[i]);
-			
-	};
-	option = {
-	    title: {
-	        text: '某水箱实时压力曲线'
-	    },
-	    tooltip: {
-	        trigger: 'axis',
-	        formatter: function (params) {
-	            params = params[0];
-	            var date = new Date(params.name);
-	            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
 	        },
-	        axisPointer: {
-	            animation: false
-	        }
-	    },
-	    legend: {
-	          data: ['流量'],
-	          x: 'center'
-	      },
-	       toolbox: {
-	        show: true,
-	        feature: {
-	            dataZoom: {},
-	            dataView: {readOnly: true},
-	            magicType: {type: ['line','bar']},
-	            restore: {},
-	            saveAsImage: {}
-	        }
-	    },
-	    xAxis: {
-	        type: 'category',
-	        data: date,
-	        splitLine: {
-	            show: false
-	        },
-	        splitNumber:10
-	    },
-	    yAxis: {
-	        type: 'value',
-	        name: '单位:MPa',
-	        boundaryGap: [0, '100%'],
-	        splitLine: {
-	            show: true
-	        }
-	    },
-	    series: [{
-	        name: '流量',
-	        type: 'line',
-	        showSymbol: false,
-	        hoverAnimation: false,
-	        data: data,
-	        itemStyle: {
-	            // 点的颜色。
-	            color: 'gray'
-	        },
-	        markPoint: {
-	                data: [
-	                    {type: 'max', name: '最大值'},
-	                    {type: 'min', name: '最小值'}
-	                ],
-	                itemStyle :{
-	                	color:'red',
-	                }
-	            },
-	            /*markLine: {
-	                data: [
-	                     {name: '',yAxis: '',label: {
-	                            normal: {
-	                                formatter: '最小值'
-	                            }
-	                        }},
-	                        {name: '',yAxis: 450,label: {
-	                            normal: {
-	                                formatter: '额定值'
-	                            }
-	                        }},
-	                        {name: '',yAxis: '',label: {
-	                            normal: {
-	                                formatter: '最大值'
-	                            }
-	                        }}
-	                ],
-	                itemStyle :{
-	                	color:'blue',
-	                }
-	            }*/
-	            
-	    }]
-	};
-	echart.setOption(option);
-	echart.setOption({
-	    	xAxis:[{
-	    		data:date
-	    	}],
-	        series: [{
-	            data: data
-	        }]
-	    });
-	/*echart.setOption(option);*/
-	echart.hideLoading();
-}
-//md
-
-/*selectRealTimeData = function(){
-	echarts.clear();
-	function randomData() {
-	    now = new Date(+now + oneDay);
-	    value = value + Math.random() * 21 - 10;
-	    return {
-	        name: now.toString(),
-	        value: [
-	            [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
-	            Math.round(value)
-	        ]
-	    }
-	}
-
-	var data = [];
-	var now = +new Date(1997, 9, 3);
-	var oneDay = 24 * 3600 * 1000;
-	var value = Math.random() * 500;
-	for (var i = 0; i < 1000; i++) {
-	    data.push(randomData());
-	}
-
-	option = {
-	    title: {
-	        text: '某水箱实时压力曲线'
-	    },
-	    tooltip: {
-	        trigger: 'axis',
-	        formatter: function (params) {
-	            params = params[0];
-	            var date = new Date(params.name);
-	            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
-	        },
-	        axisPointer: {
-	            animation: false
-	        }
-	    },
-	    legend: {
-	          data: ['流量'],
-	          x: 'center'
-	      },
-	       toolbox: {
-	        show: true,
-	        feature: {
-	            dataZoom: {},
-	            dataView: {readOnly: true},
-	            magicType: {type: ['line','bar']},
-	            restore: {},
-	            saveAsImage: {}
-	        }
-	    },
-	    xAxis: {
-	        type: 'time',
-	        splitLine: {
-	            show: false
-	        },
-	        splitNumber:10
-	    },
-	    yAxis: {
-	        type: 'value',
-	        name: '单位:MPa',
-	        boundaryGap: [0, '100%'],
-	        splitLine: {
-	            show: true
-	        }
-	    },
-	    series: [{
-	        name: '流量',
-	        type: 'line',
-	        showSymbol: false,
-	        hoverAnimation: false,
-	        data: data,
-	        itemStyle: {
-	            // 点的颜色。
-	            color: 'gray'
-	        },
-	        markPoint: {
-	                data: [
-	                    {type: 'max', name: '最大值'},
-	                    {type: 'min', name: '最小值'}
-	                ],
-	                itemStyle :{
-	                	color:'red',
-	                }
-	            },
-	            markLine: {
-	                data: [
-	                     {name: '',yAxis: 250,label: {
-	                            normal: {
-	                                formatter: '最小值'
-	                            }
-	                        }},
-	                        {name: '',yAxis: 450,label: {
-	                            normal: {
-	                                formatter: '额定值'
-	                            }
-	                        }},
-	                        {name: '',yAxis: 700,label: {
-	                            normal: {
-	                                formatter: '最大值'
-	                            }
-	                        }}
-	                ],
-	                itemStyle :{
-	                	color:'blue',
-	                }
+	        label: {
+	            normal: {
+	                show: true,
+	                position: 'inside',
+	                formatter: function(params) {
+	                    var num = value.length;
+	                    return data[params.dataIndex % num].time
+	                },
 	            }
-	            
+	        },
 	    }]
 	};
-
-	 setInterval(function () {
-
-	    for (var i = 0; i < 10; i++) {
-	        data.shift();
-	        data.push(randomData());
-	    }
-
-	    echarts.setOption({
-	        series: [{
-	            data: data
-	        }]
-	    });
-	}, 1000);
-	echarts.setOption(option);
-	echarts.hideLoading();
+	d9.setOption(option);
+	window.onresize = d9.resize;//自适应窗口大小
+	d9.hideLoading();
 }
-*/
+
+//大数据分析
+function hugeData(equip){
+	//equip内容应当包括equip_id,equip_room_id,equip_name
+	//数据处理完成之后调用 d777()，d888(),d999(),
+	
+	console.log("hugeData");
+	var data7 = [
+                {value:10, name:'rose1'},{value:5, name:'rose2'},
+                {value:15, name:'rose3'},{value:25, name:'rose4'},
+                {value:20, name:'rose5'},{value:35, name:'rose6'},
+                {value:30, name:'rose7'},{value:40, name:'rose8'}
+	            ];
+	var data8 =[[55,100,56]];
+	var data9 =[{time:'2018-09-25'},
+	            {time:'2018-10-15'}];
+	d777(data7);
+	d888(data8);
+	d999(data9);
+}
+

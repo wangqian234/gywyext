@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mvc.dao.EquipRealInfoDao;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipMain;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
@@ -66,17 +67,39 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 				}
 				return equipRealInfoDao.getEquipPara(searchKey);
 			}
+
+	//根据设备参数名字查找设备特征参数信息
+			@Override
+			public List<EquipPara> getEquipParaByName(String searchKey) {
+				List<EquipPara> list = equipRealInfoDao.getEquipParaByName(searchKey);
+				for(int i=0;i<list.size();i++){
+					list.get(i).setEquipment(null);
+				}
+				return equipRealInfoDao.getEquipParaByName(searchKey);
+			}
 	//根据特征参数id，获取设备实时数据
 	@Override
-	public List<EquipOper> getEquipRealData(String searchKey, String start) {
-		List<EquipOper> data = equipRealInfoDao.getEquipRealData(searchKey,start);
+	public List<EquipOper> getEquipRealData(String searchKey, String startDate) {
+		List<EquipOper> data = equipRealInfoDao.getEquipRealData(searchKey,startDate);
 		for(int i=0;i<data.size();i++){
 			data.get(i).setEquip_para_id(null);
 		}
-		return equipRealInfoDao.getEquipRealData(searchKey,start);
+		return equipRealInfoDao.getEquipRealData(searchKey,startDate);
 	}
 	
-	
-	
+	//获取设备报警信息
+	@Override
+	public List<AlarmLog> getWaringNews(String searchKey) {
+		List<AlarmLog> data = equipRealInfoDao.getWaringNews(searchKey);
+		for(int i=0;i<data.size();i++){
+			data.get(i).setAlarm_log_id(null);
+		}
+		return equipRealInfoDao.getWaringNews(searchKey);
+	}
 
+			//根据起始时间 向后查100条
+			@Override
+			public List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate) {
+				return equipRealInfoDao.getEquipRealDataByTime(equip_para_id,startDate);
+			}
 }
