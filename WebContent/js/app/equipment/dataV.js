@@ -575,7 +575,7 @@ app
 									else if(params.data.itemStyle.borderColor=="#ffa800"){
 										console.log(params);
 										exchange();
-										selectsrc();
+										//selectsrc();
 										services.refresh({}).success(function(data){});//纯粹的刷新作用
 										$.ajax({
 									        url:"/gywyext/equipRealInfo/getEquipParaByName.do",
@@ -592,44 +592,6 @@ app
 									    
 								   }); 
 							}
-							
-							
-							//报警信息滚动展示
-					        function warningsNews(){
-					        	var area = document.getElementById('d3');//获取div的id
-//					        	var cont1 = document.getElementsByClassName('l1div')[0];//获取列表1的id
-					        	var cont1 = $('.lidiv')[0];//获取列表1的id
-					        	var cont2 = document.getElementById('l2');//获取列表2的id
-					        	
-					        	console.log(area);
-								console.log(cont1);
-								console.log(cont2);
-
-					        	area.scrollTop = 0;
-					        	// 克隆cont1给cont2
-					        	cont2.innerHTML = cont1.innerHTML;
-					        	var time = 50;
-					        	var interval = setInterval(function(){
-					        		if(area.scrollTop >= cont1.scrollHeight) {
-					        	        area.scrollTop = 0;
-					        	    }else {
-					        	        area.scrollTop++;
-					        	    }
-					        	}, time);
-					        	area.onmouseover = function () {
-					        	    clearInterval(interval);
-					        	};
-					        	area.onmouseout = function () {
-					        	    // 继续执行之前的定时器
-					        	    interval = setInterval(function(){
-						        		if(area.scrollTop >= cont1.scrollHeight) {
-						        	        area.scrollTop = 0;
-						        	    }else {
-						        	        area.scrollTop++;
-						        	    }
-						        	}, time);
-					        	};
-					        }
 							//开始云台操作
 							equipment.getTurn = function(id) {
 								services.getTurn({
@@ -671,7 +633,6 @@ app
 									searchKey : null
 								}).success(function(data) {
 									equipment.warning = data.data;
-									warningsNews();
 								});
 							}
 							initPage();

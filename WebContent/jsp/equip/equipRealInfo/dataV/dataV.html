@@ -1,43 +1,4 @@
 <div ng-app="">
-<!-- <div class="container">
-	<div class="c1">
-		<div id="d1" style="width: 446px;height:98px;float:top;">
-			<p style="margin-left:120px">
-			    <img src="../../../../images/gyIcon.png"  width="54" height="45" align="left">
-			    <font size="6" color="red">公元物业</font>
-			</p>
-		</div>
-		<div class="d2" id="d2">
-		   <iframe class="f1" id="security1" style="zoom:50%" src="http://localhost:8028/runtime.shtm?prjId=7&picId=24&rand=1537173805300" 
-		   scrolling="no" >
-		  </iframe>
-		</div>
-		<div id="d3" style="width: 446px; height:388px; border: 1px solid gray">
-		   <video id="myPlayer" style="width: 446px; height:340px; poster="" controls playsInline webkit-playsinline autoplay>
-             <source src="http://hls.open.ys7.com/openlive/bd2083cf239a4432836124f2888656f1.m3u8" type="application/x-mpegURL" />
-             <source src="rtmp://rtmp.open.ys7.com/openlive/bd2083cf239a4432836124f2888656f1.hd" type="rtmp/flv" />
-           </video>
-           <td style="margin-left:20px">
-				<button class="button1" ng-mousedown="getTurn(0)" ng-mouseup="getStop(0)" style="margin-left:120px">上移</button>
-				<button class="button1" ng-mousedown="getTurn(1)" ng-mouseup="getStop(1)">下移</button>
-				<button class="button1" ng-mousedown="getTurn(2)" ng-mouseup="getStop(2)">左移</button>
-				<button class="button1" ng-mousedown="getTurn(3)" ng-mouseup="getStop(3)">右移</button>
-		  </td>
-           
-		</div>
-	</div>
-	<div class="c2">
-		<div style="width: 1146px;height:698px;float:top;">
-			<div id="d4" style="width: 796px;height:696px;border: 1px solid gray;float:left;"></div>
-			<div id="d5" style="width: 346px;height:696px;border: 1px solid gray;float:left;"></div>
-		</div>
-		<div style="width: 1146px;height:200px;float:top;">
-		<div id="d6" style="width: 280px;height:200px;border: 1px solid gray;float:left;"></div>
-		<div id="d7" style="width: 220px;height:200px;border: 1px solid gray;float:left;"></div>
-		<div id="d8" style="width: 640px;height:200px;border: 1px solid gray;float:left;"></div>
-		</div>
-	</div>
-</div> -->
     <div class="container">
       <div class="a1">
 	     <div class="b1">
@@ -59,28 +20,38 @@
 				<button class="button1" ng-mousedown="getTurn(3)" ng-mouseup="getStop(3)">右移</button>
 		      </td>
 	        </div>
+	        <!-- <div class="d3" id="d3" overflow="hidden"> -->
 	        <div class="d3" id="d3" overflow="hidden">
-				<ul class="l1div">
-				    <li>{{n.alarm_log_info}}</li>
-				 </ul>
-				 <!-- <ul id="l1">
-				    <li>11111111</li>
-				    <li>22222222</li>
-				    <li>33333333</li>
-				    <li>44444444</li>
-				    <li>55555555</li>
-				    <li>66666666</li>
-				    <li>77777777</li>
-				    <li>88888888</li>
-				    <li>99999999</li>
-				 </ul> -->
-				 <ul id="l2"></ul>
+	        <span><font size="3" color="red">设备告警</font></span>
+				<div class="list">
+				    <div class="cc rowup">
+				        <div class="item">2018-9-01  水泵房湿度低于设备允许的最小值！请及时查看！</div>
+				        <div class="item">2018-9-01  楼顶消火栓末端压力高于设备允许的最大值！请及时查看！</div>
+				        <div class="item">2018-9-02  水泵房温度高于设备允许的最大值！请及时查看！</div>
+				        <div class="item">2018-9-03  水泵房消防水池液位高于设备允许的最大值！请及时查看！</div>
+				        <div class="item">2018-9-03  水泵房生活水池液位低于设备允许的最小值！请及时查看！</div>
+				        <div class="item">2018-9-05  水泵房供水管道压力低于设备允许的最小值！请及时查看！</div>
+				        <div class="item">2018-9-06  水泵房集水井水泵A相电流高于设备允许的最大值！请及时查看！</div>
+				        <div class="item">2018-9-06  水泵房集水井水泵B相电流高于设备允许的最大值！请及时查看！</div>
+				        <div class="item">2018-9-06  水泵房集水井水泵C相电流高于设备允许的最大值！请及时查看！</div>
+				        <div class="item">2018-9-07  配电房变压器A相线圈温度低于设备允许的最小值！请及时查看！</div>
+				        <div class="item">2018-9-07  配电房变压器B相线圈温度低于设备允许的最小值！请及时查看！</div>
+				        <div class="item">2018-9-07  配电房变压器C相线圈温度低于设备允许的最小值！请及时查看！</div>
+				        <div class="item">2018-9-07  配电房变压器铁芯线圈温度低于设备允许的最小值！请及时查看！</div>
+				        <div class="item">2018-9-10  水泵房供水管道压力高于设备允许的最大值！请及时查看！</div>
+				        <div class="item">2018-9-13  水泵房供水管道压力低于设备允许的最小值！请及时查看！</div>
+				        <div class="item">2018-9-15  水泵房湿度高于设备允许的最大值！请及时查看！</div>
+				        <div class="item">2018-9-16  水泵房集水井水泵A相电压低于设备允许的最小值！请及时查看！</div>
+				        <div class="item">2018-9-16  水泵房集水井水泵B相电压低于设备允许的最小值！请及时查看！</div>
+				        <div class="item">2018-9-16  水泵房集水井水泵C相电压低于设备允许的最小值！请及时查看！</div>
+				    </div>
+				</div>
 	        </div>
 	        <div class="d4" id="d4"></div>
 	     </div>
 	     <div class="b2">
 	        <div class="d5" id="d10" ng-hide="main1">
-	           <iframe id="myframe" src="http://localhost:8028/runtime.shtm?prjId=7&picId=32&rand=1538142836027" 
+	           <iframe id="myframe" src="http://localhost:8028/runtime.shtm?prjId=7&picId=27&rand=1538213982268" 
 	           width="100%" height="100%" scrolling="no" frameborder="no">
 	           </iframe>
 	        </div>
