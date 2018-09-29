@@ -60,9 +60,16 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 	// 根据room，state筛选信息
 	@Override
-	public List<Equipment> selectEquipmentByRS(String eqRoom, Integer eqState, Integer offset, Integer end){
-		return equipmentDao.selectEquipmentByRS( eqRoom, eqState, offset, end);
+	public List<Equipment> selectEquipmentByRS(List<EquipRoom> room , String eqRoom, String eqState, Integer offset, Integer end){
+		List<Integer> roomId = new ArrayList();
+		for(int k=0;k<room.size();k++){
+			System.out.println(room.get(k).getEquip_room_id());
+			roomId.add(room.get(k).getEquip_room_id());
+		}
+	
+		return equipmentDao.selectEquipmentByRS(roomId, eqRoom, eqState, offset, end);
 	}
+
 	
 	// 查询设备总条数
 	@Override

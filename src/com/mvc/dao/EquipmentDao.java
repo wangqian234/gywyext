@@ -13,8 +13,8 @@ public interface EquipmentDao {
 	Boolean updateState(Integer equip_id);
 
 	//根据room，state筛选信息
-	List<Equipment> selectEquipmentByRS(String eqRoom, Integer eqState, Integer offset, Integer end);
-	
+	List<Equipment> selectEquipmentByRS(List<Integer> roomId ,String eqRoom, String eqState, Integer offset, Integer end);
+
 	// 查询设备信息总条数
 	Integer countEqTotal(String searchKey);
 	// 根据页数筛选全部设备信息列表
