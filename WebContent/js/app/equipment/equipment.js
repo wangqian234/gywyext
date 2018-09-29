@@ -259,9 +259,11 @@ app
 								services.getEquipmentListByRS({
 									page : page,
 									eqRoom : eqRoom,
-									eqState : eqState
+									eqState : eqState,
+									proj_id : proj_id
 								}).success(function(data) {
 									equipment.equipments = data.list;
+									pageTurn(data.totalPage,page,getEquipmentListByRS);
 								});
 							}
 							// 根据设备名称筛选设备信息
@@ -282,11 +284,13 @@ app
 								services.getEquipmentListByRS({
 									page : 1,
 									eqRoom : eqRoom,
-									eqState : eqState
+									eqState : eqState,
+									proj_id : equipment.selectBaseInfoProj_id									
 								}).success(function(data) {
 									equipment.equipments = data.list;
 								});
 							};
+
 
 							// 删除设备信息
 							equipment.deleteEquipmentInfo = function(equip_id) {
@@ -626,7 +630,24 @@ app
 																		});
 
 													});
-
+									
+									equipment.equipRoomm = "0";
+									equipment.equipStatee = "0";
+									var eqRoom = JSON.stringify(equipment.equipRoomm) ;
+									eqState = JSON.stringify(equipment.equipStatee)
+									services.getEquipmentListByRS({
+										page : 1,
+										eqRoom : eqRoom,
+										eqState : eqState
+									})
+									.success(
+											function(data) {
+												equipment.equipments = data.list;
+												pageTurn(
+														data.totalPage,
+														1,
+														getEquipmentListByRS);
+											});
 								} else if ($location.path().indexOf('/equipDetail') == 0) {
 									equipment.equipmentDetail = JSON.parse(sessionStorage.getItem('equipmentDetail'));
 									equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));

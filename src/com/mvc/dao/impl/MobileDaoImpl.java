@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.mvc.dao.MobileDao;
-import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.Equipment;
 
 @Repository("mobileDaoImpl")
@@ -20,6 +19,7 @@ public class MobileDaoImpl implements MobileDao {
 	@Qualifier("entityManagerFactory")
 	EntityManagerFactory emf;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Equipment> selectEquipByRoomMobile(List<Integer> list) {
 		EntityManager em = emf.createEntityManager();
@@ -28,7 +28,7 @@ public class MobileDaoImpl implements MobileDao {
 			selectSql += " equip_room = '" +list.get(i) + "' or ";
 		}
 		selectSql += " equip_room = '" +list.get(list.size()-1) + "' ) ";
-		Query query = em.createNativeQuery(selectSql);
+		Query query = em.createNativeQuery(selectSql, Equipment.class);
 		List<Equipment> list1 = query.getResultList();
 		em.close();
 		return list1;

@@ -22,6 +22,7 @@ public class AlarmLog {
 	private User user;// 负责人，外键
 	private String alarm_log_memo;// 备注
 	private Integer alarm_log_ischecked;// 是否被轮询，0：未被轮询；1：已被轮询
+	private String alarm_log_code;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -98,6 +99,15 @@ public class AlarmLog {
 
 	public void setAlarm_log_ischecked(Integer alarm_log_ischecked) {
 		this.alarm_log_ischecked = alarm_log_ischecked;
+	}
+
+	@Column(name = "alarm_log_code", length = 255)
+	public String getAlarm_log_code() {
+		return alarm_log_code;
+	}
+
+	public void setAlarm_log_code(String alarm_log_code) {
+		this.alarm_log_code = alarm_log_code;
 	}
 
 }

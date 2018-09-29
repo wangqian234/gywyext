@@ -133,14 +133,14 @@ public class Equipment {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name="equip_room_id")
+	@JoinColumn(name="equip_room")
 	public EquipRoom getEquip_room() {
 		return equip_room;
 	}
 	public void setEquip_room(EquipRoom equip_room) {
 		this.equip_room = equip_room;
 	}
-	
+
 	@Column(name = "equip_memo", length = 255)
 	public String getEquip_memo() {
 		return equip_memo;
