@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +22,6 @@ import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.Equipment;
 import com.mvc.service.EquipmentService;
 import com.mvc.service.MobileService;
-import com.utils.Pager;
 
 import net.sf.json.JSONObject;
 
@@ -39,8 +37,6 @@ public class MobileController {
 	//手动录入参数运行信息
 	@RequestMapping(value = "/addOpeartion.do")
 	public @ResponseBody String addOpeartion(HttpServletRequest request, HttpSession session) {
-		JSONObject jsonObject = new JSONObject();
-		AlarmLog alarmLog = new AlarmLog();
 		EquipOper equipOper = new EquipOper();
 		try{
 			if (request.getParameter("equip_para_id") != null) {
@@ -53,7 +49,7 @@ public class MobileController {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			String str = sdf.format(equip_oper_time);
 			equipOper.setEquip_oper_time(str);
-			EquipOper equipOper1 = mobileService.addOpeartion(equipOper);
+			mobileService.addOpeartion(equipOper);
 			return JSON.toJSONString("ok");
 		}catch(Exception e){
 			return JSON.toJSONString(e);
@@ -63,7 +59,6 @@ public class MobileController {
 	//手动录入报警信息
 	@RequestMapping(value = "/addAlarm.do")
 	public @ResponseBody String addAlarm(HttpServletRequest request, HttpSession session) {
-		JSONObject jsonObject = new JSONObject();
 		AlarmLog alarmLog = new AlarmLog();
 		Equipment equipment = new Equipment();
 		try{
@@ -80,7 +75,7 @@ public class MobileController {
 			Date alarm_log_date = new Date();
 			alarmLog.setAlarm_log_date(alarm_log_date);
 			alarmLog.setAlarm_log_ischecked(0);
-			AlarmLog alarmLog1 = mobileService.addAlarm(alarmLog);
+			mobileService.addAlarm(alarmLog);
 			return JSON.toJSONString("ok");
 		}catch(Exception e){
 			return JSON.toJSONString(e);
@@ -149,9 +144,9 @@ public class MobileController {
 			room = mobileService.getRoomByProId(proj_id);
 			list = mobileService.selectEquipByRoomMobile(room);
 			jsonObject.put("equipment", list);
-			for(int i=0;i<room.size();i++){
-				room.get(i).setProject(null);
-			}
+//			for(int i=0;i<room.size();i++){
+//				room.get(i).setProject(null);
+//			}
 			jsonObject.put("room", room);
 
 		}

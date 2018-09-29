@@ -68,12 +68,16 @@ public class EquipmentController {
 		public @ResponseBody String getEquipmentsByPrarm1(HttpServletRequest request, HttpSession session) {
 			JSONObject jsonObject = new JSONObject();
 			String eqRoom = request.getParameter("eqRoom");
-			Integer eqState = Integer.parseInt(request.getParameter("eqState"));
+			String eqState = request.getParameter("eqState");
 			/*String eqState = request.getParameter("eqState");*/
 			Pager pager = new Pager();			
-			pager.setPage(Integer.parseInt(request.getParameter("page")));	
-			List<Equipment> list = equipmentService.selectEquipmentByRS(eqRoom ,eqState,pager.getOffset(), pager.getLimit());
+			pager.setPage(Integer.parseInt(request.getParameter("page")));
+			String proj_id = request.getParameter("proj_id");
+			List<EquipRoom> room = new ArrayList<EquipRoom>();
+			room = equipmentService.selectEquipRoomByProj(proj_id);
+			List<Equipment> list = equipmentService.selectEquipmentByRS(room,eqRoom,eqState,pager.getOffset(), pager.getLimit());
 			jsonObject.put("list", list);
+			jsonObject.put("room", room);
 			jsonObject.put("totalPage", pager.getTotalPage());
 			return jsonObject.toString();
 		}

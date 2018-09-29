@@ -86,7 +86,6 @@ public class MobileServiceImpl implements MobileService {
 		List<Equipment> list = null;
 		if(room.size()>0){
 			for(int i=0;i<room.size();i++){
-				int a = room.get(i).getEquip_room_id();
 				if(room.get(i).getEquip_room_id() != null){
 					ints.add(room.get(i).getEquip_room_id());
 				}
