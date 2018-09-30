@@ -1,53 +1,47 @@
-<div class="place">
-	
-	<ul class="placeul">
-		<li>添加用户</li>
-	</ul>
-</div>
-<!-- 录入用户信息 -->
-
-
-<div class="formbody">
-	
-	<form ng-submit="addStaff()">
-		<div class="formtitle">
-		
-		</div>
-		
-        <div class="form-group">
-          	<label>姓名<b>*</b></label>
-          	<input  ng-model="staff.user_name" class="form-control">
-          	<span class="username" style="color:#ff0080"><img style="width:16px" src="/gywyext/images/warning.png" />&nbsp;&nbsp;姓名不能为空</span>
-        </div>
-		
-		<div class="form-group">
-          	<label>电话<b>*</b></label>
-          	<input  ng-model="staff.user_tel" class="form-control"	pattern="^\d{11,}$"	/>
-        </div>
-		<div class="form-group">
-          	<label>邮箱&nbsp;</label>
-          	<input  ng-model="staff.user_email" class="form-control" required	pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"/>
-        </div>
-        <div class="form-group">
-          	<label>账号<b>*</b></label>
-          	<input  ng-model="staff.user_acct" class="form-control"	required/>
-        </div>
-          	
-        <div class="form-group">
-          	<label>密码<b>*</b></label>
-          	<input  ng-model="staff.user_pwd" class="form-control"	required/>
-        </div>
-          	
-        <div class="form-group">
-	         <label>性别<b>*</b></label>
-	          <label class="radio-inlinea">
-              <input	style='margin-left:70px' type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked="">男
-          	 </label>
-			<label class="radio-inlineb">
-              <input	style='margin-left:70px' type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">女
-            </label>
-         </div>
-         
+<div id="page-wrapper"  style="margin-left: 0px">   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">    
+				<div class="panel-heading" >
+				 <a href="#" onclick="javascript:history.go(-1);">用户管理</a><span>>新建用户信息</span>
+				</div>  			
+				<div class="panel-body">
+					<div class="row">
+						<form style="padding:0 30px;" role="form" ng-submit="addStaff()">
+							<table class="tablelist111">
+								<tr>
+                                    <td class="width15 text-center">姓名<b>*</b></td>         
+									<td><input class="dfinput111" ng-model="staff.user_name" required/></td>
+									<span class="username" style="color:#ff0080"><img style="width:16px" src="/gywyext/images/warning.png" />&nbsp;&nbsp;姓名不能为空</span>
+									</tr>
+									<tr>
+									<td class="width15 text-center">电话<b>*</b></td>
+									<td><input class="dfinput111" ng-model="staff.user_tel" required pattern="^\d{11,}$"/></td>
+									</tr>
+									<tr>
+									<td class="width15 text-center">邮箱<b>*</b></td>
+									<td><input class="dfinput111" ng-model="staff.user_email" required pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"/></td>
+									</tr>
+									<tr>
+                                    <td class="width15 text-center">账号<b>*</b></td>
+									<td><input class="dfinput111" ng-model="staff.user_acct" required/></td>
+									</tr>
+									<tr>
+									<td class="width15 text-center">密码<b>*</b></td>
+									<td><input class="dfinput111" ng-model="staff.user_pwd" required/></td>
+									</tr>
+									<tr>
+									<td class="width15 text-center">性别<b>*</b></td>
+									<td><input style='margin-left:70px' type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked="">男
+                                        <input style='margin-left:70px' type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">女
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                    <td class="width15 text-center">角色<b>*</b></td>
+									<td ><select class="dfinput111" ng-model="staff.role" required > 
+										<option ng-repeat="r in role" value="{{r.role_id}}">{{r.role_name}}</option>
+										</select></td>
+										</tr>
          <!-- <div class="form-group">
              <label>角色<b>*</b></label> -->
             <!--  <select class="form-control"	ng-model="role_state">
@@ -65,21 +59,17 @@
 				</select>
 				
         </div>  -->
-        <div class="form-group">
-			<label>角色:&nbsp;&nbsp;&nbsp;</label>
-			<label class="radio-inline">
-				<select class="dfselect" ng-model="staff.role" style="width: 167px">
-					<option ng-repeat=r in role" value="{{r.role_id}}">{{role.role_name}}</option>
-				</select>
-			</label>
+        </table>
+     	                    <div class="buttonbox">
+					         <input class="btn btn-default" type="submit" value="确认提交" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
-     
-     	 <button style="margin-left:420px;class="btn btn-default" ng_click="addStaff()">提交</button>
-     	
- 	</form>
-</div>         
-    	
-       
+	</div>
+</div>
         
        <!--   style="display:block;margin:0 auto" -->
         
@@ -97,16 +87,16 @@
 
 		<!-- <ul class="forminfo">
 			<li><label>姓名<b>*</b></label><input type="text"
-				ng-model="staff.user_name" class="dfinput" required />
+				ng-model="staff.user_name" class="dfinput111" required />
 				<span id="userNameError" class="error-span">姓名不能为空</span></li> 
-			<li><label>电话<b>*</b></label><input type="text" class="dfinput"
+			<li><label>电话<b>*</b></label><input type="text" class="dfinput111"
 				ng-model="staff.user_tel" id="mustInput" />
 				 <span id="userTelError" class="error-span">格式错误</span></li> 
-			<li><label>邮箱</label><input type="text" class="dfinput"
+			<li><label>邮箱</label><input type="text" class="dfinput111"
 				ng-model="staff.user_email" />
 				<span id="userEmailError" class="error-span">格式错误</span></li>
 			<li><label>账号<b>*</b></label><input type="text"
-				ng-model="staff.user_acct" class="dfinput" required />
+				ng-model="staff.user_acct" class="dfinput111" required />
 				<span id="userAcctError" class="error-span">账号不能为空</span></li>
 				<span id="userExistError" class="error-span">用户已存在</span>
 			<li><label>性别</label><cite><input name="sex" type="radio"
@@ -114,7 +104,7 @@
 				name="sex" type="radio" value="1" ng-model="user.user_sex" />女</cite></li>
 			<li><label>角色<b>*</b></label>
 					<div class="vocation">
-						<select class="select1 dfinput" name="role" ng-model="staff.role.role_id"
+						<select class="select1 dfinput111" name="role" ng-model="staff.role.role_id"
 							ng-options="role.role_id as role.role_name for role in roles2">
 								<option ng-repeat="role in roles2" value={{role.role_id}}>{{role.role_name}}</option>
 							<option value="">请选择</option>

@@ -1,78 +1,69 @@
-<div>
-	<form role="form">
-		<div class="form-group">
-			<label>公司名称:&nbsp;&nbsp;&nbsp;</label> <input ng-model="company.comp_name" class="form-control" required>&nbsp;&nbsp;
-			<span class="companyname" style="color:#a94442"><img style="width:14px" src="/gywyext/images/warning.png" />&nbsp;&nbsp;请输入公司名称</span>
-		</div>
-		<div class="form-group">
-			<label>公司地址:&nbsp;&nbsp;&nbsp;</label> <input ng-model="company.comp_addr" class="form-control">
-		</div>
-		<div class="form-group">
-			<label>公司人员数量:&nbsp;&nbsp;&nbsp;</label> <input ng-model="company.comp_num" class="form-control">
-		</div>
-		<div class="form-group">
-			<label>备注:&nbsp;&nbsp;&nbsp;</label>
-			<textarea ng-model="company.comp_memo" class="form-control" rows="3"></textarea>
-		</div>
-
-		<div class="row">
-			<div class="col-md-12">
-				<div class="panel panel-default">
-
-					<div class="panel-body">
-						<div class="panel-group" id="accordion">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordion"
-											href="javascript:;#collapseOne">添加项目信息&nbsp;1#</a>
-									</h4>
-								</div>
-								<div id="collapseOne" class="panel-collapse collapse"
-									style="height: auto;">
-									 <div class="panel-body"   > 
-									
-										<div class="form-group"	 >
-											<label>项目名称:&nbsp;&nbsp;&nbsp;</label> <input
-												ng-model="project.proj_name" class="form-control">
-										 </div>
-										<div class="form-group" >   
-											<label>项目地址:&nbsp;&nbsp;&nbsp;</label> <input
-												ng-model="project.proj_addr" class="form-control">
-										 </div>
-										<div class="form-group" > 
-											<label>业主数量:&nbsp;&nbsp;&nbsp;</label> <input
-												ng-model="project.proj_num" class="form-control">
-										 </div>
-
-										<div class="form-group" > 
-											<label>备注:&nbsp;&nbsp;&nbsp;</label>
-											<textarea ng-model="project.proj_memo" class="form-control"
-												rows="3"></textarea>
+<div id="page-wrapper"  style="margin-left: 0px">   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">    
+				<div class="panel-heading">
+				 <a href="#" onclick="javascript:history.go(-1);">公司管理</a><span>>新建公司信息</span>
+				</div>  			
+				<div class="panel-body">
+					<div class="row">
+						<form style="padding:0 30px;" role="form" ng-submit="addStaff()">
+	 						<table class="tablelist111">
+                                    <tr>
+									<td class="width15 text-center">公司名称<b>*</b></td>
+									<td><input class="dfinput111" ng-model="company.comp_name" required /></td>
+									</tr>
+									<tr>
+									<td class="width15 text-center">公司地址<b>*</b></td>
+									<td><input class="dfinput111" ng-model="company.comp_addr" required /></td>
+									</tr>
+									<tr>
+                                    <td class="width15 text-center">公司人员数量<b>*</b></td>
+									<td><input class="dfinput111" ng-model="company.comp_num" required /></td>
+									</tr>
+                                 <tr style="height:100px;">
+								 	<td class="width15 text-center">备注</td>
+									<td><textarea class="dfinput111" ng-model="company.comp_memo"/></td>
+						         </tr>
+                                 <tr>
+								 	<td class="width15 text-center">添加项目信息</td>
+									<td colspan='6' id="collapseOne">
+										<div >
+								            <span class="width1 text-center">项目名称</span>
+											<input ng-model="project.proj_name" class="dfinput111" />
+											</div>
+											<div>
+											<span class="width1 text-center">项目地址</span>
+											<input ng-model="project.proj_addr" class="dfinput111" value="0"/>
+											</div>
+											<div>
+								            <span class="width1 text-center">业主数量</span>
+											<input ng-model="project.proj_num" class="dfinput111" />
+											</div>
+											<div>
+								            <span class="width1 text-center">项目备注</span>
+											<input ng-model="project.proj_memo" class="dfinput111" type="text" />
+											</div>
+											<div>
+											<img class="addeparaimg" onclick='addProject()' src="../../images/addEpara.png">
+											<img class="deeparaimg" src="../../images/deEpara.png">
 										</div>
-										
-								 	</div> 
-									<div class="add-project">
-										 <!-- 继续添加项目信息&nbsp;  <img src="/gywyext/images/rightappear.png"> --> 
-										<img class="addeparaimg" onclick='addProject()' src="../../images/addEpara.png">
-									    <img class="deeparaimg" src="../../images/deEpara.png"> 
-									</div>
-								</div>
+									</td>
+						         </tr> 
+                             </table>
+     	                    <div class="buttonbox">
+					         <input class="btn btn-default" type="submit" ng-click="addCompany()" value="确认提交" />
 							</div>
-						</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<div class="buttonbox">
-			<button ng-click="addCompany()" class="btn btn-default">确认提交</button>
-		</div>
-	</form>
-
+	</div>
 </div>
 
-<div class="col-md-4 col-sm-4 motai">
+
+<!--  <div class="col-md-4 col-sm-4 motai">
 	<div class="panel panel-success">
 		<div class="panel-heading">添加成功</div>
 		<div class="panel-body" style="padding: 30px; text-align: center">
@@ -82,16 +73,16 @@
 		</div>
 		<div class="panel-footer">关闭窗口</div>
 	</div>
-</div>
+</div> -->
 <script type="text/javascript" src="/gywyext/js/lib/bootstrap.min.js"></script>
 <script>
 function addProject(){
 	var tableScontent = $('#collapseOne');
 	var $div = $("<div class='panel-body'></div>");
-	var $input1 = $("<div class='form-group'><lable>项目名称:&nbsp;&nbsp;&nbsp;</lable></div><input	name='projname'  class='form-control' />");
-	var $input2 = $("<div class='form-group'><lable >项目地址:&thinsp;&thinsp;&thinsp;</lable></div><input 	name='projaddr'	class='form-control' />");
-	var $input3 = $("<div class='form-group'><lable>业主数量:&thinsp;&thinsp;&thinsp;</lable></div><input name='projnum'	class='form-control'  />");
-	var $input4 = $("<div class='form-group'><lable>备注:&thinsp;&thinsp;&thinsp;</lable></div><input  name='projmemo'	class='form-control' 	type='text' />");
+	var $input1 = $("<div><span class='width15 text-center'>项目名称:&nbsp;&nbsp;&nbsp;</span><input	name='projname'  class='dfinput111' /></div>");
+	var $input2 = $("<div><span class='width15 text-center'>项目地址:&thinsp;&thinsp;&thinsp;</span><input 	name='projaddr'	class='dfinput111' /></div>");
+	var $input3 = $("<div><span class='width15 text-center'>业主数量:&thinsp;&thinsp;&thinsp;</span><input name='projnum'	class='dfinput111'  /></div>");
+	var $input4 = $("<div><span class='width15 text-center'>项目备注:&thinsp;&thinsp;&thinsp;</span><input  name='projmemo'	class='dfinput111' 	type='text' />");
 	var $input5 = $("<img class='addeparaimg' onclick='addProject()' src='../../images/addEpara.png'><img class='deeparaimg' src='../../images/deEpara.png'>");
 	$div.append($input1);
 	$div.append($input2);
@@ -103,4 +94,35 @@ function addProject(){
 		$(e.target).parent().empty();
 	})
 }
+
+$("#main-menu").on("click",function(e){
+	if(e.target.nodeName == "A"){
+		$(this).find("a").removeClass("clickin");
+		$(e.target).addClass("clickin");
+	}
+})
+
+ $(document).ready(function () {
+	$("#sideNav").click(function(){
+		if($(this).hasClass('closed')){
+			$('.navbar-side').animate({left: '0px'});
+			$(this).removeClass('closed');
+			$('#page-wrapper').animate({'margin-left' : '260px'});
+			
+		}
+		else{
+		    $(this).addClass('closed');
+			$('.navbar-side').animate({left: '-260px'});
+			$('#page-wrapper').animate({'margin-left' : '0px'}); 
+		}
+	});
+});
+
+$(window).bind("load resize", function () {
+    if ($(this).width() < 768) {
+        $('div.sidebar-collapse').addClass('collapse')
+    } else {
+        $('div.sidebar-collapse').removeClass('collapse')
+    }
+});
 </script>
