@@ -5,6 +5,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/angular/angular.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/angular/angular-route.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/angular/angular-file-upload.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/app/equipment/ezuikit.js"></script>
 
         <script>
         $(document).ready(function () {

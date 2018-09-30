@@ -24,6 +24,7 @@
 				<a class="topspan" href="#/equipBaseInfo"><h4 class="fa fa-dashboard">设备基本信息</h4></a>
 				<a class="topspan" href="equipRealInfo/index.jsp#/equipRealInfo"><h4 class="fa fa-tasks">设备实时状态信息</h4></a>
 				<a class="topspan" href="javascript:;"><h4 class="fa fa-bell">设备报警信息</h4></a>
+				<!-- <a class="topspan" href="#/camera"><h4 class="fa fa-bell">摄像头信息</h4></a> -->
 			</div>
         </nav>
 	<section class="containner">

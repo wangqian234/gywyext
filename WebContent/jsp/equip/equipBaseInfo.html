@@ -1,7 +1,7 @@
 <div id="page-wrapper"  style="margin-left: 260px;padding-top:100px">
-          <h1 class="page-header"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                            设备基本信息表</font></font><small><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"></font></font></small>
-          </h1>
+<h1 class="page-header"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                            设备基本信息表</font></font><small><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{project_name}}</font></font></small>
+         </h1>
 <div class="panel panel-default">
 	<div class="panel-heading">
 	<div ng-app="" class="tools">
@@ -13,7 +13,7 @@
 			</select>
 				
 			<!-- 根据健康状态筛选设备信息 -->
-			请选择设备健康状态： <select class="dfselect" ng-model="equipStatee" id="equipStatee" style="width: 167px" ng-change="selectEquipmentByRS()">
+			请选择设备健康状态： <select  class="dfselect" ng-model="equipStatee" id="equipStatee" style="width: 167px" ng-change="selectEquipmentByRS()">
 				<option value="0">全部</option> 
 				<option value="1">健康</option>
 				<option value="2">良好</option>
@@ -22,7 +22,7 @@
 			</select>
 	
 	设备查询：<input type="text" class="dfselect" placeholder="设备名称或型号" ng-model="equipName" id="equipName" >
-			<button style="width: 50px; height: 28px" ng-click="selectEquipmentByName()">
+			<button style="width: 50px; height: 28px" ng-click="selectEquipmentByRS()">
 			<i class="fa fa-search"></i></button>
 				
 		<a href="#/equipAdd" class="toolbar1">
@@ -83,7 +83,7 @@
                         <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level" ng-repeat="ldd in ld.data">
                             <li>
-                                <a class="leftSecond" href="" ng-click="selectBaseInfoByProj(ldd.proj_id)">{{ldd.proj_name}}</a>
+                                <a class="leftSecond" href="" ng-click="selectBaseInfoByProj(ldd.proj_id,ldd.proj_name)" id="projname">{{ldd.proj_name}}</a>
                             </li>
                         </ul>
                     </li>
@@ -154,8 +154,10 @@
                 $('div.sidebar-collapse').removeClass('collapse')
             }
         });
-  
-        
+       
+       /*  window.onload = function() {
+        	  document.getElementById("projname").click();
+        	} */
 
         </script>
         
