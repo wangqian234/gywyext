@@ -14,6 +14,7 @@ public class EquipOper {
 	private Integer equip_para_id;// 设备编号，外键
 	private String equip_oper_info;// 运行状态信息
 	private String equip_oper_time;// 运行状态数据时间
+	private Integer equip_oper_flag;//标志位用于判断是否被报警程序轮询
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,6 +49,14 @@ public class EquipOper {
 
 	public void setEquip_para_id(Integer equip_para_id) {
 		this.equip_para_id = equip_para_id;
+	}
+
+	public Integer getEquip_oper_flag() {
+		return equip_oper_flag;
+	}
+
+	public void setEquip_oper_flag(Integer equip_oper_flag) {
+		this.equip_oper_flag = equip_oper_flag;
 	}
 
 
