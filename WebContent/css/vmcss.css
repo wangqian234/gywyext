@@ -1,0 +1,117 @@
+.active {
+	color: rgba(124, 189, 187, 1) !important;
+	background-color: rgb(234, 234, 234) !important;
+	/* color: #333 !important */
+}
+
+.inactive {
+	color: rgba(124, 189, 187, 1) !important
+}
+
+.dfselect {
+	width: 280px;
+	height: 36px;
+	margin-right: 12px;
+	line-height: 32px;
+	border-top: solid 1px #a7b5bc;
+	border-left: solid 1px #a7b5bc;
+	border-right: solid 1px #ced9df;
+	border-bottom: solid 1px #ced9df;
+	background: url(../images/inputbg.gif) repeat-x;
+	text-indent: 4px;
+}
+
+.dfselect option {
+	word-space: 2px;
+	margin: 8px 12px;
+}
+
+.dateLayoutStyle {
+	width: 280px;
+	height: 32px;
+	margin-left: 0px;
+}
+
+.tcdPageCode {
+	padding: 15px 20px;
+	text-align: right;
+	color: #ccc;
+}
+
+.tcdPageCode a {
+	display: inline-block;
+	color: #428bca;
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	padding: 0 10px;
+	border: 1px solid #ddd;
+	margin: 0 2px;
+	border-radius: 4px;
+	vertical-align: middle;
+}
+
+.tcdPageCode a:hover {
+	text-decoration: none;
+	border: 1px solid #428bca;
+}
+
+.tcdPageCode span {
+	display: inline-block;
+	margin: 0 4px;
+}
+
+.tcdPageCode span.current {
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	padding: 0 10px;
+	margin: 0 2px;
+	color: #fff;
+	background-color: #428bca;
+	border: 1px solid #428bca;
+	border-radius: 4px;
+	vertical-align: middle;
+}
+
+.tcdPageCode span.disabled {
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	padding: 0 10px;
+	margin: 0 2px;
+	color: #bfbfbf;
+	background: #f2f2f2;
+	border: 1px solid #bfbfbf;
+	border-radius: 4px;
+	vertical-align: middle;
+}
+
+.activeSwitch {
+	background-image: url(/GVM/img/closedeng.png);
+	background-size: 30px 30px;
+	background-repeat: no-repeat;
+}
+
+.inactiveSwitch {
+	background-image: url(/GVM/img/opendeng.png);
+	background-size: 30px 30px;
+	background-repeat: no-repeat;
+}
+
+.tableActive {
+	background-color: "#EAEAEA" !important;
+	color:"#333 !important"
+}
+
+.select-box {
+	margin-left: 15px;
+	border: 1px solid #bebebe;
+	padding: 0.1rem;
+	line-height: 1.2rem;
+	height: 30px;
+	width: 230px;
+	padding-left: 10px;
+	border-radius: 3px;
+	background: url(../images/inputbg.gif) repeat-x;
+}

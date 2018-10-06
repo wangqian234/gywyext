@@ -5,7 +5,9 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/angular/angular.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/angular/angular-route.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/angular/angular-file-upload.min.js"></script>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/pageTurn.js"></script>  
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/echarts.js"></script> 
+ <script type="text/javascript" src="${pageContext.request.contextPath}/js/app/chartModel.js"></script> 
         <script>
         $(document).ready(function () {
     		$("#sideNav").click(function(){

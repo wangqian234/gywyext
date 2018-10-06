@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.mvc.dao.EquipmentDao;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.EquipRoom;
-import com.mvc.entityReport.EquipMain;
 import com.mvc.entityReport.EquipPara;
 
 @Repository("equipmentDaoImpl")
@@ -178,6 +177,64 @@ public class EquipmentDaoImpl implements EquipmentDao {
 					em.close();
 				}
 				return list;
+			}
+
+			
+			//zq
+			@Override
+			public List<Equipment> findEquipListByRoomId(Integer roomId, Integer offset, Integer limit) {
+				// TODO Auto-generated method stub
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_room=:roomId order by equip_id desc limit :offset, :end"; 
+				Query query = em.createNativeQuery(selectSql, Equipment.class);
+				query.setParameter("roomId", roomId);
+				query.setParameter("offset", offset);
+				query.setParameter("end", limit);
+				List<Equipment> list = query.getResultList();
+				em.close();
+				return list;
+			}
+
+			@Override
+			public Integer selectEquipNumByRoomId(Integer roomId) {
+				// TODO Auto-generated method stub
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select count(*) from equipment where equip_room=:roomId"; 
+				Query query = em.createNativeQuery(selectSql);
+				query.setParameter("roomId", roomId);
+				List<Object> totalRow = query.getResultList();
+				em.close();
+				return Integer.parseInt(totalRow.get(0).toString());
+			}
+
+			@Override
+			public List<Equipment> selectAllEquipByRoomId(Integer roomId) {
+				// TODO Auto-generated method stub
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_room=:roomId order by equip_id"; 
+				Query query = em.createNativeQuery(selectSql, Equipment.class);
+				query.setParameter("roomId", roomId);
+				List<Equipment> list = query.getResultList();
+				em.close();
+				return list;
+			}
+
+			@Override
+			public Equipment selectEquipmentById(Integer equipId) {
+				// TODO Auto-generated method stub
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_id=:equipId"; 
+				Query query = em.createNativeQuery(selectSql, Equipment.class);
+				query.setParameter("equipId", equipId);
+				List<Equipment> list = query.getResultList();
+				em.close();
+				Equipment e=new Equipment();
+				if(list.size()==0){
+					e=null;
+				}else{
+					e=list.get(0);
+				}
+				return e;
 			}
 
 }
