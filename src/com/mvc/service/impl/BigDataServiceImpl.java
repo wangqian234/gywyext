@@ -74,6 +74,7 @@ public class BigDataServiceImpl implements BigDataService {
 		return equipmentDao.findEquipListByRoomId(roomId, offset, limit);
 	}
 
+	// 某个位置所有传感器的故障统计
 	@Override
 	public JSONArray failureAnalysis(Integer roomId) {
 		// TODO Auto-generated method stub
@@ -82,6 +83,9 @@ public class BigDataServiceImpl implements BigDataService {
 		for (int i = 0; i < list.size(); i++) {
 			Integer num = alarmLogDao.countEquipFailNumById(list.get(i).getEquip_id());
 			JSONObject obj = new JSONObject();
+			if (num == null) {
+				num = 0;
+			}
 			obj.put("value", num);
 			obj.put("name", list.get(i).getEquip_name());
 			arr.add(obj);
@@ -89,6 +93,7 @@ public class BigDataServiceImpl implements BigDataService {
 		return arr;
 	}
 
+	// 获取设备健康状况的分析
 	@Override
 	public JSONArray getEquipRadarById(Integer equipmentId) {
 		// TODO Auto-generated method stub
@@ -133,6 +138,7 @@ public class BigDataServiceImpl implements BigDataService {
 		return arr;
 	}
 
+	// 设备故障预测
 	@Override
 	public JSONArray getEquipPreById(Integer equipmentId) {
 		// TODO Auto-generated method stub
@@ -145,43 +151,41 @@ public class BigDataServiceImpl implements BigDataService {
 			dt = emList.get(0).getEquip_main_date();
 		}
 		Integer num = alarmLogDao.countEquipFailNumByIdAndDate(equipmentId, dt);
-		if (num == null) {
-			num = 0;
-		}
-
-		if (num == 0) {
+		if (num == null || num == 0) {
 			num = 1;
 		}
-		float dd =(float) (3000.00 / num);
+
+		float dd = (float) (3000.00 / num);
 		long intervalTime = (long) (dd * 60 * 1000);
 		long nextMainDate;
 		Equipment e = new Equipment();
 		e = equipmentDao.selectEquipmentById(equipmentId);
 		if (dt == null) {
-			nextMainDate = e.getEquip_udate().getTime()+intervalTime;
+			nextMainDate = e.getEquip_udate().getTime() + intervalTime;
 		} else {
 			nextMainDate = dt.getTime() + intervalTime;
 		}
 		Date preDate = new Date(nextMainDate);
-		JSONArray arr=new JSONArray();
+		JSONArray arr = new JSONArray();
 		arr.add(dt);
 		arr.add(preDate);
 		return arr;
 	}
 
+	// 设备故障按月统计
 	@Override
 	public JSONObject getEquipFailCountById(Integer equipmentId) {
 		// TODO Auto-generated method stub
-		JSONObject o=new JSONObject();
-		 Calendar date = Calendar.getInstance();
-	     String year = String.valueOf(date.get(Calendar.YEAR));
-		List<Object> listSource=alarmLogDao.getEquipFailCountById(equipmentId,year);
+		JSONObject o = new JSONObject();
+		Calendar date = Calendar.getInstance();
+		String year = String.valueOf(date.get(Calendar.YEAR));
+		List<Object> listSource = alarmLogDao.getEquipFailCountById(equipmentId, year);
 		Iterator<Object> it = listSource.iterator();
-		JSONArray xArr=new JSONArray();
-		JSONArray dataArr=new JSONArray();
+		JSONArray xArr = new JSONArray();
+		JSONArray dataArr = new JSONArray();
 		Object[] obj = null;
-		while(it.hasNext()){
-			obj=(Object[]) it.next();
+		while (it.hasNext()) {
+			obj = (Object[]) it.next();
 			xArr.add(obj[0]);
 			dataArr.add(obj[1]);
 		}

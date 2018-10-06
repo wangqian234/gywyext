@@ -29,22 +29,52 @@
 	background-color: rgb(234, 234, 234) !important;
 	/* color: #333 !important */
 }
+
+.active a {
+	color: black !important;
+}
+
+.active a h4{
+	color: black !important;
+}
+
+.menuUl {
+	width: 87% !important;
+	float: left !important;
+	list-style: none !important;
+	text-align: center !important;
+	margin-bottom: 0px !important;
+	padding-left: 0px !important;
+}
+
+.menuUl li {
+	width: 12% !important;
+	float: left !important;
+	text-align: center !important;
+}
 </style>
 
 </head>
 
 <body>
-	<nav class="navbar navbar-default top-navbar" role="navigation">
+	<nav class="navbar navbar-default top-navbar" role="navigation"
+		style="padding-left: 0px;">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="/gywyext/index.html"><i
 				class="fa fa-gear"></i> <strong>公元物业E巡通</strong></a>
 		</div>
-		<div>
+		<div class="menu">
+			<ul id="menuUl" class="menuUl">
+				<li ><a class="topspan" href="#/equipFail"><h4
+							class="fa fa-tasks">故障种类分析</h4></a></li>
+				<li><a
+					class="topspan" href="#/equipState"><h4 class="fa fa-bell">设备健康状况分析</h4></a></li>
+				<li><a
+					class="topspan" href="#/equipPre"><h4 class="fa fa-bell">设备故障预测</h4></a></li>
+			</ul>
 			<!-- <a class="topspan" href="#/equipBaseInfo"><h4
-					class="fa fa-dashboard">能耗分析</h4></a>  --><a class="topspan"
-				href="#/equipFail"><h4 class="fa fa-tasks">故障种类分析</h4></a> <a
-				class="topspan" href="#/equipState"><h4 class="fa fa-bell">设备健康状况分析</h4></a>
-			<a class="topspan" href="#/equipPre"><h4 class="fa fa-bell">设备故障预测</h4></a>
+					class="fa fa-dashboard">能耗分析</h4></a>  -->
+
 		</div>
 	</nav>
 	<section class="containner">
@@ -81,4 +111,8 @@
 					$('div.sidebar-collapse').removeClass('collapse')
 				}
 			});
+
+			$("#menuUl li").click(function() {
+				$(this).addClass("active").siblings().removeClass();
+			})
 		</script>

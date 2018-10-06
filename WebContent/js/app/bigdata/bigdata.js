@@ -254,9 +254,13 @@ app
 												});
 							}
 							// 点击项目触发事件
-							bigData.selectBaseInfoByProj = function(str) {
+							bigData.selectBaseInfoByProj = function(str, $event) {
 								bigData.proId = str;
 								bigData.selectRoomList();
+								$(".nav-second-level li").removeClass();
+								var oObj = window.event.srcElement;
+								var oTr = oObj.parentNode;
+								oTr.className = "liActive";
 							}
 
 							// zq点击表格的每一行变色
@@ -394,6 +398,8 @@ app
 															'leftData',
 															leftData);
 													bigData.tableIndex = 0;
+													
+													
 												});
 							}
 
@@ -415,7 +421,7 @@ app
 
 									bigData.type = "equipState";
 									bigData.getLeftData();
-
+									
 								} else if ($location.path()
 										.indexOf('/equipPre') == 0) {
 

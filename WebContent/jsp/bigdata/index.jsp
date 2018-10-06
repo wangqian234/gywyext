@@ -9,10 +9,18 @@
 <script src="${pageContext.request.contextPath}/js/lib/My97DatePicker/WdatePicker.js"></script>
 
 
-<div id="page-wrapper" style="margin-left: 0px;">
+<!-- <div id="page-wrapper" style="margin-left: 0px;">
 <div id="page-inner">
 
-    </div>
+</div> -->
  </div>
 
+
+<script type="text/javascript">
+
+
+
+
+
+</script>
 </html>

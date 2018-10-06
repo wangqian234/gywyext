@@ -1,7 +1,7 @@
 <div id="page-wrapper"  style="margin-left: 260px;padding-top:100px">
-<div class="row" width:"100%">
+<div class="row"  style="margin-bottom:5px !important;width:100%">
 	<div class="col-xs-12">
-		<div class="card" style="min-height:1000px">
+		<div class="card" style="min-height:780px">
 
 			<div class="card-body no-padding">
 				<div role="tabpanel">
@@ -68,9 +68,9 @@
                <ul class="nav" id="main-menu">
                      <li ng-repeat="ld in leftData">
                         <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level" ng-repeat="ldd in ld.data">
-                            <li>
-                                <a class="leftSecond" href=""  ng-click="selectBaseInfoByProj(ldd.proj_id)">{{ldd.proj_name}}</a>
+                        <ul class="nav nav-second-level" >
+                            <li ng-repeat="ldd in ld.data">
+                                <a class="leftSecond"  href=""  ng-click="selectBaseInfoByProj(ldd.proj_id,$event)">{{ldd.proj_name}}</a>
                             </li>
                         </ul>
                     </li>

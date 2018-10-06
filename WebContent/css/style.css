@@ -62,6 +62,13 @@ a:hover {
 	font-size:0;
 	overflow:hidden;
 }
+.liActive{
+	background-color:#EAEAEA;
+	
+}
+.liActive a{
+	color:#32C2CD !important;
+}
 .navbar {
   z-index: 10001;
   padding-left: 60px;
