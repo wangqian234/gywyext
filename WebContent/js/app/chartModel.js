@@ -1,6 +1,5 @@
 //饼图
 function drawPieChart(jsonData) {
-	alert(jsonData.domElement);
 	var chart = new PieChart({
 		title : jsonData.title,
 		dataContent : jsonData.dataContent

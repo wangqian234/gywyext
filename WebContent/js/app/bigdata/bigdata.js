@@ -112,6 +112,13 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	services.getRoomEquipAnalysisByRoomId = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'bigData/getRoomEquipAnalysisByRoomId.do',
+			data : data
+		});
+	};
 	return services;
 } ]);
 
@@ -160,7 +167,7 @@ app
 								if (bigData.type == "equipFail") {
 
 									services
-											.selectEquipListByRoomId({
+											.getRoomEquipAnalysisByRoomId({
 												page : 1,
 												roomId : f.equip_room_id
 											})
@@ -276,8 +283,6 @@ app
 											})
 											.success(
 													function(data) {
-														alert(JSON
-																.stringify(data.result));
 														var radarResult = data.result;
 														var typeArray = data.typeArray;
 														var dataContent = [];
@@ -298,8 +303,6 @@ app
 														chartObject1.title = "";
 														chartObject1.model = typeArray;
 														chartObject1.dataContent = dataContent;
-														alert(JSON
-																.stringify(chartObject1));
 														var radarChart = drawRadarChart(chartObject1);
 													});
 								} else if (bigData.type == "equipPre") {
@@ -311,18 +314,20 @@ app
 													function(data) {
 
 														bigData.preDate = data.result;
-														alert(JSON
-																.stringify(bigData.preDate));
+
 														if (data.result[0] == null
 																|| data.result[0] == "") {
 															bigData.warning = "该设备从使用到现在还没有发生过故障,经分析预测设备下次维修时间为"
-																	+ bigData.formatDate(bigData.preDate[1].time)
+																	+ bigData
+																			.formatDate(bigData.preDate[1].time)
 																	+ ",请在预测维修时间之前进行检修，以防发生突发故障！";
 														} else {
 															bigData.warning = "该设备上次维保时间为"
-																	+ bigData.formatDate(bigData.preDate[0].time)
+																	+ bigData
+																			.formatDate(bigData.preDate[0].time)
 																	+ ",经分析预测设备下次维修时间为"
-																	+ bigData.formatDate(bigData.preDate[1].time)
+																	+ bigData
+																			.formatDate(bigData.preDate[1].time)
 																	+ ",请在预测维修时间之前进行检修，以防发生突发故障！";
 														}
 														;
@@ -339,7 +344,6 @@ app
 														barObject.domElement = document
 																.getElementById('barChart');
 
-													
 														var radarChart = drawBarChart(barObject);
 													});
 								}
@@ -398,7 +402,7 @@ app
 								console.log("初始化页面bigData！");
 								if ($location.path().indexOf('/init') == 0) {
 									bigData.type = "init";
-									alert("初始");
+
 									bigData.getLeftData();
 
 								} else if ($location.path().indexOf(
@@ -408,13 +412,13 @@ app
 									bigData.getLeftData();
 								} else if ($location.path().indexOf(
 										'/equipState') == 0) {
-									alert("equipState");
+
 									bigData.type = "equipState";
 									bigData.getLeftData();
 
 								} else if ($location.path()
 										.indexOf('/equipPre') == 0) {
-									alert("equipPre");
+
 									bigData.type = "equipPre";
 									bigData.getLeftData();
 								}

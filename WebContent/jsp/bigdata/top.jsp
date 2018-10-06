@@ -40,8 +40,8 @@
 				class="fa fa-gear"></i> <strong>公元物业E巡通</strong></a>
 		</div>
 		<div>
-			<a class="topspan" href="#/equipBaseInfo"><h4
-					class="fa fa-dashboard">能耗分析</h4></a> <a class="topspan"
+			<!-- <a class="topspan" href="#/equipBaseInfo"><h4
+					class="fa fa-dashboard">能耗分析</h4></a>  --><a class="topspan"
 				href="#/equipFail"><h4 class="fa fa-tasks">故障种类分析</h4></a> <a
 				class="topspan" href="#/equipState"><h4 class="fa fa-bell">设备健康状况分析</h4></a>
 			<a class="topspan" href="#/equipPre"><h4 class="fa fa-bell">设备故障预测</h4></a>

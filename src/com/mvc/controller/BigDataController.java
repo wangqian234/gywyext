@@ -58,10 +58,10 @@ public class BigDataController {
 			pager.setPage(Integer.parseInt(request.getParameter("page")));// 指定页码
 			pager.setTotalRow(Integer.parseInt(totalRow.toString()));
 			list = bigDataService.findEquipListByRoomId(Integer.valueOf(roomId), pager.getOffset(), pager.getLimit());
-			JSONArray result = bigDataService.failureAnalysis(Integer.valueOf(roomId));
+			/*JSONArray result = bigDataService.failureAnalysis(Integer.valueOf(roomId));*/
 			jsonObject.put("list", list);
 			jsonObject.put("totalPage", pager.getTotalPage());
-			jsonObject.put("analysis", result);
+			/*jsonObject.put("analysis", result);*/
 		} else {
 			jsonObject.put("list", null);
 		}
@@ -94,6 +94,31 @@ public class BigDataController {
 		return jsonObject.toString();
 	}
 	
+	//zq设备故障分析
+	// zq
+		// 根据位置id查找设备列表
+		@RequestMapping(value = "/getRoomEquipAnalysisByRoomId.do")
+		public @ResponseBody String getRoomEquipAnalysisByRoomId(HttpServletRequest request, HttpSession session) {
+			JSONObject jsonObject = new JSONObject();
+			String roomId = request.getParameter("roomId");
+			List<Equipment> list = null;
+			Pager pager = new Pager();
+			if (StringUtil.strIsNotEmpty(roomId)) {
+				Integer totalRow = bigDataService.selectEquipNumByRoomId(Integer.valueOf(roomId));
+				pager.setPage(Integer.parseInt(request.getParameter("page")));// 指定页码
+				pager.setTotalRow(Integer.parseInt(totalRow.toString()));
+				list = bigDataService.findEquipListByRoomId(Integer.valueOf(roomId), pager.getOffset(), pager.getLimit());
+				JSONArray result = bigDataService.failureAnalysis(Integer.valueOf(roomId));
+				jsonObject.put("list", list);
+				jsonObject.put("totalPage", pager.getTotalPage());
+				jsonObject.put("analysis", result);
+			} else {
+				jsonObject.put("list", null);
+			}
+
+			return jsonObject.toString();
+		}
+
 	
 	// zq
 		// 根据位置id查找设备列表
