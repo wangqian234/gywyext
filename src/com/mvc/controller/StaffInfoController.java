@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
 import com.base.constants.SessionKeyConstants;
+
 import com.mvc.entityReport.Role;
 import com.mvc.entityReport.User;
 
 import com.mvc.service.StaffInfoService;
 import com.utils.Pager;
+import com.utils.StringUtil;
 
 import net.sf.json.JSONObject;
 
@@ -84,6 +86,7 @@ public @ResponseBody String addStaff(HttpServletRequest request, HttpSession ses
 	JSONObject jsonObject = new JSONObject();
 	jsonObject = JSONObject.fromObject(request.getParameter("staff"));
 	User user = new User();
+	Role role = new Role();
 	if (jsonObject.containsKey("user_acct")) {
 	user.setUser_acct(jsonObject.getString("user_acct"));}
 	if (jsonObject.containsKey("user_name")) {
@@ -94,6 +97,12 @@ public @ResponseBody String addStaff(HttpServletRequest request, HttpSession ses
 	user.setUser_tel(jsonObject.getString("user_tel"));}
 	if (jsonObject.containsKey("user_email")) {
 	user.setUser_email(jsonObject.getString("user_email"));}
+	if (jsonObject.containsKey("role")){
+		if (StringUtil.strIsNotEmpty(jsonObject.getString("role"))){
+			role.setRole_id(Integer.parseInt(jsonObject.getString("role")));
+			user.setRole(role);
+		}
+	}
 	user.setUser_isdeleted(0);
 	boolean result;
 	if (jsonObject.containsKey("user_id")) {

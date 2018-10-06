@@ -19,7 +19,6 @@ import com.mvc.service.IndexService;
 public class IndexServiceImpl implements IndexService {
 	@Autowired
 	IndexDao indexDao;
-	
 	@Override
 	public List<Map> getInitLeft() {
 		List<Company> listSource1 = indexDao.getInitLeft1();

@@ -1,0 +1,36 @@
+
+	<form role="form" ng-submit="updateProject()">
+		<div class="form-group">
+			<label>项目名称:&nbsp;&nbsp;&nbsp;</label> <input
+				ng-model="project.proj_name" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>项目地址:&nbsp;&nbsp;&nbsp;</label> <input
+				ng-model="project.proj_addr" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>业主数量:&nbsp;&nbsp;&nbsp;</label> <input
+				ng-model="project.proj_num" class="form-control">
+		</div>
+		<div class="form-group">
+			<label>所属公司:&nbsp;&nbsp;&nbsp;</label>
+			 <label class="radio-inline">
+				<!-- <select class="dfselect" ng-model="project.company" style="width: 167px">
+					<option ng-repeat="c in company" value="{{c.comp_id}}">{{c.comp_name}}</option>
+				</select> -->
+				<select class="dfselect" ng-model="project.company" style="width: 167px" required> 
+			<option ng-repeat="c in companys" ng-selected="c.comp_id==project.company.comp_id" value="{{c.comp_id}}">{{c.comp_name}}</option>	
+			</select>
+			</label> 
+		</div>
+
+		<div class="form-group">
+			<label>备注:&nbsp;&nbsp;&nbsp;</label>
+			<textarea ng-model="project.proj_memo" class="form-control" rows="3"></textarea>
+		</div>
+
+		<div class="buttonbox">
+			<input type="submit" class="btn btn-default" value="确认提交" />
+		</div>
+	</form>
+

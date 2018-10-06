@@ -1,32 +1,33 @@
 <div id="page-wrapper"  style="margin-left: 260px;padding-top:100px">
 <h1 class="page-header"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                            设备基本信息表</font></font><small><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">清远凤城丽都</font></font></small>
-                        </h1>
+                            设备基本信息表</font></font><small><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{project_name}}</font></font></small>
+         </h1>
 <div class="panel panel-default">
 	<div class="panel-heading">
 	<div ng-app="" class="tools">
 		<form class="toolbar">
 			<!-- 根据设备分类筛选设备信息 -->
 			请选择设备区域： <select class="dfselect" ng-model="equipRoomm"  id="equipRoomm" style="width: 167px" ng-change="selectEquipmentByRS()"> 
-				<option value="">全部</option> 
+				<option value="0">全部</option> 
 				<option ng-repeat="erm in equiproom_p" value="{{erm.equip_room_id}}">{{erm.equip_room_name}}</option>
 			</select>
 				
 			<!-- 根据健康状态筛选设备信息 -->
-			请选择设备健康状态： <select class="dfselect" ng-model="equipStatee" id="equipStatee" style="width: 167px" ng-change="selectEquipmentByRS()">
-				<option value="">全部</option> 
+			请选择设备健康状态： <select  class="dfselect" ng-model="equipStatee" id="equipStatee" style="width: 167px" ng-change="selectEquipmentByRS()">
+				<option value="0">全部</option> 
 				<option value="1">健康</option>
-				<option value="2">一般</option>
-				<option value="3">故障</option>
+				<option value="2">良好</option>
+				<option value="3">一般</option>
+				<option value="4">故障</option>
 			</select>
 	
 	设备查询：<input type="text" class="dfselect" placeholder="设备名称或型号" ng-model="equipName" id="equipName" >
-			<button style="width: 50px; height: 28px" ng-click="selectEquipmentByName()">
+			<button style="width: 50px; height: 28px" ng-click="selectEquipmentByRS()">
 			<i class="fa fa-search"></i></button>
-		
+				
 		<a href="#/equipAdd" class="toolbar1">
 		<button class="btn btn-default"><i class=" fa fa-edit "></i>新建</button></a>
-		
+
 		</form>	
 	</div>
 	</div>
@@ -52,7 +53,7 @@
 						<td>{{e.equip_name}}</td>
 						<td>{{e.equip_no}}</td>
 						<td>{{e.equip_type.equip_type_name}}</td>
-						<td><progress value="{{e.equip_state}}" max="10" ></progress></td>
+						<td class="p-green"><progress value="{{e.equip_state}}" max="10" ></progress></td>
 						<td>{{e.user.user_name}}</td>
 						<td>{{e.equip_ndate.time | timer}}</td>
 						<td>
@@ -82,7 +83,7 @@
                         <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level" ng-repeat="ldd in ld.data">
                             <li>
-                                <a class="leftSecond" href="" ng-click="selectBaseInfoByProj(ldd.proj_id)">{{ldd.proj_name}}</a>
+                                <a class="leftSecond" href="" ng-click="selectBaseInfoByProj(ldd.proj_id,ldd.proj_name)" id="projname">{{ldd.proj_name}}</a>
                             </li>
                         </ul>
                     </li>
@@ -153,7 +154,10 @@
                 $('div.sidebar-collapse').removeClass('collapse')
             }
         });
-  
+       
+       /*  window.onload = function() {
+        	  document.getElementById("projname").click();
+        	} */
 
         </script>
         
