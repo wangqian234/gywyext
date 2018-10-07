@@ -64,7 +64,7 @@
   <body>       
      <%--    <a href="${pageContext.request.contextPath}/routeController/toSystemIndex.do">ajaxPage</a><br> --%>
         <div class="container">
-			<a class="col-4" href="jsp/system/index.jsp">
+			<a class="col-3" href="jsp/system/index.jsp">
 				<div class="col-img">
 					<img src="images/school-badge.png">
 				</div>
@@ -72,7 +72,7 @@
 					<div>系统管理</div>
 				</div>
 			</a>
-			<a class="col-4" href="jsp/project/index.jsp">
+			<a class="col-3" href="jsp/project/index.jsp">
 				<div class="col-img">
 					<img src="images/school-badge.png">
 				</div>
@@ -80,12 +80,21 @@
 					<p>项目管理</p>
 				</div>
 			</a>
-			<a class="col-4" href="jsp/equip/index.jsp">
+			<a class="col-3" href="jsp/equip/index.jsp">
 				<div class="col-img">
 					<img src="images/school-badge.png">
 				</div>
 				<div class="col-font">
 					<p>设备管理</p>
+					<span></span>
+				</div>
+			</a>
+			<a class="col-3" href="jsp/equip/index.jsp">
+				<div class="col-img">
+					<img src="images/school-badge.png">
+				</div>
+				<div class="col-font">
+					<p>大数据分析</p>
 					<span></span>
 				</div>
 			</a>
