@@ -404,23 +404,4 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				}
 				return e;
 			}
-
-			@Override
-			public List<Equipment> selectEquipmentByRS(String eqRoom, String eqState, Integer offset, Integer end) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Integer countEqTotal(String searchKey) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public List<Equipment> selectEquipmentByPage(String searchKey, Integer offset, Integer end) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
 }
