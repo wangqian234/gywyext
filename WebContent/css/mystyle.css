@@ -529,7 +529,35 @@ nav ul ul {
 .topspan:hover {font-size:20px;color:white}	/* 鼠标移动到链接上 */
 .topspan:active {font-size:20px;}	/* 选定的链接 */
 
+.dfinput111 {
+	width: 40%;
+	min-width:150px;
+	height: 32px;
+	margin-right: 12px;
+	line-height: 32px;
+	border-top: solid 1px #a7b5bc;
+	border-left: solid 1px #a7b5bc;
+	border-right: solid 1px #ced9df;
+	border-bottom: solid 1px #ced9df;
+	text-indent: 10px;
+}
+.tablelist111 {
+	width: 100%;
+	clear: both;
+	border-collapse: collapse;
+}
+.tablelist111 td {
+	border: 0;
+	line-height: 60px;
+	color: #444444;
+	text-indent: 11px;
+}
 
+textarea.dfinput111 {
+	height: 80px;
+	vertical-align: middle;
+	margin-right: 22px;
+}
 /* progress
 {
    color:#ff0000; 兼容IE10的已完成进度背景

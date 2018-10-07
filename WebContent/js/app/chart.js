@@ -90,7 +90,6 @@ function try1(xdata,ydata,elsedata,divid){
 			    addData();
 			    l++
 			}
->>>>>>> ce8484ca12f1c57e450a0bee0fe270741943c5c2
 			
 			var option = {
 					title: {
