@@ -70,6 +70,9 @@ public class CollectorEpara {
 	public void setCollepara_flag(Integer collepara_flag) {
 		this.collepara_flag = collepara_flag;
 	}
+	
+	@ManyToOne
+	@JoinColumn(name="gateway_id")
 	public GatewayInfo getGateway_id() {
 		return gateway_id;
 	}
