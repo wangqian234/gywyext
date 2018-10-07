@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8" />
-<title>E巡通大数据统计分析系统</title>
+<title>e巡通大数据统计分析系统</title>
     <!-- Bootstrap Styles-->
     <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
