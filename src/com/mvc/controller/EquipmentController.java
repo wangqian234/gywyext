@@ -54,14 +54,21 @@ public class EquipmentController {
 			String eqRoom = request.getParameter("eqRoom");
 			String eqState = request.getParameter("eqState");
 			String searchKey = request.getParameter("searchKey");
-			String proj_id = request.getParameter("proj_id");
+			/*String proj_id = request.getParameter("proj_id");*/
+			String proj_id = null;
+			if(request.getParameter("proj_id") != null){
+				proj_id = request.getParameter("proj_id");
+			};
 			List<EquipRoom> room = new ArrayList<EquipRoom>();
-			room = equipmentService.selectEquipRoomByProj(proj_id);	
+			room = equipmentService.selectEquipRoomByProj(proj_id);				
 			Integer totalRow = equipmentService.countEqTotal(room,eqRoom,eqState,searchKey);
 			Pager pager = new Pager();
 			if(request.getParameter("page") != null){
 				pager.setPage(Integer.valueOf(request.getParameter("page")));
-			};
+			}else{
+				pager.setPage(1);
+			}
+			
 			if(totalRow != 0){
 				pager.setTotalRow(Integer.parseInt(totalRow.toString()));
 			}
@@ -71,27 +78,7 @@ public class EquipmentController {
 			jsonObject.put("totalPage", pager.getTotalPage());
 			return jsonObject.toString();
 		}		
-		
-		//根据项目获取安装位置及设备信息
-		@RequestMapping("/selectBaseInfoByProj.do")
-		public @ResponseBody String selectBaseInfoByProj(HttpServletRequest request, HttpSession session) {
-			Pager pager = new Pager();
-			String proj_id = null;
-			List<EquipRoom> room = new ArrayList<EquipRoom>();
-			if(request.getParameter("page") != null){
-				pager.setPage(Integer.valueOf(request.getParameter("page")));
-			};
-			if(request.getParameter("proj_id") != null){
-				proj_id = request.getParameter("proj_id");
-			};			
-			room = equipmentService.selectEquipRoomByProj(proj_id);
-			List<Equipment> list = equipmentService.selectEquipByRoom(room, pager.getOffset(), pager.getLimit());			
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("equipment", list);
-			jsonObject.put("room", room);
-			return jsonObject.toString();
-		}		
-		
+
 		//添加设备信息
 		@RequestMapping(value = "/addEquipment.do")
 		public @ResponseBody String addEquipment(HttpServletRequest request, HttpSession session) throws ParseException {
