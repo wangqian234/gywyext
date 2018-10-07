@@ -54,7 +54,6 @@ public class EquipmentController {
 			String eqRoom = request.getParameter("eqRoom");
 			String eqState = request.getParameter("eqState");
 			String searchKey = request.getParameter("searchKey");
-			/*String proj_id = request.getParameter("proj_id");*/
 			String proj_id = null;
 			if(request.getParameter("proj_id") != null){
 				proj_id = request.getParameter("proj_id");
@@ -65,10 +64,7 @@ public class EquipmentController {
 			Pager pager = new Pager();
 			if(request.getParameter("page") != null){
 				pager.setPage(Integer.valueOf(request.getParameter("page")));
-			}else{
-				pager.setPage(1);
 			}
-			
 			if(totalRow != 0){
 				pager.setTotalRow(Integer.parseInt(totalRow.toString()));
 			}
@@ -77,7 +73,7 @@ public class EquipmentController {
 			jsonObject.put("room", room);
 			jsonObject.put("totalPage", pager.getTotalPage());
 			return jsonObject.toString();
-		}		
+		}
 
 		//添加设备信息
 		@RequestMapping(value = "/addEquipment.do")
