@@ -20,6 +20,7 @@ public class CollectorEpara {
 	private FunctionInfo function_info;//端口对应功能号
 	private EquipPara equip_para;//设备特征参数id
 	private Integer collepara_flag;//备用标识
+	private GatewayInfo gateway_id;//网关信息
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -68,6 +69,15 @@ public class CollectorEpara {
 	}
 	public void setCollepara_flag(Integer collepara_flag) {
 		this.collepara_flag = collepara_flag;
+	}
+	
+	@ManyToOne
+	@JoinColumn(name="gateway_id")
+	public GatewayInfo getGateway_id() {
+		return gateway_id;
+	}
+	public void setGateway_id(GatewayInfo gateway_id) {
+		this.gateway_id = gateway_id;
 	}
 
 }

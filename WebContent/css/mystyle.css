@@ -1,6 +1,14 @@
 .gradeU td{
 	text-align:center;
 }
+body{
+  overflow:hidden;
+}
+.panel-default{
+	overflow-y: scroll;
+    height: -webkit-fill-available;
+    max-height: 600px;
+}
 
 /* 南健pageCSS */
 .tcdPageCode {

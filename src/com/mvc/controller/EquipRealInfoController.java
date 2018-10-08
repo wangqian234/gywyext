@@ -52,6 +52,20 @@ public class EquipRealInfoController {
 				jsonObject.put("totalPage", pager.getTotalPage());
 				return jsonObject.toString();
 			}
+
+	//根据项目获得所属设备信息
+			@RequestMapping(value = "/getEquipmentListByProject.do")
+			public @ResponseBody String getEquipmentListByProject(HttpServletRequest request, HttpSession session) {
+				JSONObject jsonObject = new JSONObject();
+				try{
+					String searchKey = request.getParameter("searchKey");
+					List<Equipment> list = equipRealInfoService.getEquipmentListByProject(searchKey);
+					jsonObject.put("list", list);
+				} catch (Exception e){
+					jsonObject.put("error", "暂未找到相关数据");
+				}
+				return jsonObject.toString();
+			}
 			
 	//根据设备id查找设备特征参数
 			@RequestMapping(value = "/getEquipPara.do")
@@ -237,6 +251,7 @@ public class EquipRealInfoController {
 	//获取设备报警信息
     @RequestMapping(value = "/getWaringNews.do")
 	public @ResponseBody String getWaringNews(HttpServletRequest request, HttpSession session){
+    	System.out.println("我进来了2");
 		JSONObject jsonObject = new JSONObject();
 		try{
 			String searchKey = request.getParameter("searchKey");
@@ -244,6 +259,21 @@ public class EquipRealInfoController {
 			//List<EquipOper> data = equipRealInfoService.getWaringNews(searchKey,startDate);
 			List<AlarmLog> data = equipRealInfoService.getWaringNews(searchKey);
 			jsonObject.put("data", data);
+		} catch (Exception e){
+			jsonObject.put("error", "暂未找到相关数据");
+		}
+		return jsonObject.toString();
+	}
+  //根据项目名称获取所属设备告警信息条数
+    @RequestMapping(value = "/getEquipAlarmNumberByProjectName.do")
+	public @ResponseBody String getEquipAlarmNumberByProjectName(HttpServletRequest request, HttpSession session){
+		JSONObject jsonObject = new JSONObject();
+		try{
+			String searchKey = request.getParameter("searchKey");
+			//String startDate = request.getParameter("startDate");
+			//List<EquipOper> data = equipRealInfoService.getWaringNews(searchKey,startDate);
+			List<AlarmLog> data = equipRealInfoService.getEquipAlarmNumberByProjectName(searchKey);
+			jsonObject.put("list", data);
 		} catch (Exception e){
 			jsonObject.put("error", "暂未找到相关数据");
 		}
