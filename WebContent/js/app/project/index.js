@@ -257,15 +257,25 @@ app.controller('indexProController', [
 				});
 			}
 			
+			
+			
+			
+			
 			indexpro.addProject = function(){
 				var projectInfo = JSON.stringify(indexpro.project);
 				alert(projectInfo)
 				services.addProject({
 					project : projectInfo
 				}).success(function(data) {
-				
+					alert("添加成功！")
+					$location.path('index/');
 				})
 			}
+			
+			
+			
+			
+			
 			// 根据输入筛选公司信息
 			indexpro.selectcompanyByName = function() {
 				searchKey = indexpro.companyName;
