@@ -22,7 +22,7 @@
             </div>
 			<div>
 				<a class="topspan" href="../index.jsp#/equipBaseInfo"><h4 class="fa fa-dashboard">设备基本信息</h4></a>
-				<a class="topspan" href="../equipRealInfo/dataV/index.jsp#/dataV"><h4 class="fa fa-tasks">设备实时状态信息</h4></a>
+				<a class="topspan" href="../equipRealInfo/dataV/index.jsp#/dataV"><h4 class="fa fa-tasks">可视化大屏展示</h4></a>
 				<a class="topspan" href="#/equipAlarmInfo"><h4 class="fa fa-bell">设备报警信息</h4></a>
 				<!-- <a class="topspan" href="#/camera"><h4 class="fa fa-bell">摄像头信息</h4></a> -->
 			</div>
