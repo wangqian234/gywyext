@@ -286,19 +286,7 @@ app
 						
 					});
 				}
-				/*else if ($location.path().indexOf('/travelTradeList') == 0) {
-					searchKey = null;
-					services.getTravelTradeListByPage({
-						page : 1,
-						searchKey : searchKey
-					}).success(function(data) {
-						traveltrade.traveltrades = data.list;
-						traveltrade.totalRow="打印："+data.totalRow;
-						traveltrade.totalP="打印："+data.totalPage;
-						pageTurn(data.totalPage, 1, getTravelTradeListByPage);
-						
-					});
-				}*/
+			
 				else if ($location.path().indexOf('/staffBaseInfo') == 0) {
 					/*if(sessionStorage.getItem('leftData')){
 						equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
@@ -308,13 +296,11 @@ app
 						page : 1,
 						searchKey : searchKey
 					}).success(function(data) {
-						
 						staffInfo.user = data.list;
 						pageTurn(
 								data.totalPage,
 								1,
 								getUserListByPage);
-
 					});
 				}
 				 else if ($location.path().indexOf('/staffAdd') == 0) {

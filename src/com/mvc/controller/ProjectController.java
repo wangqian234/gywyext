@@ -104,12 +104,12 @@ public class ProjectController {
 		pager.setPage(Integer.valueOf(request.getParameter("page")));
 		pager.setTotalRow(Integer.parseInt(totalRow.toString()));
 		List<Company> list = projectService.findCompanyByPage(searchKey, pager.getOffset(), pager.getLimit());
-		
 		jsonObject.put("list", list);
 		jsonObject.put("totalPage", pager.getTotalPage());
 		System.out.println("totalPage:" + pager.getTotalPage());
 		return jsonObject.toString();
 	}
+		
 	/**
 	 * 根据页数筛选项目信息列表
 	 * 
@@ -126,12 +126,12 @@ public class ProjectController {
 		pager.setPage(Integer.valueOf(request.getParameter("page")));
 		pager.setTotalRow(Integer.parseInt(totalRow.toString()));
 		List<Project> list = projectService.findProjectByPage(searchKey, pager.getOffset(), pager.getLimit());
-		
 		jsonObject.put("list", list);
 		jsonObject.put("totalPage", pager.getTotalPage());
 		System.out.println("totalPage:" + pager.getTotalPage());
 		return jsonObject.toString();
 	}
+		
 	
 	//	增加项目信息
 	@RequestMapping("/addProject.do")

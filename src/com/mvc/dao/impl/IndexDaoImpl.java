@@ -112,7 +112,6 @@ public class IndexDaoImpl implements IndexDao {
 			@SuppressWarnings("unchecked")
 			@Override
 			public List<Company> findCompanyByPage(String searchKey, Integer offset, Integer end) {
-			
 				EntityManager em = emf.createEntityManager();
 				String selectSql = "select * from Company where comp_isdeleted=0";
 			// 判断查找关键字是否为空
@@ -134,9 +133,6 @@ public class IndexDaoImpl implements IndexDao {
 					public Integer ProjCountTotal(String searchKey) {
 						EntityManager em = emf.createEntityManager();
 						String countSql = " select count(proj_id) from Project where proj_isdeleted=0 ";
-						/*if (null != searchKey) {
-							countSql += "   and (comp_name like '%" + searchKey + "%' or comp_addr like '%" + searchKey + "%')";
-						}*/
 						Query query = em.createNativeQuery(countSql);
 						List<Object> totalRow = query.getResultList();
 						em.close();
@@ -146,13 +142,8 @@ public class IndexDaoImpl implements IndexDao {
 					@SuppressWarnings("unchecked")
 					@Override
 					public List<Project> findProjectByPage(String searchKey, Integer offset, Integer end) {
-					
 						EntityManager em = emf.createEntityManager();
 						String selectSql = "select * from Project where proj_isdeleted=0";
-					// 判断查找关键字是否为空
-						/*if (null != searchKey) {
-							selectSql += " and ( comp_name like '%" + searchKey + "%' or comp_num like '%" + searchKey + "%')";
-						}*/
 						selectSql += " order by proj_id desc limit :offset, :end";
 						Query query = em.createNativeQuery(selectSql, Project.class);
 						query.setParameter("offset", offset);
@@ -162,4 +153,5 @@ public class IndexDaoImpl implements IndexDao {
 						System.out.println(list);
 						return list;
 					}
-	}
+}
+					

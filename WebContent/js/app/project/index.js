@@ -278,21 +278,13 @@ app.controller('indexProController', [
 					pageTurn(data.totalPage, 1, getCompanyListByPage)
 				});
 			};
-					
-				
-			
-/*			function addProject(){
-				$(".add-project").click(function(){
-					alert("我进来了")
-				})
-			}*/
+	
 			// 查看ID，并记入sessionStorage
 			indexpro.getCompanyId = function(companyId) {
 				sessionStorage.setItem('companyId',companyId);
 				};
 			// 读取公司信息
 			indexpro.selectCompanyById = function(companyId) {
-				
 				var comp_id = sessionStorage.getItem('companyId');
 				services.selectCompanyById({
 					comp_id : companyId
@@ -426,7 +418,6 @@ app.controller('indexProController', [
 						indexpro.companys = data.result;
 						console.log(JSON.stringify(indexpro.companys))
 					})
-				
 				} else if ($location.path().indexOf('/getCompanyInfo') == 0){
 					searchKey = null;
 					services.getCompanyListByPage({
@@ -440,19 +431,14 @@ app.controller('indexProController', [
 								1,
 								getCompanyListByPage);
 					})
-					
 				} else if ($location.path().indexOf('/getProjectInfo') == 0){
-					/*services.getProjectInfo().success(function(data){
-						indexpro.project = data.result;
-						console.log(JSON.stringify(indexpro.project))
-					})*/
 					searchKey = null;
 					services.getProjectListByPage({
 						page : 1,
 						searchKey : searchKey
 					}).success(function(data) {
 						indexpro.Projects = data.list;
-						console.log(JSON.stringify(indexpro.Projects))
+						console.log(JSON.stringify(data.list))
 						pageTurn(
 								data.totalPage,
 								1,
