@@ -1,0 +1,79 @@
+<div id="page-wrapper"  style="margin-left: 260px;padding-top:100px">
+<div class="row"  style="margin-bottom:5px !important;width:100%">
+	<div class="col-xs-12">
+		<div class="card" style="min-height:780px">
+
+			<div class="card-body no-padding">
+				<div role="tabpanel">
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs" role="tablist">
+						<li ng-click="selectEquipList(f,$index)" role="presentation"
+							ng-class="{true:'active',false:''}[$index==chosedIndex]"
+							ng-repeat="f in roomList"><a href="" role="tab"
+							data-toggle="tab">{{f.equip_room_name}}</a></li>
+					</ul>
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div class="col-sm-6">
+							<div class="sub-title">
+								设备列表<span class="description"></span>
+							</div>
+							<table id="infoList" class="datatable table table-striped">
+								<thead>
+									<tr>
+										<th>编号</th>
+										<th>设备名称</th>
+										<th>设备生产日期</th>
+										<th>设备状态</th>
+										<!-- <th>下次维修日期</th>
+										<th>预测寿命</th> -->
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-class="{true:'active',false:''}[$index==tableIndex]"
+										ng-click="change(eq,$index,this)"
+										ng-repeat="eq in equiplist">
+										<th scope="row">{{eq.equip_no}}</th>
+										<td>{{eq.equip_name}}</td>
+										<td>{{eq.equip_pdate.time |dateType}}</td>
+										<td>{{eq.equip_state |EquipState}}</td>
+										<!-- <td>2019-15-12</td>
+										<td>5</td> -->
+
+									</tr>
+
+								</tbody>
+							</table>
+							<div class="tcdPageCode">页码容器</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="sub-title">
+								设备故障种类分析<span class="description"></span>
+							</div>
+							<div   id="chart" style="position:absolute;min-width: 700px; max-width: 1200px; height: 350px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+          <nav class="navbar-default navbar-side" role="navigation">
+		<div id="sideNav"><i class="fa fa-caret-right"></i></div>
+             <div class="sidebar-collapse">
+                
+               <ul class="nav" id="main-menu">
+                     <li ng-repeat="ld in leftData">
+                        <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" >
+                            <li ng-repeat="ldd in ld.data">
+                                <a class="leftSecond"  href=""  ng-click="selectBaseInfoByProj(ldd.proj_id,$event)">{{ldd.proj_name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                 </ul>                
+            </div>
+        </nav> 
