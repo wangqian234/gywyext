@@ -83,7 +83,7 @@
                         <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level" ng-repeat="ldd in ld.data">
                             <li>
-                                <a class="leftSecond" href="" ng-click="selectBaseInfoByProj(ldd.proj_id,ldd.proj_name)" id="projname">{{ldd.proj_name}}</a>
+                                <a class="leftSecond" href="" ng-click="getEquipmentList(ldd.proj_id,ldd.proj_name)" id="projname">{{ldd.proj_name}}</a>
                             </li>
                         </ul>
                     </li>

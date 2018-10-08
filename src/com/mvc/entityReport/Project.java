@@ -21,6 +21,8 @@ public class Project {
 	private User user;//负责人编号，外键
 	private String proj_memo;//备注
 	private Integer proj_isdeleted;//项目状态，0：存在，1：已删除
+	private String proj_gate;//网关传来项目编号,清远凤城郦都：01020304;展会演示项目：00000001
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "proj_id",length = 11)
@@ -89,6 +91,14 @@ public class Project {
 	}
 	public void setProj_isdeleted(Integer proj_isdeleted) {
 		this.proj_isdeleted = proj_isdeleted;
+	}
+	
+	@Column(name = "proj_gate",length = 64)
+	public String getProj_gate() {
+		return proj_gate;
+	}
+	public void setProj_gate(String proj_gate) {
+		this.proj_gate = proj_gate;
 	}
 	
 }
