@@ -25,7 +25,7 @@ import com.mvc.entityReport.User;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.EquipMain;
-
+import com.mvc.entityReport.EquipOper;
 import com.utils.Pager;
 import com.mvc.service.EquipmentService;
 
@@ -255,6 +255,21 @@ public class EquipmentController {
 				List<EquipPara> result = equipmentService.getEquipPara(searchKey);
 				jsonObject.put("result", result);
 			} catch (Exception e){
+				jsonObject.put("error", "暂未找到相关数据");
+			}
+			return jsonObject.toString();
+		}
+		
+	    //根据设备参数id查找设备特征参数实时数据
+	    @RequestMapping(value = "/getEquipRealData.do")
+ 		public @ResponseBody String getEquipRealData(HttpServletRequest request, HttpSession session){
+			JSONObject jsonObject = new JSONObject();
+			try{
+				String searchKey = request.getParameter("searchKey");
+				String startDate = request.getParameter("startDate");
+				List<EquipOper> data = equipmentService.getEquipRealData(searchKey,startDate);
+				jsonObject.put("data", data);
+			} catch (Exception ep){
 				jsonObject.put("error", "暂未找到相关数据");
 			}
 			return jsonObject.toString();

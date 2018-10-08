@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mvc.dao.AlarmLogDao;
 import com.mvc.dao.EquipMainDao;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipMain;
 import com.mvc.entityReport.Equipment;
 
@@ -71,4 +72,39 @@ public class AlarmLogDaoImpl implements AlarmLogDao {
 		return list;
 	}
 
+	//南健报警信息
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AlarmLog> getAlarmListByPage(String searchKey,Integer offset, Integer end) {
+		EntityManager em = emf.createEntityManager();
+		String selectSql = "select * from alarm_log";
+	// 判断查找关键字是否为空
+		if (null != searchKey) {
+			selectSql += " and ( equipment like '%" + searchKey + "%' )";
+		}
+		selectSql += " order by alarm_log_id desc limit :offset, :end";
+		Query query = em.createNativeQuery(selectSql, AlarmLog.class);
+		query.setParameter("offset", offset);
+		query.setParameter("end", end);
+		List<AlarmLog> list = query.getResultList();
+		em.close();
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public Integer countAlarmTotal(String searchKey) {
+		EntityManager em = emf.createEntityManager();
+		String countSql = " select count(alarm_log_id) from alarm_log ";
+		if (null != searchKey) {
+			countSql += "  and (equipment like '%" + searchKey + "%' )";
+		}
+		Query query = em.createNativeQuery(countSql);
+		List<Object> totalRow = query.getResultList();
+		em.close();
+		return Integer.parseInt(totalRow.get(0).toString());
+	}
+	
+	
+	
+	
 }
