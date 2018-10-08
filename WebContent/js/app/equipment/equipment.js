@@ -452,28 +452,8 @@ app
 														equipment.leftData = dest;
 														var leftData = JSON.stringify(dest)
 														sessionStorage.setItem('leftData',leftData);
+														equipment.getEquipmentList(equipment.leftData[0].data[0].proj_id, equipment.leftData[0].data[0].proj_name);
 													});
-									
-									/*equipment.equipRoomm = "0";
-									equipment.equipStatee = "0";
-									equipment.equipName = null;
-									var eqRoom = JSON.stringify(equipment.equipRoomm) ;
-									eqState = JSON.stringify(equipment.equipStatee);
-									searchKey = JSON.stringify(equipment.equipName);
-									services.getEquipmentListByRS({
-										page : 1,
-										eqRoom : eqRoom,
-										eqState : eqState,
-										searchKey : searchKey
-									})
-									.success(
-											function(data) {
-												equipment.equipments = data.list;
-												pageTurn(
-														data.totalPage,
-														1,
-														getEquipmentListByRS);
-											});	*/
 																
 								} else if ($location.path().indexOf('/equipUpdate') == 0) {
 									var equip_id = sessionStorage.getItem("equipmentId");
