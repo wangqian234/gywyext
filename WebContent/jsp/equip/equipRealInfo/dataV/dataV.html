@@ -8,8 +8,74 @@
 			    <font size="6" color="red">公元物业</font>
 			   </p>
 	        </div>
-	        <div class="d2" id=d2>
+	        <div class="d3" id="d3" overflow="hidden">
+	            <div class="title">
+	                 <img src="../../../../images/warning01.png">
+	                 <font size="3">报警记录</font>
+	            </div>
+				<div class="list">
+				    <div class="cc rowup">
+				    </div>
+				</div>
+	        </div>
+	        <div class="d4">
+	            <div class="title">
+	                 <img src="../../../../images/alarmLog.png">
+	                 <font size="3">报警统计</font>
+	            </div>
+	            <div style="width: 100%;height:89%;" id="d4"></div>
+	        </div>
+	        <!-- <div class="d2" id=d2>
 	          <video id="myPlayer" style="width: 100%; height:85%; poster="" controls playsInline webkit-playsinline autoplay>
+	          <source src="rtmp://rtmp.open.ys7.com/openlive/bd2083cf239a4432836124f2888656f1.hd" type="rtmp/flv" />
+              <source src="http://hls.open.ys7.com/openlive/bd2083cf239a4432836124f2888656f1.m3u8" type="application/x-mpegURL" />
+              </video>
+              <td>
+				<button class="button1" ng-mousedown="getTurn(0)" ng-mouseup="getStop(0)" style="margin-left:25%">上移</button>
+				<button class="button1" ng-mousedown="getTurn(1)" ng-mouseup="getStop(1)">下移</button>
+				<button class="button1" ng-mousedown="getTurn(2)" ng-mouseup="getStop(2)">左移</button>
+				<button class="button1" ng-mousedown="getTurn(3)" ng-mouseup="getStop(3)">右移</button>
+		      </td>
+	        </div> -->
+	     </div>
+	     <div class="b2">
+	        <div class="d5" id="d5" ng-hide="main">
+	        </div>
+	        <div class="d6" id="d6">
+	           <table class="panel-table" bordercolor="#0d48e0" border="1">
+                    <thead  align="center" >
+                        <tr>
+                            <th colspan="4"><img src="../../../../images/viewing.png" />
+                            <font size="4" color="#00f6ff">{{KeepViewTitle}}监控列表</font></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr align="center">
+                        	<td style="color: #00fcff; font-size: 14px;">设备名称</td>
+                        	<td style="color: #00fcff; font-size: 14px;">设备型号</td>
+                        	<td style="color: #00fcff; font-size: 14px;">设备负责人</td>
+                        	<td style="color: #00fcff; font-size: 14px;">操作</td>
+                        </tr>
+                        <tr style="font-size: 12px;" align="center" ng-repeat="e in equipments track by $index">
+                            <td>{{e.equip_name}}</td>
+                            <td>{{e.equip_type_name}}</td>
+                            <td>{{e.user.user_name}}</td>
+                            <td>
+                            	<button class="b2 click_pop" ng-click="tankuang(e.equip_id)">实时数据</button>
+                            	<button class="b3 click_pop2" ng-click="donghua()">模拟动画</button>
+                            	<button class="b4 click_pop3">大数据分析</button>
+                            </td>
+                        </tr>
+                    </tbody>
+               </table>
+	        </div>
+	     </div>
+      </div>
+      <div class="a2">
+         <div class="d7" id="d7"></div>
+         <div class="d7" id="d8"></div>
+         <div class="d8" id="d9">
+             <video id="myPlayer" style="width: 100%; height:85%; poster="" controls playsInline webkit-playsinline autoplay>
 	          <source src="rtmp://rtmp.open.ys7.com/openlive/bd2083cf239a4432836124f2888656f1.hd" type="rtmp/flv" />
               <!-- <source src="http://hls.open.ys7.com/openlive/bd2083cf239a4432836124f2888656f1.m3u8" type="application/x-mpegURL" /> -->
               </video>
@@ -19,54 +85,83 @@
 				<button class="button1" ng-mousedown="getTurn(2)" ng-mouseup="getStop(2)">左移</button>
 				<button class="button1" ng-mousedown="getTurn(3)" ng-mouseup="getStop(3)">右移</button>
 		      </td>
-	        </div>
-	        <!-- <div class="d3" id="d3" overflow="hidden"> -->
-	        <div class="d3" id="d3" overflow="hidden">
-	        <span><font size="3" color="red">设备告警</font></span>
-				<div class="list">
-				    <div class="cc rowup">
-				        <div class="item">2018-9-01  水泵房湿度低于设备允许的最小值！请及时查看！</div>
-				        <div class="item">2018-9-01  楼顶消火栓末端压力高于设备允许的最大值！请及时查看！</div>
-				        <div class="item">2018-9-02  水泵房温度高于设备允许的最大值！请及时查看！</div>
-				        <div class="item">2018-9-03  水泵房消防水池液位高于设备允许的最大值！请及时查看！</div>
-				        <div class="item">2018-9-03  水泵房生活水池液位低于设备允许的最小值！请及时查看！</div>
-				        <div class="item">2018-9-05  水泵房供水管道压力低于设备允许的最小值！请及时查看！</div>
-				        <div class="item">2018-9-06  水泵房集水井水泵A相电流高于设备允许的最大值！请及时查看！</div>
-				        <div class="item">2018-9-06  水泵房集水井水泵B相电流高于设备允许的最大值！请及时查看！</div>
-				        <div class="item">2018-9-06  水泵房集水井水泵C相电流高于设备允许的最大值！请及时查看！</div>
-				        <div class="item">2018-9-07  配电房变压器A相线圈温度低于设备允许的最小值！请及时查看！</div>
-				        <div class="item">2018-9-07  配电房变压器B相线圈温度低于设备允许的最小值！请及时查看！</div>
-				        <div class="item">2018-9-07  配电房变压器C相线圈温度低于设备允许的最小值！请及时查看！</div>
-				        <div class="item">2018-9-07  配电房变压器铁芯线圈温度低于设备允许的最小值！请及时查看！</div>
-				        <div class="item">2018-9-10  水泵房供水管道压力高于设备允许的最大值！请及时查看！</div>
-				        <div class="item">2018-9-13  水泵房供水管道压力低于设备允许的最小值！请及时查看！</div>
-				        <div class="item">2018-9-15  水泵房湿度高于设备允许的最大值！请及时查看！</div>
-				        <div class="item">2018-9-16  水泵房集水井水泵A相电压低于设备允许的最小值！请及时查看！</div>
-				        <div class="item">2018-9-16  水泵房集水井水泵B相电压低于设备允许的最小值！请及时查看！</div>
-				        <div class="item">2018-9-16  水泵房集水井水泵C相电压低于设备允许的最小值！请及时查看！</div>
-				    </div>
-				</div>
-	        </div>
-	        <div class="d4" id="d4"></div>
-	     </div>
-	     <div class="b2">
-	        <div class="d5" id="d10" ng-hide="main1">
-	           <iframe id="myframe" src="http://localhost:8028/runtime.shtm?prjId=7&picId=27&rand=1538213982268" 
-	           width="100%" height="100%" scrolling="no" frameborder="no">
-	           </iframe>
-	        </div>
-	        <div class="d5" id="d5" ng-hide="main">
-	        </div>
-	        <div class="d6" id="d6"></div>
-	     </div>
-      </div>
-      <div class="a2">
-         <div class="d7" id="d7"></div>
-         <div class="d7" id="d8"></div>
-         <div class="d8" id="d9"></div>
+         </div>
       </div>
     </div>
 </div>
+
+<!--遮罩层-->
+<div class="bgPop"></div>
+<!--弹出框-->
+<div class="pop">
+    <div class="pop-top">
+        设备实时状态
+        <span class="pop-close">Ｘ</span>
+    </div>
+	<div>
+	 <table class="panel-table" bordercolor="#0d48e0" border="1">
+				<thead style="color: #00fcff; font-size: 12px;">
+					<tr align="center">
+						<th>编号</th>
+						<th>监控参数</th>
+						<th>显示图表</th>
+						
+					</tr>
+				</thead>
+				<tbody style="color: #00fcff; font-size: 12px;">
+					<tr ng-repeat="e in equipara" align="center">
+						<td>{{$index + 1}}</td>
+						<td>{{e.equip_para_name}}</td>
+						<td><button class="b2 click_pop"  style="width:90px"ng-click="getEquipRealData(e.equip_para_id)">查看实时状态</button></td>
+				</tbody>
+				
+	</table>
+	</div>
+	<div id="echart" style="width: 800px; height:310px"></div>
+</div>
+
+<!--遮罩层-->
+<div class="bgPop2"></div>
+<!--弹出框-->
+<div class="pop2">
+    <div class="pop-top">
+        报警记录
+        <span class="pop-close">Ｘ</span>
+    </div>
+    <div class="pop-content">
+        <iframe id="myframe" src="http://localhost:8028/runtime.shtm?prjId=7&picId=24&rand=1538232262949" 
+	           width="100%" height="100%" scrolling="no" frameborder="no">
+	           </iframe>
+    </div>
+</div>
+
+
+<script>
+//关闭模态框
+	$(document).ready(function () {
+	    $('.pop-close').click(function () {
+	        $('.bgPop,.pop').hide();
+	    });
+	    $('.click_pop').click(function () {
+	        $('.bgPop,.pop').show();
+	    });
+	})
+</script>
+<script>
+//关闭模态框
+	$(document).ready(function () {
+	    $('.pop-close').click(function () {
+	        $('.bgPop2,.pop2').hide();
+	    });
+	    $('.click_pop2').click(function () {
+	        $('.bgPop2,.pop2').show();
+	    });
+	})
+</script>
+
+
+
+
 
 <script type="text/javascript">
    //var d1 = echarts.init(document.getElementById('d1')); 
@@ -74,19 +169,19 @@
    //var d3 = echarts.init(document.getElementById('d3'));
    var d4 = echarts.init(document.getElementById('d4')); 
    var d5 = echarts.init(document.getElementById('d5'));
-   var d6 = echarts.init(document.getElementById('d6'));
+   //var d6 = echarts.init(document.getElementById('d6'));
    var d7 = echarts.init(document.getElementById('d7'));
    var d8 = echarts.init(document.getElementById('d8'));
-   var d9 = echarts.init(document.getElementById('d9'));
+   //var d9 = echarts.init(document.getElementById('d9'));
+   var echart = echarts.init(document.getElementById('echart'));
    var player = new EZUIPlayer('myPlayer');
-   // 日志
+   // 日志(摄像头)
    player.on('log', log);
    function log(str){
        var div = document.createElement('DIV');
-       /* div.innerHTML = (new Date()).Format('yyyy-MM-dd hh:mm:ss.S') + JSON.stringify(str); */
        document.body.appendChild(div);
-   }
-   
+   }   
 </script>
+<script type="text/javascript" src="/gywyext/js/lib/pageTurn.js"></script>
 
 

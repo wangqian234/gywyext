@@ -95,10 +95,12 @@ function try1(xdata,ydata,elsedata,divid){
 					title: {
 				        text: elsedata.equip_para_name+'实时数据',
 				        textStyle:{
-				        	color:'white',
+				        	color:'#00ffee',
 				        	fontSize:'12',
 				        	fontFamily: 'lighter'    
-				        }
+				        },
+			            left:'4%',
+			            zlevel:13,
 				    },
 				    tooltip : {
 				        trigger: 'axis',
@@ -122,11 +124,13 @@ function try1(xdata,ydata,elsedata,divid){
 				        feature: {
 				            dataView: {readOnly: true},
 				            magicType: {type: ['line','bar']},
-				        }
+				        },
+				        right:'4%',
 				    },
 				    grid: {
 				        left: '10%',
 				        right: '15%',
+				        zlevel: 13,
 				        /*bottom: '25%',
 				        top: '5%',
 				        height: '23%',*/
@@ -136,6 +140,7 @@ function try1(xdata,ydata,elsedata,divid){
 				    xAxis: {
 				        type: 'category',
 				        data: x,
+				        zlevel: 13,
 				        //坐标轴样式设置
 				        axisLabel:{
 				        	interArrivar:0,
@@ -151,6 +156,7 @@ function try1(xdata,ydata,elsedata,divid){
 				    },
 				    yAxis: {
 				        type: 'value',
+				        zlevel: 13,
 				        name: '单位：'+elsedata.equip_para_unit,
 				      //y轴横线样式设置
 				        splitLine:{
@@ -172,6 +178,7 @@ function try1(xdata,ydata,elsedata,divid){
 				    series: [{
 				    	name:elsedata.equip_para_name,
 				        data: y,
+				        zlevel: 13,
 				        type: 'line',
 				        smooth: true,
 				        itemStyle: {
@@ -207,6 +214,7 @@ function try1(xdata,ydata,elsedata,divid){
 				    }]
 				};
 			    interval = setInterval(function () {
+			    	console.log(l);
 				if(l >= xdata.length)
 					clearInterval(interval);
 			    addData(true);
@@ -221,6 +229,7 @@ function try1(xdata,ydata,elsedata,divid){
 			    	        data: { searchKey: elsedata.equip_para_id, startDate: xdata[xdata.length-1] },
 			    	        success:function(data){
 			    	        	divide(data.data);
+			    	        	console.log(data.data);
 			    	        }
 			    	    })
 			    	    }
@@ -281,7 +290,6 @@ function try1(xdata,ydata,elsedata,divid){
 		} 
 
 function try2(startDate,elsedata,divid){
-	console.log("try2");
 	var xdata=[];
 	var ydata=[];
 	function getdata(startDate,equiparaId,divide){//获取特征参数实时数据
@@ -304,14 +312,65 @@ function try2(startDate,elsedata,divid){
 			xdata.push(x);
 			ydata.push(y);
 		};
-		try1(xdata,ydata,elsedata,divid);
+		if(xdata.length>10)
+			try1(xdata,ydata,elsedata,divid);
+		else alert("该时间段的数据暂缺，请更换起始时间");
 	}
 	getdata(startDate,elsedata.equip_para_id,divide)
 }
 
 //以下为大屏专用echarts封装函数
+function d444(){
+	d4.clear();
+	d4.showLoading({text:'正在缓冲...'});
+	
+	option = {
+		    tooltip : {
+		        trigger: 'item',
+		        formatter: "{a} <br/>{b} : {c} ({d}%)"
+		    },
+		    legend: {
+		        x : 'center',
+		        y : '300',
+		        data:['rose1','rose2','rose3','rose4','rose5','rose6','rose7','rose8']
+		    },
+		    toolbox: {
+		        show : true,
+		        feature : {
+		            mark : {show: true},
+		            magicType : {
+		                show: true,
+		                type: ['pie', 'funnel']
+		            }
+		        }
+		    },
+		    calculable : true,
+		    series : [
+		        {
+		            name:'面积模式',
+		            type:'pie',
+		            radius : [30, 110],
+		            center : ['50%', '35%'],
+		            roseType : 'area',
+		            data:[
+		                {value:10, name:'rose1'},
+		                {value:5, name:'rose2'},
+		                {value:15, name:'rose3'},
+		                {value:25, name:'rose4'},
+		                {value:20, name:'rose5'},
+		                {value:35, name:'rose6'},
+		                {value:30, name:'rose7'},
+		                {value:40, name:'rose8'}
+		            ]
+		        }
+		    ]
+		};
+	
+	d4.setOption(option);
+	d4.hideLoading();
+	
+}
 function d777(data){
-	console.log("d777");
 	d7.clear();
 	d7.showLoading({text:'正在缓冲...'});
 	var xData = [],
@@ -414,7 +473,6 @@ function d777(data){
 	d7.hideLoading();
 }
 function d888(data){
-	console.log("d888");
 	d8.clear();
 	d8.showLoading({text:'正在缓冲...'});
 	          var lineStyle = {
@@ -503,7 +561,6 @@ function d888(data){
 	d8.hideLoading();
 }
 function d999(data){
-	console.log("d999");
 	d9.clear();
 	d9.showLoading({text:'正在缓冲...'});
 	var value = [100,56];
@@ -575,8 +632,6 @@ function d999(data){
 function hugeData(equip){
 	//equip内容应当包括equip_id,equip_room_id,equip_name
 	//数据处理完成之后调用 d777()，d888(),d999(),
-	
-	console.log("hugeData");
 	var data7 = [
                 {value:10, name:'rose1'},{value:5, name:'rose2'},
                 {value:15, name:'rose3'},{value:25, name:'rose4'},
@@ -588,6 +643,6 @@ function hugeData(equip){
 	            {time:'2018-10-15'}];
 	d777(data7);
 	d888(data8);
-	d999(data9);
+	//d999(data9);
 }
 

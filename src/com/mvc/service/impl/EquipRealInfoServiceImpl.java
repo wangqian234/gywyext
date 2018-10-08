@@ -96,10 +96,23 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 		}
 		return equipRealInfoDao.getWaringNews(searchKey);
 	}
+	//根据项目名称获取所属设备告警信息条数
+	@Override
+	public List<AlarmLog> getEquipAlarmNumberByProjectName(String searchKey) {
+		return equipRealInfoDao.getEquipAlarmNumberByProjectName(searchKey);
+	}
 
-			//根据起始时间 向后查100条
-			@Override
-			public List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate) {
-				return equipRealInfoDao.getEquipRealDataByTime(equip_para_id,startDate);
-			}
+	//根据起始时间 向后查100条
+	@Override
+	public List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate) {
+		return equipRealInfoDao.getEquipRealDataByTime(equip_para_id,startDate);
+	}
+	@Override
+	public List<Equipment> getEquipmentListByProject(String searchKey) {
+		List<Equipment> data = equipRealInfoDao.getEquipmentListByProject(searchKey);
+		for(int i=0;i<data.size();i++){
+			data.get(i).setEquip_id(null);
+		}
+		return equipRealInfoDao.getEquipmentListByProject(searchKey);
+	}
 }
