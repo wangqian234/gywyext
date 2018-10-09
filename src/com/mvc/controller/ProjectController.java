@@ -1,6 +1,7 @@
 package com.mvc.controller;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,12 +17,9 @@ import com.mvc.entityReport.User;
 import com.mvc.service.ProjectService;
 import com.utils.Pager;
 import com.utils.StringUtil;
+
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
-
-
-
-
 @Controller
 @RequestMapping("/systemProject")
 public class ProjectController {
@@ -33,33 +31,82 @@ public class ProjectController {
 	@RequestMapping("/addCompany.do")
 	public @ResponseBody String addCompany(HttpServletRequest request) {
 		JSONObject jsonObject = new JSONObject();
+		JSONObject jsonProj = new JSONObject();
+		List<Project> projects = new ArrayList<Project>();
+		jsonObject = JSONObject.fromObject(request.getParameter("company"));
 		Company company = new Company();
-		Project project = new Project();
-		
-		JSONObject jsonCom= JSONObject.fromObject(request.getParameter("company"));
-		if (jsonCom.containsKey("comp_name")){
-			if (StringUtil.strIsNotEmpty(jsonCom.getString("comp_name"))){
-				company.setComp_name(jsonCom.getString("comp_name"));
+		if (jsonObject.containsKey("comp_name")){
+			if (StringUtil.strIsNotEmpty(jsonObject.getString("comp_name"))){
+				company.setComp_name(jsonObject.getString("comp_name"));
 			}
 		}
-		if (jsonCom.containsKey("comp_addr")){
-			if (StringUtil.strIsNotEmpty(jsonCom.getString("comp_addr"))){
-				company.setComp_addr(jsonCom.getString("comp_addr"));
+		if (jsonObject.containsKey("comp_addr")){
+			if (StringUtil.strIsNotEmpty(jsonObject.getString("comp_addr"))){
+				company.setComp_addr(jsonObject.getString("comp_addr"));
 			}
 		}
-		if (jsonCom.containsKey("comp_num")){
-			if (StringUtil.strIsNotEmpty(jsonCom.getString("comp_num"))){
-				company.setComp_num(Integer.parseInt(jsonCom.getString("comp_num")));
+		if (jsonObject.containsKey("comp_num")){
+			if (StringUtil.strIsNotEmpty(jsonObject.getString("comp_num"))){
+				company.setComp_num(Integer.parseInt(jsonObject.getString("comp_num")));
 			}	
 		}
-		if (jsonCom.containsKey("comp_memo")){
-			if (StringUtil.strIsNotEmpty(jsonCom.getString("comp_memo"))){
-				company.setComp_memo(jsonCom.getString("comp_memo"));
+		if (jsonObject.containsKey("comp_memo")){
+			if (StringUtil.strIsNotEmpty(jsonObject.getString("comp_memo"))){
+				company.setComp_memo(jsonObject.getString("comp_memo"));
 			}
 		}
 		company.setComp_isdeleted(0);
-		
-		JSONObject jsonPro= JSONObject.fromObject(request.getParameter("project"));
+		Company result;
+		if (jsonObject.containsKey("comp_id")) {
+			company.setComp_id(Integer.valueOf(jsonObject.getString("comp_id")));
+			result = projectService.save(company);				
+			jsonProj = JSONObject.fromObject(request.getParameter("companyproj"));
+			JSONArray objName = (JSONArray) jsonProj.get("projname");
+			JSONArray objAddr = (JSONArray) jsonProj.get("projaddr");
+			JSONArray objNum = (JSONArray) jsonProj.get("projnum");
+			JSONArray objMemo = (JSONArray) jsonProj.get("projmemo");
+			Object[] projName = objName.toArray();
+			Object[] projAddr = objAddr.toArray();
+			Object[] projNum = objNum .toArray();
+			Object[] projMemo = objMemo.toArray();
+			for(int i=0;i<projAddr.length;i++){
+				Project p = new Project();
+				p.setProj_name(projName[i].toString());					
+				p.setProj_addr(projAddr[i].toString());;
+				p.setProj_num(Integer.parseInt(projNum[i].toString()));
+				p.setProj_memo(projMemo[i].toString());
+				p.setProj_isdeleted(0);
+				p.setCompany(company);
+				projects.add(p);
+			}
+			projectService.saveProjs(projects);
+		} else {
+			result = projectService.save(company);		
+			jsonProj = JSONObject.fromObject(request.getParameter("companyproj"));
+			JSONArray objName = (JSONArray) jsonProj.get("projname");
+			JSONArray objAddr = (JSONArray) jsonProj.get("projaddr");
+			JSONArray objNum = (JSONArray) jsonProj.get("projnum");
+			JSONArray objMemo = (JSONArray) jsonProj.get("projmemo");
+			Object[] projName = objName.toArray();
+			Object[] projAddr = objAddr.toArray();
+			Object[] projNum = objNum.toArray();
+			Object[] projMemo = objMemo.toArray();
+			for(int i=0;i<projAddr.length;i++){
+				Project p = new Project();
+				p.setProj_name(projName[i].toString());					
+				p.setProj_addr(projAddr[i].toString());;
+				p.setProj_num(Integer.parseInt(projNum[i].toString()));
+				p.setProj_memo(projMemo[i].toString());
+				p.setProj_isdeleted(0);
+				p.setCompany(company);
+				projects.add(p);
+			}
+			projectService.saveProjs(projects);
+		}			
+		return JSON.toJSONString(result);
+	}	
+	
+		/*JSONObject jsonPro= JSONObject.fromObject(request.getParameter("project"));
 		if (jsonPro.containsKey("proj_name")){
 			if (StringUtil.strIsNotEmpty(jsonPro.getString("proj_name"))){
 				project.setProj_name(jsonPro.getString("proj_name"));
@@ -81,13 +128,10 @@ public class ProjectController {
 			}
 		}
 		project.setProj_isdeleted(0);
-		
 		boolean result = projectService.addCompany(company,project);
-		
-		
 		jsonObject.put("Result", result);
 		return jsonObject.toString();
-	}
+	}*/
 	/**
 	 * 根据页数筛选公司信息列表
 	 * 
@@ -167,10 +211,7 @@ public class ProjectController {
 			}
 		}
 		project.setProj_isdeleted(0);
-		
 		boolean result = projectService.addProject(project);
-		
-		
 		jsonObject.put("Result", result);
 		return jsonObject.toString();
 	}
@@ -180,9 +221,7 @@ public class ProjectController {
 	@RequestMapping("/getCompanyInfo.do")
 	public @ResponseBody String getCompanyInfo(HttpServletRequest request) {
 		JSONObject jsonObject = new JSONObject();
-		
 		List<Company> result = projectService.getCompanyInfo();
-		
 		jsonObject.put("result", result);
 		return jsonObject.toString();
 	}
@@ -191,9 +230,7 @@ public class ProjectController {
 		@RequestMapping("/getProjectInfo.do")
 		public @ResponseBody String getProjectInfo(HttpServletRequest request) {
 			JSONObject jsonObject = new JSONObject();
-			
 			List<Project> result = projectService.getProjectInfo();
-			
 			jsonObject.put("result", result);
 			return jsonObject.toString();
 		}

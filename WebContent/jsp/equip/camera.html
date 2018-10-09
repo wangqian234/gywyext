@@ -1,9 +1,28 @@
- <script src="./ezuikit.js"></script> 
+<div id="page-wrapper"  style="margin-left: 0px;padding-top:100px">   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">    
+				<div class="panel-heading" href="#" onclick="javascript:history.go(-1);">
+				 <a href="#" onclick="javascript:history.go(-1);">设备主页</a><span>>摄像头信息</span>
+				</div>  							
+				<div class="panel-body">
+					<div class="row">
 <video id="myPlayer" style = "width:320px;height:320px" poster="" controls playsInline webkit-playsinline autoplay>
    <!--  <source src="rtmp://://rtmp.open.ys7.com/openlive/bd2083cf239a4432836124f2888656f1" type="rtmp/flv" /> -->
     <source src="http://hls.open.ys7.com/openlive/bd2083cf239a4432836124f2888656f1.m3u8" type="application/x-mpegURL" />
 </video>
-
+<td>
+	<button ng-mousedown="getTurn(0)" ng-mouseup="getStop(0)">上移</button>
+	<button ng-mousedown="getTurn(1)" ng-mouseup="getStop(1)">下移</button>
+	<button ng-mousedown="getTurn(2)" ng-mouseup="getStop(2)">左移</button>
+	<button ng-mousedown="getTurn(3)" ng-mouseup="getStop(3)">右移</button>
+</td>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 <script type= "text/javascript">
 
  
@@ -22,11 +41,3 @@
        document.body.appendChild(div);
    }
 </script>
-
-
-<td>
-	<button ng-mousedown="getTurn(0)" ng-mouseup="getStop(0)">上移</button>
-	<button ng-mousedown="getTurn(1)" ng-mouseup="getStop(1)">下移</button>
-	<button ng-mousedown="getTurn(2)" ng-mouseup="getStop(2)">左移</button>
-	<button ng-mousedown="getTurn(3)" ng-mouseup="getStop(3)">右移</button>
-</td>

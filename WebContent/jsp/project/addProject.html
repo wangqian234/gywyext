@@ -1,39 +1,50 @@
-<div>
-	<form role="form">
-		<div class="form-group">
-			<label>项目名称:&nbsp;&nbsp;&nbsp;</label> <input
-				ng-model="project.proj_name" class="form-control">
+<div id="page-wrapper"  style="margin-left: 0px">   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">    
+				<div class="panel-heading">
+				 <a href="#" onclick="javascript:history.go(-1);">公司管理</a><span>>新建项目信息</span>
+				</div>  			
+				<div class="panel-body">
+					<div class="row">
+						<form style="padding:0 30px;" role="form" ng-submit="addProject()">
+							<table class="tablelist111">
+								<tr>
+                                    <td class="width15 text-center">项目名称<b>*</b></td>
+									<td><input class="dfinput111" ng-model="project.proj_name" required/></td>
+									</tr>
+									<tr>
+									<td class="width15 text-center">项目地址<b>*</b></td>
+									<td><input class="dfinput111" ng-model="project.proj_addr" required/></td>
+									</tr>
+                                    <tr>
+									<td class="width15 text-center">业主数量<b>*</b></td>
+									<td><input class="dfinput111" ng-model="project.proj_num" required/></td>
+									</tr>
+								     <tr>
+                                    <td class="width15 text-center">所属公司</td>
+									<td ><select class="dfinput111" ng-model="project.company" > 
+										<option ng-repeat="c in companys" value="{{c.comp_id}}">{{c.comp_name}}</option>
+										</select></td>
+										</tr>
+									<tr>
+									<td class="width15 text-center">备注</td>
+									<td><textarea class="dfinput111" ng-model="project.proj_memo" /></td>
+									</tr>
+                             </table>
+     	                    <div class="buttonbox">
+					         <input class="btn btn-default" type="submit" value="确认提交" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="form-group">
-			<label>项目地址:&nbsp;&nbsp;&nbsp;</label> <input
-				ng-model="project.proj_addr" class="form-control">
-		</div>
-		<div class="form-group">
-			<label>业主数量:&nbsp;&nbsp;&nbsp;</label> <input
-				ng-model="project.proj_num" class="form-control">
-		</div>
-		<div class="form-group">
-			<label>所属公司:&nbsp;&nbsp;&nbsp;</label>
-			<label class="radio-inline">
-				<select class="dfselect" ng-model="project.company" style="width: 167px">
-					<option ng-repeat="c in companys" value="{{c.comp_id}}">{{c.comp_name}}</option>
-				</select>
-			</label>
-		</div>
-
-		<div class="form-group">
-			<label>备注:&nbsp;&nbsp;&nbsp;</label>
-			<textarea ng-model="project.proj_memo" class="form-control" rows="3"></textarea>
-		</div>
-
-		<div class="buttonbox">
-			<button ng-click="addProject()" class="btn btn-default">确认提交</button>
-		</div>
-	</form>
-
+	</div>
 </div>
 
-<div class="col-md-4 col-sm-4 motai">
+
+<!-- <div class="col-md-4 col-sm-4 motai">
 	<div class="panel panel-success">
 		<div class="panel-heading">添加成功</div>
 		<div class="panel-body" style="padding: 30px; text-align: center">
@@ -43,4 +54,4 @@
 		</div>
 		<div class="panel-footer">关闭窗口</div>
 	</div>
-</div>
+</div> -->

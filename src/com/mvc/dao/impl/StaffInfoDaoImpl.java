@@ -93,9 +93,9 @@ public  class StaffInfoDaoImpl implements StaffInfoDao {
 
 
 			@Override
-			public List<Role> findRoleAlls() {
+			public List<Role> getAllRoleList() {
 				EntityManager em = emf.createEntityManager();
-				String countSql = " select * from role where role_isdeleted = 0 ";
+				String countSql = " select * from Role where role_isdeleted = 0 ";
 				Query query = em.createNativeQuery(countSql, Role.class);
 				List<Role> role = query.getResultList();
 				em.close();

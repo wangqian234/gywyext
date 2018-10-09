@@ -152,7 +152,7 @@ app
 						'$location',
 						function($scope, services, $location) {
 							var staffInfo = $scope;
-							
+							var roles;
 							staffInfo.staff = {
 									user_acct:"",
 									user_name:"",
@@ -201,10 +201,12 @@ app
 					};
 					var staffFormData = JSON
 					.stringify(staffInfo.staff);
+					alert(staffFormData)
 					services.addStaff({
 						staff : staffFormData
 					}).success(function(data) {
-						alert("新建成功");
+						alert("添加成功！")
+						$location.path('userList/');
 						return;
 					});
 		};	
@@ -258,7 +260,6 @@ app
 				// 根据输入筛选信息
 				staffInfo.selectuserByName = function() {
 					searchKey = staffInfo.userName;
-					
 					services.getUserListByPage({
 						page : 1,
 						searchKey : searchKey
@@ -271,10 +272,7 @@ app
 				};
 			//初始化页面信息
 			function initData() {
-				
 				console.log("初始化页面信息");
-				
-				/*$("#user").show();*/
 				if ($location.path().indexOf('/userList') == 0) {
 					searchKey = staffInfo.userName;
 					services.getUserListByPage({
@@ -282,16 +280,16 @@ app
 						searchKey : searchKey
 					}).success(function(data) {
 						staffInfo.Users = data.list;
-						/*pageTurn(data.totalPage, 1, getUserListByPage);*/
-						
+						console.log(JSON.stringify( staffInfo.Users))
+						pageTurn(
+								data.totalPage, 
+								1, 
+								getUserListByPage);
 					});
 				}
 			
 				else if ($location.path().indexOf('/staffBaseInfo') == 0) {
-					/*if(sessionStorage.getItem('leftData')){
-						equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
-					}*/
-					searchKey = null;
+				searchKey = null;
 					services.getUserListByPage({
 						page : 1,
 						searchKey : searchKey
@@ -304,26 +302,28 @@ app
 					});
 				}
 				 else if ($location.path().indexOf('/staffAdd') == 0) {
-					 services.getAllRoleList().success(function(data){
-						 staffInfo.role_state = data;
+					 services.getAllRoleList({
+						 
+					 }).success(function(data){
+						 staffInfo.roles = data;
+						 console.log(JSON.stringify( staffInfo.roles))
+						 
 						})
-					
 				 }
 				 else if ($location.path().indexOf('/userUpdate') == 0) {
-					
+					 services.getAllRoleList().success(function(data){
+						 staffInfo.roles = data;						
+						})
 				// 根据ID获取信息
 				var user_id = sessionStorage.getItem('userId');
-				alert(user_id)
 				services.selectUserById({
 						user_id: user_id
 						})
 						.success(											
 								function(data) {
-									/*alert("!!!");*/
 									staffInfo.users = data.user;//"user"是controller里get的到的"user","users"对应html中的"users.user_xxx"
-								
-									/*staffInfo.users = data.user;*/
-								});
+									staffInfo.users.role = data.user.role.role_id;
+						});
 				 			}
 				
 							}

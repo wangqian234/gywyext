@@ -135,6 +135,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	
 	// 根据id获取公司信息
 	services.selectCompanyById = function(data) {
 		return $http({
@@ -221,9 +222,26 @@ app.controller('indexProController', [
 			indexpro.count = 3;
 			
 			indexpro.addCompany = function(){
-				alert()
+				indexpro.proj = {
+						projname : [],
+						projaddr : [],
+						projnum : [],
+						projmemo : []
+					}
+					$("input[name='projname']").each(function() {
+						indexpro.proj.projname.push($(this).val());
+					})
+					$("input[name='projaddr']").each(function() {
+						indexpro.proj.projaddr.push($(this).val());
+					})
+					$("input[name='projnum']").each(function() {
+						indexpro.proj.projnum.push($(this).val());
+					})
+					$("input[name='projmemo']").each(function() {
+						indexpro.proj.projmemo.push($(this).val());
+					})
 				var companyInfo = JSON.stringify(indexpro.company);
-				var projectInfo = JSON.stringify(indexpro.project);
+				var companyproj = JSON.stringify(indexpro.proj);
 				alert("123")
 				if(indexpro.company.comp_name == "" || indexpro.company.comp_name == undefined){
 					$(".companyname").show();
@@ -233,21 +251,26 @@ app.controller('indexProController', [
 				}
 				services.addCompany({
 					company : companyInfo,
-					project : projectInfo
+					companyproj : companyproj
 				}).success(function(data) {
-					$(".overlayer").show();
+					alert("添加成功！")
+					$location.path('companyList/');
+				});
+			}
+				
+					/*$(".overlayer").show();
 					$(".motai").show();
 					$timeout(function(){
 						$(".overlayer").hide();
 						$(".motai").hide();
 						$location.path('getCompanyInfo/');
-			    	}, 3000);
+			    	}, 3000);*/
 					// $(".panel-footer").click(function(){
 					// $(".overlayer").hide();
 					// $(".motai").hide();
 					// $location.path('getCompanyInfo/');
 					//					})
-				var timeout_upd = $interval(function(){
+				/*var timeout_upd = $interval(function(){
 					indexpro.count--;
 					$(".countnum").innerHTML = indexpro.count;
 					if(indexpro.count<1){
@@ -255,7 +278,7 @@ app.controller('indexProController', [
 					}
 				},1000)
 				});
-			}
+			}*/
 			
 			indexpro.addProject = function(){
 				var projectInfo = JSON.stringify(indexpro.project);
@@ -263,7 +286,8 @@ app.controller('indexProController', [
 				services.addProject({
 					project : projectInfo
 				}).success(function(data) {
-				
+					alert("添加成功！")
+					$location.path('getProjectInfo/');
 				})
 			}
 			// 根据输入筛选公司信息
@@ -306,8 +330,8 @@ app.controller('indexProController', [
 			}
 				
 			//查看公司详细信息
-			indexpro.getCompanyDetail = function(c){
-				var companyDetail = JSON.stringify(c);
+			indexpro.getCompanyDetail = function(company){
+				var companyDetail = JSON.stringify(company);
 				sessionStorage.setItem('companyDetail',companyDetail);
 				$location.path("/companyDetail");
 			}
@@ -432,7 +456,7 @@ app.controller('indexProController', [
 								getCompanyListByPage);
 					})
 				} else if ($location.path().indexOf('/getProjectInfo') == 0){
-					searchKey = null;
+					searchKey = indexpro.companyName;
 					services.getProjectListByPage({
 						page : 1,
 						searchKey : searchKey

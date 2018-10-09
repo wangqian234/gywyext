@@ -1,10 +1,24 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=ce8484ca12f1c57e450a0bee0fe270741943c5c2
 eclipse.preferences.version=1
-<<<<<<< HEAD
-encoding//WebContent/jsp/project/left.jsp=UTF-8
-=======
+encoding//WebContent/css/mystyle.css=UTF-8
+encoding//WebContent/jsp/bigdata/equipFail.html=UTF-8
+encoding//WebContent/jsp/bigdata/equipPre.html=UTF-8
+encoding//WebContent/jsp/bigdata/equipState.html=UTF-8
+encoding//WebContent/jsp/bigdata/init.html=UTF-8
+encoding//WebContent/jsp/bigdata/top.jsp=UTF-8
+encoding//WebContent/jsp/equip/equipAdd.html=UTF-8
+encoding//WebContent/jsp/equip/equipBaseInfo.html=UTF-8
+encoding//WebContent/jsp/equip/equipDetail.html=UTF-8
+encoding//WebContent/jsp/equip/equipRealInfo/dataV/top.jsp=UTF-8
 encoding//WebContent/jsp/equip/equipRealInfo/top.jsp=UTF-8
+encoding//WebContent/jsp/equip/equipRoomAdd.html=UTF-8
+encoding//WebContent/jsp/equip/equipUpdate.html=UTF-8
 encoding//WebContent/jsp/equip/top.jsp=UTF-8
->>>>>>> 367333e0433ccad3219cb9a4bdf473eaf76c4918
+encoding//WebContent/jsp/project/getCompanyInfo.html=UTF-8
+encoding//WebContent/jsp/project/left.jsp=UTF-8
 encoding//WebContent/jsp/system/left.jsp=UTF-8
+encoding//WebContent/jsp/system/staffBaseInfo.html=UTF-8
 encoding//src/com/mvc/service/impl/travelUpdate.html=UTF-8
 encoding/<project>=UTF-8

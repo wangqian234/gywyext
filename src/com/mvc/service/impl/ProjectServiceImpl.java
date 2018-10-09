@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mvc.dao.IndexDao;
 import com.mvc.entityReport.Company;
+import com.mvc.entityReport.EquipPara;
+import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.User;
 import com.mvc.repository.CompanyRepository;
@@ -24,12 +26,24 @@ public  class ProjectServiceImpl implements ProjectService {
 
 	@SuppressWarnings("unused")
 	@Override
-	public boolean addCompany(Company company, Project project) {
+/*	public boolean addCompany(Company company, Project project) {
 		Company com = companyRepository.saveAndFlush(company);
 		if(project.getProj_name() == null){return true;};
 		project.setCompany(com);
 		Project pro = projectRepository.saveAndFlush(project);
 		return true;
+	}*/
+	//添加公司信息
+		public Company save(Company company) {
+			Company result = companyRepository.saveAndFlush(company);
+			return result;
+		}
+	//添加项目信息
+	@Override
+	public void saveProjs(List<Project> projects) {
+		for(int i=0;i< projects.size();i++){
+			projectRepository.saveAndFlush( projects.get(i));
+		}
 	}
 	@Override
 	public List<Company> getCompanyInfo() {
@@ -124,13 +138,6 @@ public  class ProjectServiceImpl implements ProjectService {
 				list.get(i).setCompany(null);
 			}
 			return indexDao.getCompProj(searchKey);
-		}
-		
-		@Override
-		public void saveProjs(List<Project> compProjs) {
-			for(int i=0;i<compProjs.size();i++){
-				projectRepository.saveAndFlush(compProjs.get(i));
-			}
 		}
 		
 		// 根据id删除公司信息

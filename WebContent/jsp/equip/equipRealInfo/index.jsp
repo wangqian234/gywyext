@@ -11,6 +11,7 @@
 <script type="text/javascript" src="../../../js/lib/echarts.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/jquery.json-2.2.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/lib/script.js"></script><!--滚动告警信息引用插件  -->
 
 
 <div id="page-wrapper" style="margin-left: 0px;">

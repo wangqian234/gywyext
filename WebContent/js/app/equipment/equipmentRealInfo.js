@@ -97,14 +97,6 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	// 根据id获取设备信息
-	services.selectEquipmentById = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'equipRealInfo/selectEquipmentById.do',
-			data : data
-		});
-	};
 	//根据设备参数id获取实时数据
 	services.getEquipRealData = function(data) {
 		return $http({
@@ -170,13 +162,12 @@ app
 							};
 							equipment.Id = 0;
 	                        
-							equipment.getEquipRealData1 = function(equipParaId){
+							equipment.getEquipRealData = function(equipParaId){
 								var startDate = null;
 								var divid = echart;//传递显示图表的id
 								if(equipment.startTime != null)
 								startDate = equipment.startTime+" 00:00:00";//默认从起始日期凌晨开始显示数据
 								//查询参数对应的设备信息
-								console.log(startDate);
 								for(var i=0;i<equipment.equipara.length;i++){
 									if(equipment.equipara[i].equip_para_id == equipParaId){
 										equipment.Id = i;

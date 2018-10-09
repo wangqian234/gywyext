@@ -3,18 +3,11 @@
   <div class="row">
 		<div class="col-md-12" style="width:100%">
 			<div class="panel panel-default">      
-				<!-- <div class="panel-heading">
-					<a href="#" onclick="javascript:history.go(-1);">设备主页</a><span>>设备详细基本信息</span>
-				</div>  --> 
+			
 				<div class="panel-body">
 							
 					<table class="tablelist">
 						<tr>
-							<!-- <td style="width:400px;" rowspan="7" class="width15 text-center">
-								<div>
-									<img src="../../images/fileUpLoad.png">
-								</div>
-							</td> -->
 							<td class="width15 text-center">公司名称*</td>
 							<td >{{companyDetail.comp_name}}</td>
 							<td class="width15 text-center">公司地址*</td>
@@ -23,16 +16,18 @@
 							<td >{{companyDetail.comp_num}}</td>	
 						</tr>
 					
-				         <tr>
-						 	<td class="width15 text-center">项目信息</td>
-							<td colspan='6' id="collapseOne">      
+			      		<tr>
+						 		<td class="width15 text-center">项目信息</td>
+							<td colspan='6' id="collapseOne">
 								<div ng-repeat="p in projectInfo">
-											<label>项目名称:&nbsp;&nbsp;&nbsp;</label> <input
-												ng-model="p.proj_name" class="form-control">
-											<label>项目地址:&nbsp;&nbsp;&nbsp;</label> <input
-												ng-model="p.proj_addr" class="form-control">
-											<label>业主数量:&nbsp;&nbsp;&nbsp;</label> <input
-												ng-model="p.proj_num" class="form-control">
+								<hr style="height:1px;border:none;border-top:1px dashed #a7b5bc;" /> 
+								<span>项目名称:{{p.proj_name}}&nbsp;&nbsp;&nbsp;</span>
+								<span>项目地址:{{p.proj_addr}}&nbsp;&nbsp;&nbsp;</span>
+								<span>业主数量:{{p.proj_num}}&nbsp;&nbsp;&nbsp;</span>
+								<span>项目备注{{p.proj_memo}}&nbsp;&nbsp;&nbsp;</span>
+								</div>						
+							</td>
+				         </tr>
 								</div>
 							</td>
 				         </tr>

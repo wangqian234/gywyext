@@ -1,5 +1,48 @@
-
-	<form role="form" ng-submit="updateProject()">
+<div id="page-wrapper"  style="margin-left: 0px">   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">    
+				<div class="panel-heading">
+				 <a href="#" onclick="javascript:history.go(-1);">公司管理</a><span>>新建项目信息</span>
+				</div>  			
+				<div class="panel-body">
+					<div class="row">
+						<form style="padding:0 30px;" role="form" ng-submit="updateProject()">
+							<table class="tablelist111">
+								<tr>
+                                    <td class="width15 text-center">项目名称<b>*</b></td>
+									<td><input class="dfinput111" ng-model="projects.proj_name" required/></td>
+									</tr>
+									<tr>
+									<td class="width15 text-center">项目地址<b>*</b></td>
+									<td><input class="dfinput111" ng-model="projects.proj_addr" required/></td>
+									</tr>
+                                    <tr>
+									<td class="width15 text-center">业主数量<b>*</b></td>
+									<td><input class="dfinput111" ng-model="projects.proj_num" required/></td>
+									</tr>
+								     <tr>
+                                    <td class="width15 text-center">所属公司</td>
+									<td ><select class="dfinput111" ng-model="projects.company" > 
+										<option ng-repeat="c in companys" value="{{c.comp_id}}">{{c.comp_name}}</option>
+										</select></td>
+										</tr>
+									<tr>
+									<td class="width15 text-center">备注</td>
+									<td><textarea class="dfinput111" ng-model="projects.proj_memo" /></td>
+									</tr>
+                             </table>
+     	                    <div class="buttonbox">
+							<input type="submit" class="btn btn-default" value="确认提交" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<!-- <form role="form" ng-submit="updateProject()">
 		<div class="form-group">
 			<label>项目名称:&nbsp;&nbsp;&nbsp;</label> <input
 				ng-model="project.proj_name" class="form-control">
@@ -15,9 +58,9 @@
 		<div class="form-group">
 			<label>所属公司:&nbsp;&nbsp;&nbsp;</label>
 			 <label class="radio-inline">
-				<!-- <select class="dfselect" ng-model="project.company" style="width: 167px">
+				<select class="dfselect" ng-model="project.company" style="width: 167px">
 					<option ng-repeat="c in company" value="{{c.comp_id}}">{{c.comp_name}}</option>
-				</select> -->
+				</select>
 				<select class="dfselect" ng-model="project.company" style="width: 167px" required> 
 			<option ng-repeat="c in companys" ng-selected="c.comp_id==project.company.comp_id" value="{{c.comp_id}}">{{c.comp_name}}</option>	
 			</select>
@@ -32,5 +75,5 @@
 		<div class="buttonbox">
 			<input type="submit" class="btn btn-default" value="确认提交" />
 		</div>
-	</form>
+	</form> -->
 

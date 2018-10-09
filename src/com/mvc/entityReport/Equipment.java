@@ -140,7 +140,7 @@ public class Equipment {
 	public void setEquip_room(EquipRoom equip_room) {
 		this.equip_room = equip_room;
 	}
-	
+
 	@Column(name = "equip_memo", length = 255)
 	public String getEquip_memo() {
 		return equip_memo;
