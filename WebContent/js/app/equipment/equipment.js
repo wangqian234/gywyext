@@ -480,6 +480,7 @@ app
 														sessionStorage.setItem('leftData',leftData);
 														equipment.getEquipmentList(equipment.leftData[0].data[0].proj_id, equipment.leftData[0].data[0].proj_name);
 													});
+
 																
 								} else if ($location.path().indexOf('/equipUpdate') == 0) {
 									var equip_id = sessionStorage.getItem("equipmentId");

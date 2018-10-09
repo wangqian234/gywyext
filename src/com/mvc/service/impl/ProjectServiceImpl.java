@@ -163,8 +163,8 @@ public  class ProjectServiceImpl implements ProjectService {
 		}
 		
 		// 根据页数筛选全部项目信息列表
-		public List<Project> findProjectByPage(String searchKey, Integer offset, Integer end) {
-			return  indexDao.findProjectByPage(searchKey, offset, end);
+		public List<Project> getProjectListByPage(String searchKey, Integer offset, Integer end) {
+			return  indexDao.getProjectListByPage(searchKey, offset, end);
 		}
 		
 		// 查询项目总条数

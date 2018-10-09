@@ -426,7 +426,16 @@ app.controller('indexProController', [
 				}
 			}
 			
-		
+			indexpro.selectProjectByCompany = function() {
+				searchKey = indexpro.compname;
+				services.getProjectListByPage({
+					page : 1,
+					searchKey : searchKey								
+				}).success(function(data) {
+					indexpro.projects = data.list;
+					pageTurn(data.totalPage,1,getProjectListByPage);
+				});
+			};
 			
 			// 初始化页面信息
 			function initData() {
@@ -434,10 +443,9 @@ app.controller('indexProController', [
 				if ($location.path().indexOf('/addProject') == 0){
 					services.getCompanyInfo().success(function(data){
 						indexpro.companys = data.result;
-						console.log(JSON.stringify(indexpro.companys))
 					})
 				
-				} else if ($location.path().indexOf('/getCompanyInfo') == 0){
+				} else if ($location.path().indexOf('/getCompanyInfo') == 0){					
 					searchKey = null;
 					services.getCompanyListByPage({
 						page : 1,
@@ -456,17 +464,19 @@ app.controller('indexProController', [
 						indexpro.project = data.result;
 						console.log(JSON.stringify(indexpro.project))
 					})*/
+					services.getCompanyInfo().success(function(data){
+						indexpro.companys = data.result;
+					})
+					/*indexpro.compname = "0"
+					var searchKey = JSON.stringify(indexpro.compname)*/
 					searchKey = null;
 					services.getProjectListByPage({
 						page : 1,
 						searchKey : searchKey
 					}).success(function(data) {
-						indexpro.Projects = data.list;
-						console.log(JSON.stringify(indexpro.Projects))
-						pageTurn(
-								data.totalPage,
-								1,
-								getProjectListByPage);
+						indexpro.projects = data.list;
+						console.log(JSON.stringify(indexpro.projects))
+						pageTurn(data.totalPage,1,getProjectListByPage);
 					})
 				}else if ($location.path().indexOf('/companyUpdate') == 0) {
 					var comp_id = sessionStorage.getItem("companyId");
@@ -488,7 +498,7 @@ app.controller('indexProController', [
 						indexpro.projects.company = data.project.company.comp_id;
 					}) ;
 				}else if($location.path().indexOf('/companyList') == 0) {
-					searchKey = indexpro.companyName;
+					searchKey = null;
 					services.getCompanyListByPage({
 						page : 1,
 						searchKey : searchKey

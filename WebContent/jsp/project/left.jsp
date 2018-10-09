@@ -10,7 +10,7 @@
                     <a href="${pageContext.request.contextPath}/jsp/project/index.jsp#/addProject">
                     	<i class="fa fa-sitemap"></i>添加项目信息<span class="fa arrow"></span>
                     </a>
-                     <a href="${pageContext.request.contextPath}/jsp/project/index.jsp#/getCompanyInfo">
+                     <a href="${pageContext.request.contextPath}/jsp/project/index.jsp#/companyList">
                     	<i class="fa fa-sitemap"></i>浏览公司信息<span class="fa arrow"></span>
                     </a>
                      <a href="${pageContext.request.contextPath}/jsp/project/index.jsp#/getProjectInfo">

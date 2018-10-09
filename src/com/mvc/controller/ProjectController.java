@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.base.constants.SessionKeyConstants;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.Company;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
@@ -126,7 +127,7 @@ public class ProjectController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/getProjectListByPage.do")
+/*	@RequestMapping(value = "/getProjectListByPage.do")
 	public @ResponseBody String getProjectsByPrarm(HttpServletRequest request, HttpSession session) {
 		JSONObject jsonObject = new JSONObject();
 		String searchKey = request.getParameter("searchKey");
@@ -134,13 +135,28 @@ public class ProjectController {
 		Pager pager = new Pager();
 		pager.setPage(Integer.valueOf(request.getParameter("page")));
 		pager.setTotalRow(Integer.parseInt(totalRow.toString()));
-		List<Project> list = projectService.findProjectByPage(searchKey, pager.getOffset(), pager.getLimit());
-		
+		List<Project> list = projectService.getProjectListByPage(searchKey, pager.getOffset(), pager.getLimit());		
 		jsonObject.put("list", list);
 		jsonObject.put("totalPage", pager.getTotalPage());
-		System.out.println("totalPage:" + pager.getTotalPage());
 		return jsonObject.toString();
-	}
+	}*/
+
+	 @RequestMapping(value = "/getProjectListByPage.do")
+		public @ResponseBody String getProjectsByPrarm(HttpServletRequest request, HttpSession session) {
+			JSONObject jsonObject = new JSONObject();
+			String searchKey = request.getParameter("searchKey");
+			Integer totalRow = projectService.ProjCountTotal(searchKey);
+			Pager pager = new Pager();
+			pager.setPage(Integer.valueOf(request.getParameter("page")));
+			pager.setTotalRow(Integer.parseInt(totalRow.toString()));
+			List<Project> list = projectService.getProjectListByPage(searchKey, pager.getOffset(), pager.getLimit());
+			jsonObject.put("list", list);
+			jsonObject.put("totalPage", pager.getTotalPage());
+			return jsonObject.toString();
+		}
+	
+	
+	
 	
 	//	增加项目信息
 	@RequestMapping("/addProject.do")
