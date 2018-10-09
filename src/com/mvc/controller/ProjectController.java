@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.base.constants.SessionKeyConstants;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.Company;
+import com.mvc.entityReport.EquipPara;
+import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.User;
 import com.mvc.service.ProjectService;
@@ -27,7 +30,7 @@ public class ProjectController {
 	@Autowired
 	ProjectService projectService;
 
-	//	增加公司信息
+//	增加公司信息
 	@RequestMapping("/addCompany.do")
 	public @ResponseBody String addCompany(HttpServletRequest request) {
 		JSONObject jsonObject = new JSONObject();
@@ -153,29 +156,21 @@ public class ProjectController {
 		System.out.println("totalPage:" + pager.getTotalPage());
 		return jsonObject.toString();
 	}
-		
-	/**
-	 * 根据页数筛选项目信息列表
-	 * 
-	 * @param request
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping(value = "/getProjectListByPage.do")
-	public @ResponseBody String getProjectsByPrarm(HttpServletRequest request, HttpSession session) {
-		JSONObject jsonObject = new JSONObject();
-		String searchKey = request.getParameter("searchKey");
-		Integer totalRow = projectService.ProjCountTotal(searchKey);
-		Pager pager = new Pager();
-		pager.setPage(Integer.valueOf(request.getParameter("page")));
-		pager.setTotalRow(Integer.parseInt(totalRow.toString()));
-		List<Project> list = projectService.findProjectByPage(searchKey, pager.getOffset(), pager.getLimit());
-		jsonObject.put("list", list);
-		jsonObject.put("totalPage", pager.getTotalPage());
-		System.out.println("totalPage:" + pager.getTotalPage());
-		return jsonObject.toString();
-	}
-		
+
+	 @RequestMapping(value = "/getProjectListByPage.do")
+		public @ResponseBody String getProjectsByPrarm(HttpServletRequest request, HttpSession session) {
+			JSONObject jsonObject = new JSONObject();
+			String searchKey = request.getParameter("searchKey");
+			Integer totalRow = projectService.ProjCountTotal(searchKey);
+			Pager pager = new Pager();
+			pager.setPage(Integer.valueOf(request.getParameter("page")));
+			pager.setTotalRow(Integer.parseInt(totalRow.toString()));
+			List<Project> list = projectService.getProjectListByPage(searchKey, pager.getOffset(), pager.getLimit());
+			jsonObject.put("list", list);
+			jsonObject.put("totalPage", pager.getTotalPage());
+			return jsonObject.toString();
+		}
+	
 	
 	//	增加项目信息
 	@RequestMapping("/addProject.do")

@@ -14,6 +14,7 @@
 								<th>公司名称</th>
 								<th>公司地址</th>
 								<th>规模数量</th>
+								<th>公司等级</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -23,6 +24,11 @@
 								<td class="center">{{c.comp_name}}</td>
 								<td class="center">{{c.comp_addr}}</td>
 								<td class="center">{{c.comp_num}}</td>
+								<td style="text-align: center;">
+								<img ng-if="c.comp_rank=='1'" src="/gywyext/images/rank1.png" class="ng-scope" style="width: 40px;">
+								<img ng-if="c.comp_rank=='2'" src="/gywyext/images/rank2.png" class="ng-scope" style="width: 40px;">
+								<img ng-if="c.comp_rank=='3'" src="/gywyext/images/rank3.png" class="ng-scope" style="width: 40px;">
+								</td>							
 								<td>
 								<a class="tablelink" ng-click="getCompanyDetail(c)">查看公司详情</a>
 								<a href="#getCompanyInfo" ng-click="deleteCompanyInfo(c.comp_id)" class="tablelink"

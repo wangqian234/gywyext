@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import com.mvc.dao.IndexDao;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.Company;
 import com.mvc.entityReport.Project;
 
@@ -127,31 +128,40 @@ public class IndexDaoImpl implements IndexDao {
 				System.out.println(list);
 				return list;
 			}
-			
-		//  查询项目信息总条数
+
 					@SuppressWarnings("unchecked")
+					@Override					
 					public Integer ProjCountTotal(String searchKey) {
 						EntityManager em = emf.createEntityManager();
-						String countSql = " select count(proj_id) from Project where proj_isdeleted=0 ";
+						String countSql = " select count(proj_id) from project where proj_isdeleted=0";
+						if (null != searchKey){
+							countSql += "  and (comp_id like '%" + searchKey + "%' )";
+						}
 						Query query = em.createNativeQuery(countSql);
 						List<Object> totalRow = query.getResultList();
 						em.close();
 						return Integer.parseInt(totalRow.get(0).toString());
-					   }
-					// 根据页数筛选全部项目信息列表
+					}
+					
 					@SuppressWarnings("unchecked")
 					@Override
-					public List<Project> findProjectByPage(String searchKey, Integer offset, Integer end) {
+					public List<Project> getProjectListByPage(String searchKey,Integer offset, Integer end) {
 						EntityManager em = emf.createEntityManager();
-						String selectSql = "select * from Project where proj_isdeleted=0";
+						String selectSql = "select * from project where proj_isdeleted=0";
+					// 判断查找关键字是否为空
+						/*if (!searchKey.equals("0")){
+							selectSql += " and ( comp_id like '%" + searchKey + "%' )";
+						}*/
+						if (null != searchKey){
+							selectSql += " and ( comp_id like '%" + searchKey + "%' )";
+						}
 						selectSql += " order by proj_id desc limit :offset, :end";
 						Query query = em.createNativeQuery(selectSql, Project.class);
 						query.setParameter("offset", offset);
 						query.setParameter("end", end);
 						List<Project> list = query.getResultList();
 						em.close();
-						System.out.println(list);
 						return list;
 					}
 }
-					
+

@@ -54,7 +54,7 @@ public interface ProjectService {
 	Integer ProjCountTotal(String searchKey);
 		
 	// 根据页数筛选全部项目信息列表
-	List<Project>  findProjectByPage  (String searchKey, Integer offset, Integer end);
+	List<Project> getProjectListByPage(String searchKey, Integer offset, Integer end);
 
 	}
 
