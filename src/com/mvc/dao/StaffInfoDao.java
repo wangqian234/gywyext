@@ -19,7 +19,7 @@ public interface StaffInfoDao {
 		Boolean updateState(Integer user_id);
 
 		//查找所有角色
-		List<Role> findRoleAlls();
+		List<Role> getAllRoleList();
 	
 
 }

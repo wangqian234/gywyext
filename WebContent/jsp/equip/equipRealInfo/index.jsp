@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<jsp:include page="/jsp/equip/equipRealInfo/top.jsp" />
+<jsp:include page="/jsp/equip/equipRealInfo/top.jsp"/>
  <section ng-app="equipRealInfoApp">
  <div ng-view></div> 
 </section> 
