@@ -1,4 +1,4 @@
- <div id="page-wrapper"  style="margin-left: 0px;padding-top:100px"> 
+ <div id="page-wrapper"  style="margin-left: 0px;padding-top:10px"> 
 <!-- 这是内容的开始 -->   
   <div class="row">
 		<div class="col-md-12" style="width:100%">
@@ -22,20 +22,22 @@
 							<td class="width15 text-center">规模数量*</td>
 							<td >{{companyDetail.comp_num}}</td>	
 						</tr>
-					
-				         <tr>
+
+				           <tr>
 						 	<td class="width15 text-center">项目信息</td>
-							<td colspan='6' id="collapseOne">      
+							<td colspan='6' id="collapseOne">
 								<div ng-repeat="p in projectInfo">
-											<label>项目名称:&nbsp;&nbsp;&nbsp;</label> <input
-												ng-model="p.proj_name" class="form-control">
-											<label>项目地址:&nbsp;&nbsp;&nbsp;</label> <input
-												ng-model="p.proj_addr" class="form-control">
-											<label>业主数量:&nbsp;&nbsp;&nbsp;</label> <input
-												ng-model="p.proj_num" class="form-control">
-								</div>
+								<hr style="height:1px;border:none;border-top:1px dashed #a7b5bc;" /> 
+								<span>项目名称:{{p.proj_name}}&nbsp;&nbsp;&nbsp;</span>
+								<span>项目地址:{{p.proj_addr}}&nbsp;&nbsp;&nbsp;</span>
+								<span>业主数量:{{p.proj_num}}&nbsp;&nbsp;&nbsp;</span>
+								<span>项目备注{{p.proj_memo}}&nbsp;&nbsp;&nbsp;</span>
+								
+								</div>						
 							</td>
 				         </tr>
+				         
+
 				         <tr style="height:100px;">
 						 	<td class="width15 text-center">备注</td>
 							<td colspan='15'>{{companyDetail.proj_memo}}</td>

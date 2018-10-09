@@ -31,6 +31,9 @@
 										<div >
 								            <span class="width1 text-center">项目名称</span>
 											<input ng-model="project.proj_name" class="dfinput111" />
+											<!-- <img class="addeparaimg" onclick='addProject()' src="../../images/addEpara.png"> -->  
+											<a class="addeparaimg" onclick='addProject()'>
+		                                    <button class="btn btn-default"><i class=" fa fa-edit "></i>继续添加</button></a>									
 											</div>
 											<div>
 											<span class="width1 text-center">项目地址</span>
@@ -44,13 +47,15 @@
 								            <span class="width1 text-center">项目备注</span>
 											<input ng-model="project.proj_memo" class="dfinput111" type="text" />
 											</div>
-											<div>
-											<img class="addeparaimg" onclick='addProject()' src="../../images/addEpara.png">
+											<!-- <div>
 											<img class="deeparaimg" src="../../images/deEpara.png">
-										</div>
+										</div> -->
+										<div>
+										<a class="deeparaimg" ><button class="btn btn-default"><i class=" fa fa-edit "></i>删除该项目</button></a>
+									    </div>
 									</td>
 						         </tr> 
-                             </table>
+                             </table>                                              
      	                    <div class="buttonbox">
 					         <input class="btn btn-default" type="submit" value="确认提交" />
 							</div>
@@ -62,28 +67,17 @@
 	</div>
 </div>
 
-
-<!--  <div class="col-md-4 col-sm-4 motai">
-	<div class="panel panel-success">
-		<div class="panel-heading">添加成功</div>
-		<div class="panel-body" style="padding: 30px; text-align: center">
-			<img src="/gywyext/images/addSuccess.png"><span>&nbsp;&nbsp;&nbsp;本页面将在<b
-				class="countnum">{{count}}</b>秒内关闭
-			</span>
-		</div>
-		<div class="panel-footer">关闭窗口</div>
-	</div>
-</div> -->
 <script type="text/javascript" src="/gywyext/js/lib/bootstrap.min.js"></script>
 <script>
 function addProject(){
 	var tableScontent = $('#collapseOne');
 	var $div = $("<div class='panel-body'></div>");
-	var $input1 = $("<div><span class='width15 text-center'>项目名称:&nbsp;&nbsp;&nbsp;</span><input	name='projname'  class='dfinput111' /></div>");
+	var $input1 = $("<div><span class='width15 text-center'>项目名称:&nbsp;&nbsp;&nbsp;</span><input	name='projname'  class='dfinput111' /><a class='addeparaimg' onclick='addProject()'><button class='btn btn-default'><i class=' fa fa-edit '></i>继续添加</button></a></div>");
 	var $input2 = $("<div><span class='width15 text-center'>项目地址:&thinsp;&thinsp;&thinsp;</span><input 	name='projaddr'	class='dfinput111' /></div>");
 	var $input3 = $("<div><span class='width15 text-center'>业主数量:&thinsp;&thinsp;&thinsp;</span><input name='projnum'	class='dfinput111'  /></div>");
 	var $input4 = $("<div><span class='width15 text-center'>项目备注:&thinsp;&thinsp;&thinsp;</span><input  name='projmemo'	class='dfinput111' 	type='text' />");
-	var $input5 = $("<img class='addeparaimg' onclick='addProject()' src='../../images/addEpara.png'><img class='deeparaimg' src='../../images/deEpara.png'>");
+	/* var $input5 = $("<div><a class='deeparaimg'><button class='btn btn-default'><i class=' fa fa-edit '></i>删除该项目</button></a></div>"); */
+	var $input5 = $("<img class='deeparaimg' src='../../images/deletebutton.png' style='width: 120px;'>")
 	$div.append($input1);
 	$div.append($input2);
 	$div.append($input3);

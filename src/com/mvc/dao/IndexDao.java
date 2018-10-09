@@ -23,7 +23,7 @@ public interface IndexDao {
 	// 查询公司信息总条数
 	Integer CompCountTotal(String searchKey);
 	// 根据页数筛选全部项目信息列表
-	List<Project> findProjectByPage(String searchKey, Integer offset, Integer end);
+	List<Project> getProjectListByPage(String searchKey, Integer offset, Integer end);
 	// 查询项目信息总条数
 	Integer ProjCountTotal(String searchKey);
 }

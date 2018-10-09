@@ -494,6 +494,7 @@ app
 									})
 									.success(
 											function(data) {
+											
 												equipment.equipments = data.list;
 												pageTurn(
 														data.totalPage,
