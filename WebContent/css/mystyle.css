@@ -587,6 +587,17 @@ textarea.dfinput111 {
 	vertical-align: middle;
 	margin-right: 22px;
 }
+.browse-image{
+	position:relative;
+}
+        .browse-image input{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
 /* progress
 {
    color:#ff0000; 兼容IE10的已完成进度背景

@@ -92,11 +92,11 @@ public class EquipmentController {
 			if (jsonObject.containsKey("equip_num")) {
 				equipment.setEquip_num(jsonObject.getString("equip_num"));
 			}		
-		/*	if (jsonObject.containsKey("file_id")) {
+			if (jsonObject.containsKey("file_id")) {
 				Files file = new Files();
 				file.setFile_id(Integer.parseInt(jsonObject.getString("file_id")));
 				equipment.setFile_id(file);
-			}*/
+			}
 			if (jsonObject.containsKey("equip_type")) {
 				EquipType et = new EquipType();
 				et.setEquip_type_id(Integer.valueOf(jsonObject.getString("equip_type")));

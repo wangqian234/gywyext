@@ -310,8 +310,7 @@ app
 										equipment.equipmentInfo.equip_ndate)) {
 									alert("请输入正确的时间")
 									return;
-								}
-								;
+								};
 								equipment.para = {
 									paraname : [],
 									paravalue : [],
@@ -330,9 +329,10 @@ app
 								$("input[name='paraunit']").each(function() {
 									equipment.para.paraunit.push($(this).val());
 								})
-								if (sessionStorage.getItem("PicFile")) {
-									console.log(sessionStorage.getItem("PicFile"));
-									equipment.equipmentInfo.file_id = JSON.stringify(sessionStorage.getItem("PicFile")).file_id;
+								if (sessionStorage.getItem("picFile")) {
+									console.log(sessionStorage.getItem("picFile"));
+									equipment.equipmentInfo.file_id = JSON.parse(sessionStorage.getItem("picFile")).file_id;
+									alert(equipment.equipmentInfo.file_id);
 								}
 								var equipmentpara = JSON.stringify(equipment.para);
 								var equipmentFormData = JSON.stringify(equipment.equipmentInfo);
@@ -478,29 +478,9 @@ app
 														equipment.leftData = dest;
 														var leftData = JSON.stringify(dest)
 														sessionStorage.setItem('leftData',leftData);
+														equipment.getEquipmentList(equipment.leftData[0].data[0].proj_id, equipment.leftData[0].data[0].proj_name);
 													});
-									
-									/*equipment.equipRoomm = "0";
-									equipment.equipStatee = "0";
-									equipment.equipName = null;
-									var eqRoom = JSON.stringify(equipment.equipRoomm) ;
-									eqState = JSON.stringify(equipment.equipStatee);
-									searchKey = JSON.stringify(equipment.equipName);
-									services.getEquipmentListByRS({
-										page : 1,
-										eqRoom : eqRoom,
-										eqState : eqState,
-										searchKey : searchKey
-									})
-									.success(
-											function(data) {
-											
-												equipment.equipments = data.list;
-												pageTurn(
-														data.totalPage,
-														1,
-														getEquipmentListByRS);
-											});	*/
+
 																
 								} else if ($location.path().indexOf('/equipUpdate') == 0) {
 									var equip_id = sessionStorage.getItem("equipmentId");
@@ -567,6 +547,7 @@ app
 										})
 								}else if ($location.path().indexOf('/equipDetail') == 0) {
 									equipment.equipmentDetail = JSON.parse(sessionStorage.getItem('equipmentDetail'));
+									equipment.equipmentDetail.file_id.file_path = equipment.equipmentDetail.file_id.file_path.split('webapps')[1];
 									equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
 									services.getEquipPara(
 													{
@@ -672,8 +653,8 @@ app
 							uploader.onCompleteItem = function(fileItem,response, status, headers) {
 								console.info('onCompleteItem', fileItem,response, status, headers);
 								$scope.fileBean = response
-								console.log("picFile"+ JSON.stringify(response))
-								sessionStorage.setItem("picFile", JSON.stringify(response));
+								console.log("picFile"+ JSON.stringify(response.fileBean))
+								sessionStorage.setItem("picFile", JSON.stringify(response.fileBean));
 							};
 							uploader.onCompleteAll = function() {
 								alert("文件上传成功！");
