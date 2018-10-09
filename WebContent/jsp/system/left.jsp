@@ -21,17 +21,15 @@
                      <li ng-repeat="ld in leftData">
                         <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> 用户管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffBaseInfo">全部用户信息</a></li> 
+                            <li><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/userList">全部用户信息</a></li> 
 	  						<li><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffAdd">新建用户信息</a></li>
-							<%-- <li><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/userList">查询用户信息</a></li> --%>
-                        </ul>
+                       	</ul>
                     </li>
                  </ul>
-                 
             </div>
         </nav>
         
-        <script>
+    <script>
 	        $("#main-menu").on("click",function(e){
 	        	if(e.target.nodeName == "A"){
 	        		$(this).find("a").removeClass("clickin");

@@ -4,7 +4,8 @@ import java.text.ParseException;
 import java.util.List;
 
 import com.mvc.entityReport.Company;
-
+import com.mvc.entityReport.EquipPara;
+import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.User;
 
@@ -12,9 +13,12 @@ import net.sf.json.JSONObject;
 
 public interface ProjectService {
 	//添加公司信息
-	boolean addCompany(Company company, Project project);
+	/*boolean addCompany(Company company, Project project);*/
 	List<Company> getCompanyInfo();
-
+	Company save(Company company);
+	//根据公司id查找公司的项目
+		List<Project> getCompProj(String searchKey);
+		void saveProjs(List<Project> projects);
 	//添加项目信息
 	boolean addProject(Project project);
 	List<Project> getProjectInfo();
@@ -29,9 +33,7 @@ public interface ProjectService {
 	// 修改项目基本信息
 	boolean  updateProjectBase(Integer proj_id, JSONObject jsonObject, User user) throws ParseException;
 	
-	//根据公司id查找公司的项目
-	List<Project> getCompProj(String searchKey);
-	void saveProjs(List<Project> compProjs);
+	
 
 	// 根据id删除公司
 		boolean deleteIsdelete(Integer comp_id);
@@ -52,7 +54,7 @@ public interface ProjectService {
 	Integer ProjCountTotal(String searchKey);
 		
 	// 根据页数筛选全部项目信息列表
-	List<Project>  findProjectByPage  (String searchKey, Integer offset, Integer end);
+	List<Project> getProjectListByPage(String searchKey, Integer offset, Integer end);
 
 	}
 

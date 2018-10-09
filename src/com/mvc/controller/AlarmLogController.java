@@ -23,16 +23,7 @@ public class AlarmLogController {
 
 	@Autowired
 	AlarmLogService alarmLogService;
-/*	 @RequestMapping(value = "/getAlarmListByPage.do")
-	public @ResponseBody String getAlarmsByPrarm(HttpServletRequest request, HttpSession session) {
-		JSONObject jsonObject = new JSONObject();
-		Pager pager = new Pager();
-		pager.setPage(Integer.valueOf(request.getParameter("page")));
-		List<AlarmLog> list = alarmLogService.getAlarmListByPage(pager.getOffset(), pager.getLimit());
-		jsonObject.put("list", list);
-		jsonObject.put("totalPage", pager.getTotalPage());
-		return jsonObject.toString();
-	}*/
+
 	 @RequestMapping(value = "/getAlarmListByPage.do")
 		public @ResponseBody String getAlarmsByPrarm(HttpServletRequest request, HttpSession session) {
 			JSONObject jsonObject = new JSONObject();
