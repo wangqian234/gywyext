@@ -127,10 +127,6 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 		@Override
 		public List<AlarmLog> getEquipAlarmNumberByProjectName(String searchKey) {
 			List<AlarmLog> list =null;
-			System.out.println("/n");
-			System.out.println("/n");
-			System.out.println("/n");
-			System.out.println("我进来了3");
 			EntityManager em = emf.createEntityManager();
 			try {
 				String selectSql = " select project.proj_name,equipment.equip_name,count(alarm_log.equipment) as alarm_log_num"

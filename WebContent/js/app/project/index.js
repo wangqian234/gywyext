@@ -333,7 +333,7 @@ app.controller('indexProController', [
 						companys : CoFormData,
 					}).success(function(data) {
 						alert("修改成功！")
-						$location.path('getCompanyInfo/');
+						$location.path('companyList/');
 					});
 				}
 			}
@@ -354,7 +354,7 @@ app.controller('indexProController', [
 						
 						indexpro.result = data;
 						alert("成功删除公司信息！");
-						$location.path('getCompanyInfo/');
+						$location.path('companyList/');
 					});
 				}
 			}
