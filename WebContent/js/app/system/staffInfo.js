@@ -279,8 +279,8 @@ app
 						page : 1,
 						searchKey : searchKey
 					}).success(function(data) {
-						staffInfo.Users = data.list;
-						console.log(JSON.stringify( staffInfo.Users))
+						staffInfo.users = data.list;
+						console.log(JSON.stringify( staffInfo.users))
 						pageTurn(
 								data.totalPage, 
 								1, 
@@ -388,7 +388,7 @@ app
 									page : page,
 									searchKey : searchKey
 								}).success(function(data) {
-									staffInfo.user = data.list;
+									staffInfo.users = data.list;
 								
 							});
 							}
