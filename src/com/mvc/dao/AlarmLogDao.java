@@ -12,4 +12,6 @@ public interface AlarmLogDao {
 	
 	
 	List<Object>  getEquipFailCountById(Integer equipId,String year);
+	
+	Integer getEquipAlarmNumByProId(Integer proId);
 }

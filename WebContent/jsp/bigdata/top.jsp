@@ -34,7 +34,7 @@
 	color: black !important;
 }
 
-.active a h4{
+.active a h4 {
 	color: black !important;
 }
 
@@ -52,6 +52,21 @@
 	float: left !important;
 	text-align: center !important;
 }
+
+.tr-active {
+	background-color: "#EAEAEA" !important;
+	color: rgba(124, 189, 187, 1) !important;
+}
+
+.titleImgRight {
+	width: 18%;
+	margin-right: 8%;
+}
+
+.titleImgLeft {
+	width: 11%;
+	margin-right: 4%;
+}
 </style>
 
 </head>
@@ -60,17 +75,17 @@
 	<nav class="navbar navbar-default top-navbar" role="navigation"
 		style="padding-left: 0px;">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/gywyext/index.html"><i
+			<a class="navbar-brand" href="/gywyext/jsp/index/index.jsp"><i
 				class="fa fa-gear"></i> <strong>公元物业E巡通</strong></a>
 		</div>
 		<div class="menu">
 			<ul id="menuUl" class="menuUl">
-				<li ><a class="topspan" href="#/equipFail"><h4
+				<li><a class="topspan" href="#/equipState"><h4
+							class="fa fa-bell">设备健康状况分析</h4></a></li>
+				<li class="active"><a class="topspan" href="#/equipFail"><h4
 							class="fa fa-tasks">故障种类分析</h4></a></li>
-				<li><a
-					class="topspan" href="#/equipState"><h4 class="fa fa-bell">设备健康状况分析</h4></a></li>
-				<li><a
-					class="topspan" href="#/equipPre"><h4 class="fa fa-bell">设备故障预测</h4></a></li>
+				<li><a class="topspan" href="#/equipPre"><h4
+							class="fa fa-bell">设备故障预测</h4></a></li>
 			</ul>
 			<!-- <a class="topspan" href="#/equipBaseInfo"><h4
 					class="fa fa-dashboard">能耗分析</h4></a>  -->
