@@ -64,9 +64,9 @@
 		</div>
 		<div class="menu" style="display:flex">
 			<ul id="menuUl" class="menuUl">
-				<li ><a class="topspan" href="#/equipFail"><h4 class="fa fa-tasks">&nbsp;&nbsp;故障种类分析</h4></a></li>
-				<li><a
+			<li><a
 					class="topspan" href="#/equipState"><h4 class="fa fa-bell">&nbsp;&nbsp;设备健康状况分析</h4></a></li>
+				<li ><a class="topspan" href="#/equipFail"><h4 class="fa fa-tasks">&nbsp;&nbsp;故障种类分析</h4></a></li>
 				<li><a
 					class="topspan" href="#/equipPre"><h4 class="fa fa-bell">&nbsp;&nbsp;设备故障预测</h4></a></li>
 			</ul>

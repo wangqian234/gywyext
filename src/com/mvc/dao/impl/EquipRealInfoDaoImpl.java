@@ -70,8 +70,6 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			}
 			return list;
 		}
-		
-
 		//根据设备参数名字查找设备特征参数信息
 		@SuppressWarnings("unchecked")
 		@Override
@@ -87,8 +85,6 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			}
 			return list;
 		}
-		
-		
 		//根据设备参数id查询设备参数实时数据
 		@SuppressWarnings("unchecked")
 		@Override
@@ -112,38 +108,37 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 		public List<AlarmLog> getWaringNews(String searchKey) {
 			List<AlarmLog> list =null;
 			EntityManager em = emf.createEntityManager();
-			try {
-				String selectSql = " select * from alarm_log where  alarm_log_ischecked = 0";
-				Query query = em.createNativeQuery(selectSql, AlarmLog.class);
-				list = query.getResultList();
-			} finally {
-				em.close();
+			System.out.println(searchKey);
+			String selectSql = " select * from alarm_log";
+			if(null==searchKey) {
+				selectSql +=" where  alarm_log_ischecked = 0";
 			}
+			else {
+				selectSql +=" where equipment = '" + searchKey + "'";
+			}
+			Query query = em.createNativeQuery(selectSql, AlarmLog.class);
+			list = query.getResultList();
+			em.close();
 			return list;
 		}
-		
-		//根据项目名称获取所属设备告警信息条数
-		@SuppressWarnings("unchecked")
+		//根据项目名称和设备名称获取告警信息
+		/*@SuppressWarnings("unchecked")
 		@Override
-		public List<AlarmLog> getEquipAlarmNumberByProjectName(String searchKey) {
+		public List<AlarmLog> getEquipAlarmByProAndEquip(String proName, String equipName) {
 			List<AlarmLog> list =null;
 			EntityManager em = emf.createEntityManager();
-			try {
-				String selectSql = " select project.proj_name,equipment.equip_name,count(alarm_log.equipment) as alarm_log_num"
-                +"from project left join equip_room on equip_room.proj_id = project.proj_id left join equipment"
-				+" on equipment.equip_room=equip_room.equip_room_id left join alarm_log on(alarm_log.equipment=equipment.equip_id and alarm_log.alarm_log_ischecked=0)"
-                +" where project.proj _name = '"+ searchKey +"' group by equipment.equip_name,project.proj_name";
-				Query query = em.createNativeQuery(selectSql, AlarmLog.class);
-				list = query.getResultList();
-			} finally {
-				em.close();
-			}
+			String selectSql = " select alarm_log.* from project left join equip_room "
+			+"on equip_room.proj_id=project.proj_id left join equipment"
+			+"on equipment.equip_room=equip_room.equip_room_id left join alarm_log"
+			+"on alarm_log.equipment=equipment.equip_id "
+			+"where project.proj_name='"+proName+"' and equipment.equip_name='"+equipName+"'";
+			Query query = em.createNativeQuery(selectSql, AlarmLog.class);
+			list = query.getResultList();
+			em.close();
 			System.out.println(list);
 			return list;
-		}
-
-
-		
+		}*/
+		//根据起始时间 向后查100条
 		@SuppressWarnings("unchecked")
 		@Override
 		public List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate) {
@@ -165,13 +160,22 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 		public List<Equipment> getEquipmentListByProject(String searchKey) {
 			List<Equipment> list = null;
 			EntityManager em = emf.createEntityManager();
+			System.out.println("111111111111111111111111111111");
+			System.out.println("\n");
+			System.out.println("\n");
+			System.out.println(searchKey);
+			System.out.println("\n");
+			System.out.println("\n");
 			try {
-				String selectSql = "select * from equipment where equip_room=(select equip_room_id from equip_room where proj_id=(select proj_id from project where proj_name='" + searchKey + "') )";
+				//String selectSql = "select * from equipment where equip_room=(select equip_room_id from equip_room where proj_id=(select proj_id from project where proj_name='" + searchKey + "') )";
+				String selectSql = "select equipment.*from project left join equip_room on equip_room.proj_id=project.proj_id left join equipment on equipment.equip_room=equip_room.equip_room_id where project.proj_name='"+searchKey+"'";
 				Query query = em.createNativeQuery(selectSql, Equipment.class);
 				list = query.getResultList();
 			} finally {
 				em.close();
 			}
+			System.out.println("\n");
+			System.out.println(list);
 			return list;
 		}
 }

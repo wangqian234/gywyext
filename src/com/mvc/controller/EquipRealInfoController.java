@@ -251,12 +251,9 @@ public class EquipRealInfoController {
 	//获取设备报警信息
     @RequestMapping(value = "/getWaringNews.do")
 	public @ResponseBody String getWaringNews(HttpServletRequest request, HttpSession session){
-    	System.out.println("我进来了2");
 		JSONObject jsonObject = new JSONObject();
 		try{
 			String searchKey = request.getParameter("searchKey");
-			//String startDate = request.getParameter("startDate");
-			//List<EquipOper> data = equipRealInfoService.getWaringNews(searchKey,startDate);
 			List<AlarmLog> data = equipRealInfoService.getWaringNews(searchKey);
 			jsonObject.put("data", data);
 		} catch (Exception e){
@@ -264,19 +261,20 @@ public class EquipRealInfoController {
 		}
 		return jsonObject.toString();
 	}
-  //根据项目名称获取所属设备告警信息条数
-    @RequestMapping(value = "/getEquipAlarmNumberByProjectName.do")
-	public @ResponseBody String getEquipAlarmNumberByProjectName(HttpServletRequest request, HttpSession session){
+  //根据项目名称和设备名称获取告警信息
+    /*@RequestMapping(value = "/getEquipAlarmByProAndEquip.do")
+	public @ResponseBody String getEquipAlarmByProAndEquip(HttpServletRequest request, HttpSession session){
 		JSONObject jsonObject = new JSONObject();
 		try{
-			String searchKey = request.getParameter("searchKey");
+			String proName = request.getParameter("proName");
+			String equipName = request.getParameter("equipName");
 			//String startDate = request.getParameter("startDate");
 			//List<EquipOper> data = equipRealInfoService.getWaringNews(searchKey,startDate);
-			List<AlarmLog> data = equipRealInfoService.getEquipAlarmNumberByProjectName(searchKey);
+			List<AlarmLog> data = equipRealInfoService.getEquipAlarmByProAndEquip(proName,equipName);
 			jsonObject.put("list", data);
 		} catch (Exception e){
 			jsonObject.put("error", "暂未找到相关数据");
 		}
 		return jsonObject.toString();
-	}
+	}*/
 }
