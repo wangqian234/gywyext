@@ -123,15 +123,31 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			url : baseUrl + 'equipRealInfo/getEquipRealData.do',
 			data : data
 		});
-	}
-	//根据项目名称获取所属设备告警信息条数
-	services.getEquipAlarmNumberByProjectName = function(data) {
+	};
+	//根据设备id获取设备预测维修结果
+	services.getEquipPreById = function(data) {
 		return $http({
 			method : 'post',
-			url : baseUrl + 'equipRealInfo/getEquipAlarmNumberByProjectName.do',
+			url : baseUrl + 'bigData/getEquipPreById.do',
 			data : data
 		});
-	}
+	};
+	//根据设备id获取健康状态分析数据
+	services.getEquipRadarById = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl +'bigData/getEquipRadarById.do',
+			data : data
+		});
+	};
+	//根据位置id获取设备信息
+	services.getRoomEquipAnalysisByRoomId = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl +'bigData/getRoomEquipAnalysisByRoomId.do',
+			data : data
+		});
+	};
 	return services;
 } ]);
 app
@@ -159,26 +175,23 @@ app
 								});
 								
 							}
-							
-							var startDate = "2018-08-26"+" "+"00:00:00";//默认从起始日期凌晨开始显示数据
 							//获取参数实时状态
 							equipment.getEquipRealData = function(equipParaId){
 								var divid = echart;//传递显示图表的id
-								//var startDate = "2018-8-26"+" "+"00:00:00";//默认从起始日期凌晨开始显示数据
-								//查询参数对应的设备信息
-								for(var i=0;i<equipment.equipara.length;i++){
-									if(equipment.equipara[i].equip_para_id == equipParaId){
-										equipment.Id = i;
-									}
-								}
-								equipment.equipParaId = equipParaId;
+								startDate = "2018-08-26"+" "+"00:00:00";//默认从起始日期凌晨开始显示数据
 								if(startDate != null)
-								try2(startDate,equipment.equipara[equipment.Id],divid);
-								else alert("请输入起始时间");
+								try2(startDate,equipment.equipara[equipParaId-1],divid);
+								else alert("请输入查询起始时间");
 							}
 							//显示模拟动画
-							equipment.donghua = function(){
-								console.log("11");
+							equipment.donghua = function(equipId){
+								//console.log(equipId);
+								if(equipId==3)
+									document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=8&picId=35&rand=1539013922495";
+								else if(equipId==2)
+									document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=8&picId=37&rand=1539014082190";
+								else
+									document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=8&picId=34&rand=1539014132765";
 								$(".pop2").fadeIn(200);
 								$(".bgPop2").fadeIn(200);
 							}
@@ -192,13 +205,37 @@ app
 									equipment.equipments = data.list;
 								});
 							}
-							//根据项目名称获取所属设备告警信息条数
-							function getEquipAlarmNumberByProjectName(name){
-								services.getEquipAlarmNumberByProjectName({
-									searchKey : name
+							equipment.preResult = '';
+							equipment.equipName = '';
+							//设备预测维修分析
+							function getEquipPreById(equipmentId) {
+								if(equipmentId ==null)
+									equipment.preResult = "暂未选中具体设备，设备预测维修结果暂缺！！！";
+								else {equipment.equipName = equipment.equipments[equipmentId-1].equip_name;
+								services.getEquipPreById({
+									equipmentId : equipmentId
 								}).success(function(data) {
-									equipment.AlarmNumber = data.list;
-								});
+									equipment.preDate = data.result;
+									console.log(data.result);
+
+									if (data.result[0] == null
+											|| data.result[0] == "") {
+										equipment.preResult = "该设备从使用到现在还没有发生过故障,经分析预测设备下次维修时间为"
+												+ equipment.formatDate(equipment.preDate[1].time)
+												+ ",请在预测维修时间之前进行检修，以防发生突发故障！";
+									} else {
+										equipment.preResult = "  该设备上次维保时间为"
+												+ equipment.formatDate(equipment.preDate[0].time)
+												+ ",经分析预测设备下次维修时间为"
+												+ equipment.formatDate(equipment.preDate[1].time)
+												+ ",请在预测维修时间之前进行检修，以防发生突发故障！";
+									}
+							});}
+							};
+							equipment.formatDate = function(input) {
+								var type = new Date(input).toLocaleDateString()
+										.replace(/\//g, '-');
+								return type;
 							}
 							//获取bing饼图所需数据
 							/*//切换map和模拟动画的可见性
@@ -218,7 +255,7 @@ app
 								console.log("d444");
 								d4.clear();
 								d4.showLoading({text:'正在加载数据...'});
-								var company=[{comp_id:'1',comp_name:'清远物业分公司'}];
+								var company=[{comp_id:'1',comp_name:'公元物业总公司'}];
 								var project=[{comp_id:'1',proj_id:'8',proj_name:'凤城郦都'},
 								             {comp_id:'1',proj_id:'9',proj_name:'东方巴黎'},
 							                 {comp_id:'1',proj_id:'10',proj_name:'凤城世家'}];
@@ -388,9 +425,98 @@ app
 								window.onresize = d4.resize;//自适应窗口大小
 								d4.hideLoading();	
 							  }*/
-							
+							//饼图
+							function d444(data){
+								var d4 = echarts.init(document.getElementById('d4')); 
+								d4.clear();
+								d4.showLoading({text:'正在缓冲...'});
+								var name=[];
+								for(var i=0;i<data.length;i++){
+									name.push(data[i].name);
+								}
+								option = {
+									    tooltip : {
+									        trigger: 'item',
+									        formatter: "{a} <br/>{b} : {c} ({d}%)"
+									    },
+									    legend: {
+									        /*x : 'center',
+									        y : '280',*/
+									    	bottom: '8%',
+									        //left: '20%',
+									        icon: 'circle',
+									        data:name,
+									        textStyle : {
+									        	color: function(params) {
+									        		//console.log(params);
+								                    var num = data.length;
+								                    return mycolor[params.dataIndex % num]
+								                },
+								                }
+									    },
+									    toolbox: {
+									        show : true,
+									        feature : {
+									            mark : {show: true},
+									            magicType : {
+									                show: true,
+									                type: ['pie', 'funnel']
+									            }
+									        }
+									    },
+									    calculable : true,
+									    series : [
+									        {
+									            name:'故障统计',
+									            type:'pie',
+									            radius : [20, 90],
+									            center : ['50%', '35%'],
+									            labelLine: {
+									            	normal: {
+									            		length: 1,
+									            	}
+									            },
+									            roseType : 'area',
+									            data:data,
+									        }
+									    ]
+									};
+								
+								d4.setOption(option);
+								d4.on('click',function(params){
+									//console.log(params.data.name);
+									exchange(params.data.name);
+								});
+								d4.hideLoading();
+								
+							}
+							function exchange(name){
+								//document.getElementById("d4").style.display="none";
+								//document.getElementById("dd").style.display="";
+								var pp=equipment.equipments;
+								var equipId=null;
+								for(var i=0;i<pp.length;i++){
+									if(pp[i].equip_name==name){
+										equipId=pp[i].equip_id;
+										break;
+										}
+								}
+								services.getWaringNews({
+									searchKey : equipId
+								}).success(function(data) {
+									alarmData = data.data;
+									//console.log(alarmData);
+									if(alarmData[0]==null){
+										alert("设备运行良好，暂无历史报警信息！！！")
+									}
+									else{
+										equipment.warningTitle = name+"历史报警";
+										equipment.warning=alarmData;
+									}
+								});
+							}
+							//地图
 							function d555(na){
-								console.log("d555");
 								var d5 = echarts.init(document.getElementById('d5'));
 								    $.get('../../../../mapjson/qingyuan.json', function(tjJson) {
 								    
@@ -404,7 +530,7 @@ app
 									        }]
 									    });
 									    var geoCoordMap = {
-									    		'清远物业分公司':[113.1,23.745],
+									    		'公元物业总公司':[113.1,23.745],
 									    		'清远东方巴黎':[113.7,23.9],
 									    	    '清远凤城世家':[113.3,24.3],
 									    	    '清远凤城郦都':[113.056,23.5435],
@@ -412,10 +538,10 @@ app
 									    	};
 									     //值控制圆点大小
 									    	var goData = [
-							                 [{name: '清远物业分公司'}, {id: 2,name: '清远物业分公司',value: 100}],
-									    	    [{name: '清远物业分公司'}, {id: 1,name: '清远东方巴黎',value: 100}],
-									    	    [{name: '清远物业分公司'},{id: 1,name: '清远凤城世家',value: 100}],
-									    	    [{name: '清远物业分公司'},{id: 1,name: '清远凤城郦都',value:100}],
+							                 [{name: '公元物业总公司'}, {id: 2,name: '公元物业总公司',value: 100}],
+									    	    [{name: '公元物业总公司'}, {id: 1,name: '清远东方巴黎',value: 100}],
+									    	    [{name: '公元物业总公司'},{id: 1,name: '清远凤城世家',value: 100}],
+									    	    [{name: '公元物业总公司'},{id: 1,name: '清远凤城郦都',value:100}],
 									    	    
 									    	];
 									    	//值控制圆点大小
@@ -611,9 +737,12 @@ app
 								d5.hideLoading();
 								window.onresize = d5.resize;//自适应窗口大小
 								d5.on('click',function(params){
-									console.log(params.data.name);
+									//console.log(params.data.name);
 									equipment.KeepViewTitle = params.data.name;
 									getEquipmentListByProject(params.data.name);
+									pie(params.data.name);
+									equipment.warningTitle = "报警记录";
+									equipment.warning = equipment.warningall;
 									
 								});
 								/*var ssss;
@@ -670,44 +799,88 @@ app
 									}
 								})
 							}
+							//大数据分析
+							equipment.dataAnalyse =function(equipmentId){
+								getEquipPreById(equipmentId);
+								services.getEquipRadarById({
+									equipmentId : equipmentId
+								}).success(function(data){
+						        	radarResult = data.result;
+						        	//console.log(radarResult);
+						        	var ddd=[radarResult];
+						        	d888(ddd,equipment.equipments[equipmentId-1].equip_name);
+						        })
+								/*$.ajax({
+							        url:"/gywyext/bigData/getEquipRadarById.do",
+							        type:"post",
+							        dataType: "json",
+							        data: { equipmentId: equipmentId },
+							        success:function(data){
+							        	radarResult = data.result;
+							        	//console.log(radarResult);
+							        	var ddd=[radarResult];
+							        	d888(ddd,equipment.equipments[equipmentId-1].equip_name);
+							        }
+							    })*/
+							}
+							//设备故障统计
+							function pie(name){
+								if(name=="清远凤城郦都")
+									var equipRoomId=1;
+								else if(name=="清远东方巴黎")
+								    var equipRoomId=2;
+								else if(name=="清远凤城世家")
+									var equipRoomId=3;
+								services.getRoomEquipAnalysisByRoomId({
+									page : 1,
+									roomId: equipRoomId
+								}).success(function(data) {
+									pieResult = data.list;
+									console.log(pieResult);
+									console.log(data.analysis);
+						        	d444(data.analysis);
+									});	
+								/*$.ajax({
+							        url:"/gywyext/bigData/getRoomEquipAnalysisByRoomId.do",
+							        type:"post",
+							        dataType: "json",
+							        data: { page : 1,roomId: equipRoomId },
+							        success:function(data){
+							        	pieResult = data.list;
+							        	console.log(pieResult);
+							        	d444(data.analysis);
+							        }
+							    })*/
+								
+							}
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！");
-								//d444("清远物业分公司");
-								d444();
-								d555("清远物业分公司");
-								hugeData("清远物业分公司");
-								/*$.ajax({
-							        url:"/gywyext/equipRealInfo/getEquipParaByName.do",
-							        type:"post",
-							        dataType: "json",
-							        data: { searchKey: "A相线圈温度"},
-							        success:function(data){
-						        	try2("2018-09-00 20:52:00",data.result[0],d6)
-										}
-							    });*/
+								//d444("公元物业总公司");
+								//pie("清远凤城郦都",KeepViewTitle);
+								d555("公元物业总公司");
+								hugeData("公元物业总公司");
+								getEquipPreById(null);
 								var searchKey = "清远凤城郦都";
+								pie(searchKey);
 								equipment.KeepViewTitle = searchKey;
 								//根据项目获取所属设备信息列表
 								services.getEquipmentListByProject({
 									searchKey : searchKey
 								}).success(function(data) {
 									equipment.equipments = data.list;
+									console.log("equipment.equipments");
+									console.log(searchKey);
 									});	
+								equipment.warningTitle=null;
 								//获取告警信息
 								services.getWaringNews({
 									searchKey : null
 								}).success(function(data) {
-									equipment.warning = data.data;
-									warning(equipment.warning);
-								});
-								//根据项目名称获取所属设备告警信息条数
-								services.getEquipAlarmNumberByProjectName({
-									searchKey : searchKey
-								}).success(function(data) {
-									console.log("我进来了1");
-									equipment.AlarmNumber = data.list;
-									console.log(equipment.AlarmNumber);
+									equipment.warningall = data.data;
+									equipment.warningTitle = "报警记录";
+									equipment.warning = equipment.warningall
+									//warning(equipment.warning);
 								});
 							}
 							initPage();
@@ -738,16 +911,16 @@ app
 						        return(clock); 
 						    }
 							//报警信息滚动展示
-							function warning(data){
-							    /*var data = '塞下秋来风景异，衡阳雁去无留意。四面边声连角起，千嶂里，长烟落日孤城闭。浊酒一杯家万里，燕然未勒归无计。羌管悠悠霜满地，人不寐，将军白发征夫泪。', //样例数据
+							/*function warning(data){
+							    var data = '塞下秋来风景异，衡阳雁去无留意。四面边声连角起，千嶂里，长烟落日孤城闭。浊酒一杯家万里，燕然未勒归无计。羌管悠悠霜满地，人不寐，将军白发征夫泪。', //样例数据
 							        data_len = data.length,
 							        len = parseInt(Math.random()*6)+6, // 数据的长度
-*/							        html = '<div class="ss">';
+							        html = '<div class="ss">';
 							    
 							    for(var i=0; i<data.length; i++){
-							        /*var start = parseInt( Math.random()*(data_len-20) ),
+							        var start = parseInt( Math.random()*(data_len-20) ),
 							            s = parseInt( Math.random()*data_len );
-							        html += '<div class="item"v>'+i+'- '+data.substr(start, s)+'</div>';*/
+							        html += '<div class="item"v>'+i+'- '+data.substr(start, s)+'</div>';
 							        html += '<div class="item"v>'+timestampToTime(data[i].alarm_log_date.time)+' '+data[i].alarm_log_info+'</div>';
 							    }
 							    html += '</div>';
@@ -755,10 +928,10 @@ app
 							    var height = document.querySelector('.list .ss').offsetHeight; // 一份数据的高度
 							    addKeyFrames( '-'+(height-20)+'px' ); // 设置keyframes,可控制滚动速度
 							    document.querySelector('.list .cc').className += ' rowup'; // 添加 rowup
-							}
+							}*/
 							
 							//报警信息滚动展示css功能函数
-							function addKeyFrames(y){
+							/*function addKeyFrames(y){
 							    var style = document.createElement('style');
 							    style.type = 'text/css';
 							    var keyFrames = '\
@@ -784,7 +957,7 @@ app
 							    }';
 							    style.innerHTML = keyFrames.replace(/A_DYNAMIC_VALUE/g, y);
 							    document.getElementsByTagName('head')[0].appendChild(style);
-							}
+							}*/
 							
 							
 							//时间戳转换为日期格式
@@ -800,3 +973,31 @@ app
 						        return Y+M+D;
 						    }
 						} ]);
+//时间戳转换为日期格式
+app.filter('dateType', function() {
+	return function(input) {
+		var date = "";
+		if (input) {
+			date = timestampToTime(input);
+		}
+
+		return date;
+	}
+});
+//设备状态转换
+app.filter('EquipState', function() {
+	return function(input) {
+		var type = "";
+		if (input == '0') {
+			type = "正常";
+		} else if (input == '1') {
+			type = "需要维修";
+		} else if (input == '2') {
+			type = "需要更换";
+		} else {
+			type = "正常";
+		}
+
+		return type;
+	}
+});
