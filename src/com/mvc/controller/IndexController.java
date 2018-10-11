@@ -36,7 +36,6 @@ public class IndexController {
 
 	@RequestMapping("/toIndexPage.do")
 	public String toIndexPage() {
-		System.out.println("我进来了");
 		return "index/index";
 	}
 
