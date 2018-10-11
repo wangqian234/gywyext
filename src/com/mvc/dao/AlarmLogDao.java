@@ -22,4 +22,11 @@ public interface AlarmLogDao {
 	
 	Integer countAlarmTotal(String searchKey);
 
+
+
+	List<Object> selectAlarmByA(String proj_id);
+
+
+	Integer getAlarmNum(String proj_id);
+
 }

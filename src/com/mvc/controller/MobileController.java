@@ -1,10 +1,15 @@
 package com.mvc.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import javax.crypto.MacSpi;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -21,6 +26,7 @@ import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.Equipment;
 import com.mvc.service.EquipmentService;
+import com.mvc.service.IndexService;
 import com.mvc.service.MobileService;
 
 import net.sf.json.JSONObject;
@@ -33,6 +39,8 @@ public class MobileController {
 	MobileService mobileService;
 	@Autowired
 	EquipmentService equipmentService;
+	@Autowired
+	IndexService indexService;
 
 	//手动录入参数运行信息
 	@RequestMapping(value = "/addOpeartion.do")
@@ -153,6 +161,79 @@ public class MobileController {
 		return jsonObject.toString();
 	}
 	
+	//根据维保时间查找设备
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/selectEquipmentByN.do")
+	public @ResponseBody String selectEquipmentByN(HttpServletRequest request, HttpSession session) {
+		JSONObject jsonObject = new JSONObject();
+		String proj_id = null;
+		if(request.getParameter("proj_id") != null){
+			proj_id = request.getParameter("proj_id");
+		};			
+		List<Map> list = mobileService.selectEquipmentByN(proj_id);
+		jsonObject.put("list", list);
+		return jsonObject.toString();
+	}
+	//根据健康状态查找设备
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/selectEquipmentByS.do")
+	public @ResponseBody String selectEquipmentByS(HttpServletRequest request, HttpSession session) {
+		JSONObject jsonObject = new JSONObject();
+		String proj_id = null;
+		if(request.getParameter("proj_id") != null){
+			proj_id = request.getParameter("proj_id");
+		};			
+		List<Map> list = mobileService.selectEquipmentByS(proj_id);
+		jsonObject.put("list", list);
+		return jsonObject.toString();
+	}
+	//根据项目查找报警
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value = "/selectAlarmByA.do")
+	public @ResponseBody String selectAlarmByA(HttpServletRequest request, HttpSession session) {
+		JSONObject jsonObject = new JSONObject();
+		String proj_id = null;
+		if(request.getParameter("proj_id") != null){
+			proj_id = request.getParameter("proj_id");
+		};			
+		List<Map> list = mobileService.selectAlarmByA(proj_id);
+		jsonObject.put("list", list);
+		return jsonObject.toString();
+	}
+	
+	/**
+	 * 获取左侧菜单栏
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/getInitLeft.do")
+	public @ResponseBody String getInitLeft(HttpServletRequest request, HttpSession session) throws ParseException {
+		JSONObject jsonObject = new JSONObject();
+
+		List<Map> leftResult = indexService.getInitLeft();
+		List<Map> listR = new ArrayList<Map>();
+		for(int i=0;i<leftResult.size();i++){
+			Map<String, String> map = new HashMap<String, String>();
+			if(leftResult.get(i) != null){
+				System.out.println(leftResult.get(i).get("proj_id"));
+				String proj_id = (String) leftResult.get(i).get("proj_id");
+				List<Integer> list = mobileService.selectAllNum(proj_id);
+				
+				map.put("alart", list.get(0).toString());
+				map.put("ndate", list.get(1).toString());
+				map.put("state", list.get(2).toString());
+				map.put("proj_id", leftResult.get(i).get("proj_id").toString());
+				map.put("proj_name", leftResult.get(i).get("proj_id").toString());
+				map.put("comp_name", leftResult.get(i).get("proj_id").toString());
+				map.put("comp_id", leftResult.get(i).get("proj_id").toString());
+				listR.add(map);
+			}
+		}
+		jsonObject.put("left", listR);
+		return jsonObject.toString();
+	}
+
 }
 
 

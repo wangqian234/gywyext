@@ -165,7 +165,6 @@ app
 								bigData.chosedIndex = index;
 								bigData.roomId = f.equip_room_id;
 								if (bigData.type == "equipFail") {
-
 									services
 											.getRoomEquipAnalysisByRoomId({
 												page : 1,
@@ -173,7 +172,9 @@ app
 											})
 											.success(
 													function(data) {
+														
 														bigData.equiplist = data.list;
+														console.log(bigData.equiplist);
 														pageTurn(
 																data.totalPage,
 																1,
@@ -184,7 +185,7 @@ app
 														o.name = "故障数量";
 														o.type = "pie";
 														o.radius = "55%";
-														o.center = [ '50%',
+														o.center = [ '35%',
 																'60%' ];
 														o.data = data.analysis;
 														pieContent.push(o);
@@ -197,7 +198,6 @@ app
 																.getElementById("chart");
 														chartObject.dataContent = pieContent;
 														var failChart = drawPieChart(chartObject);
-
 													});
 								} else if (bigData.type == "equipState") {
 									services.selectEquipListByRoomId({
@@ -206,6 +206,7 @@ app
 									}).success(
 											function(data) {
 												bigData.equiplist = data.list;
+												console.log(bigData.equiplist);
 												pageTurn(data.totalPage, 1,
 														selectEquipList);
 											});
@@ -301,12 +302,13 @@ app
 														num.value = radarResult;
 														dataNum.push(num);
 														o.data = dataNum;
-
+														
 														dataContent.push(o);
 														var chartObject1 = {};
 														chartObject1.domElement = document
 																.getElementById('radarChart');
 														chartObject1.title = "";
+														//chartObject1.center = ['35%','40%']
 														chartObject1.model = typeArray;
 														chartObject1.dataContent = dataContent;
 														var radarChart = drawRadarChart(chartObject1);
@@ -319,9 +321,12 @@ app
 												equipmentId : obj.equip_id
 											})
 											.success(
+													
 													function(data) {
+														console.log(obj.equip_id);
 
 														bigData.preDate = data.result;
+														console.log(data.result);
 
 														if (data.result[0] == null
 																|| data.result[0] == "") {
@@ -340,8 +345,6 @@ app
 																			.formatDate(bigData.preDate[1].time)
 																	+ ",请在预测维修时间之前进行检修，以防发生突发故障！";
 														}
-														;
-
 														var barObject = new Object();
 														var dataContent = [];
 														var o = new Object();
@@ -360,8 +363,7 @@ app
 																	.getElementById('barChart');
 
 															var radarChart = drawBarChart(barObject);
-														}
-														
+														};
 													});
 								}
 								;

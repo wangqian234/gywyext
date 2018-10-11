@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8" />
-<title>E巡通大数据统计分析系统</title>
+<title>e巡通大数据统计分析系统</title>
 <!-- Bootstrap Styles-->
 <link href="${pageContext.request.contextPath}/css/bootstrap.css"
 	rel="stylesheet" />
@@ -99,13 +99,13 @@
 		style="padding-left: 0px;">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#"><i
-				class="fa fa-gear"></i> <strong>公元物业E巡通</strong></a>
+				class="fa fa-gear"></i> <strong>公元物业e巡通</strong></a>
 		</div>
 		<div class="menu">
 			<ul id="menuUl" class="menuUl">
 				<li ><a class="topspan"
 					href="/gywyext/jsp/project/index.jsp"><h4 class="fa fa-tasks">项目管理</h4></a></li>
-				<li><a class="topspan" href="/gywyext/jsp/equip/index.jsp#/leftInit"><h4
+				<li><a class="topspan" href="/gywyext/jsp/equip/index.jsp#/equipBaseInfo"><h4
 							class="fa fa-bell">设备管理</h4></a></li>
 				<li><a class="topspan" href="/gywyext/jsp/bigdata/index.jsp#/equipFail"><h4
 							class="fa fa-bell">大数据分析</h4></a></li>

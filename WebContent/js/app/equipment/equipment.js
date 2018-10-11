@@ -478,7 +478,12 @@ app
 														equipment.leftData = dest;
 														var leftData = JSON.stringify(dest)
 														sessionStorage.setItem('leftData',leftData);
-														equipment.getEquipmentList(equipment.leftData[0].data[0].proj_id, equipment.leftData[0].data[0].proj_name);
+														//equipment.getEquipmentList(equipment.leftData[0].data[0].proj_id, equipment.leftData[0].data[0].proj_name);
+														setTimeout(function() {
+															var tt = $(".leftSecond");
+															console.log(tt[0]);
+															tt[0].click();
+														}, 10);
 													});
 
 																

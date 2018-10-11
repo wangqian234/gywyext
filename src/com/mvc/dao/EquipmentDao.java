@@ -52,4 +52,14 @@ public interface EquipmentDao {
 	
 	Integer getEquipUnhealthNumByProId(Integer proId);
 
+	//根据维保时间查找设备
+	List<Object> selectEquipmentByN(String proj_id, String timenow);
+
+	//根据健康状态查找设备
+	List<Object> selectEquipmentByS(String proj_id);
+
+	Integer getNdateNum(String proj_id, String timenow);
+
+	Integer getStateNum(String proj_id);
+
 }

@@ -7,16 +7,10 @@
 <jsp:include page="/jsp/footer.jsp" />
 <script src="${pageContext.request.contextPath}/js/app/index/index.js"></script>
 <script src="${pageContext.request.contextPath}/js/lib/My97DatePicker/WdatePicker.js"></script>
-
-
- </div>
+</div>
 
 
 <script type="text/javascript">
-
-
-
-
 
 </script>
 </html>
