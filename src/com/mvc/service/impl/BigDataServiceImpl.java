@@ -198,6 +198,20 @@ public class BigDataServiceImpl implements BigDataService {
 			nextMainDate = dt.getTime() + intervalTime;
 		}
 		Date preDate = new Date(nextMainDate);
+		
+		Date now=new Date();
+		
+		if(preDate.getTime()>now.getTime()){
+			System.out.println("大于当前时间");
+		}else{
+			System.out.println("小于当前时间，进行整改");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date nowDate=new Date();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(nowDate);
+			calendar.set(Calendar.DAY_OF_MONTH,calendar.get(Calendar.DAY_OF_MONTH)+1);
+			preDate=calendar.getTime();
+		}
 		JSONArray arr = new JSONArray();
 		arr.add(dt);
 		arr.add(preDate);

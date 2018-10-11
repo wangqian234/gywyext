@@ -331,7 +331,7 @@ app
 														if (data.result[0] == null
 																|| data.result[0] == "") {
 															bigData.warning = "该设备的初次安装使用时间为"+bigData
-															.formatDate(bigData.preDate[2].time)+"，从使用到现在还没有发生过故障,经分析预测设备下次维修时间为"
+															.formatDate(bigData.preDate[2].time)+"，经分析预测设备下次维修时间为"
 																	+ bigData
 																			.formatDate(bigData.preDate[1].time)
 																	+ ",请在预测维修时间之前进行检修，以防发生突发故障！";
@@ -348,8 +348,6 @@ app
 														var barObject = new Object();
 														var dataContent = [];
 														var o = new Object();
-
-														alert(data.data);
 														if(data.data==null||data.data==""||data.data==undefined){
 															bigData.tip="";
 															$("#barChart").html("");
