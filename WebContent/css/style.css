@@ -5,7 +5,8 @@ body {
   padding-top: 0px;
   height: 100%;
   position: relative;
-  font-size: 13px; }
+  font-size: 13px;
+  }
 
 * {
   outline: none; }

@@ -53,15 +53,17 @@
 						<td>{{e.equip_name}}</td>
 						<td>{{e.equip_no}}</td>
 						<td>{{e.equip_type.equip_type_name}}</td>
-						<td class="p-green"><progress value="{{e.equip_state}}" max="10" ></progress></td>
+						<td ng-class="e.equip_state >= 7 ? 'p-green' : (e.equip_state >= 3 ? 'p-yellow' :'p-red')">
+						<progress value="{{e.equip_state}}" max="10" ></progress></td>
 						<td>{{e.user.user_name}}</td>
 						<td>{{e.equip_ndate.time | timer}}</td>
 						<td>
-						<a class="tablelink" ng-click="getEquipmentDetail(e)">查看设备详情</a>
+						<a class="tablelink" ng-click="getEquipmentDetail(e)">设备详情</a>
+					    <a href="#/echartsShow" class="tablelink" ng-click="getEquipmentId(e.equip_id)">设备实时状态</a>
 					    <a href="#/equipUpdate" ng-click="getEquipmentId(e.equip_id)" class="tablelink"	
 				        has-permission='tEdit'> 修改</a>
 					    <a href="#equipBaseInfo" ng-click="deleteEquipmentInfo(e.equip_id)" class="tablelink"
-					     has-permission='tDel'> 删除</a></td>
+					     has-permission='tDel'> 删除</a></td>				    
 				</tr>
 				</tbody>
 				
@@ -83,7 +85,7 @@
                         <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level" ng-repeat="ldd in ld.data">
                             <li>
-                                <a class="leftSecond" href="" ng-click="selectBaseInfoByProj(ldd.proj_id,ldd.proj_name)" id="projname">{{ldd.proj_name}}</a>
+                                <a class="leftSecond" href="" ng-click="getEquipmentList(ldd.proj_id,ldd.proj_name)" id="projname">{{ldd.proj_name}}</a>
                             </li>
                         </ul>
                     </li>

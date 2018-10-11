@@ -121,22 +121,57 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			}
 			return list;
 		}
+		
+		//根据项目名称获取所属设备告警信息条数
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<AlarmLog> getEquipAlarmNumberByProjectName(String searchKey) {
+			List<AlarmLog> list =null;
+			EntityManager em = emf.createEntityManager();
+			try {
+				String selectSql = " select project.proj_name,equipment.equip_name,count(alarm_log.equipment) as alarm_log_num"
+                +"from project left join equip_room on equip_room.proj_id = project.proj_id left join equipment"
+				+" on equipment.equip_room=equip_room.equip_room_id left join alarm_log on(alarm_log.equipment=equipment.equip_id and alarm_log.alarm_log_ischecked=0)"
+                +" where project.proj _name = '"+ searchKey +"' group by equipment.equip_name,project.proj_name";
+				Query query = em.createNativeQuery(selectSql, AlarmLog.class);
+				list = query.getResultList();
+			} finally {
+				em.close();
+			}
+			System.out.println(list);
+			return list;
+		}
 
-				
-				@SuppressWarnings("unchecked")
-				@Override
-				public List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate) {
-					List<EquipOper> list = null;
-					EntityManager em = emf.createEntityManager();
-					try {
-						String selectSql = " select * from equip_oper where  equip_oper_time > '" + startDate + "' and  "
-								+ " equip_para_id = '" + equip_para_id + "' limit 0,100 ";
-						Query query = em.createNativeQuery(selectSql, EquipOper.class);
-						list = query.getResultList();
-					} finally {
-						em.close();
-					}
-					return list;
-				}
 
+		
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate) {
+			List<EquipOper> list = null;
+			EntityManager em = emf.createEntityManager();
+			try {
+				String selectSql = " select * from equip_oper where  equip_oper_time > '" + startDate + "' and  "
+						+ " equip_para_id = '" + equip_para_id + "' limit 0,100 ";
+				Query query = em.createNativeQuery(selectSql, EquipOper.class);
+				list = query.getResultList();
+			} finally {
+				em.close();
+			}
+			return list;
+		}
+		//根据项目获取所属设备信息
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<Equipment> getEquipmentListByProject(String searchKey) {
+			List<Equipment> list = null;
+			EntityManager em = emf.createEntityManager();
+			try {
+				String selectSql = "select * from equipment where equip_room=(select equip_room_id from equip_room where proj_id=(select proj_id from project where proj_name='" + searchKey + "') )";
+				Query query = em.createNativeQuery(selectSql, Equipment.class);
+				list = query.getResultList();
+			} finally {
+				em.close();
+			}
+			return list;
+		}
 }

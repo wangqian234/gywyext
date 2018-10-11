@@ -1,12 +1,6 @@
 package com.mvc.controller;
 
-import java.io.File;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,22 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.base.constants.SessionKeyConstants;
-import com.utils.StringUtil;
-import com.mvc.entityReport.EquipRoom;
-import com.mvc.entityReport.EquipType;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.Equipment;
-import com.mvc.entityReport.Files;
-import com.mvc.entityReport.User;
-import com.mvc.entityReport.Project;
-import com.mvc.entityReport.EquipPara;
-import com.mvc.entityReport.EquipMain;
-
 import com.utils.Pager;
-import com.mvc.service.EquipmentService;
+import com.mvc.service.AlarmLogService;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -39,7 +22,22 @@ import net.sf.json.JSONObject;
 public class AlarmLogController {
 
 	@Autowired
-	EquipmentService equipmentService;
+	AlarmLogService alarmLogService;
 
-	
+	 @RequestMapping(value = "/getAlarmListByPage.do")
+		public @ResponseBody String getAlarmsByPrarm(HttpServletRequest request, HttpSession session) {
+			JSONObject jsonObject = new JSONObject();
+			String searchKey = request.getParameter("searchKey");
+			Integer totalRow = alarmLogService.countAlarmTotal(searchKey);
+			Pager pager = new Pager();
+			pager.setPage(Integer.valueOf(request.getParameter("page")));
+			pager.setTotalRow(Integer.parseInt(totalRow.toString()));
+			List<AlarmLog> list = alarmLogService.getAlarmListByPage(searchKey, pager.getOffset(), pager.getLimit());
+			jsonObject.put("list", list);
+			jsonObject.put("totalPage", pager.getTotalPage());
+			return jsonObject.toString();
+		}
+	 
+	 
+	 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.EquipRoom;
 import com.mvc.entityReport.EquipMain;
+import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 
 public interface EquipmentDao {
@@ -13,19 +14,8 @@ public interface EquipmentDao {
 	// 删除设备信息
 	Boolean updateState(Integer equip_id);
 
-
-	// 根据room，state筛选信息
-	List<Equipment> selectEquipmentByRS(String eqRoom, String eqState, Integer offset, Integer end);
-
-	// 查询设备信息总条数
-	Integer countEqTotal(String searchKey);
-
-	// 根据页数筛选全部设备信息列表
-	List<Equipment> selectEquipmentByPage(String searchKey, Integer offset, Integer end);
-
 	//根据room，state筛选信息
 	List<Equipment> selectEquipmentByRS(List<Integer> roomId ,String eqRoom, String eqState,String searchKey,Integer offset, Integer end);
-
 
 	// 查询设备总条数
 	Integer countEqTotal(List<Integer> roomId,String eqRoom,String eqState,String searchKey);
@@ -45,6 +35,9 @@ public interface EquipmentDao {
 
 	// 根据设备id查找设备特征参数
 	List<EquipPara> getEquipPara(String searchKey);
+	
+	//根据设备参数id查询设备参数实时数据
+	List<EquipOper> getEquipRealData(String searchKey, String startDate);
 
 	// zq
 	List<Equipment> findEquipListByRoomId(Integer roomId, Integer offset, Integer limit);

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.mvc.dao.EquipmentDao;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.EquipRoom;
+import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 
 @Repository("equipmentDaoImpl")
@@ -347,6 +348,22 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				return list;
 			}
 
+			//根据设备参数id查询设备参数实时数据
+			@SuppressWarnings("unchecked")
+			@Override
+			public List<EquipOper> getEquipRealData(String searchKey,String startDate) {
+				List<EquipOper> list = null;
+				EntityManager em = emf.createEntityManager();
+				try {
+					String selectSql = " select * from equip_oper where  equip_oper_time > '" + startDate + "' and  "
+							+ " equip_para_id = '" + searchKey + "'";
+					Query query = em.createNativeQuery(selectSql, EquipOper.class);
+					list = query.getResultList();
+				} finally {
+					em.close();
+				}
+				return list;
+			}
 
 			
 			//zq
@@ -406,23 +423,6 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				return e;
 			}
 
-			@Override
-			public List<Equipment> selectEquipmentByRS(String eqRoom, String eqState, Integer offset, Integer end) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Integer countEqTotal(String searchKey) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public List<Equipment> selectEquipmentByPage(String searchKey, Integer offset, Integer end) {
-				// TODO Auto-generated method stub
-				return null;
-			}
 
 			@Override
 			public Integer getEquipMainNumByProId(Integer proId,Date updateDate) {

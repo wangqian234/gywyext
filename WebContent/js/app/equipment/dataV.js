@@ -99,14 +99,38 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			url : baseUrl + 'equipRealInfo/getWaringNews.do',
 			data : data,
 		})
-	}
-	//可能是刷新作用
-	services.refresh = function (data){
+	};
+	// 根据项目获取所属设备信息
+	services.getEquipmentListByProject = function(data) {
 		return $http({
 			method : 'post',
-			url : '',
-			data : data,
-		})
+			url : baseUrl + 'equipRealInfo/getEquipmentListByProject.do',
+			data : data
+		});
+	};
+	//根据设备id查找设备特征参数
+	services.getEquipPara = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipRealInfo/getEquipPara.do',
+			data : data
+		});
+	};
+	//根据设备参数id获取实时数据
+	services.getEquipRealData = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipRealInfo/getEquipRealData.do',
+			data : data
+		});
+	}
+	//根据项目名称获取所属设备告警信息条数
+	services.getEquipAlarmNumberByProjectName = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipRealInfo/getEquipAlarmNumberByProjectName.do',
+			data : data
+		});
 	}
 	return services;
 } ]);
@@ -122,9 +146,62 @@ app
 							var equip_room = $scope;
 							var equip_type = $scope;
 							var equip_para = $scope;
-							equipment.main = false;
-							equipment.main1 = true;
-							//切换map和模拟动画的可见性
+							
+							//显示实时状态(根据设备id获取设备参数信息)
+							equipment.tankuang = function(equipmentId){
+								$(".pop").fadeIn(200);
+								$(".bgPop").fadeIn(200);
+								services.getEquipPara({
+									page : 1,
+									searchKey : equipmentId
+								}).success(function(data) {
+									equipment.equipara = data.result;
+								});
+								
+							}
+							
+							var startDate = "2018-08-26"+" "+"00:00:00";//默认从起始日期凌晨开始显示数据
+							//获取参数实时状态
+							equipment.getEquipRealData = function(equipParaId){
+								var divid = echart;//传递显示图表的id
+								//var startDate = "2018-8-26"+" "+"00:00:00";//默认从起始日期凌晨开始显示数据
+								//查询参数对应的设备信息
+								for(var i=0;i<equipment.equipara.length;i++){
+									if(equipment.equipara[i].equip_para_id == equipParaId){
+										equipment.Id = i;
+									}
+								}
+								equipment.equipParaId = equipParaId;
+								if(startDate != null)
+								try2(startDate,equipment.equipara[equipment.Id],divid);
+								else alert("请输入起始时间");
+							}
+							//显示模拟动画
+							equipment.donghua = function(){
+								console.log("11");
+								$(".pop2").fadeIn(200);
+								$(".bgPop2").fadeIn(200);
+							}
+							
+							equipment.KeepViewTitle = null;
+							// 根据项目获取所属设备列表
+							function getEquipmentListByProject(searchKey) {
+								services.getEquipmentListByProject({
+									searchKey : searchKey
+								}).success(function(data) {
+									equipment.equipments = data.list;
+								});
+							}
+							//根据项目名称获取所属设备告警信息条数
+							function getEquipAlarmNumberByProjectName(name){
+								services.getEquipAlarmNumberByProjectName({
+									searchKey : name
+								}).success(function(data) {
+									equipment.AlarmNumber = data.list;
+								});
+							}
+							//获取bing饼图所需数据
+							/*//切换map和模拟动画的可见性
 							function exchange(){
 								equipment.main = !equipment.main;
 								equipment.main1 = !equipment.main1;
@@ -136,8 +213,8 @@ app
 								// 地下车库集水井http://localhost:8028/runtime.shtm?prjId=7&picId=27&rand=1538141343458
 								// 配电室http://localhost:8028/runtime.shtm?prjId=7&picId=34&rand=1538144714117
 								document.getElementById("myframe").src="http://localhost:8028/runtime.shtm?prjId=7&picId=27&rand=1538141343458";
-							}
-							function d444(na){
+							}*/
+							/*function d444(na){
 								console.log("d444");
 								d4.clear();
 								d4.showLoading({text:'正在加载数据...'});
@@ -310,7 +387,7 @@ app
 								d4.setOption(option);
 								window.onresize = d4.resize;//自适应窗口大小
 								d4.hideLoading();	
-							  }
+							  }*/
 							
 							function d555(na){
 								console.log("d555");
@@ -326,43 +403,19 @@ app
 									            map: 'qingyuan'
 									        }]
 									    });
-									    function CurentTime(){ 
-									        var now = new Date();
-									        var year = now.getFullYear();       //年
-									        var month = now.getMonth() + 1;     //月
-									        var day = now.getDate();            //日
-									        var hh = now.getHours();            //时
-									        var mm = now.getMinutes();          //分
-									        var ss = now.getSeconds();           //秒
-									        var clock = year + "-";
-									        if(month < 10)
-									            clock += "0";
-									        clock += month + "-";
-									        if(day < 10)
-									            clock += "0";
-									        clock += "0"+(day-25) + " ";
-									        if(hh < 10)
-									            clock += "0";
-									        clock += hh + ":";
-									        if (mm < 10) clock += '0'; 
-									        clock += mm + ":"; 
-									        if (ss < 10) clock += '0'; 
-									        clock += ss; 
-									        return(clock); 
-									    }
 									    var geoCoordMap = {
 									    		'清远物业分公司':[113.1,23.745],
-									    		'东方巴黎':[113.7,23.9],
-									    	    '凤城世家':[113.3,24.3],
-									    	    '凤城郦都':[113.056,23.5435],
+									    		'清远东方巴黎':[113.7,23.9],
+									    	    '清远凤城世家':[113.3,24.3],
+									    	    '清远凤城郦都':[113.056,23.5435],
 
 									    	};
 									     //值控制圆点大小
 									    	var goData = [
-							                 [{name: '清远物业分公司'}, {id: 2,name: '清远物业分公司',value: 250}],
-									    	    [{name: '清远物业分公司'}, {id: 1,name: '东方巴黎',value: 80}],
-									    	    [{name: '清远物业分公司'},{id: 1,name: '凤城世家',value: 120}],
-									    	    [{name: '清远物业分公司'},{id: 1,name: '凤城郦都',value:180}],
+							                 [{name: '清远物业分公司'}, {id: 2,name: '清远物业分公司',value: 100}],
+									    	    [{name: '清远物业分公司'}, {id: 1,name: '清远东方巴黎',value: 100}],
+									    	    [{name: '清远物业分公司'},{id: 1,name: '清远凤城世家',value: 100}],
+									    	    [{name: '清远物业分公司'},{id: 1,name: '清远凤城郦都',value:100}],
 									    	    
 									    	];
 									    	//值控制圆点大小
@@ -558,9 +611,12 @@ app
 								d5.hideLoading();
 								window.onresize = d5.resize;//自适应窗口大小
 								d5.on('click',function(params){
-									d444(params.data.name);
+									console.log(params.data.name);
+									equipment.KeepViewTitle = params.data.name;
+									getEquipmentListByProject(params.data.name);
+									
 								});
-								var ssss;
+								/*var ssss;
 								d4.on('click',function(params){
 									if((params.data.itemStyle.borderColor=="#25d053")||
 											(params.data.itemStyle.borderColor=="#b457ff")){
@@ -588,7 +644,7 @@ app
 												}
 									    })
 									}
-								});
+								});*/
 									    
 								   }); 
 							}
@@ -617,10 +673,11 @@ app
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！");
-								d444("清远物业分公司");
+								//d444("清远物业分公司");
+								d444();
 								d555("清远物业分公司");
 								hugeData("清远物业分公司");
-								$.ajax({
+								/*$.ajax({
 							        url:"/gywyext/equipRealInfo/getEquipParaByName.do",
 							        type:"post",
 							        dataType: "json",
@@ -628,11 +685,29 @@ app
 							        success:function(data){
 						        	try2("2018-09-00 20:52:00",data.result[0],d6)
 										}
-							    });
+							    });*/
+								var searchKey = "清远凤城郦都";
+								equipment.KeepViewTitle = searchKey;
+								//根据项目获取所属设备信息列表
+								services.getEquipmentListByProject({
+									searchKey : searchKey
+								}).success(function(data) {
+									equipment.equipments = data.list;
+									});	
+								//获取告警信息
 								services.getWaringNews({
 									searchKey : null
 								}).success(function(data) {
 									equipment.warning = data.data;
+									warning(equipment.warning);
+								});
+								//根据项目名称获取所属设备告警信息条数
+								services.getEquipAlarmNumberByProjectName({
+									searchKey : searchKey
+								}).success(function(data) {
+									console.log("我进来了1");
+									equipment.AlarmNumber = data.list;
+									console.log(equipment.AlarmNumber);
 								});
 							}
 							initPage();
@@ -661,5 +736,67 @@ app
 						        if (ss < 10) clock += '0'; 
 						        clock += ss; 
 						        return(clock); 
+						    }
+							//报警信息滚动展示
+							function warning(data){
+							    /*var data = '塞下秋来风景异，衡阳雁去无留意。四面边声连角起，千嶂里，长烟落日孤城闭。浊酒一杯家万里，燕然未勒归无计。羌管悠悠霜满地，人不寐，将军白发征夫泪。', //样例数据
+							        data_len = data.length,
+							        len = parseInt(Math.random()*6)+6, // 数据的长度
+*/							        html = '<div class="ss">';
+							    
+							    for(var i=0; i<data.length; i++){
+							        /*var start = parseInt( Math.random()*(data_len-20) ),
+							            s = parseInt( Math.random()*data_len );
+							        html += '<div class="item"v>'+i+'- '+data.substr(start, s)+'</div>';*/
+							        html += '<div class="item"v>'+timestampToTime(data[i].alarm_log_date.time)+' '+data[i].alarm_log_info+'</div>';
+							    }
+							    html += '</div>';
+							    document.querySelector('.list .cc').innerHTML = html+html; // 复制一份数据
+							    var height = document.querySelector('.list .ss').offsetHeight; // 一份数据的高度
+							    addKeyFrames( '-'+(height-20)+'px' ); // 设置keyframes,可控制滚动速度
+							    document.querySelector('.list .cc').className += ' rowup'; // 添加 rowup
+							}
+							
+							//报警信息滚动展示css功能函数
+							function addKeyFrames(y){
+							    var style = document.createElement('style');
+							    style.type = 'text/css';
+							    var keyFrames = '\
+							    @-webkit-keyframes rowup {\
+							        0% {\
+							            -webkit-transform: translate3d(0, 0, 0);\
+							            transform: translate3d(0, 0, 0);\
+							        }\
+							        100% {\
+							            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+							            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+							        }\
+							    }\
+							    @keyframes rowup {\
+							        0% {\
+							            -webkit-transform: translate3d(0, 0, 0);\
+							            transform: translate3d(0, 0, 0);\
+							        }\
+							        100% {\
+							            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+							            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+							        }\
+							    }';
+							    style.innerHTML = keyFrames.replace(/A_DYNAMIC_VALUE/g, y);
+							    document.getElementsByTagName('head')[0].appendChild(style);
+							}
+							
+							
+							//时间戳转换为日期格式
+							function timestampToTime(timestamp) {
+						        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+						        var Y = date.getFullYear() + '-';
+						        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+						        var D = (date.getDate() +1 <10 ? '0'+date.getDate() :date.getDate()) + ' ';
+						        //var h = (date.getHours() +1 <10? '0'+date.getHours() :date.getHours()) + ':';
+						        //var m = (date.getMinutes() +1 <10? '0'+date.getMinutes() :date.getMinutes()) + ':';
+						        //var s = (date.getSeconds() +1 <10? '0'+date.getSeconds() :date.getSeconds()) + ':';
+						        //return Y+M+D+h+m+s;
+						        return Y+M+D;
 						    }
 						} ]);

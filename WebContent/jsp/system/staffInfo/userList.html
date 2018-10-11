@@ -1,17 +1,13 @@
-<div id="page-wrapper"  style="margin-left: 0px;padding-top:100px">   
-  <div class="row">
-		<div class="col-md-12" style="width:100%">
-			<div class="panel panel-default">    
-				<div class="panel-heading" href="#" onclick="javascript:history.go(-1);">
-				 <a href="#" onclick="javascript:history.go(-1);">设备主页</a><span>>添加设备信息</span>
-				</div>  			
-				<!-- <ul class="toolbar1">
-					<a href="#/equipRoomAdd"><span></span>新建安装位置信息</a>
-				</ul> -->
-				<div class="panel-body">
-					<div class="row">
-<form role="form">
-	<div class="form-group input-group">
+<div id="page-wrapper"  style="margin-left:10px;padding-top:10px">
+<h1 class="page-header"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                            用户基本信息表</font></font>
+         </h1>
+<div class="panel panel-default">
+	<div class="panel-heading">
+	<div ng-app="" class="tools">
+		<form class="toolbar">
+		
+<!-- 	<div class="form-group input-group">
 		<input type="text" class="form-controling" placeholder="姓名或账号" ng-model="userName" id="userName" 
 			style="width: 300px; height: 35px">
 		<span class="input-group-btn">
@@ -23,15 +19,6 @@
 	</div>
 </form>
 
-
-
-
-
-
-
-
-
-
 <ul class="clickagain">
 	<a href="#/staffAdd">
 
@@ -39,14 +26,18 @@
 			<i class=" fa fa-edit "></i>&nbsp;&nbsp;新建
 		</button>
 	</a>
-</ul>
-
-<div class="panel panel-default">
-	<div class="panel-heading">Advanced Tables</div>
+</ul> -->
+用户查询：<input type="text" class="dfselect" placeholder="用户姓名或账号" ng-model="userName" id="userName" >
+			<button style="width: 50px; height: 28px" ng-click="selectuserByName()"><i class="fa fa-search"></i></button>
+<a href="#/staffAdd" class="toolbar1">
+		<button class="btn btn-default"><i class=" fa fa-edit "></i>新建</button></a>
+		</form>	
+	</div>
+	</div>
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-hover"
-				id="dataTables-example">
+				id="dataTables-example">	
 				<thead>
 					<tr>
 						<th>账号</th>
@@ -60,13 +51,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="user in Users" id={{user.user_id}}>
+					<tr ng-repeat="user in users" id={{user.user_id}}>
 						<td>{{user.user_acct}}</td>
 						<td>{{user.user_name}}</td>
 						<td>{{user.user_tel}}</td>
 						<td>{{user.user_email}}</td>
 						<td>{{user.user_sex}}</td>
-						<td>{{user.role_id}}</td>
+						<td>{{user.role.role_name}}</td>
 						<td>{{user.user_pwd}}</td>
 						<td> <a href="#/userUpdate" ng-click="getUserId(user.user_id)"class="tablelink"	
 				has-permission='tEdit'> 修改</a>
@@ -74,43 +65,77 @@
 					has-permission='tDel'> 删除</a></td>
 					<!-- # 保持在当前页面 -->
 					</tr>
-
-				</tbody>
+</tbody>
+				
 			</table>
-		</div>
-
-	</div>
-</div>
-					</div>
-				</div>
-			</div>
+			
+			
 		</div>
 	</div>
+	<div  class="tcdPageCode">页码容器</div>
+</div>
 </div>
 
+  <script>
+        $("#main-menu").on("click",function(e){
+        	if(e.target.nodeName == "A"){
+        		$(this).find("a").removeClass("clickin");
+        		$(e.target).addClass("clickin");
+        	}
+        })
+        
+         $(document).ready(function () {
+    		$("#sideNav").click(function(){
+    			if($(this).hasClass('closed')){
+    				$('.navbar-side').animate({left: '0px'});
+    				$(this).removeClass('closed');
+    				$('#page-wrapper').animate({'margin-left' : '260px'});
+    				
+    			}
+    			else{
+    			    $(this).addClass('closed');
+    				$('.navbar-side').animate({left: '-260px'});
+    				$('#page-wrapper').animate({'margin-left' : '0px'}); 
+    			}
+    		});
+        });
+
+        $(window).bind("load resize", function () {
+            if ($(this).width() < 768) {
+                $('div.sidebar-collapse').addClass('collapse')
+            } else {
+                $('div.sidebar-collapse').removeClass('collapse')
+            }
+        });
+       
+       /*  window.onload = function() {
+        	  document.getElementById("projname").click();
+        	} */
+
+        </script> 
 
 
 
-
-<!-- 删除模态框 -->
+ <!-- 删除模态框 -->
 				<div class="tips" id="tipDelUser"
 					style="height: 160px; width: 260px; margin-top: 230px; margin-left: -120px;">
-					<div class="tiptop">
-						<span>提示信息</span><a></a>
+					<div class="tiptop"	style="padding-top: 5px;">
+						<span>提示信息：</span><a></a>
 					</div>
-					<div class="tipinfo" style="padding-top: 10px;">
+					<div class="tipinfo" style="padding-top: 30px;">
 						<div class="tipright" style="padding-top: 0px; padding-left: 0px;">
-							<label class="text_style">确定删除该信息？ </label>
+							<label class="text_style">确定删除该条信息吗？ </label>
 							
 						</div>
 					</div>
 
-					<div class="tipbtns" style="margin-top: 40px; margin-left: 120px;">
+					<div class="tipbtns" style="margin-top: 60px; margin-left: 120px;">
 						<input name="" type="button" class="sures" id="sureDelUser" value="确定"
-							style="height: 25px; width: 50px; font-size: 10px; line-height: 0px;" />&nbsp;
+							style="height: 25px; color:#2979FF; width: 50px; font-size: 10px; line-height: 0px;" />&nbsp;
 						<input name="" type="button" class="cancels" id="cancelDelUser"
 							value="取消"
-							style="height: 25px; width: 50px; font-size: 10px; line-height: 0px;" />&nbsp;
+							style="height: 25px; width: 50px;	color:#2979FF; font-size: 10px; line-height: 0px;" />&nbsp;
 					</div>
 				</div>
-				<!-- 模态框完  -->
+				<!-- 模态框完   -->
+ <script type="text/javascript" src="/gywyext/js/lib/pageTurn.js">

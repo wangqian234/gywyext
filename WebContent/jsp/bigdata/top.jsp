@@ -48,7 +48,7 @@
 }
 
 .menuUl li {
-	width: 12% !important;
+	width: 20% !important;
 	float: left !important;
 	text-align: center !important;
 }
@@ -78,7 +78,7 @@
 			<a class="navbar-brand" href="/gywyext/jsp/index/index.jsp"><i
 				class="fa fa-gear"></i> <strong>公元物业E巡通</strong></a>
 		</div>
-		<div class="menu">
+		<div class="menu" style="display:flex">
 			<ul id="menuUl" class="menuUl">
 				<li><a class="topspan" href="#/equipState"><h4
 							class="fa fa-bell">设备健康状况分析</h4></a></li>
