@@ -479,7 +479,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			public Integer getEquipMainNumByProId(Integer proId,Date updateDate) {
 				// TODO Auto-generated method stub
 				EntityManager em = emf.createEntityManager();
-				String selectSql = "select count(*) from equipment where equip_isdeleted='0' and equip_ndate>now() and equip_ndate<:updateDate and equip_room in (select equip_room_id from equip_room where proj_id =:proj_id)"; 
+				String selectSql = "select count(*) from equipment where equip_isdeleted='0' and equip_ndate<:updateDate and equip_room in (select equip_room_id from equip_room where proj_id =:proj_id)"; 
 				Query query = em.createNativeQuery(selectSql);
 				query.setParameter("updateDate", updateDate);
 				query.setParameter("proj_id", proId);
@@ -490,8 +490,6 @@ public class EquipmentDaoImpl implements EquipmentDao {
 
 			@Override
 			public Integer getEquipUnhealthNumByProId(Integer proId) {
-				// TODO Auto-generated method stub
-				// TODO Auto-generated method stub
 				EntityManager em = emf.createEntityManager();
 				String selectSql = "select count(*) from equipment where equip_isdeleted='0' and equip_state in (0,1,2) and equip_room in (select equip_room_id from equip_room where proj_id =:proj_id)"; 
 				Query query = em.createNativeQuery(selectSql);
