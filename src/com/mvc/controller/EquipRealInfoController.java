@@ -134,16 +134,16 @@ public class EquipRealInfoController {
 	    String param = null;
         if(turn_id.equals("0")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=0&speed=1";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=0&speed=1";
         }else if(turn_id.equals("1")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=1&speed=1";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=1&speed=1";
         }else if(turn_id.equals("2")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=2&speed=1";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=2&speed=1";
         }else if(turn_id.equals("3")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=3&speed=1";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=3&speed=1";
         }
         try {
             URL realUrl = new URL(url);
@@ -197,13 +197,13 @@ public class EquipRealInfoController {
         String url = "https://open.ys7.com/api/lapp/device/ptz/stop";			     
 	    String param = null;			        
 	    if(turn_id.equals("0")){
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=0";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=0";
         }else if(turn_id.equals("1")){			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=1";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=1";
         }else if(turn_id.equals("2")){			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=2";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=2";
         }else if(turn_id.equals("3")){			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=3";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=3";
         }
 	    try {
             URL realUrl = new URL(url);

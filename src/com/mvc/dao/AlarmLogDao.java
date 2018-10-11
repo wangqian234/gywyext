@@ -17,4 +17,10 @@ public interface AlarmLogDao {
 
 	List<AlarmLog> getAlarmListByPage(String searchKey,Integer offset, Integer end);
 	Integer countAlarmTotal(String searchKey);
+
+
+	List<Object> selectAlarmByA(String proj_id);
+
+
+	Integer getAlarmNum(String proj_id);
 }

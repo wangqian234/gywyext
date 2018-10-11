@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8" />
-<title>E巡通大数据统计分析系统</title>
+<title>e巡通大数据统计分析系统</title>
     <!-- Bootstrap Styles-->
     <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
@@ -18,7 +18,7 @@
 <body>
         <nav class="navbar navbar-default top-navbar" role="navigation">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/gywyext/index.html"><i class="fa fa-gear"></i> <strong>公元物业E巡通</strong></a>
+                <a class="navbar-brand" href="/gywyext/index.html"><i class="fa fa-gear"></i> <strong>公元物业e巡通</strong></a>
             </div>
 			<div>
 				<a class="topspan" href="#/equipBaseInfo"><h4 class="fa fa-dashboard">设备基本信息</h4></a>

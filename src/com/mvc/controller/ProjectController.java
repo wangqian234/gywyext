@@ -259,7 +259,7 @@ public class ProjectController {
 			@RequestMapping("/updateProjectById.do")
 			public @ResponseBody Integer updateProjectById(HttpServletRequest request, HttpSession session) throws ParseException {
 				User user = (User) session.getAttribute(SessionKeyConstants.LOGIN);
-				JSONObject jSONObject = JSONObject.fromObject(request.getParameter("project"));
+				JSONObject jSONObject = JSONObject.fromObject(request.getParameter("projects"));
 				Integer proj_id = null;
 				if (jSONObject.containsKey("proj_id")) {
 					proj_id = Integer.parseInt(jSONObject.getString("proj_id"));

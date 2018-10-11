@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.mvc.dao.AlarmLogDao;
-import com.mvc.dao.EquipMainDao;
 import com.mvc.entityReport.AlarmLog;
-import com.mvc.entityReport.EquipMain;
-import com.mvc.entityReport.Equipment;
 
 @Repository("alarmLogDaoImpl")
 public class AlarmLogDaoImpl implements AlarmLogDao {
@@ -103,8 +100,26 @@ public class AlarmLogDaoImpl implements AlarmLogDao {
 		em.close();
 		return Integer.parseInt(totalRow.get(0).toString());
 	}
-	
-	
-	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object> selectAlarmByA(String proj_id) {
+		EntityManager em = emf.createEntityManager();
+		String selectSql = "select a.alarm_log_id,a.alarm_log_date,a.alarm_log_info,a.alarm_log_memo,equipment.equip_name from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id right join alarm_log as a on equipment.equip_id=a.equipment where project.proj_id = " + proj_id; 
+		Query query = em.createNativeQuery(selectSql);
+		List<Object> list = query.getResultList();
+		em.close();
+		return list;
+	}
+
+	@Override
+	public Integer getAlarmNum(String proj_id) {
+		EntityManager em = emf.createEntityManager();
+		String selectSql = "select count(*) from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id right join alarm_log as a on equipment.equip_id=a.equipment where project.proj_id = " + proj_id; 
+		Query query = em.createNativeQuery(selectSql);
+		List<Object> list = query.getResultList();
+		em.close();
+		return Integer.parseInt(list.get(0).toString());
+	}
 	
 }

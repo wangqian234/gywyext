@@ -75,5 +75,93 @@ public class IndexController {
 			
 		}
 	}
+	
+	@RequestMapping("/getScoket1.do")
+	public @ResponseBody void getScoket1(){
+		Socket socket;
+		try {
+			socket = new Socket("116.62.186.91",8091);
+			OutputStream os = socket.getOutputStream();//字节输出流
+			PrintWriter pw =new PrintWriter(os);//将输出流包装成打印流
+			pw.write("1");
+			pw.flush();
+			socket.shutdownOutput();
+			InputStream is = socket.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			br.close();
+			is.close();
+			pw.close();
+			os.close();
+			socket.close();
+		}catch(Exception e){
+			
+		}
+	}
+	
+	@RequestMapping("/getScoket2.do")
+	public @ResponseBody void getScoket2(){
+		Socket socket;
+		try {
+			socket = new Socket("116.62.186.91",8091);
+			OutputStream os = socket.getOutputStream();//字节输出流
+			PrintWriter pw =new PrintWriter(os);//将输出流包装成打印流
+			pw.write("2");
+			pw.flush();
+			socket.shutdownOutput();
+			InputStream is = socket.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			br.close();
+			is.close();
+			pw.close();
+			os.close();
+			socket.close();
+		}catch(Exception e){
+			
+		}
+	}
+	
+	@RequestMapping("/getScoket3.do")
+	public @ResponseBody void getScoket3(){
+		Socket socket;
+		try {
+			socket = new Socket("116.62.186.91",8091);
+			OutputStream os = socket.getOutputStream();//字节输出流
+			PrintWriter pw =new PrintWriter(os);//将输出流包装成打印流
+			pw.write("2");
+			pw.flush();
+			socket.shutdownOutput();
+			InputStream is = socket.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			br.close();
+			is.close();
+			pw.close();
+			os.close();
+			socket.close();
+		}catch(Exception e){
+			
+		}
+	}
+	
+	@RequestMapping("/getScoket4.do")
+	public @ResponseBody void getScoket4(){
+		Socket socket;
+		try {
+			socket = new Socket("116.62.186.91",8091);
+			OutputStream os = socket.getOutputStream();//字节输出流
+			PrintWriter pw =new PrintWriter(os);//将输出流包装成打印流
+			pw.write("2");
+			pw.flush();
+			socket.shutdownOutput();
+			InputStream is = socket.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			br.close();
+			is.close();
+			pw.close();
+			os.close();
+			socket.close();
+		}catch(Exception e){
+			
+		}
+	}
 
 }
