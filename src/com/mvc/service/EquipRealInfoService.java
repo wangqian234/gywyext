@@ -33,8 +33,8 @@ public interface EquipRealInfoService {
 	//根据项目获取所属设备信息
 	List<Equipment> getEquipmentListByProject(String searchKey);
 
-	//根据项目名称获取所属设备告警信息条数
-	List<AlarmLog> getEquipAlarmNumberByProjectName(String searchKey);
+	//根据项目名称和设备名称获取告警信息
+	//List<AlarmLog> getEquipAlarmByProAndEquip(String proName, String equipName);
 
 
 

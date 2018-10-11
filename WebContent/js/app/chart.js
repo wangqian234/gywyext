@@ -66,12 +66,15 @@ function try1(xdata,ydata,elsedata,divid){
 			clearInterval(interval);
 			function addData(shift){
 			    x.push(xdata[l]);
-			    //水泵房湿度数值处理
-			    if(elsedata.equip_para_id == 2 )
-			    y.push((ydata[l]/10));
-			    else if(elsedata.equip_para_id == 3 )
-				    y.push((ydata[l]/10));
-			    else  y.push(ydata[l]);
+			    if(data[l].value==null)
+					yData.push(0);
+				else{//水泵房湿度数值处理
+				    if(elsedata.equip_para_id == 2 )
+					    y.push((ydata[l]/10));
+					    else if(elsedata.equip_para_id == 3 )
+						    y.push((ydata[l]/10));
+					    else  y.push(ydata[l]);
+				    }
 			    if (shift) {
 			        x.shift();
 			        y.shift();
@@ -122,6 +125,7 @@ function try1(xdata,ydata,elsedata,divid){
 					toolbox: {
 				        show: true,
 				        feature: {
+				        	 saveAsImage: {},
 				            dataView: {readOnly: true},
 				            magicType: {type: ['line','bar']},
 				        },
@@ -320,10 +324,13 @@ function try2(startDate,elsedata,divid){
 }
 
 //以下为大屏专用echarts封装函数
-function d444(){
+/*function d444(data,KeepViewTitle){
 	d4.clear();
 	d4.showLoading({text:'正在缓冲...'});
-	
+	var name=[];
+	for(var i=0;i<data.length;i++){
+		name.push(data[i].name);
+	}
 	option = {
 		    tooltip : {
 		        trigger: 'item',
@@ -331,8 +338,8 @@ function d444(){
 		    },
 		    legend: {
 		        x : 'center',
-		        y : '300',
-		        data:['rose1','rose2','rose3','rose4','rose5','rose6','rose7','rose8']
+		        y : '280',
+		        data:name,
 		    },
 		    toolbox: {
 		        show : true,
@@ -347,29 +354,29 @@ function d444(){
 		    calculable : true,
 		    series : [
 		        {
-		            name:'面积模式',
+		            name:' ',
 		            type:'pie',
-		            radius : [30, 110],
+		            radius : [20, 90],
 		            center : ['50%', '35%'],
+		            labelLine: {
+		            	normal: {
+		            		length: 1,
+		            	}
+		            },
 		            roseType : 'area',
-		            data:[
-		                {value:10, name:'rose1'},
-		                {value:5, name:'rose2'},
-		                {value:15, name:'rose3'},
-		                {value:25, name:'rose4'},
-		                {value:20, name:'rose5'},
-		                {value:35, name:'rose6'},
-		                {value:30, name:'rose7'},
-		                {value:40, name:'rose8'}
-		            ]
+		            data:data,
 		        }
 		    ]
 		};
 	
 	d4.setOption(option);
+	d4.on('click',function(params){
+		console.log(params.data.name);
+		console.log(KeepViewTitle);
+	})
 	d4.hideLoading();
 	
-}
+}*/
 function d777(data){
 	d7.clear();
 	d7.showLoading({text:'正在缓冲...'});
@@ -472,108 +479,149 @@ function d777(data){
 	window.onresize = d7.resize;//自适应窗口大小
 	d7.hideLoading();
 }
-function d888(data){
+function d888(radarResult,titlename){
 	d8.clear();
 	d8.showLoading({text:'正在缓冲...'});
-	          var lineStyle = {
-	              normal: {
-	                  width: 1,
-	                  opacity: 0.8
-	              }
-	          };
-
-	          option = {
-	              title: {
-	                  text: '设备健康状态分析',
-	                  left: 'left',
-	                  textStyle: {
-	                      color: '#00ffee',
-	                      fontWeight:'lighter',
-	      	        	  fontSize:12,
-	                  }
-	              },
-	              radar: {
-	                  indicator: [
-	                      {name: '可靠度', max: 100,color:'#00ffee'},
-	                      {name: '健康指数', max: 100,color:'#00ffee'},
-	                      {name: '剩余寿命', max: 100,color:'#00ffee'},
-	                  
-	                  ],
-	                  shape: 'polygon',
-	                  splitNumber: 5,
-	                  name: {
-	                      textStyle: {
-	                          color: '#fff'
-	                      }
-	                  },
-	                  splitLine: {
-	                      lineStyle: {
-	                          color: [
-	                              '#449cff',
-	                          ]
-	                      }
-	                  },
-	                  splitArea: {
-	                      show: false
-	                  },
-	                  axisLine: {
-	                      lineStyle: {
-	                          color: '#449cff'
-	                      }
-	                  }
-	              },
-	              series: [
-	                  {
-	                      name: ' ',
-	                      type: 'radar',
-	                      lineStyle: lineStyle,
-	                      data: data,
-	                      symbol: 'none',
-	                      itemStyle: {
-	                          normal: {
-	                              color: 'red'
-	                          }
-	                      },
-	                      areaStyle: {
-	                      normal: {
-	                          color: {
-	                              type: 'linear',
-	                              x: 0,
-	                              y: 0,
-	                              x2: 0,
-	                              y2: 1,
-	                              colorStops: [{
-	                                  offset: 0,
-	                                  color: '#44ff86'
-	                              }, {
-	                                  offset: 1,
-	                                  color: '#0060ff'
-	                              }],
-	                              globalCoord: false
-	                          }
-	                      }
-	                  },
-	                  }
-	              ]
-	          };
+	var healthstate = '';
+	var reliability = '';
+	var leftlife = '';
+	var analysisResult = '';
+    var result = [];
+    for(var i=0;i<radarResult.length;i++){
+    	result.push(radarResult[i]);
+    }
+    var dangerData={
+        value : [0.5,0.5,0.3],
+        name : '危险指标'
+    };
+    var mycolor = ['#ef4b4c', '#b1eadb'];
+	option = {
+	    title: {
+	        text: titlename+'健康状态分析',
+	        left: 'center',
+	        textStyle: {
+	            color: '#00ffee',
+	            fontWeight:'lighter',
+	        	fontSize:14,
+	        }
+	    },
+	    tooltip:{
+	    	formatter:function(params){
+	    		if(params.value[0]<0.5)
+	    			 healthstate= "设备健康指数低于警戒值，建议进行检修 ";
+	    		if(params.value[1]<0.5)
+    			     reliability= "设备可靠度低于警戒值，建议进行检修 ";
+	    		if(params.value[2]<0.3)
+	    			 leftlife= "设备剩余寿命低于警戒值，建议进行检修，考虑更换设备 ";
+	    		if(healthstate !=null)
+	    			analysisResult = healthstate;
+	    		if(reliability !=null)
+	    			analysisResult += reliability;
+	    		if(leftlife !=null)
+	    			analysisResult += leftlife;
+	    		if ('' != analysisResult)
+	    			return analysisResult;
+	    		if(params.name == "分析结果") return "设备各项指数正常，运行良好";
+	    	}
+	    },
+	    legend: {
+	    	bottom: '3%',
+	        left: '20%',
+	        icon: 'circle',
+	        data: ['危险指标','分析结果'],
+	        textStyle : {
+	        	color: function(params) {
+	        		console.log(params);
+                    var num = mycolor.length;
+                    return mycolor[params.dataIndex % num]
+                },
+	        	},
+	        },
+	    radar: {
+	    	radius:"60%",
+	    	center: ['50%','62%'],
+	        indicator: [
+	            {name: '可靠度', max: 1,color:'#00ffee'},
+	            {name: '健康指数', max: 1,color:'#00ffee'},
+	            {name: '剩余寿命', max: 1,color:'#00ffee'},
+	          
+	        ],
+	        splitNumber: 4,
+	        axisLine: {
+	            lineStyle: {
+	                color: '#fff',
+	                opacity: .2
+	            }
+	        },
+	        splitLine: {
+	            lineStyle: {
+	                color: '#fff',
+	                opacity: .2
+	            }
+	        },
+	        splitArea: {
+	            areaStyle: {
+	                color: 'rgba(127,95,132,.3)',
+	                opacity: 1,
+	                shadowBlur: 45,
+	                shadowColor: 'rgba(0,0,0,.5)',
+	                shadowOffsetX: 0,
+	                shadowOffsetY: 15,
+	            }
+	        }
+	    },
+	    series: [
+	        {
+	        	name:'',
+	        	type: 'radar',
+	            symbolSize: 0,
+	            areaStyle: {
+	                normal: {
+	                    shadowBlur: 13,
+	                    shadowColor: 'rgba(0,0,0,.2)',
+	                    shadowOffsetX: 0,
+	                    shadowOffsetY: 10,
+	                    opacity: 1
+	                }
+	            },
+	            data: [dangerData,
+	            	{name : '分析结果',
+	            	value : result[0],}],
+	            color: mycolor
+	        }
+	    ]
+	};
 	d8.setOption(option);
 	window.onresize = d8.resize;//自适应窗口大小
 	d8.hideLoading();
 }
-function d999(data){
+function d999(alarmData){
+	console.log(alarmData);
 	d9.clear();
 	d9.showLoading({text:'正在缓冲...'});
-	var value = [100,56];
-	var title = ['上次维护时间','下次维护时间'];
-	var Color1 = ['#F57474','#1089E7'];
+	var data = [];//柱状条长度
+	var titlename = [];//柱状条左侧标题
+	var content = [];//柱状条内容
+	var myColor = ['#1089E7', '#F57474', '#56D0E3', '#F8B448', '#8B78F6'];//柱状条颜色
+	for(var i=0;i<alarmData.length;i++){
+		data.push(150);
+		titlename.push(timestampToTime(alarmData[i].alarm_log_date.time));
+		content.push(alarmData[i].alarm_log_info);
+	}
 	option = {
+	    //backgroundColor: '#0e2147',
+	    grid: {
+	           left: '5%',
+	           right: '4%',
+	           bottom: '3%',
+	           containLabel: true
+	       },
 	    xAxis: {
 	        show: false
 	    },
-	    //color: '#00ffee',
 	    yAxis: [{
 	        show: true,
-	        data: title,
+	        data: titlename,
 	        inverse: true,
 	        axisLine: {
 	            show: false
@@ -584,30 +632,40 @@ function d999(data){
 	        axisTick: {
 	            show: false
 	        },
-	        axisLabel: {color: '#00ffee',}
+	        axisLabel: {
+	            color: '#fff',
+	            formatter: function(value, index) {
+	                return [
+	                    '{lg|' + (index + 1) + '}' + '{title|' + value + '} '
+	                ].join('\n')
+	            },
+	            rich: {
+	                lg: {
+	                    backgroundColor: '#339911',
+	                    color: '#fff',
+	                    borderRadius: 3,
+	                    // padding: 5,
+	                    align: 'center',
+	                    width: 15,
+	                    height: 15
+	                },
+	            }
+	        },
+
+
 	    }],
-	    grid: {
-	        left: '5%',
-	        right: '10%',
-	        bottom: '25%',
-	        top: '5%',
-	        height: '50%',
-	        width: '80%',
-	        containLabel: true,
-	        z: 22
-			},
 	    series: [{
 	        name: '条',
 	        type: 'bar',
 	        yAxisIndex: 0,
-	        data: value,
+	        data: data,
 	        barWidth: 15,
 	        itemStyle: {
 	            normal: {
-	                barBorderRadius: 30,
+	                barBorderRadius: 15,
 	                color: function(params) {
-	                    var num = Color1.length;
-	                    return Color1[params.dataIndex % num]
+	                    var num = myColor.length;
+	                    return myColor[params.dataIndex % num]
 	                },
 	            }
 	        },
@@ -616,12 +674,12 @@ function d999(data){
 	                show: true,
 	                position: 'inside',
 	                formatter: function(params) {
-	                    var num = value.length;
-	                    return data[params.dataIndex % num].time
+	                    var num = alarmData.length;
+	                    return content[params.dataIndex % num]
 	                },
 	            }
 	        },
-	    }]
+	    }, ]
 	};
 	d9.setOption(option);
 	window.onresize = d9.resize;//自适应窗口大小
@@ -638,11 +696,23 @@ function hugeData(equip){
                 {value:20, name:'rose5'},{value:35, name:'rose6'},
                 {value:30, name:'rose7'},{value:40, name:'rose8'}
 	            ];
-	var data8 =[[55,100,56]];
+	var data8 =[[0.6,0.6,0.6]];
 	var data9 =[{time:'2018-09-25'},
 	            {time:'2018-10-15'}];
-	d777(data7);
-	d888(data8);
+	//d777(data7);
+	d888(data8,'');
 	//d999(data9);
+}
+//时间戳转换为日期格式
+function timestampToTime(timestamp) {
+    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = (date.getDate() +1 <10 ? '0'+date.getDate() :date.getDate()) + ' ';
+    //var h = (date.getHours() +1 <10? '0'+date.getHours() :date.getHours()) + ':';
+    //var m = (date.getMinutes() +1 <10? '0'+date.getMinutes() :date.getMinutes()) + ':';
+    //var s = (date.getSeconds() +1 <10? '0'+date.getSeconds() :date.getSeconds()) + ':';
+    //return Y+M+D+h+m+s;
+    return Y+M+D;
 }
 

@@ -33,7 +33,7 @@ div.b1
 }
 div.b2
 {
-	width:69.3%; 
+	width:69%; 
 	height:100%;
 	float:left;
 	margin:2px;
@@ -112,6 +112,15 @@ div.d8
 	background-size:100% 100%;
 	
 }
+a.a1 
+{ 
+	color: #0080ff;
+	text-decoration: none
+}  
+a.a1:hover 
+{ 
+	color: #ff0000; 
+}  
 img
 {
 	vertical-align: middle;
@@ -193,10 +202,24 @@ ul{
 }
 li{
 	color:#ff0000;
-	font-size:8px;
+	font-size:12px;
 }
 
-@keyframes rowup {
+.gundongtiao
+{
+	width:95%;
+	height:80%;
+	overflow-y:auto; 
+}
+
+.gundongtiao::-webkit-scrollbar {
+width:9px;
+height:9px;
+ackground-color:red;
+}
+
+
+/* @keyframes rowup {
     0% {
         -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
@@ -222,7 +245,7 @@ li{
     color:#ff1e1e;
     padding:15px;
     font-size:12px
-}
+} */
 
 /*弹窗*/
 .pop,.pop2,.pop3 
