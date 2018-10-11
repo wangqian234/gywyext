@@ -1,0 +1,125 @@
+<div id="page-wrapper" style="margin-left: 260px; padding-top: 100px">
+	<!-- <div class="row" style="margin-bottom: 5px !important; width: 100%">
+
+	</div> -->
+
+	<div id="page-inner">
+
+
+<!-- 		<div class="row">
+			<div class="col-md-12" style="width:100%">
+				<h1 class="page-header">
+					Dashboard <small>Summary of your App</small>
+				</h1>
+				<ul class="indexMenuUL">
+					<li >项目管理2222</li>
+					<a  href="jsp/equip/index.jsp#/leftInit"><li>设备管理</li></a>
+					<a  href="jsp/bigdata/index.jsp#/equipFail"><li>大数据分析</li></a>
+					<a  href="jsp/system/index.jsp"><li>系统管理</li></a>
+				</ul>
+			</div>
+		</div> -->
+
+
+		<!-- /. ROW  -->
+	<!-- 	<div class="tlinks">
+			Collect from <a href="http://www.cssmoban.com/">网页模板</a>
+		</div> -->
+
+		<div class="row">
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<div
+					class="panel panel-primary text-center no-boder bg-color-green green">
+					<div class="panel-left pull-left green">
+						<i class="fa fa-eye fa-5x"></i>
+
+					</div>
+					<div class="panel-right">
+						<h3>{{alarmNum}}</h3>
+						<strong> 报警设备</strong>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<div class="panel panel-primary text-center no-boder bg-color-blue">
+					<div class="panel-left pull-left blue">
+						<i class="fa fa-shopping-cart fa-5x"></i>
+					</div>
+
+					<div class="panel-right">
+						<h3>{{mainNum}}</h3>
+						<strong>待维保设备</strong>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-12 col-xs-12">
+				<div class="panel panel-primary text-center no-boder bg-color-red">
+					<div class="panel-left pull-left red">
+						<i class="fa fa fa-comments fa-5x"></i>
+
+					</div>
+					<div class="panel-right">
+						<h3>{{unhealthNum}}</h3>
+						<strong>健康状态差设备</strong>
+
+					</div>
+				</div>
+			</div>
+			<!-- <div class="col-md-3 col-sm-12 col-xs-12">
+				<div class="panel panel-primary text-center no-boder bg-color-brown">
+					<div class="panel-left pull-left brown">
+						<i class="fa fa-users fa-5x"></i>
+
+					</div>
+					<div class="panel-right">
+						<h3>36,752</h3>
+						<strong>No. of Visits</strong>
+
+					</div>
+				</div>
+			</div> -->
+		</div>
+
+		<div class="row">
+			<div class="col-md-5">
+				<div class="panel panel-default">
+					<div class="panel-heading">Area Chart</div>
+					<div class="panel-body">
+						<div id="morris-area-chart"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-7">
+				<div class="panel panel-default">
+					<div class="panel-heading">Line Chart</div>
+					<div class="panel-body">
+						<div id="morris-line-chart"></div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+
+<nav class="navbar-default navbar-side" role="navigation">
+	<div id="sideNav">
+		<i class="fa fa-caret-right"></i>
+	</div>
+	<div class="sidebar-collapse">
+
+		<ul class="nav" id="main-menu">
+			<li ng-repeat="ld in leftData"><a style="font-weight: 600"
+				value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i>
+					{{ld.comp_name}}<span class="fa arrow"></span></a>
+				<ul class="nav nav-second-level">
+					<li ng-repeat="ldd in ld.data"><a class="dd leftSecond"
+						href="" ng-click="selectBaseInfoByProj(ldd.proj_id,$event)">{{ldd.proj_name}}</a>
+					</li>
+				</ul></li>
+		</ul>
+	</div>
+</nav>

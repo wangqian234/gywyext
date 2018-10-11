@@ -1,5 +1,6 @@
 package com.mvc.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -421,4 +422,84 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				}
 				return e;
 			}
+
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public List<Object> selectEquipmentByN(String proj_id, String timenow) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select equip_id,equip_name,equip_memo from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id where project.proj_id = :proj_id and equipment.equip_ndate < :timenow"; 
+				Query query = em.createNativeQuery(selectSql);
+				query.setParameter("proj_id", proj_id);
+				query.setParameter("timenow", timenow);
+				List<Object> list = query.getResultList();
+				em.close();
+				return list;
+			}
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public List<Object> selectEquipmentByS(String proj_id) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select equip_id,equip_name,equip_memo from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id where project.proj_id = :proj_id and (equipment.equip_state = 0 or equipment.equip_state = 1 or equipment.equip_state = 2)"; 
+				Query query = em.createNativeQuery(selectSql);
+				query.setParameter("proj_id", proj_id);
+				List<Object> list = query.getResultList();
+				em.close();
+				return list;
+			}
+			
+			@SuppressWarnings("unchecked")
+			@Override
+			public Integer getNdateNum(String proj_id, String timenow) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select count(*) from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id where project.proj_id = :proj_id and equipment.equip_ndate < :timenow"; 
+				Query query = em.createNativeQuery(selectSql);
+				query.setParameter("proj_id", proj_id);
+				query.setParameter("timenow", timenow);
+				List<Object> list = query.getResultList();
+				em.close();
+				return Integer.parseInt(list.get(0).toString());
+			}
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public Integer getStateNum(String proj_id) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select count(*) from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id where project.proj_id = :proj_id and (equipment.equip_state = 0 or equipment.equip_state = 1 or equipment.equip_state = 2)"; 
+				Query query = em.createNativeQuery(selectSql);
+				query.setParameter("proj_id", proj_id);
+				List<Object> list = query.getResultList();
+				em.close();
+				return Integer.parseInt(list.get(0).toString());
+			}
+
+
+			@Override
+			public Integer getEquipMainNumByProId(Integer proId,Date updateDate) {
+				// TODO Auto-generated method stub
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select count(*) from equipment where equip_isdeleted='0' and equip_ndate>now() and equip_ndate<:updateDate and equip_room in (select equip_room_id from equip_room where proj_id =:proj_id)"; 
+				Query query = em.createNativeQuery(selectSql);
+				query.setParameter("updateDate", updateDate);
+				query.setParameter("proj_id", proId);
+				List<Object> totalRow = query.getResultList();
+				em.close();
+				return Integer.parseInt(totalRow.get(0).toString());
+			}
+
+			@Override
+			public Integer getEquipUnhealthNumByProId(Integer proId) {
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select count(*) from equipment where equip_isdeleted='0' and equip_state in (0,1,2) and equip_room in (select equip_room_id from equip_room where proj_id =:proj_id)"; 
+				Query query = em.createNativeQuery(selectSql);
+				query.setParameter("proj_id", proId);
+				List<Object> totalRow = query.getResultList();
+				em.close();
+				return Integer.parseInt(totalRow.get(0).toString());
+
+			}
+
 }

@@ -1,6 +1,7 @@
 package com.mvc.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +11,9 @@ import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mvc.dao.AlarmLogDao;
+import com.mvc.dao.EquipMainDao;
+import com.mvc.dao.EquipmentDao;
 import com.mvc.dao.IndexDao;
 import com.mvc.entityReport.Company;
 import com.mvc.entityReport.Project;
@@ -19,6 +23,14 @@ import com.mvc.service.IndexService;
 public class IndexServiceImpl implements IndexService {
 	@Autowired
 	IndexDao indexDao;
+	@Autowired
+	AlarmLogDao alarmLogDao;
+	
+	@Autowired
+	EquipmentDao equipmentDao;
+
+	@Autowired
+	EquipMainDao equipMainDao;
 	@Override
 	public List<Map> getInitLeft() {
 		List<Company> listSource1 = indexDao.getInitLeft1();
@@ -41,5 +53,25 @@ public class IndexServiceImpl implements IndexService {
 		
 		return listMap;
 	}
+	@Override
+	public Integer getEquipAlarmNumByProId(Integer proId) {
+		// TODO Auto-generated method stub
+		
+		Integer alarmNum=alarmLogDao.getEquipAlarmNumByProId(proId);
+		return alarmNum;
+	}
+	@Override
+	public Integer getEquipMainNumByProId(Integer proId,Date updateDate) {
+		// TODO Auto-generated method stub
+		Integer mainNum=equipmentDao.getEquipMainNumByProId(proId,updateDate);
+		return mainNum;
+	}
+	@Override
+	public Integer getEquipUnhealthNumByProId(Integer proId) {
+		// TODO Auto-generated method stub
+		Integer unhealthNum=equipmentDao.getEquipUnhealthNumByProId(proId);
+		return unhealthNum;
+	}
+
 
 }

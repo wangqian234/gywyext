@@ -3,7 +3,7 @@
 <html>
   <head>
   		<meta charset="UTF-8" />
-  		<title>公元物业E巡通</title>
+  		<title>公元物业e巡通</title>
 		<style>
 			body {
 				background-image: url(images/bgi.jpg);
