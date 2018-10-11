@@ -9,7 +9,11 @@ body{
     height: -webkit-fill-available;
     max-height: 600px;
 }
-
+.menu{
+	position:absolute;
+	margin-left:260px;
+	width: inherit;
+}
 /* 南健pageCSS */
 .tcdPageCode {
 	padding: 15px 20px;

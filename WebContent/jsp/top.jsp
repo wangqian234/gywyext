@@ -24,7 +24,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/gywyext/"><i class="fa fa-gear"></i> <strong>公元物业e巡通</strong></a>
+
+                <a class="navbar-brand" href="/gywyext/jsp/index/index.jsp"><i class="fa fa-gear"></i> <strong>公元物业e巡通</strong></a>
+
             </div>
 
         </nav>
