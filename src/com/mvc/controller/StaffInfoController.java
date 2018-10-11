@@ -124,8 +124,10 @@ public @ResponseBody String addStaff(HttpServletRequest request, HttpSession ses
  * @return
  */
 @RequestMapping(value = "/getAllRoleList.do")
-public @ResponseBody String getAllStores(HttpServletRequest request, HttpSession session) {
-	List<Role> result = staffInfoService.findRoleAlls();
+public @ResponseBody String getAllRoleList(HttpServletRequest request) {
+	JSONObject jsonObject = new JSONObject();
+	List<Role> result = staffInfoService.getAllRoleList();
+	jsonObject.put("result", result);
 	return JSON.toJSONString(result);
 }
 /**

@@ -43,8 +43,8 @@ public class  StaffInfoServiceImpl implements StaffInfoService {
 
 	// 筛选角色列表
 		@Override
-		public List<Role> findRoleAlls() {
-		return staffInfoDao.findRoleAlls();
+		public List<Role> getAllRoleList() {
+		return staffInfoDao.getAllRoleList();
 		}
 	// 根据userAcct查询用户账号是否存在,返回1存在，返回0不存在
 		//public Long isExist(String userAcct) {

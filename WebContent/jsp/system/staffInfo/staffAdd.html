@@ -3,7 +3,7 @@
 		<div class="col-md-12" style="width:100%">
 			<div class="panel panel-default">    
 				<div class="panel-heading" >
-				 <a href="#" onclick="javascript:history.go(-1);">用户管理</a><span>>新建用户信息</span>
+				 <a href="#" onclick="javascript:history.go(-1);"> 用户管理 </a><span>>新建用户信息</span>
 				</div>  			
 				<div class="panel-body">
 					<div class="row">
@@ -36,12 +36,13 @@
                                         <input style='margin-left:70px' type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">女
                                     </td>
                                     </tr>
-                                    <tr>
-                                    <td class="width15 text-center">角色<b>*</b></td>
-									<td ><select class="dfinput111" ng-model="staff.role" required > 
-										<option ng-repeat="r in role" value="{{r.role_id}}">{{r.role_name}}</option>
+                                    <td class="width15 text-center">角色</td>
+									<td ><select class="dfinput111" ng-model="staff.role" required> 
+										<option value="">请选择 </option>
+										<option ng-repeat="r in roles" value="{{r.role_id}}">{{r.role_name}}</option>
 										</select></td>
 										</tr>
+                                   
          <!-- <div class="form-group">
              <label>角色<b>*</b></label> -->
             <!--  <select class="form-control"	ng-model="role_state">

@@ -28,6 +28,7 @@ import com.mvc.entityReport.Project;
 import com.mvc.service.EquipmentService;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.EquipMain;
+import com.mvc.entityReport.EquipOper;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -246,4 +247,13 @@ public class EquipmentServiceImpl implements EquipmentService {
 			}
 		}
 
+		//根据特征参数id，获取设备实时数据
+		@Override
+		public List<EquipOper> getEquipRealData(String searchKey, String startDate) {
+			List<EquipOper> data = equipmentDao.getEquipRealData(searchKey,startDate);
+			for(int i=0;i<data.size();i++){
+				data.get(i).setEquip_para_id(null);
+			}
+			return equipmentDao.getEquipRealData(searchKey,startDate);
+		}
 }
