@@ -86,11 +86,20 @@ public class BigDataController {
 		JSONObject o3 = new JSONObject();
 		o3.put("name", "剩余寿命");
 		o3.put("max", 1);
+		String warning="";
+		if(Float.valueOf(result.get(1).toString())>0.8){
+			warning="设备运行良好，不需要检修!";
+		}else if(Float.valueOf(result.get(1).toString())>0.6&&Float.valueOf(result.get(1).toString())<0.8){
+			warning="设备工作正常，但存在隐患，建议检修...";
+		}else{
+			warning="设备运行不稳定，请及时安排人进行检修!";
+		}
 		arr.add(o1);
 		arr.add(o2);
 		arr.add(o3);
 		jsonObject.put("result", result);
 		jsonObject.put("typeArray", arr);
+		jsonObject.put("warning", warning);
 		return jsonObject.toString();
 	}
 	

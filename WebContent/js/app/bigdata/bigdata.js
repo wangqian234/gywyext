@@ -235,6 +235,7 @@ app
 							// 点击项目获取项目设备安装位置列表，并默认显示第一个位置的设备
 							bigData.selectRoomList = function() {
 								bigData.tableIndex = 0;
+								bigData.tip="提示：请从左侧设备列表选择设备进行分析！";
 								services
 										.selectRoomList({
 											"proId" : bigData.proId
@@ -257,7 +258,8 @@ app
 							bigData.selectBaseInfoByProj = function(str, $event) {
 								bigData.proId = str;
 								bigData.selectRoomList();
-								$(".nav-second-level li").removeClass();
+								$(".nav-second-level li").removeClass(
+										"liActive");
 								var oObj = window.event.srcElement;
 								var oTr = oObj.parentNode;
 								oTr.className = "liActive";
@@ -308,8 +310,10 @@ app
 														chartObject1.model = typeArray;
 														chartObject1.dataContent = dataContent;
 														var radarChart = drawRadarChart(chartObject1);
+														bigData.warning=data.warning;
 													});
 								} else if (bigData.type == "equipPre") {
+									bigData.tip="提示：请从左侧设备列表选择设备进行分析！";
 									services
 											.getEquipPreById({
 												equipmentId : obj.equip_id
@@ -321,12 +325,14 @@ app
 
 														if (data.result[0] == null
 																|| data.result[0] == "") {
-															bigData.warning = "该设备从使用到现在还没有发生过故障,经分析预测设备下次维修时间为"
+															bigData.warning = "该设备的初次安装使用时间为"+bigData
+															.formatDate(bigData.preDate[2].time)+"，从使用到现在还没有发生过故障,经分析预测设备下次维修时间为"
 																	+ bigData
 																			.formatDate(bigData.preDate[1].time)
 																	+ ",请在预测维修时间之前进行检修，以防发生突发故障！";
 														} else {
-															bigData.warning = "该设备上次维保时间为"
+															bigData.warning = "该设备的初次安装使用时间为"+bigData
+															.formatDate(bigData.preDate[2].time)+"，上次维保时间为"
 																	+ bigData
 																			.formatDate(bigData.preDate[0].time)
 																	+ ",经分析预测设备下次维修时间为"
@@ -339,16 +345,24 @@ app
 														var barObject = new Object();
 														var dataContent = [];
 														var o = new Object();
-														o.data = data.data;
-														o.type = "bar";
-														dataContent.push(o);
-														barObject.x_Axis = data.xAxis;
-														barObject.y_Axis = "次";
-														barObject.dataContent = dataContent;
-														barObject.domElement = document
-																.getElementById('barChart');
+														alert(data.data);
+														if(data.data==null||data.data==""||data.data==undefined){
+															bigData.tip="";
+															$("#barChart").html("");
+															return;
+														}else{
+															o.data = data.data;
+															o.type = "bar";
+															dataContent.push(o);
+															barObject.x_Axis = data.xAxis;
+															barObject.y_Axis = "次";
+															barObject.dataContent = dataContent;
+															barObject.domElement = document
+																	.getElementById('barChart');
 
-														var radarChart = drawBarChart(barObject);
+															var radarChart = drawBarChart(barObject);
+														}
+														
 													});
 								}
 								;
@@ -398,8 +412,13 @@ app
 															'leftData',
 															leftData);
 													bigData.tableIndex = 0;
-													
-													
+													setTimeout(
+															function() {
+																var tt = $(".dd");
+																console.log(tt[0]);
+																tt[0].click();
+															}, 10);
+
 												});
 							}
 
@@ -416,12 +435,15 @@ app
 
 									bigData.type = "equipFail";
 									bigData.getLeftData();
+									
+
+								
 								} else if ($location.path().indexOf(
 										'/equipState') == 0) {
 
 									bigData.type = "equipState";
 									bigData.getLeftData();
-									
+
 								} else if ($location.path()
 										.indexOf('/equipPre') == 0) {
 

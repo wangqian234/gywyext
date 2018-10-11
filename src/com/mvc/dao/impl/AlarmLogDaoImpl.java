@@ -63,13 +63,32 @@ public class AlarmLogDaoImpl implements AlarmLogDao {
 	public List<Object> getEquipFailCountById(Integer equipId, String year) {
 		// TODO Auto-generated method stub
 		EntityManager em = emf.createEntityManager();
-		String selectSql = "select DATE_FORMAT(a.alarm_log_date,'%m') months,count(*) num from alarm_log a where equipment=:equipId and YEAR(alarm_log_date)=:year group by months;"; 
+		String selectSql = "select DATE_FORMAT(a.alarm_log_date,'%m') months,count(*) num from alarm_log a where equipment=:equipId and YEAR(alarm_log_date)=:year group by months;";
 		Query query = em.createNativeQuery(selectSql);
 		query.setParameter("equipId", equipId);
 		query.setParameter("year", year);
 		List<Object> list = query.getResultList();
 		em.close();
 		return list;
+	}
+
+	@Override
+	public Integer getEquipAlarmNumByProId(Integer proId) {
+		// TODO Auto-generated method stub
+
+		EntityManager em = emf.createEntityManager();
+		String selectSql = "";
+		Query query;
+		if (proId == null) {
+			return null;
+		}
+		selectSql = "select count(*) from alarm_log where equipment in (select equip_id from equipment where equip_isdeleted='0' and equip_room in (select equip_room_id from equip_room where proj_id =:proj_id)) ";
+		query = em.createNativeQuery(selectSql);
+		query.setParameter("proj_id", proId);
+		List<Object> totalRow = query.getResultList();
+		em.close();
+		return Integer.parseInt(totalRow.get(0).toString());
+
 	}
 
 	//南健报警信息
@@ -103,8 +122,4 @@ public class AlarmLogDaoImpl implements AlarmLogDao {
 		em.close();
 		return Integer.parseInt(totalRow.get(0).toString());
 	}
-	
-	
-	
-	
 }
