@@ -168,8 +168,8 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 				});
 			}
 			// 点击项目触发事件
-			index.selectBaseInfoByProj = function(str, $event) {
-
+			index.selectBaseInfoByProj = function(str, name, $event) {
+				index.projName = name;
 				index.proId = str;
 				services.selectIndexData({
 					"proId" : str

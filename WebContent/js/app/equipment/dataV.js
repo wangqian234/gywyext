@@ -164,6 +164,38 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	//送水水泵开（OC开启）
+	services.getScoket1 = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/getScoket1.do',
+			data : data
+		});
+	};
+	//送水水泵关（OC关闭）
+	services.getScoket2 = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/getScoket2.do',
+			data : data
+		});
+	};
+	//抽水水泵开（继电器开启）
+	services.getScoket3 = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/getScoket3.do',
+			data : data
+		});
+	};
+	//抽水水泵关（继电器开启）
+	services.getScoket4 = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/getScoket4.do',
+			data : data
+		});
+	};
 	return services;
 } ]);
 app
@@ -179,8 +211,10 @@ app
 							var equip_type = $scope;
 							var equip_para = $scope;
 							
+							equipment.equipara
 							//显示实时状态(根据设备id获取设备参数信息)
 							equipment.tankuang = function(equipmentId){
+								console.log(equipmentId);
 								$(".pop").fadeIn(200);
 								$(".bgPop").fadeIn(200);
 								services.getEquipPara({
@@ -188,28 +222,73 @@ app
 									searchKey : equipmentId
 								}).success(function(data) {
 									equipment.equipara = data.result;
+									console.log(data.result);
+									
 								});
 								
 							}
 							//获取参数实时状态
 							equipment.getEquipRealData = function(equipParaId){
+								console.log(equipParaId);
 								var divid = echart;//传递显示图表的id
 								startDate = "2018-08-26"+" "+"00:00:00";//默认从起始日期凌晨开始显示数据
-								if(startDate != null)
-								try2(startDate,equipment.equipara[equipParaId-1],divid);
-								else alert("请输入查询起始时间");
+								for(var i=0;i<equipment.equipara.length;i++){
+									if(equipParaId == equipment.equipara[i].equip_para_id){
+										try2(startDate,equipment.equipara[i],divid);
+										break;
+									}
+								}
+								//console.log(equipment.equipara);
+								//console.log(equipment.equipara[equipParaId-1]);
+								//if(startDate != null)
+								//try2(startDate,equipment.equipara[equipParaId-1],divid);
+								//else alert("请输入查询起始时间");
 							}
 							//显示模拟动画
 							equipment.donghua = function(equipId){
 								//console.log(equipId);
 								if(equipId==3)
 									document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=8&picId=35&rand=1539013922495";
-								else if(equipId==2)
+								else if(equipId==2){
 									document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=8&picId=37&rand=1539014082190";
-								else
+									document.getElementById("b1").style.display = "";
+									document.getElementById("b2").style.display = "";
+								}else
 									document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=8&picId=34&rand=1539014132765";
 								$(".pop2").fadeIn(200);
 								$(".bgPop2").fadeIn(200);
+							}
+							//送水水泵的开关
+							equipment.push = function(){
+								color = document.getElementById("b1").style.backgroundColor;
+								if(color == "rgb(255, 0, 0)"){
+									//document.getElementById("b1").style.backgroundColor = "rgb(0, 255, 0)";
+									services.getScoket1({}).success(function(data){
+										document.getElementById("b1").style.backgroundColor = "rgb(0, 255, 0)";}
+									);
+								}
+								else if(color == "rgb(0, 255, 0)"){
+									//document.getElementById("b1").style.backgroundColor = "rgb(255, 0, 0)";
+									services.getScoket2({}).success(function(data){
+											document.getElementById("b1").style.backgroundColor = "rgb(255, 0, 0)";}
+										);
+								}
+							}
+							//排水水泵的开关
+							equipment.pop = function(){
+								color = document.getElementById("b2").style.backgroundColor;
+								if(color == "rgb(255, 0, 0)"){
+								  //document.getElementById("b2").style.backgroundColor = "rgb(0, 255, 0)";
+									services.getScoket3({}).success(function(data){
+										document.getElementById("b2").style.backgroundColor = "rgb(0, 255, 0)";}
+									);
+								}
+								else if(color == "rgb(0, 255, 0)"){
+								  //document.getElementById("b2").style.backgroundColor = "rgb(255, 0, 0)";
+									services.getScoket4({}).success(function(data){
+											document.getElementById("b2").style.backgroundColor = "rgb(255, 0, 0)";}
+										);
+								}
 							}
 							
 							equipment.KeepViewTitle = null;
@@ -232,8 +311,6 @@ app
 									equipmentId : equipmentId
 								}).success(function(data) {
 									equipment.preDate = data.result;
-									console.log(data.result);
-
 									if (data.result[0] == null
 											|| data.result[0] == "") {
 										equipment.preResult = "该设备从使用到现在还没有发生过故障,经分析预测设备下次维修时间为"
@@ -253,194 +330,6 @@ app
 										.replace(/\//g, '-');
 								return type;
 							}
-							//获取bing饼图所需数据
-							/*//切换map和模拟动画的可见性
-							function exchange(){
-								equipment.main = !equipment.main;
-								equipment.main1 = !equipment.main1;
-							}
-							//选择对应的模拟动画页面链接地址
-							function selectsrc(){
-								// 消防供水系统http://localhost:8028/runtime.shtm?prjId=7&picId=24&rand=1538143247584
-								// 水泵房http://localhost:8028/runtime.shtm?prjId=7&picId=32&rand=1538142836027
-								// 地下车库集水井http://localhost:8028/runtime.shtm?prjId=7&picId=27&rand=1538141343458
-								// 配电室http://localhost:8028/runtime.shtm?prjId=7&picId=34&rand=1538144714117
-								document.getElementById("myframe").src="http://localhost:8028/runtime.shtm?prjId=7&picId=27&rand=1538141343458";
-							}*/
-							/*function d444(na){
-								console.log("d444");
-								d4.clear();
-								d4.showLoading({text:'正在加载数据...'});
-								var company=[{comp_id:'1',comp_name:'公元物业总公司'}];
-								var project=[{comp_id:'1',proj_id:'8',proj_name:'凤城郦都'},
-								             {comp_id:'1',proj_id:'9',proj_name:'东方巴黎'},
-							                 {comp_id:'1',proj_id:'10',proj_name:'凤城世家'}];
-								var position=[{proj_id:'8',equip_room_id:'1'},
-											  {proj_id:'9',equip_room_id:'2'},
-										      {proj_id:'10',equip_room_id:'3'}];
-								var equip=[{equip_id:'1',equip_room_id:'1',equip_name:'水泵房'},
-								           {equip_id:'2',equip_room_id:'1',equip_name:'水泵房供水管道'},
-								           {equip_id:'3',equip_room_id:'1',equip_name:'水泵房集水井水泵'},
-								           {equip_id:'4',equip_room_id:'1',equip_name:'水泵房消防水池'},
-								           {equip_id:'5',equip_room_id:'1',equip_name:'水泵房生活水池'},
-								           {equip_id:'6',equip_room_id:'1',equip_name:'配电房变压器'},
-								           {equip_id:'7',equip_room_id:'1',equip_name:'楼顶消火栓'}
-								           ];
-								var equipara=[{equip_id:'1',equip_para_name:'水泵房温度'},
-								              {equip_id:'1',equip_para_name:'水泵房湿度'},
-								              {equip_id:'2',equip_para_name:'水泵房高区水压'},
-								              {equip_id:'2',equip_para_name:'水泵房低区水压'},
-								              {equip_id:'3',equip_para_name:'A相电压'},
-								              {equip_id:'3',equip_para_name:'B相电压'},
-								              {equip_id:'3',equip_para_name:'C相电压'},
-								              {equip_id:'3',equip_para_name:'A相电流'},
-								              {equip_id:'3',equip_para_name:'B相电流'},
-								              {equip_id:'3',equip_para_name:'C相电流'},
-								              {equip_id:'4',equip_para_name:'消防水池液位'},
-								              {equip_id:'5',equip_para_name:'生活水池液位'},
-								              {equip_id:'6',equip_para_name:'A相线圈温度'},
-								              {equip_id:'6',equip_para_name:'B相线圈温度'},
-								              {equip_id:'6',equip_para_name:'C相线圈温度'},
-								              {equip_id:'6',equip_para_name:'铁芯温度'},
-								              {equip_id:'7',equip_para_name:'消火栓末端压力'},];
-								var dat1=[];
-								var link1=[];
-								var color1=['#001c43','#04f2a7','#b457ff','#25d053','#ffa800'];
-								function pushlink(source,target){
-									link1.push({
-								        source: source,
-								        target: target,
-								        value: ' ',
-								        lineStyle: linestyle1
-								    })
-								}
-								function pushData(target,size,color){
-									dat1.push({
-							            name: target,
-							            symbolSize: size,
-							            draggable: true,
-							            itemStyle: {
-							                normal: {
-							                    borderColor: color,
-							                    borderWidth: 4,
-							                    shadowBlur: 10,
-							                    shadowColor: color,
-							                    color: color1[0]
-							                }
-							            }
-							        })
-								}
-								function push(name){
-									for(var h=0;h<company.length;h++){
-										if(na==company[h].comp_name){
-											pushData(name,50,color1[1])
-											for(var i=0;i<project.length;i++){
-												if(project[i].comp_id==company[h].comp_id){
-													pushData(project[i].proj_name,40,color1[2]);
-													pushlink(name,project[i].proj_name)
-												}
-											}
-											break;
-										}
-									}
-									for(var j=0;j<project.length;j++){
-										if(name==project[j].proj_name){
-											pushData(name,40,color1[2])
-											for(var k=0;k<position.length;k++){
-											    if(project[j].proj_id==position[k].proj_id){
-												    for(var m=0;m<equip.length;m++){
-													    if(equip[m].equip_room_id==position[k].equip_room_id){
-													    	pushData(equip[m].equip_name,25,color1[3]);
-													    	pushlink(na,equip[m].equip_name)
-													    }
-												    }
-												    break;
-											    }
-										    }
-											break;
-									    }
-									}
-									for(var m=0;m<equip.length;m++){
-									    if(equip[m].equip_name==na){
-									    	pushData(name,40,color1[3])
-									    	for(var n=0;n<equipara.length;n++){
-									    		if(equipara[n].equip_id==equip[m].equip_id){
-									    			pushData(equipara[n].equip_para_name,20,color1[4]);
-									    		    pushlink(name,equipara[n].equip_para_name)
-									    		}
-									    	}
-									    	break;
-									    }
-								    }
-								}
-								push(na);	
-								var linestyle1={
-							            normal: {
-							                color: {
-							                    type: 'linear',
-							                    x: 0,
-							                    y: 0,
-							                    x2: 0,
-							                    y2: 1,
-							                    colorStops: [{
-							                        offset: 0, color: '#eda553' // 0% 处的颜色
-							                    }, {
-							                        offset: 1, color: '#7c785b' // 100% 处的颜色
-							                    }],
-							                    globalCoord: false // 缺省为 false
-							                }
-							            }
-							        }
-								var linestyle2={//连线 设置
-							            normal: {
-							                opacity: 0.9,
-							                width: 3,
-							                curveness: 0
-							            }
-							        }
-								var option = {
-								        tooltip: {},
-								        animationDurationUpdate: 150,
-								        animationEasingUpdate: 'quinticInOut',
-								        textStyle: {
-								        	fontWeight:'lighter',
-								        	fontSize:10,
-								        },
-								        series: [
-								            {
-								                type: 'graph',
-								                layout: 'force',
-								                force:{
-								                    repulsion:200,//控制各圆圈间连线长度
-								                    edgeLength:50
-								                },
-								                symbolSize: 50,
-								                roam: true,
-								                label: {
-								                    normal: {
-								                        show: true
-								                    }
-								                },
-								                edgeSymbolSize: [4, 10],
-								                edgeLabel: {//连线注释
-								                    normal: {
-								                        show:true,
-								                        textStyle: {
-								                            fontSize: 13
-								                        },
-								                        formatter: "{c}"
-								                    }
-								                },
-								                data:dat1,
-								                links: link1,
-								                lineStyle: linestyle2
-								            }
-								        ]
-								    }
-								d4.setOption(option);
-								window.onresize = d4.resize;//自适应窗口大小
-								d4.hideLoading();	
-							  }*/
 							//饼图
 							function d444(data){
 								var d4 = echarts.init(document.getElementById('d4')); 
@@ -548,7 +437,7 @@ app
 									    var geoCoordMap = {
 									    		'公元物业总公司':[113.1,23.745],
 									    		'清远东方巴黎':[113.7,23.9],
-									    	    '清远凤城世家':[113.3,24.3],
+									    	    '展会演示项目':[113.3,24.3],
 									    	    '清远凤城郦都':[113.056,23.5435],
 
 									    	};
@@ -556,7 +445,7 @@ app
 									    	var goData = [
 							                 [{name: '公元物业总公司'}, {id: 2,name: '公元物业总公司',value: 100}],
 									    	    [{name: '公元物业总公司'}, {id: 1,name: '清远东方巴黎',value: 100}],
-									    	    [{name: '公元物业总公司'},{id: 1,name: '清远凤城世家',value: 100}],
+									    	    [{name: '公元物业总公司'},{id: 1,name: '展会演示项目',value: 100}],
 									    	    [{name: '公元物业总公司'},{id: 1,name: '清远凤城郦都',value:100}],
 									    	    
 									    	];
@@ -763,36 +652,6 @@ app
 									warning(equipment.projwarning);
 									
 								});
-								/*var ssss;
-								d4.on('click',function(params){
-									if((params.data.itemStyle.borderColor=="#25d053")||
-											(params.data.itemStyle.borderColor=="#b457ff")){
-										d444(params.data.name);
-										console.log(params);
-										if(equipment.main){
-											console.log("equipment.main");
-											exchange();
-											services.refresh({}).success(function(data){});//纯粹的刷新作用
-										}
-									}
-									else if(params.data.itemStyle.borderColor=="#ffa800"){
-										console.log(params);
-										exchange();
-										//selectsrc();
-										services.refresh({}).success(function(data){});//纯粹的刷新作用
-										$.ajax({
-									        url:"/gywyext/equipRealInfo/getEquipParaByName.do",
-									        type:"post",
-									        dataType: "json",
-									        data: { searchKey: params.data.name},
-									        success:function(data){
-									        	console.log(CurentTime());//获取起始时间
-									        	try2(CurentTime(),data.result[0],d6)
-												}
-									    })
-									}
-								});*/
-									    
 								   }); 
 							}
 							//开始云台操作
@@ -828,18 +687,6 @@ app
 						        	var ddd=[radarResult];
 						        	d888(ddd,equipment.equipments[equipmentId-1].equip_name);
 						        })
-								/*$.ajax({
-							        url:"/gywyext/bigData/getEquipRadarById.do",
-							        type:"post",
-							        dataType: "json",
-							        data: { equipmentId: equipmentId },
-							        success:function(data){
-							        	radarResult = data.result;
-							        	//console.log(radarResult);
-							        	var ddd=[radarResult];
-							        	d888(ddd,equipment.equipments[equipmentId-1].equip_name);
-							        }
-							    })*/
 							}
 							//设备故障统计
 							function pie(name){
@@ -847,8 +694,8 @@ app
 									var equipRoomId=1;
 								else if(name=="清远东方巴黎")
 								    var equipRoomId=2;
-								else if(name=="清远凤城世家")
-									var equipRoomId=3;
+								else if(name=="展会演示项目")
+									var equipRoomId=4;
 								services.getRoomEquipAnalysisByRoomId({
 									page : 1,
 									roomId: equipRoomId
@@ -857,25 +704,11 @@ app
 									//console.log(pieResult);
 									//console.log(data.analysis);
 						        	d444(data.analysis);
-									});	
-								/*$.ajax({
-							        url:"/gywyext/bigData/getRoomEquipAnalysisByRoomId.do",
-							        type:"post",
-							        dataType: "json",
-							        data: { page : 1,roomId: equipRoomId },
-							        success:function(data){
-							        	pieResult = data.list;
-							        	console.log(pieResult);
-							        	d444(data.analysis);
-							        }
-							    })*/
-								
+									});									
 							}
 							// 初始化
 							function initPage() {
 								console.log("初始化成功equipmentController！");
-								//d444("公元物业总公司");
-								//pie("清远凤城郦都",KeepViewTitle);
 								d555("公元物业总公司");
 								hugeData("公元物业总公司");
 								getEquipPreById(null);
@@ -892,13 +725,6 @@ app
 										equipment.projects = data.project;
 									}) ;
 								});
-								/*// 根据公司id获取所属项目信息
-								services.selectProjectByCompId({
-									searchKey : comp_id
-								}).success(function(data) {
-									equipment.projects = data.project;
-									console.log(equipment.projects);
-								}) ;*/
 								equipment.KeepViewTitle = searchKey;
 								//根据项目获取所属设备信息列表
 								services.getEquipmentListByProject({
