@@ -2,6 +2,7 @@ package com.mvc.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -176,9 +177,18 @@ public class MobileServiceImpl implements MobileService {
 
 	@Override
 	public List<Integer> selectAllNum(String proj_id) {
-		Date date = new Date();
-		SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-		String timenow = dateFormat.format(date);
+//		Date date = new Date();
+//		SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+//		String timenow = dateFormat.format(date);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+		Date nowDate=new Date();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(nowDate);
+		calendar.set(Calendar.DAY_OF_MONTH,calendar.get(Calendar.DAY_OF_MONTH)+5);
+		Date updateDate=calendar.getTime();
+		String timenow = sdf.format(updateDate);
+		
 		Integer ndate = equipmentDao.getNdateNum(proj_id, timenow);
 		Integer state = equipmentDao.getStateNum(proj_id);
 		Integer alart = alarmLogDao.getAlarmNum(proj_id);
