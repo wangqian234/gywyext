@@ -15,6 +15,7 @@ import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
+import com.mvc.entityReport.Project;
 
 @Repository("equipRealInfoDaoImpl")
 public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
@@ -160,22 +161,29 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 		public List<Equipment> getEquipmentListByProject(String searchKey) {
 			List<Equipment> list = null;
 			EntityManager em = emf.createEntityManager();
-			System.out.println("111111111111111111111111111111");
-			System.out.println("\n");
-			System.out.println("\n");
-			System.out.println(searchKey);
-			System.out.println("\n");
-			System.out.println("\n");
 			try {
-				//String selectSql = "select * from equipment where equip_room=(select equip_room_id from equip_room where proj_id=(select proj_id from project where proj_name='" + searchKey + "') )";
-				String selectSql = "select equipment.*from project left join equip_room on equip_room.proj_id=project.proj_id left join equipment on equipment.equip_room=equip_room.equip_room_id where project.proj_name='"+searchKey+"'";
+				String selectSql = "select * from equipment where equip_room=any(select equip_room_id from equip_room where proj_id=(select proj_id from project where proj_name='" + searchKey + "') )";
+				//String selectSql = "select equipment.*from project left join equip_room on equip_room.proj_id=project.proj_id left join equipment on equipment.equip_room=equip_room.equip_room_id where project.proj_name='"+searchKey+"'";
 				Query query = em.createNativeQuery(selectSql, Equipment.class);
 				list = query.getResultList();
 			} finally {
 				em.close();
 			}
-			System.out.println("\n");
-			System.out.println(list);
+			return list;
+		}
+		// 根据公司id获取所属项目信息
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<Project> selectProjectByCompId(String searchKey) {
+			List<Project> list = null;
+			EntityManager em = emf.createEntityManager();
+			try {
+				String selectSql = "select *from project where comp_id='"+ searchKey +"'";
+				Query query = em.createNativeQuery(selectSql, Project.class);
+				list = query.getResultList();
+			} finally {
+				em.close();
+			}
 			return list;
 		}
 }

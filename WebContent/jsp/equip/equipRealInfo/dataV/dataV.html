@@ -13,15 +13,18 @@
 	                 <img src="../../../../images/warning01.png">
 	                 <font size="3">{{warningTitle}}</font>
 	            </div>
-	            <div class="gundongtiao">
+	            <!-- <div class="gundongtiao">
 	            <ul id="ddd" ng-repeat="a in warning" style="list-style-type:circle">
 	            <li> {{a.alarm_log_date.time|dateType}} {{a.alarm_log_info}}</li>
 	            </ul>
-	            </div>
-				<!-- <div class="list">
+	            </div> -->
+				<div class="list" id="scrolling1">
 				    <div class="cc rowup">
 				    </div>
-				</div> -->
+				</div>
+				<ul id="ddd" ng-repeat="a in warning" style="list-style-type:circle">
+	            <li> {{a.alarm_log_date.time|dateType}} {{a.alarm_log_info}}</li>
+	            </ul>
 	        </div>
 	        <div class="d4" >
 	            <div class="title">
@@ -125,7 +128,7 @@
 					<tr ng-repeat="e in equipara" align="center">
 						<td>{{$index + 1}}</td>
 						<td>{{e.equip_para_name}}</td>
-						<td><button class="b2 click_pop"  style="width:90px"ng-click="getEquipRealData(e.equip_para_id)">查看实时状态</button></td>
+						<td><button class="b2 click_pop"  style="width:100px"ng-click="getEquipRealData(e.equip_para_id)">查看实时状态</button></td>
 				</tbody>
 				
 	</table>

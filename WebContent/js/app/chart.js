@@ -58,6 +58,7 @@ Chart.prototype.init = function() {
 //
 var interval;
 function try1(xdata,ydata,elsedata,divid){
+	console.log(ydata);
 			var x = [];
 			var y = [];
 			var l =0;
@@ -66,8 +67,8 @@ function try1(xdata,ydata,elsedata,divid){
 			clearInterval(interval);
 			function addData(shift){
 			    x.push(xdata[l]);
-			    if(data[l].value==null)
-					yData.push(0);
+			    if(ydata[l]==null)
+					y.push(0);
 				else{//水泵房湿度数值处理
 				    if(elsedata.equip_para_id == 2 )
 					    y.push((ydata[l]/10));

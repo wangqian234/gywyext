@@ -148,6 +148,22 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	//获取公司信息
+	services.getCompanyInfo = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemProject/getCompanyInfo.do',
+			data : data,
+		});
+	};
+	// 根据公司id获取项目信息
+	services.selectProjectByCompId = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipRealInfo/selectProjectByCompId.do',
+			data : data
+		});
+	};
 	return services;
 } ]);
 app
@@ -491,7 +507,7 @@ app
 								
 							}
 							function exchange(name){
-								//document.getElementById("d4").style.display="none";
+								document.getElementById("scrolling1").style.display="none";
 								//document.getElementById("dd").style.display="";
 								var pp=equipment.equipments;
 								var equipId=null;
@@ -511,7 +527,7 @@ app
 									}
 									else{
 										equipment.warningTitle = name+"历史报警";
-										equipment.warning=alarmData;
+										equipment.warning = alarmData;
 									}
 								});
 							}
@@ -742,7 +758,9 @@ app
 									getEquipmentListByProject(params.data.name);
 									pie(params.data.name);
 									equipment.warningTitle = "报警记录";
-									equipment.warning = equipment.warningall;
+									document.getElementById("scrolling1").style.display="";
+									//equipment.warning = equipment.projwarning;
+									warning(equipment.projwarning);
 									
 								});
 								/*var ssss;
@@ -836,8 +854,8 @@ app
 									roomId: equipRoomId
 								}).success(function(data) {
 									pieResult = data.list;
-									console.log(pieResult);
-									console.log(data.analysis);
+									//console.log(pieResult);
+									//console.log(data.analysis);
 						        	d444(data.analysis);
 									});	
 								/*$.ajax({
@@ -863,6 +881,24 @@ app
 								getEquipPreById(null);
 								var searchKey = "清远凤城郦都";
 								pie(searchKey);
+								//获取公司信息
+								services.getCompanyInfo().success(function(data){
+									equipment.companys = data.result;
+									console.log(equipment.companys);
+									// 根据公司id获取所属项目信息
+									services.selectProjectByCompId({
+										searchKey : equipment.companys[0].comp_id
+									}).success(function(data) {
+										equipment.projects = data.project;
+									}) ;
+								});
+								/*// 根据公司id获取所属项目信息
+								services.selectProjectByCompId({
+									searchKey : comp_id
+								}).success(function(data) {
+									equipment.projects = data.project;
+									console.log(equipment.projects);
+								}) ;*/
 								equipment.KeepViewTitle = searchKey;
 								//根据项目获取所属设备信息列表
 								services.getEquipmentListByProject({
@@ -870,17 +906,17 @@ app
 								}).success(function(data) {
 									equipment.equipments = data.list;
 									console.log("equipment.equipments");
-									console.log(searchKey);
+									console.log(equipment.equipments);
 									});	
 								equipment.warningTitle=null;
 								//获取告警信息
 								services.getWaringNews({
 									searchKey : null
 								}).success(function(data) {
-									equipment.warningall = data.data;
+									equipment.projwarning = data.data;
 									equipment.warningTitle = "报警记录";
-									equipment.warning = equipment.warningall
-									//warning(equipment.warning);
+									equipment.warning = equipment.projwarning
+									warning(equipment.projwarning);
 								});
 							}
 							initPage();
@@ -911,27 +947,27 @@ app
 						        return(clock); 
 						    }
 							//报警信息滚动展示
-							/*function warning(data){
-							    var data = '塞下秋来风景异，衡阳雁去无留意。四面边声连角起，千嶂里，长烟落日孤城闭。浊酒一杯家万里，燕然未勒归无计。羌管悠悠霜满地，人不寐，将军白发征夫泪。', //样例数据
-							        data_len = data.length,
-							        len = parseInt(Math.random()*6)+6, // 数据的长度
+							function warning(data){
+							    //var data = '塞下秋来风景异，衡阳雁去无留意。四面边声连角起，千嶂里，长烟落日孤城闭。浊酒一杯家万里，燕然未勒归无计。羌管悠悠霜满地，人不寐，将军白发征夫泪。', //样例数据
+							        //data_len = data.length,
+							        //len = parseInt(Math.random()*6)+6, // 数据的长度
 							        html = '<div class="ss">';
 							    
 							    for(var i=0; i<data.length; i++){
-							        var start = parseInt( Math.random()*(data_len-20) ),
-							            s = parseInt( Math.random()*data_len );
-							        html += '<div class="item"v>'+i+'- '+data.substr(start, s)+'</div>';
+							        //var start = parseInt( Math.random()*(data_len-20) ),
+							            //s = parseInt( Math.random()*data_len );
+							        //html += '<div class="item"v>'+i+'- '+data.substr(start, s)+'</div>';
 							        html += '<div class="item"v>'+timestampToTime(data[i].alarm_log_date.time)+' '+data[i].alarm_log_info+'</div>';
 							    }
 							    html += '</div>';
 							    document.querySelector('.list .cc').innerHTML = html+html; // 复制一份数据
 							    var height = document.querySelector('.list .ss').offsetHeight; // 一份数据的高度
-							    addKeyFrames( '-'+(height-20)+'px' ); // 设置keyframes,可控制滚动速度
+							    addKeyFrames( '-'+(300)+'px' ); // 设置keyframes,可控制滚动速度
 							    document.querySelector('.list .cc').className += ' rowup'; // 添加 rowup
-							}*/
+							}
 							
 							//报警信息滚动展示css功能函数
-							/*function addKeyFrames(y){
+							function addKeyFrames(y){
 							    var style = document.createElement('style');
 							    style.type = 'text/css';
 							    var keyFrames = '\
@@ -957,7 +993,7 @@ app
 							    }';
 							    style.innerHTML = keyFrames.replace(/A_DYNAMIC_VALUE/g, y);
 							    document.getElementsByTagName('head')[0].appendChild(style);
-							}*/
+							}
 							
 							
 							//时间戳转换为日期格式
