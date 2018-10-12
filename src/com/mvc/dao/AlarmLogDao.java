@@ -31,4 +31,7 @@ public interface AlarmLogDao {
 	
 	List<AlarmLog> selectIndexAlramLog(Integer proId,Integer offset,Integer limit);
 
+
+	List<AlarmLog> getAlarmListByEquipId(String equipmentId);
+
 }

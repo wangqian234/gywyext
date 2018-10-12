@@ -453,7 +453,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			@Override
 			public Integer getNdateNum(String proj_id, String timenow) {
 				EntityManager em = emf.createEntityManager();
-				String selectSql = "select count(*) from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id where project.proj_id = :proj_id and equipment.equip_ndate < :timenow"; 
+				String selectSql = "select count(*) from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id where equipment.equip_isdeleted='0' and project.proj_id = :proj_id and equipment.equip_ndate < :timenow"; 
 				Query query = em.createNativeQuery(selectSql);
 				query.setParameter("proj_id", proj_id);
 				query.setParameter("timenow", timenow);
@@ -466,7 +466,7 @@ public class EquipmentDaoImpl implements EquipmentDao {
 			@Override
 			public Integer getStateNum(String proj_id) {
 				EntityManager em = emf.createEntityManager();
-				String selectSql = "select count(*) from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id where project.proj_id = :proj_id and (equipment.equip_state = 0 or equipment.equip_state = 1 or equipment.equip_state = 2)"; 
+				String selectSql = "select count(*) from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id where equipment.equip_isdeleted='0' and project.proj_id = :proj_id and (equipment.equip_state = 0 or equipment.equip_state = 1 or equipment.equip_state = 2)"; 
 				Query query = em.createNativeQuery(selectSql);
 				query.setParameter("proj_id", proj_id);
 				List<Object> list = query.getResultList();
@@ -524,6 +524,18 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				query.setParameter("proj_id", proId);
 				query.setParameter("offset", offset);
 				query.setParameter("end", limit);
+				List<Equipment> list = query.getResultList();
+				em.close();
+				return list;
+			}
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public List<Equipment> selectAllEquipByProId(String proj_id) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_room in (select equip_room_id from equip_room where proj_id =:proj_id)"; 
+				Query query = em.createNativeQuery(selectSql, Equipment.class);
+				query.setParameter("proj_id", proj_id);
 				List<Equipment> list = query.getResultList();
 				em.close();
 				return list;

@@ -26,9 +26,11 @@ import com.mvc.entityReport.Files;
 import com.mvc.entityReport.User;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipPara;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipMain;
 
 import com.utils.Pager;
+import com.mvc.service.AlarmLogService;
 import com.mvc.service.BigDataService;
 import com.mvc.service.EquipmentService;
 
@@ -44,6 +46,9 @@ public class BigDataController {
 
 	@Autowired
 	BigDataService bigDataService;
+	
+	@Autowired
+	AlarmLogService alarmLogService;
 
 	// zq
 	// 根据位置id查找设备列表
@@ -137,10 +142,12 @@ public class BigDataController {
 			String equipmentId = request.getParameter("equipmentId");
 			JSONArray mainDate = bigDataService.getEquipPreById(Integer.valueOf(equipmentId));
 			JSONObject o=bigDataService.getEquipFailCountById(Integer.valueOf(equipmentId));
+			List<AlarmLog> list = alarmLogService.getAlarmListByEquipId(equipmentId);
 			
 			jsonObject.put("result", mainDate);
 			jsonObject.put("xAxis", o.get("xAxis"));
 			jsonObject.put("data", o.get("data"));
+			jsonObject.put("list", list);
 			return jsonObject.toString();
 		}
 

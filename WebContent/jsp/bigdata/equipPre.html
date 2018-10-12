@@ -51,10 +51,23 @@
 							<div class="sub-title">
 								<h3 style="font-weight:bold"><img class="titleImgLeft" src="../../images/analy1.png">设备故障预测</h3><span class="description"></span>
 							</div>
-						
-						<div   id="barChart" style="position:absolute;min-width: 800px; max-width: 1200px; height: 350px;"><span style="color:red">{{tip}}</span></div>
-						
-						<div>{{warning}}</div>
+							<div ng-if='warning == null || warning == "" || warning == undefined'>{{tip}}</div>
+							<div>{{warning}}</div>
+							<br />
+							<div class="alarmdiv" style="height:400px;overflow-y: auto;">
+							<table class="datatable table table-striped">
+								<tbody>
+									<tr ng-repeat="al in alarmList">
+									<td>
+										<span>{{al.equip_para.equip_para_name}}
+										{{al.alarm_log_date.time |dateType}}
+										{{al.alarm_log_info}}</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+						<!-- <div   id="barChart" style="position:absolute;min-width: 800px; max-width: 1200px; height: 350px;"><span style="color:red">{{tip}}</span></div> -->
 						</div>
 					</div>
 				</div>

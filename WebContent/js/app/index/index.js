@@ -97,6 +97,14 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	}
+	//根据项目id获得设备报警信息
+	services.getProEquipAnalysis = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl +'alarmLog/getProEquipAnalysis.do',
+			data : data
+		});
+	};
 	return services;
 } ]);
 
@@ -170,6 +178,14 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 					index.mainNum = data.mainNum;
 					index.unhealthNum = data.unhealthNum;
 				});
+				
+				services.getProEquipAnalysis({
+					proj_id : str
+				}).success(function(data) {
+					console.log("wangq"+data.analysis);
+		        	d444(data.analysis);
+				});
+				
 				$(".nav-second-level li").removeClass("liActive");
 				var oObj = window.event.srcElement;
 				var oTr = oObj.parentNode;
@@ -276,6 +292,72 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 				$(".overlayer").fadeOut(100);
 				$(".tip").fadeOut(100);
 			});
+			
+			//饼图初始化
+			function d444(data){
+				var d4 = echarts.init(document.getElementById('d4')); 
+				d4.clear();
+				d4.showLoading({text:'正在缓冲...'});
+				var name=[];
+				for(var i=0;i<data.length;i++){
+					name.push(data[i].name);
+				}
+				option = {
+					    tooltip : {
+					        trigger: 'item',
+					        formatter: "{a} <br/>{b} : {c} ({d}%)"
+					    },
+					    legend: {
+					        /*x : 'center',
+					        y : '280',*/
+					    	bottom: '8%',
+					        //left: '20%',
+					        icon: 'circle',
+					        data:name,
+					        textStyle : {
+					        	color: function(params) {
+					        		//console.log(params);
+				                    var num = data.length;
+				                    return mycolor[params.dataIndex % num]
+				                },
+				                }
+					    },
+					    toolbox: {
+					        show : true,
+					        feature : {
+					            mark : {show: true},
+					            magicType : {
+					                show: true,
+					                type: ['pie', 'funnel']
+					            }
+					        }
+					    },
+					    calculable : true,
+					    series : [
+					        {
+					            name:'故障统计',
+					            type:'pie',
+					            radius : [20, 90],
+					            center : ['50%', '35%'],
+					            labelLine: {
+					            	normal: {
+					            		length: 1,
+					            	}
+					            },
+					            roseType : 'area',
+					            data:data,
+					        }
+					    ]
+					};
+				
+				d4.setOption(option);
+				d4.on('click',function(params){
+					//console.log(params.data.name);
+					exchange(params.data.name);
+				});
+				d4.hideLoading();
+				
+			}
 
 			// 初始化页面信息
 			function initData() {

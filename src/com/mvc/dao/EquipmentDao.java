@@ -66,4 +66,6 @@ public interface EquipmentDao {
 	
 	List<Equipment> selectIndexUnhealthEquip(Integer proId,Integer offset,Integer limit);
 
+	List<Equipment> selectAllEquipByProId(String proj_id);
+
 }

@@ -552,7 +552,9 @@ app
 										})
 								}else if ($location.path().indexOf('/equipDetail') == 0) {
 									equipment.equipmentDetail = JSON.parse(sessionStorage.getItem('equipmentDetail'));
-									equipment.equipmentDetail.file_id.file_path = equipment.equipmentDetail.file_id.file_path.split('webapps')[1];
+									if(equipment.equipmentDetail.file_id && equipment.equipmentDetail.file_id.file_path){
+										equipment.equipmentDetail.file_id.file_path = equipment.equipmentDetail.file_id.file_path.split('webapps')[1];
+									}
 									equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
 									services.getEquipPara(
 													{
@@ -716,6 +718,16 @@ app.filter('sgFilter', function() {
 		}
 	}
 });
+app.filter('pathFiliter', function(){
+	return function(input) {
+		if (input == "" || input == null) {
+			var input = "\\gywyext\\images\\equip.png";
+			return input;
+		} else {
+			return input;
+		}
+	}
+})
 
 // 判断输入时间逻辑是否正确
 function compareDateTime(equip_pdate, equip_udate, equip_ndate) {
