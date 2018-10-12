@@ -90,6 +90,8 @@ div.d6
 	height:32%;
 	float:left;
 	margin:2px;
+	overflow:hidden;
+	overflow-y:auto; 
 	background:url(../images/center02.png) no-repeat;
 	background-size:100% 100%;
 }
@@ -178,7 +180,7 @@ button.b3
 }
 button.b4 
 {
-	width: 75px;
+	width: 80px;
 	height: 20px;
 	background: #36791a;
     cursor: pointer; 
@@ -215,11 +217,16 @@ li{
 .gundongtiao::-webkit-scrollbar {
 width:9px;
 height:9px;
-ackground-color:red;
+bckground-color:#004080;
+}
+.d6::-webkit-scrollbar {
+width:9px;
+height:9px;
+bckground-color:#004080;
 }
 
 
-/* @keyframes rowup {
+ @keyframes rowup {
     0% {
         -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
@@ -242,10 +249,10 @@ ackground-color:red;
     -webkit-animation: 10s rowup linear infinite normal;
     animation: 10s rowup linear infinite normal;
     position: relative;
-    color:#ff1e1e;
+    color:#ff0000;
     padding:15px;
     font-size:12px
-} */
+} 
 
 /*弹窗*/
 .pop,.pop2,.pop3 

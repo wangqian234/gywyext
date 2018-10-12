@@ -26,6 +26,7 @@ import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
+import com.mvc.entityReport.Project;
 import com.mvc.service.EquipRealInfoService;
 import com.utils.Pager;
 
@@ -256,6 +257,19 @@ public class EquipRealInfoController {
 			String searchKey = request.getParameter("searchKey");
 			List<AlarmLog> data = equipRealInfoService.getWaringNews(searchKey);
 			jsonObject.put("data", data);
+		} catch (Exception e){
+			jsonObject.put("error", "暂未找到相关数据");
+		}
+		return jsonObject.toString();
+	}
+    // 根据公司id获取所属项目信息
+    @RequestMapping(value = "/selectProjectByCompId.do")
+	public @ResponseBody String selectProjectByCompId(HttpServletRequest request, HttpSession session){
+		JSONObject jsonObject = new JSONObject();
+		try{
+			String searchKey = request.getParameter("searchKey");
+			List<Project> data = equipRealInfoService.selectProjectByCompId(searchKey);
+			jsonObject.put("project", data);
 		} catch (Exception e){
 			jsonObject.put("error", "暂未找到相关数据");
 		}

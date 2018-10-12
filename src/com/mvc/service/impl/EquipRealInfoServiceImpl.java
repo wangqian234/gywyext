@@ -17,6 +17,7 @@ import com.mvc.entityReport.EquipMain;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
+import com.mvc.entityReport.Project;
 import com.mvc.repository.EquipManuRepository;
 import com.mvc.repository.EquipParaRepository;
 import com.mvc.repository.EquipRoomRepository;
@@ -118,4 +119,13 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 		}
 		return equipRealInfoDao.getEquipAlarmByProAndEquip(proName,equipName);
 	}*/
+	// 根据公司id获取所属项目信息
+	@Override
+	public List<Project> selectProjectByCompId(String searchKey) {
+		List<Project> data = equipRealInfoDao.selectProjectByCompId(searchKey);
+		for(int i=0;i<data.size();i++){
+			data.get(i).setProj_id(null);
+		}
+		return equipRealInfoDao.selectProjectByCompId(searchKey);
+	}
 }
