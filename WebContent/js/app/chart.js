@@ -228,7 +228,7 @@ function try1(xdata,ydata,elsedata,divid){
 			    	if((l+50) >xdata.length){
 			    		pp = 1;
 			    		$.ajax({
-			    	        url:"/gywyext/equipRealInfo/getEquipRealData.do",
+			    	        url:"/gywyext/equipEquipment/getEquipRealData.do",
 			    	        type:"post",
 			    	        dataType: "json",
 			    	        data: { searchKey: elsedata.equip_para_id, startDate: xdata[xdata.length-1] },
@@ -269,7 +269,7 @@ function try1(xdata,ydata,elsedata,divid){
 					    	if((l+50) >xdata.length){
 					    		pp = 1;
 					    		$.ajax({
-					    	        url:"/gywyext/equipRealInfo/getEquipRealData.do",
+					    	        url:"/gywyext/equipEquipment/getEquipRealData.do",
 					    	        type:"post",
 					    	        dataType: "json",
 					    	        data: { searchKey: elsedata.equip_para_id, startDate: xdata[xdata.length-1] },
@@ -299,7 +299,7 @@ function try2(startDate,elsedata,divid){
 	var ydata=[];
 	function getdata(startDate,equiparaId,divide){//获取特征参数实时数据
 		$.ajax({
-	        url:"/gywyext/equipRealInfo/getEquipRealData.do",
+	        url:"/gywyext/equipEquipment/getEquipRealData.do",
 	        type:"post",
 	        dataType: "json",
 	        data: { searchKey: equiparaId, startDate: startDate },

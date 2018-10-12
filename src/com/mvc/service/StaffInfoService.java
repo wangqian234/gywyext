@@ -18,7 +18,7 @@ public interface StaffInfoService {
 	
 
 	// 筛选角色列表
-	List<Role> findRoleAlls();
+	List<Role> getAllRoleList();
 	
 	// 根据userAcct查询用户账号是否存在,返回1存在，返回0不存在
 	//	Long isExist(String userAcct);

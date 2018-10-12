@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
- <jsp:include page="/jsp/equip/equipRealInfo/dataV/top.jsp" />
+<jsp:include page="/jsp/equip/equipRealInfo/dataV/top.jsp" />
 <section ng-app="dataVApp">
 <div ng-view></div>
 </section>
@@ -11,7 +11,7 @@
 <script type="text/javascript" src="../../../../js/lib/echarts.js"></script>
 <script type="text/javascript" src="../../../../js/lib/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="../../../../js/app/chart.js"></script>
-<script type="text/javascript" src="../../../../js/app/ezuikit.js"></script>
+<script type="text/javascript" src="../../../../js/app/equipment/ezuikit.js"></script>
 
 
 

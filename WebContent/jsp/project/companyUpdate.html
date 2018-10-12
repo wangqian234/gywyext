@@ -1,5 +1,42 @@
-
-<form role="form" ng-submit="updateCompany()">	
+<div id="page-wrapper"  style="margin-left: 0px">   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">    
+				<div class="panel-heading">
+				 <a href="#" onclick="javascript:history.go(-1);">公司管理</a><span>>新建公司信息</span>
+				</div>  			
+				<div class="panel-body">
+					<div class="row">
+						<form style="padding:0 30px;" role="form" ng-submit="updateCompany()">
+	 						<table class="tablelist111">
+                                    <tr>
+									<td class="width15 text-center">公司名称<b>*</b></td>
+									<td><input class="dfinput111" ng-model="companys.comp_name" required /></td>
+									</tr>
+									<tr>
+									<td class="width15 text-center">公司地址<b>*</b></td>
+									<td><input class="dfinput111" ng-model="companys.comp_addr" required /></td>
+									</tr>
+									<tr>
+                                    <td class="width15 text-center">公司人员数量<b>*</b></td>
+									<td><input class="dfinput111" ng-model="companys.comp_num" required /></td>
+									</tr>
+                                 <tr style="height:100px;">
+								 	<td class="width15 text-center">备注</td>
+									<td><textarea class="dfinput111" ng-model="companys.comp_memo"/></td>
+						         </tr>
+                             </table>
+     	                   <div class="buttonbox">
+							<input type="submit" class="btn btn-default" value="确认提交" />
+	     				 </div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- <form role="form" ng-submit="updateCompany()">	
 		<div class="form-group">
 			<label>公司名称:&nbsp;&nbsp;&nbsp;</label> <input ng-model="companys.comp_name" class="form-control" required>&nbsp;&nbsp;
 			<span class="companyname" style="color:#a94442"><img style="width:14px" src="/gywyext/images/warning.png" />&nbsp;&nbsp;请输入公司名称</span>
@@ -21,4 +58,4 @@
 	</form>  
 		
 	
-
+ -->

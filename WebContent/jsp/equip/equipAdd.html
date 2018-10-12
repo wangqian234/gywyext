@@ -7,22 +7,17 @@
 				</div>  			
 				<div class="panel-body">
 					<div class="row">
-						<!-- <form style="padding:0 30px;" role="form" enctype="multipart/form-data" ng-submit="addEquipment()"> -->
 						<form style="padding:0 30px;" role="form" ng-submit="addEquipment()">
 							<table class="tablelist">
 								<tr>
 									 <td style="width:400px;" rowspan="7" ng-controller="UploadController" nv-file-drop="" 
 										uploader="uploader" filters="queueLimit, customFilter" class="width15 text-center">
-										<div>
-											<!-- <div class="progress" style="margin-bottom: 0;">
-												<div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
-											</div> -->
-											<img src="../../images/fileUpLoad.png">
-											<img src="{{equipment.equipmentInfo.files.file_path}}">
-										</div>
+    										<div id="image-box"></div>
 										<form method="post" enctype="multipart/form-data">
-											<input type="file" accept="image/*" nv-file-select="" uploader="uploader" >
-											<button type="button" class="btn" ng-click="uploadAll()" >全部上传</button>
+											<a href="javascript:;" class="browse-image">浏览图片
+										    <input type="file" accept="image/*" nv-file-select="" uploader="uploader" /></a>
+										    <br />
+											<button type="button" class="btn" ng-click="uploadAll()" >确认上传</button>
 										</form>
 									</td> 
 									<style>
@@ -110,8 +105,14 @@
 		</div>
 	</div>
 </div>
-
+<script src="../../js/lib/browseImage.js"></script>
 <script>
+
+$('.browse-image').browseImage(function (img) {
+    //在此写判断图片的逻辑：如图片尺寸等
+    $('#image-box').html(img);
+});
+
 function addEpara(){
 	var tableScontent = $('#addEparaDiv');
 	var $div = $("<div class='eparadiv'></div>");
