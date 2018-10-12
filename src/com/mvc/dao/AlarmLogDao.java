@@ -28,5 +28,7 @@ public interface AlarmLogDao {
 
 
 	Integer getAlarmNum(String proj_id);
+	
+	List<AlarmLog> selectIndexAlramLog(Integer proId,Integer offset,Integer limit);
 
 }

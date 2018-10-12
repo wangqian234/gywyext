@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mvc.dao.AlarmLogDao;
 import com.mvc.entityReport.AlarmLog;
+import com.mvc.entityReport.Equipment;
 
 @Repository("alarmLogDaoImpl")
 public class AlarmLogDaoImpl implements AlarmLogDao {
@@ -140,6 +141,20 @@ public class AlarmLogDaoImpl implements AlarmLogDao {
 		List<Object> list = query.getResultList();
 		em.close();
 		return Integer.parseInt(list.get(0).toString());
+	}
+
+	@Override
+	public List<AlarmLog> selectIndexAlramLog(Integer proId, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		EntityManager em = emf.createEntityManager();
+		String selectSql = "select * from alarm_log where alarm_log_ischecked = 0 and equipment in (select equip_id from equipment where equip_isdeleted='0' and equip_room in (select equip_room_id from equip_room where proj_id =:proj_id))  order by alarm_log_id desc limit :offset, :end"; 
+		Query query = em.createNativeQuery(selectSql, AlarmLog.class);
+		query.setParameter("proj_id", proId);
+		query.setParameter("offset", offset);
+		query.setParameter("end", limit);
+		List<AlarmLog> list = query.getResultList();
+		em.close();
+		return list;
 	}
 
 }

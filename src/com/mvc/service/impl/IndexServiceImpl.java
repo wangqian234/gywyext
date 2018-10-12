@@ -15,7 +15,9 @@ import com.mvc.dao.AlarmLogDao;
 import com.mvc.dao.EquipMainDao;
 import com.mvc.dao.EquipmentDao;
 import com.mvc.dao.IndexDao;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.Company;
+import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.Project;
 import com.mvc.service.IndexService;
 
@@ -71,6 +73,25 @@ public class IndexServiceImpl implements IndexService {
 		// TODO Auto-generated method stub
 		Integer unhealthNum=equipmentDao.getEquipUnhealthNumByProId(proId);
 		return unhealthNum;
+	}
+	@Override
+	public List<AlarmLog> selectIndexAlramLog(Integer proId, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		 List<AlarmLog> list=alarmLogDao.selectIndexAlramLog(Integer.valueOf(proId), offset, limit);
+		return list;
+	}
+	@Override
+	public List<Equipment> selectIndexMainEquipList(Integer proId, Integer offset, Integer limit,Date updateDate) {
+		// TODO Auto-generated method stub
+		List<Equipment> list=equipmentDao.selectIndexMainEquipList(Integer.valueOf(proId), offset, limit,updateDate);
+		return list;
+	}
+	@Override
+	public List<Equipment> selectIndexUnhealthEquip(Integer proId, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		
+		List<Equipment> list=equipmentDao.selectIndexUnhealthEquip(Integer.valueOf(proId), offset, limit);
+		return list;
 	}
 
 

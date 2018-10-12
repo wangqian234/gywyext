@@ -69,13 +69,34 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	services.selectIndexData=function(data){
+	services.selectIndexData = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'index/selectIndexData.do',
 			data : data
 		});
 	};
+	services.selectIndexAlramLog = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/selectIndexAlramLog.do',
+			data : data
+		});
+	}
+	services.selectIndexMainEquip = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/selectIndexMainEquip.do',
+			data : data
+		});
+	}
+	services.selectIndexUnhealthEquip = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/selectIndexUnhealthEquip.do',
+			data : data
+		});
+	}
 	return services;
 } ]);
 
@@ -84,9 +105,23 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 		function($scope, services, $location, $timeout, $interval) {
 			var index = $scope;
 			index.proId;
-			index.alarmNum=0;
-			index.mainNum=0;
-			index.unhealthNum=0;
+			index.alarmNum = 0;
+			index.mainNum = 0;
+			index.unhealthNum = 0;
+			// 换页函数
+			function pageTurn(totalPage, page, Func) {
+				$(".tcdPageCode").empty();
+				var $pages = $(".tcdPageCode");
+				if ($pages.length != 0) {
+					$(".tcdPageCode").createPage({
+						pageCount : totalPage,
+						current : page,
+						backFn : function(p) {
+							Func(p);
+						}
+					});
+				}
+			}
 			// 获取左侧蓝菜单
 			index.getLeftData = function() {
 				services.getInitLeft({}).success(function(data) {
@@ -131,15 +166,116 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 				services.selectIndexData({
 					"proId" : str
 				}).success(function(data) {
-					index.alarmNum=data.alarmNum;
-					index.mainNum=data.mainNum;
-					index.unhealthNum=data.unhealthNum;
+					index.alarmNum = data.alarmNum;
+					index.mainNum = data.mainNum;
+					index.unhealthNum = data.unhealthNum;
 				});
 				$(".nav-second-level li").removeClass("liActive");
 				var oObj = window.event.srcElement;
 				var oTr = oObj.parentNode;
 				oTr.className = "liActive";
 			}
+
+			index.selectIndexAlramLog = function() {
+
+				$("#tipAdd").fadeIn(200);
+				$(".overlayer").fadeIn(200);
+				services.selectIndexAlramLog({
+					"proId" : index.proId,
+					"page" : 1,
+				}).success(function(data) {
+
+					index.alramLogList = data.list;
+					pageTurn(data.totalPage, 1, selectIndexAlramLogList);
+				});
+			}
+
+			function selectIndexAlramLogList(page) {
+				services.selectIndexAlramLog({
+					"proId" : index.proId,
+					"page" : page,
+				}).success(function(data) {
+
+					index.alramLogList = data.list;
+
+				});
+			}
+
+			index.selectIndexMainEquip = function() {
+
+				$("#tipMainEquip").fadeIn(200);
+				$(".overlayer").fadeIn(200);
+				services.selectIndexMainEquip({
+					"proId" : index.proId,
+					"page" : 1,
+				}).success(function(data) {
+
+					index.mainEquipList = data.list;
+					pageTurn(data.totalPage, 1, selectIndexMainEquipList);
+				});
+			}
+
+			function selectIndexMainEquipList(page) {
+				$("#tipMainEquip").fadeIn(200);
+				$(".overlayer").fadeIn(200);
+				services.selectIndexMainEquip({
+					"proId" : index.proId,
+					"page" : page,
+				}).success(function(data) {
+
+					index.mainEquipList = data.list;
+				});
+			}
+
+			index.selectIndexUnhealthEquip = function() {
+
+				$("#tipUnhealthEquip").fadeIn(200);
+				$(".overlayer").fadeIn(200);
+				services.selectIndexUnhealthEquip({
+					"proId" : index.proId,
+					"page" : 1,
+				}).success(function(data) {
+
+					index.unhealthEquipList = data.list;
+					pageTurn(data.totalPage, 1, selectIndexUnhealthEquipList);
+				});
+			}
+
+			function selectIndexUnhealthEquipList(page) {
+				$("#tipUnhealthEquip").fadeIn(200);
+				$(".overlayer").fadeIn(200);
+				services.selectIndexUnhealthEquip({
+					"proId" : index.proId,
+					"page" : page,
+				}).success(function(data) {
+
+					index.unhealthEquipList = data.list;
+				});
+			}
+
+			$("#cancelAdd").click(function() {
+				$(".tip").fadeOut(200);
+				$(".overlayer").fadeOut(200);
+				taskHtml.task = ""
+
+			});
+			// 这里添加一个方法修改标志位，将该合同的任务由新接收任务改为未完成任务
+
+			$(".tiptop a").click(function() {
+				$(".overlayer").fadeOut(200);
+				$(".tip").fadeOut(200);
+			});
+
+			$(".sure").click(function() {
+
+				$(".overlayer").fadeOut(100);
+				$(".tip").fadeOut(100);
+			});
+
+			$(".cancel").click(function() {
+				$(".overlayer").fadeOut(100);
+				$(".tip").fadeOut(100);
+			});
 
 			// 初始化页面信息
 			function initData() {
@@ -190,14 +326,14 @@ app.filter('DateTimeFormat', function() {
 app.filter('EquipState', function() {
 	return function(input) {
 		var type = "";
-		if (input == '0') {
+		if (input == '状况非常差') {
 			type = "正常";
 		} else if (input == '1') {
-			type = "需要维修";
+			type = "状况差";
 		} else if (input == '2') {
-			type = "需要更换";
+			type = "状态较差";
 		} else {
-			type = "正常";
+			type = "状况差";
 		}
 
 		return type;

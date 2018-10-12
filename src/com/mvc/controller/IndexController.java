@@ -23,7 +23,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.mvc.entityReport.AlarmLog;
+import com.mvc.entityReport.Equipment;
 import com.mvc.service.IndexService;
+import com.utils.Pager;
+import com.utils.StringUtil;
 
 import net.sf.json.JSONObject;
 
@@ -84,6 +88,97 @@ public class IndexController {
 		return jsonObject.toString();
 	}
 
+	
+	
+	
+	
+	/**
+	 * 获取报警数据
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/selectIndexAlramLog.do")
+	public @ResponseBody String selectIndexAlramLog(HttpServletRequest request, HttpSession session) throws ParseException {
+		JSONObject jsonObject = new JSONObject();
+		String proId = request.getParameter("proId");
+		List<AlarmLog> alarmList=null;
+		
+		Pager pager = new Pager();
+		if (StringUtil.strIsNotEmpty(proId)) {
+			Integer totalRow = indexService.getEquipAlarmNumByProId(Integer.valueOf(proId));
+			pager.setPage(Integer.parseInt(request.getParameter("page")));// 指定页码
+			pager.setTotalRow(Integer.parseInt(totalRow.toString()));
+			alarmList =indexService.selectIndexAlramLog(Integer.valueOf(proId), pager.getOffset(), pager.getLimit());
+			jsonObject.put("list", alarmList);
+			jsonObject.put("totalPage", pager.getTotalPage());
+		} else {
+			jsonObject.put("list", null);
+		}
+		return jsonObject.toString();
+	}
+	
+
+	/**
+	 * 获取待维保数据
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/selectIndexMainEquip.do")
+	public @ResponseBody String selectIndexMainEquip(HttpServletRequest request, HttpSession session) throws ParseException {
+		JSONObject jsonObject = new JSONObject();
+		String proId = request.getParameter("proId");
+		List<Equipment> mainEquipList=null;
+		
+		Pager pager = new Pager();
+		if (StringUtil.strIsNotEmpty(proId)) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date nowDate=new Date();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(nowDate);
+			calendar.set(Calendar.DAY_OF_MONTH,calendar.get(Calendar.DAY_OF_MONTH)+5);
+			Date updateDate=calendar.getTime();
+			Integer mainNum=indexService.getEquipMainNumByProId(Integer.valueOf(proId),updateDate);//获取某个项目中将来五天内的待维保的设备
+			
+			pager.setPage(Integer.parseInt(request.getParameter("page")));// 指定页码
+			pager.setTotalRow(Integer.parseInt(mainNum.toString()));
+			mainEquipList =indexService.selectIndexMainEquipList(Integer.valueOf(proId), pager.getOffset(), pager.getLimit(),updateDate);
+			jsonObject.put("list", mainEquipList);
+			jsonObject.put("totalPage", pager.getTotalPage());
+		} else {
+			jsonObject.put("list", null);
+		}
+		return jsonObject.toString();
+	}
+	
+	/**
+	 * 获取健康状态查数据
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/selectIndexUnhealthEquip.do")
+	public @ResponseBody String selectIndexUnhealthEquip(HttpServletRequest request, HttpSession session) throws ParseException {
+		JSONObject jsonObject = new JSONObject();
+		String proId = request.getParameter("proId");
+		List<Equipment> mainEquipList=null;
+		
+		Pager pager = new Pager();
+		if (StringUtil.strIsNotEmpty(proId)) {
+			Integer unhealthNum=indexService.getEquipUnhealthNumByProId(Integer.valueOf(proId));//获取不健康设备数目
+			
+			pager.setPage(Integer.parseInt(request.getParameter("page")));// 指定页码
+			pager.setTotalRow(Integer.parseInt(unhealthNum.toString()));
+			mainEquipList =indexService.selectIndexUnhealthEquip(Integer.valueOf(proId), pager.getOffset(), pager.getLimit());
+			jsonObject.put("list", mainEquipList);
+			jsonObject.put("totalPage", pager.getTotalPage());
+		} else {
+			jsonObject.put("list", null);
+		}
+		return jsonObject.toString();
+	}
+	
 	public void getScoket() {
 		// 客户端
 		// 1、创建客户端Socket，指定服务器地址和端口
