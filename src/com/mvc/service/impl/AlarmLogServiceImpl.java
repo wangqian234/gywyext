@@ -25,4 +25,8 @@ public class AlarmLogServiceImpl implements AlarmLogService {
 	public Integer countAlarmTotal(String searchKey) {
 		return alarmLogDao.countAlarmTotal(searchKey);
 	}
+	@Override
+	public List<AlarmLog> getAlarmListByEquipId(String equipmentId) {
+		return alarmLogDao.getAlarmListByEquipId(equipmentId);
+	}
 }

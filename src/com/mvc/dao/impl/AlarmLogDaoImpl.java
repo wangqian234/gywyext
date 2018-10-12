@@ -142,4 +142,15 @@ public class AlarmLogDaoImpl implements AlarmLogDao {
 		return Integer.parseInt(list.get(0).toString());
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AlarmLog> getAlarmListByEquipId(String equipmentId) {
+		EntityManager em = emf.createEntityManager();
+		String selectSql = "select * from alarm_log where equipment = " + equipmentId; 
+		Query query = em.createNativeQuery(selectSql, AlarmLog.class);
+		List<AlarmLog> list = query.getResultList();
+		em.close();
+		return list;
+	}
+
 }

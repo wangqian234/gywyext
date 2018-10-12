@@ -31,6 +31,7 @@ body{
 .active{
 	color: #32C2CD !important;
 }
+.alarmdiv::-webkit-scrollbar { width: 0 !important }
 /* 南健pageCSS */
 .tcdPageCode {
 	padding: 15px 20px;

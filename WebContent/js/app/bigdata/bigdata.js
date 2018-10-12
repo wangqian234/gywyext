@@ -200,6 +200,7 @@ app
 														var failChart = drawPieChart(chartObject);
 													});
 								} else if (bigData.type == "equipState") {
+									alert(f.equip_room_id)
 									services.selectEquipListByRoomId({
 										page : 1,
 										roomId : f.equip_room_id
@@ -323,11 +324,9 @@ app
 											.success(
 													
 													function(data) {
-														console.log(obj.equip_id);
-
+														console.log(data.list);
+														bigData.alarmList = data.list;
 														bigData.preDate = data.result;
-														console.log(data.result);
-
 														if (data.result[0] == null
 																|| data.result[0] == "") {
 															bigData.warning = "该设备的初次安装使用时间为"+bigData

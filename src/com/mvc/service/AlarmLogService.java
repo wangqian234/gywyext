@@ -7,4 +7,5 @@ public interface AlarmLogService {
 
 	List<AlarmLog> getAlarmListByPage(String searchKey,Integer offset, Integer end);
 	Integer countAlarmTotal(String searchKey);
+	List<AlarmLog> getAlarmListByEquipId(String equipmentId);
 }

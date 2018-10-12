@@ -29,4 +29,7 @@ public interface AlarmLogDao {
 
 	Integer getAlarmNum(String proj_id);
 
+
+	List<AlarmLog> getAlarmListByEquipId(String equipmentId);
+
 }
