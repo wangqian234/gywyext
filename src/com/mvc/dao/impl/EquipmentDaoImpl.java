@@ -500,4 +500,45 @@ public class EquipmentDaoImpl implements EquipmentDao {
 
 			}
 
+			@Override
+			public List<Equipment> selectIndexMainEquipList(Integer proId, Integer offset, Integer limit,Date updateDate) {
+				// TODO Auto-generated method stub
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_isdeleted='0' and  equip_ndate<:updateDate and equip_room in (select equip_room_id from equip_room where proj_id =:proj_id) order by equip_id desc limit :offset, :end"; 
+				Query query = em.createNativeQuery(selectSql,Equipment.class);
+				query.setParameter("updateDate", updateDate);
+				query.setParameter("proj_id", proId);
+				query.setParameter("offset", offset);
+				query.setParameter("end", limit);
+				List<Equipment> list = query.getResultList();
+				em.close();
+				return list;
+			}
+
+			@Override
+			public List<Equipment> selectIndexUnhealthEquip(Integer proId, Integer offset, Integer limit) {
+				// TODO Auto-generated method stub
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_isdeleted='0' and equip_state in (0,1,2) and equip_room in (select equip_room_id from equip_room where proj_id =:proj_id) order by equip_id desc limit :offset, :end"; 
+				Query query = em.createNativeQuery(selectSql,Equipment.class);
+				query.setParameter("proj_id", proId);
+				query.setParameter("offset", offset);
+				query.setParameter("end", limit);
+				List<Equipment> list = query.getResultList();
+				em.close();
+				return list;
+			}
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public List<Equipment> selectAllEquipByProId(String proj_id) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_room in (select equip_room_id from equip_room where proj_id =:proj_id)"; 
+				Query query = em.createNativeQuery(selectSql, Equipment.class);
+				query.setParameter("proj_id", proj_id);
+				List<Equipment> list = query.getResultList();
+				em.close();
+				return list;
+			}
+
 }

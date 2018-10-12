@@ -69,10 +69,39 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
-	services.selectIndexData=function(data){
+	services.selectIndexData = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'index/selectIndexData.do',
+			data : data
+		});
+	};
+	services.selectIndexAlramLog = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/selectIndexAlramLog.do',
+			data : data
+		});
+	}
+	services.selectIndexMainEquip = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/selectIndexMainEquip.do',
+			data : data
+		});
+	}
+	services.selectIndexUnhealthEquip = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'index/selectIndexUnhealthEquip.do',
+			data : data
+		});
+	}
+	//根据项目id获得设备报警信息
+	services.getProEquipAnalysis = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl +'alarmLog/getProEquipAnalysis.do',
 			data : data
 		});
 	};
@@ -84,9 +113,23 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 		function($scope, services, $location, $timeout, $interval) {
 			var index = $scope;
 			index.proId;
-			index.alarmNum=0;
-			index.mainNum=0;
-			index.unhealthNum=0;
+			index.alarmNum = 0;
+			index.mainNum = 0;
+			index.unhealthNum = 0;
+			// 换页函数
+			function pageTurn(totalPage, page, Func) {
+				$(".tcdPageCode").empty();
+				var $pages = $(".tcdPageCode");
+				if ($pages.length != 0) {
+					$(".tcdPageCode").createPage({
+						pageCount : totalPage,
+						current : page,
+						backFn : function(p) {
+							Func(p);
+						}
+					});
+				}
+			}
 			// 获取左侧蓝菜单
 			index.getLeftData = function() {
 				services.getInitLeft({}).success(function(data) {
@@ -131,14 +174,189 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 				services.selectIndexData({
 					"proId" : str
 				}).success(function(data) {
-					index.alarmNum=data.alarmNum;
-					index.mainNum=data.mainNum;
-					index.unhealthNum=data.unhealthNum;
+					index.alarmNum = data.alarmNum;
+					index.mainNum = data.mainNum;
+					index.unhealthNum = data.unhealthNum;
 				});
+				
+				services.getProEquipAnalysis({
+					proj_id : str
+				}).success(function(data) {
+					console.log("wangq"+data.analysis);
+		        	d444(data.analysis);
+				});
+				
 				$(".nav-second-level li").removeClass("liActive");
 				var oObj = window.event.srcElement;
 				var oTr = oObj.parentNode;
 				oTr.className = "liActive";
+			}
+
+			index.selectIndexAlramLog = function() {
+
+				$("#tipAdd").fadeIn(200);
+				$(".overlayer").fadeIn(200);
+				services.selectIndexAlramLog({
+					"proId" : index.proId,
+					"page" : 1,
+				}).success(function(data) {
+
+					index.alramLogList = data.list;
+					pageTurn(data.totalPage, 1, selectIndexAlramLogList);
+				});
+			}
+
+			function selectIndexAlramLogList(page) {
+				services.selectIndexAlramLog({
+					"proId" : index.proId,
+					"page" : page,
+				}).success(function(data) {
+
+					index.alramLogList = data.list;
+
+				});
+			}
+
+			index.selectIndexMainEquip = function() {
+
+				$("#tipMainEquip").fadeIn(200);
+				$(".overlayer").fadeIn(200);
+				services.selectIndexMainEquip({
+					"proId" : index.proId,
+					"page" : 1,
+				}).success(function(data) {
+
+					index.mainEquipList = data.list;
+					pageTurn(data.totalPage, 1, selectIndexMainEquipList);
+				});
+			}
+
+			function selectIndexMainEquipList(page) {
+				$("#tipMainEquip").fadeIn(200);
+				$(".overlayer").fadeIn(200);
+				services.selectIndexMainEquip({
+					"proId" : index.proId,
+					"page" : page,
+				}).success(function(data) {
+
+					index.mainEquipList = data.list;
+				});
+			}
+
+			index.selectIndexUnhealthEquip = function() {
+
+				$("#tipUnhealthEquip").fadeIn(200);
+				$(".overlayer").fadeIn(200);
+				services.selectIndexUnhealthEquip({
+					"proId" : index.proId,
+					"page" : 1,
+				}).success(function(data) {
+
+					index.unhealthEquipList = data.list;
+					pageTurn(data.totalPage, 1, selectIndexUnhealthEquipList);
+				});
+			}
+
+			function selectIndexUnhealthEquipList(page) {
+				$("#tipUnhealthEquip").fadeIn(200);
+				$(".overlayer").fadeIn(200);
+				services.selectIndexUnhealthEquip({
+					"proId" : index.proId,
+					"page" : page,
+				}).success(function(data) {
+
+					index.unhealthEquipList = data.list;
+				});
+			}
+
+			$("#cancelAdd").click(function() {
+				$(".tip").fadeOut(200);
+				$(".overlayer").fadeOut(200);
+				taskHtml.task = ""
+
+			});
+			// 这里添加一个方法修改标志位，将该合同的任务由新接收任务改为未完成任务
+
+			$(".tiptop a").click(function() {
+				$(".overlayer").fadeOut(200);
+				$(".tip").fadeOut(200);
+			});
+
+			$(".sure").click(function() {
+
+				$(".overlayer").fadeOut(100);
+				$(".tip").fadeOut(100);
+			});
+
+			$(".cancel").click(function() {
+				$(".overlayer").fadeOut(100);
+				$(".tip").fadeOut(100);
+			});
+			
+			//饼图初始化
+			function d444(data){
+				var d4 = echarts.init(document.getElementById('d4')); 
+				d4.clear();
+				d4.showLoading({text:'正在缓冲...'});
+				var name=[];
+				for(var i=0;i<data.length;i++){
+					name.push(data[i].name);
+				}
+				option = {
+					    tooltip : {
+					        trigger: 'item',
+					        formatter: "{a} <br/>{b} : {c} ({d}%)"
+					    },
+					    legend: {
+					        /*x : 'center',
+					        y : '280',*/
+					    	bottom: '8%',
+					        //left: '20%',
+					        icon: 'circle',
+					        data:name,
+					        textStyle : {
+					        	color: function(params) {
+					        		//console.log(params);
+				                    var num = data.length;
+				                    return mycolor[params.dataIndex % num]
+				                },
+				                }
+					    },
+					    toolbox: {
+					        show : true,
+					        feature : {
+					            mark : {show: true},
+					            magicType : {
+					                show: true,
+					                type: ['pie', 'funnel']
+					            }
+					        }
+					    },
+					    calculable : true,
+					    series : [
+					        {
+					            name:'故障统计',
+					            type:'pie',
+					            radius : [20, 90],
+					            center : ['50%', '35%'],
+					            labelLine: {
+					            	normal: {
+					            		length: 1,
+					            	}
+					            },
+					            roseType : 'area',
+					            data:data,
+					        }
+					    ]
+					};
+				
+				d4.setOption(option);
+				d4.on('click',function(params){
+					//console.log(params.data.name);
+					exchange(params.data.name);
+				});
+				d4.hideLoading();
+				
 			}
 
 			// 初始化页面信息
@@ -190,14 +408,14 @@ app.filter('DateTimeFormat', function() {
 app.filter('EquipState', function() {
 	return function(input) {
 		var type = "";
-		if (input == '0') {
+		if (input == '状况非常差') {
 			type = "正常";
 		} else if (input == '1') {
-			type = "需要维修";
+			type = "状况差";
 		} else if (input == '2') {
-			type = "需要更换";
+			type = "状态较差";
 		} else {
-			type = "正常";
+			type = "状况差";
 		}
 
 		return type;

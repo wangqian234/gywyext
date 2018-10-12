@@ -6,7 +6,7 @@
 	<div id="page-inner">
 
 
-<!-- 		<div class="row">
+		<!-- 		<div class="row">
 			<div class="col-md-12" style="width:100%">
 				<h1 class="page-header">
 					Dashboard <small>Summary of your App</small>
@@ -22,12 +22,13 @@
 
 
 		<!-- /. ROW  -->
-	<!-- 	<div class="tlinks">
+		<!-- 	<div class="tlinks">
 			Collect from <a href="http://www.cssmoban.com/">网页模板</a>
 		</div> -->
 
 		<div class="row">
-			<div class="col-md-4 col-sm-12 col-xs-12">
+			<div class="col-md-4 col-sm-12 col-xs-12"
+				ng-click="selectIndexAlramLog()">
 				<div
 					class="panel panel-primary text-center no-boder bg-color-green green">
 					<div class="panel-left pull-left green">
@@ -40,7 +41,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4 col-sm-12 col-xs-12">
+			<div class="col-md-4 col-sm-12 col-xs-12"
+				ng-click="selectIndexMainEquip()">
 				<div class="panel panel-primary text-center no-boder bg-color-blue">
 					<div class="panel-left pull-left blue">
 						<i class="fa fa-shopping-cart fa-5x"></i>
@@ -53,7 +55,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4 col-sm-12 col-xs-12">
+			<div class="col-md-4 col-sm-12 col-xs-12"
+				ng-click="selectIndexUnhealthEquip()">
 				<div class="panel panel-primary text-center no-boder bg-color-red">
 					<div class="panel-left pull-left red">
 						<i class="fa fa fa-comments fa-5x"></i>
@@ -84,9 +87,9 @@
 		<div class="row">
 			<div class="col-md-5">
 				<div class="panel panel-default">
-					<div class="panel-heading">Area Chart</div>
+					<div class="panel-heading">报警统计</div>
 					<div class="panel-body">
-						<div id="morris-area-chart"></div>
+	            		<div style="width: 100%;height:89%;" id="d4"></div>
 					</div>
 				</div>
 			</div>
@@ -123,3 +126,132 @@
 		</ul>
 	</div>
 </nav>
+
+<!-- //弹框列表显示 -->
+<div class="overlayer"></div>
+<div class="tip" id="tipAdd">
+	<div class="tiptop">
+		<span>设备报警</span><a></a>
+		<!-- 这个a标签是模态框上的叉叉 -->
+	</div>
+	<div class="formbody">
+		<div class="tab-content">
+			<div>
+
+				<table id="infoList" class="datatable table table-striped">
+					<thead>
+						<tr>
+							<th>设备名称</th>
+							<th>设备安装位置</th>
+							<th>报警时间</th>
+							<th>报警内容</th>
+							<!-- <th>下次维修日期</th>
+										<th>预测寿命</th> -->
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-class="{true:'active',false:''}[$index==tableIndex]"
+							ng-click="change(eq,$index,this)" ng-repeat="e in alramLogList">
+							<td>{{e.equipment.equip_name }}</td>
+							<td>{{e.equipment.equip_room.equip_room_name }}</td>
+							<td scope="row">{{e.alarm_log_date.time |dateType}}</td>
+							<td>{{e.alarm_log_info}}</td>
+
+							<!-- <td>2019-15-12</td>
+										<td>5</td> -->
+
+						</tr>
+
+					</tbody>
+				</table>
+				<div class="tcdPageCode">页码容器</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="tip" id="tipMainEquip">
+	<div class="tiptop">
+		<span>待维保设备</span><a></a>
+		<!-- 这个a标签是模态框上的叉叉 -->
+	</div>
+	<div class="formbody">
+		<div class="tab-content">
+			<div>
+
+				<table id="infoList" class="datatable table table-striped">
+					<thead>
+						<tr>
+							<th>设备名称</th>
+							<th>设备安装位置</th>
+							<th>设备开始使用日期</th>
+							<th>待维保时间</th>
+							<!-- <th>下次维修日期</th>
+										<th>预测寿命</th> -->
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-class="{true:'active',false:''}[$index==tableIndex]"
+							ng-click="change(eq,$index,this)" ng-repeat="e in mainEquipList">
+							<td>{{e.equip_name }}</td>
+							<td>{{e.equip_room.equip_room_name }}</td>
+							<td scope="row">{{e.equip_udate.time | dateType}}</td>
+							<td>{{e.equip_ndate.time | dateType}}</td>
+
+							<!-- <td>2019-15-12</td>
+										<td>5</td> -->
+
+						</tr>
+
+					</tbody>
+				</table>
+				<div class="tcdPageCode">页码容器</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="tip" id="tipUnhealthEquip">
+	<div class="tiptop">
+		<span>健康状态差设备</span><a></a>
+		<!-- 这个a标签是模态框上的叉叉 -->
+	</div>
+	<div class="formbody">
+		<div class="tab-content">
+			<div>
+
+				<table id="infoList" class="datatable table table-striped">
+					<thead>
+						<tr>
+							<th>设备名称</th>
+							<th>设备安装位置</th>
+							<th>设备健康状态</th>
+							<th>设备开始使用日期</th>
+							<th>待维保时间</th>
+							<!-- <th>下次维修日期</th>
+										<th>预测寿命</th> -->
+
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-class="{true:'active',false:''}[$index==tableIndex]"
+							ng-click="change(eq,$index,this)"
+							ng-repeat="e in unhealthEquipList">
+							<td>{{e.equip_name }}</td>
+							<td>{{e.equip_room.equip_room_name }}</td>
+							<td>{{e.equip_state |EquipState }}</td>
+							<td scope="row">{{e.equip_udate.time | dateType}}</td>
+							<td>{{e.equip_ndate.time | dateType}}</td>
+
+							<!-- <td>2019-15-12</td>
+										<td>5</td> -->
+
+						</tr>
+
+					</tbody>
+				</table>
+				<div class="tcdPageCode">页码容器</div>
+			</div>
+		</div>
+	</div>
+</div>
