@@ -61,5 +61,9 @@ public interface EquipmentDao {
 	Integer getNdateNum(String proj_id, String timenow);
 
 	Integer getStateNum(String proj_id);
+	
+	List<Equipment> selectIndexMainEquipList(Integer proId,Integer offset,Integer limit,Date updateDate);
+	
+	List<Equipment> selectIndexUnhealthEquip(Integer proId,Integer offset,Integer limit);
 
 }
