@@ -14,6 +14,23 @@ body{
 	margin-left:260px;
 	width: inherit;
 }
+#menuUl{
+	    margin-bottom: 0;
+}
+#menuUl>.active{
+	background-color:#E6E6E6 !important;
+	color: #32C2CD !important;
+}
+#menuUl>li{
+	display: inline-block;
+	height:100%;
+}
+#menuUl>.active{
+	background-color:#E6E6E6 !important;
+}
+.active{
+	color: #32C2CD !important;
+}
 /* 南健pageCSS */
 .tcdPageCode {
 	padding: 15px 20px;
@@ -556,11 +573,6 @@ nav ul ul {
     margin: auto 15px;
     line-height: 60px;
 }
-
-.topspan:link {font-size:12px;}		/* 未访问的链接 */
-.topspan:visited {font-size:20px;}	/* 已访问的链接 */
-.topspan:hover {font-size:20px;color:white}	/* 鼠标移动到链接上 */
-.topspan:active {font-size:20px;}	/* 选定的链接 */
 
 .dfinput111 {
 	width: 40%;

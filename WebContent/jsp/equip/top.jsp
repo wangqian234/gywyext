@@ -21,10 +21,14 @@
                 <a class="navbar-brand" href="/gywyext/jsp/index/index.jsp"><i class="fa fa-gear"></i> <strong>公元物业e巡通</strong></a>
             </div>
 			<div>
-				<a class="topspan" href="#/equipBaseInfo"><h4 class="fa fa-dashboard">设备基本信息</h4></a>
+			<ul id="menuUl">
+			<li class="active"><a class="topspan active" href="#/equipBaseInfo"><h4 class="fa fa-dashboard">设备基本信息</h4></a></li>
+			<li><a class="topspan" href="equipRealInfo/dataV/index.jsp#/dataV"><h4 class="fa fa-tasks">可视化大屏展示</h4></a></li>
+			<li><a class="topspan" href="equipAlarmInfo/index.jsp#/equipAlarmInfo"><h4 class="fa fa-bell">设备报警信息</h4></a></li>
+			</ul>
+<!-- 				<a class="topspan" href="#/equipBaseInfo"><h4 class="fa fa-dashboard">设备基本信息</h4></a>
 				<a class="topspan" href="equipRealInfo/dataV/index.jsp#/dataV"><h4 class="fa fa-tasks">可视化大屏展示</h4></a>
-				<a class="topspan" href="equipAlarmInfo/index.jsp#/equipAlarmInfo"><h4 class="fa fa-bell">设备报警信息</h4></a>
-				<!-- <a class="topspan" href="#/camera"><h4 class="fa fa-bell">摄像头信息</h4></a> -->
+				<a class="topspan" href="equipAlarmInfo/index.jsp#/equipAlarmInfo"><h4 class="fa fa-bell">设备报警信息</h4></a> -->
 			</div>
         </nav>
 	<section class="containner">
@@ -54,4 +58,7 @@
                 $('div.sidebar-collapse').removeClass('collapse')
             }
         });
+		$("#menuUl>li").click(function() {
+			$(this).addClass("active").siblings().removeClass();
+		})
         </script>
