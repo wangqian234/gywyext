@@ -103,6 +103,7 @@
 		</div>
 		<div class="menu">
 			<ul id="menuUl" class="menuUl">
+
 				<li ><a class="topspan"href="/gywyext/jsp/project/index.jsp#/companyList"><h4
 					        class="fa fa-tasks">项目管理</h4></a></li>
 				<li><a class="topspan" href="/gywyext/jsp/equip/index.jsp#/equipBaseInfo"><h4

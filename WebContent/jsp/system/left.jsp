@@ -28,8 +28,7 @@
                  </ul>
             </div>
         </nav>
-
-   
+ 
     <script>
     $("#main-menu").on("click",function(e){
     	if(e.target.nodeName == "A"){
