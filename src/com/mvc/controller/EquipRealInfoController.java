@@ -26,6 +26,7 @@ import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
+import com.mvc.entityReport.Project;
 import com.mvc.service.EquipRealInfoService;
 import com.utils.Pager;
 
@@ -134,16 +135,16 @@ public class EquipRealInfoController {
 	    String param = null;
         if(turn_id.equals("0")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=0&speed=1";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=0&speed=1";
         }else if(turn_id.equals("1")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=1&speed=1";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=1&speed=1";
         }else if(turn_id.equals("2")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=2&speed=1";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=2&speed=1";
         }else if(turn_id.equals("3")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=3&speed=1";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=3&speed=1";
         }
         try {
             URL realUrl = new URL(url);
@@ -197,13 +198,13 @@ public class EquipRealInfoController {
         String url = "https://open.ys7.com/api/lapp/device/ptz/stop";			     
 	    String param = null;			        
 	    if(turn_id.equals("0")){
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=0";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=0";
         }else if(turn_id.equals("1")){			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=1";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=1";
         }else if(turn_id.equals("2")){			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=2";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=2";
         }else if(turn_id.equals("3")){			     
-		     param = "accessToken=at.dymancjqcgs4ruck2zo1djnv5xpah7uu-32fiwxv2c8-059xn1a-bfyxzrc0a&deviceSerial=C24186733&channelNo=1&direction=3";
+		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=3";
         }
 	    try {
             URL realUrl = new URL(url);
@@ -251,12 +252,9 @@ public class EquipRealInfoController {
 	//获取设备报警信息
     @RequestMapping(value = "/getWaringNews.do")
 	public @ResponseBody String getWaringNews(HttpServletRequest request, HttpSession session){
-    	System.out.println("我进来了2");
 		JSONObject jsonObject = new JSONObject();
 		try{
 			String searchKey = request.getParameter("searchKey");
-			//String startDate = request.getParameter("startDate");
-			//List<EquipOper> data = equipRealInfoService.getWaringNews(searchKey,startDate);
 			List<AlarmLog> data = equipRealInfoService.getWaringNews(searchKey);
 			jsonObject.put("data", data);
 		} catch (Exception e){
@@ -264,19 +262,33 @@ public class EquipRealInfoController {
 		}
 		return jsonObject.toString();
 	}
-  //根据项目名称获取所属设备告警信息条数
-    @RequestMapping(value = "/getEquipAlarmNumberByProjectName.do")
-	public @ResponseBody String getEquipAlarmNumberByProjectName(HttpServletRequest request, HttpSession session){
+    // 根据公司id获取所属项目信息
+    @RequestMapping(value = "/selectProjectByCompId.do")
+	public @ResponseBody String selectProjectByCompId(HttpServletRequest request, HttpSession session){
 		JSONObject jsonObject = new JSONObject();
 		try{
 			String searchKey = request.getParameter("searchKey");
-			//String startDate = request.getParameter("startDate");
-			//List<EquipOper> data = equipRealInfoService.getWaringNews(searchKey,startDate);
-			List<AlarmLog> data = equipRealInfoService.getEquipAlarmNumberByProjectName(searchKey);
-			jsonObject.put("list", data);
+			List<Project> data = equipRealInfoService.selectProjectByCompId(searchKey);
+			jsonObject.put("project", data);
 		} catch (Exception e){
 			jsonObject.put("error", "暂未找到相关数据");
 		}
 		return jsonObject.toString();
 	}
+  //根据项目名称和设备名称获取告警信息
+    /*@RequestMapping(value = "/getEquipAlarmByProAndEquip.do")
+	public @ResponseBody String getEquipAlarmByProAndEquip(HttpServletRequest request, HttpSession session){
+		JSONObject jsonObject = new JSONObject();
+		try{
+			String proName = request.getParameter("proName");
+			String equipName = request.getParameter("equipName");
+			//String startDate = request.getParameter("startDate");
+			//List<EquipOper> data = equipRealInfoService.getWaringNews(searchKey,startDate);
+			List<AlarmLog> data = equipRealInfoService.getEquipAlarmByProAndEquip(proName,equipName);
+			jsonObject.put("list", data);
+		} catch (Exception e){
+			jsonObject.put("error", "暂未找到相关数据");
+		}
+		return jsonObject.toString();
+	}*/
 }

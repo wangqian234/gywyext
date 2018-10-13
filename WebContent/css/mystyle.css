@@ -9,7 +9,29 @@ body{
     height: -webkit-fill-available;
     max-height: 600px;
 }
-
+.menu{
+	position:absolute;
+	margin-left:260px;
+	width: inherit;
+}
+#menuUl{
+	    margin-bottom: 0;
+}
+#menuUl>.active{
+	background-color:#E6E6E6 !important;
+	color: #32C2CD !important;
+}
+#menuUl>li{
+	display: inline-block;
+	height:100%;
+}
+#menuUl>.active{
+	background-color:#E6E6E6 !important;
+}
+.active{
+	color: #32C2CD !important;
+}
+.alarmdiv::-webkit-scrollbar { width: 0 !important }
 /* 南健pageCSS */
 .tcdPageCode {
 	padding: 15px 20px;
@@ -309,7 +331,7 @@ textarea.dfinput {
 	
 	position:absolute;
 	left:300px;
-	top:21px;/*上下位置*/
+	top:-4px;/*上下位置*/
 	
 	z-index:1;
 
@@ -317,8 +339,8 @@ textarea.dfinput {
 .form-controling{
 	
 	position:absolute;
-	
-	top:21px;/*上下位置*/
+	left:15px;
+	top:-4px;/*上下位置*/
 	
 	z-index:1;
 
@@ -432,9 +454,9 @@ nav ul ul {
 	top: 10%;
 	left: 50%;
 	margin-left: -270px;
-	background: #fff;
+	background: #ffffff;
 	box-shadow: 1px 2px 2px 1px #9b9b9b;
-	border-radius: 1px;
+	border-radius: 10px;
 	behavior: url(js/pie.htc); 
 	display: none;
 	z-index: 111111;
@@ -553,11 +575,6 @@ nav ul ul {
     line-height: 60px;
 }
 
-.topspan:link {font-size:12px;}		/* 未访问的链接 */
-.topspan:visited {font-size:20px;}	/* 已访问的链接 */
-.topspan:hover {font-size:20px;color:white}	/* 鼠标移动到链接上 */
-.topspan:active {font-size:20px;}	/* 选定的链接 */
-
 .dfinput111 {
 	width: 40%;
 	min-width:150px;
@@ -587,6 +604,17 @@ textarea.dfinput111 {
 	vertical-align: middle;
 	margin-right: 22px;
 }
+.browse-image{
+	position:relative;
+}
+        .browse-image input{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
 /* progress
 {
    color:#ff0000; 兼容IE10的已完成进度背景

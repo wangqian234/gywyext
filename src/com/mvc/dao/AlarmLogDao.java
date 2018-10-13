@@ -15,6 +15,23 @@ public interface AlarmLogDao {
 	
 	List<Object>  getEquipFailCountById(Integer equipId,String year);
 
+	
+	Integer getEquipAlarmNumByProId(Integer proId);
+
 	List<AlarmLog> getAlarmListByPage(String searchKey,Integer offset, Integer end);
+	
 	Integer countAlarmTotal(String searchKey);
+
+
+
+	List<Object> selectAlarmByA(String proj_id);
+
+
+	Integer getAlarmNum(String proj_id);
+	
+	List<AlarmLog> selectIndexAlramLog(Integer proId,Integer offset,Integer limit);
+
+
+	List<AlarmLog> getAlarmListByEquipId(String equipmentId);
+
 }

@@ -1,6 +1,7 @@
 package com.mvc.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipMain;
@@ -30,5 +31,17 @@ public interface MobileService {
 	List<EquipRoom> getRoomByProId(String proj_id);
 
 	List<Equipment> selectEquipByRoomMobile(List<EquipRoom> room);
+
+	//根据维保时间查找设备
+	List<Map> selectEquipmentByN(String proj_id);
+
+	//根据健康状态查找设备
+	List<Map> selectEquipmentByS(String proj_id);
+
+	//根据项目查找报警
+	List<Map> selectAlarmByA(String proj_id);
+
+	//根据proj_id获取数量
+	List<Integer> selectAllNum(String proj_id);
 
 }

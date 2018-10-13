@@ -1,5 +1,6 @@
 package com.mvc.service.impl;
 
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -100,6 +101,7 @@ public class BigDataServiceImpl implements BigDataService {
 		float reliability = 0;
 		float health = 0;
 		float residualLife = 0;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		EquipMain em = new EquipMain();
 		List<EquipMain> emList = equipMainDao.selectListByEquipId(equipmentId);
 		Date dt = new Date();
@@ -112,18 +114,48 @@ public class BigDataServiceImpl implements BigDataService {
 		if (num == null) {
 			num = 0;
 		}
-		reliability = (float) ((1 - num * 0.001) * 0.98);
-		health = (float) ((1 - num * 0.001) * 0.95);
+		reliability = (float) ((1 - num * 0.001) * 0.98);//可靠性
+		health = (float) ((1 - num * 0.001) * 0.95);//健康指数
 		Equipment e = new Equipment();
 		e = equipmentDao.selectEquipmentById(equipmentId);
 		Date now = new Date();
 		if (e.getEquip_life() == null) {
-			e.setEquip_life(0);
+			e.setEquip_life(3600);
 		}
-		long standardDate = e.getEquip_life() * 24 * 60 * 60 * 1000;
-		long usedDate = now.getTime() - e.getEquip_udate().getTime();
-		long idle = e.getEquip_udate().getTime() - e.getEquip_pdate().getTime();
-		residualLife = (standardDate - usedDate * reliability) / (standardDate - idle);
+		int lifeTime = e.getEquip_life();//标准寿命
+		int month, monthyear, monthday;
+		Date getDate = new Date();
+		String nowDate = sdf.format(getDate);
+		Calendar bef = Calendar.getInstance();
+		Calendar aft = Calendar.getInstance();
+		try {
+			bef.setTime(sdf.parse(nowDate));
+			aft.setTime(sdf.parse(sdf.format(e.getEquip_udate())));// useDate
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if (aft.get(Calendar.YEAR) < bef.get(Calendar.YEAR)) {
+			monthyear = (bef.get(Calendar.YEAR) - aft.get(Calendar.YEAR)) * 12*30;
+		} else {
+			monthyear = (aft.get(Calendar.YEAR) - bef.get(Calendar.YEAR)) * 12*30;
+		}
+		month = (bef.get(Calendar.MONTH) - aft.get(Calendar.MONTH))*30;
+		/*if (aft.get(Calendar.MONTH) < bef.get(Calendar.MONTH)) {
+			month = (bef.get(Calendar.MONTH) - aft.get(Calendar.MONTH))*30;
+		} else {
+			month = (aft.get(Calendar.MONTH) - bef.get(Calendar.MONTH))*30;
+		}*/
+		monthday = (bef.get(Calendar.DATE) - aft.get(Calendar.DATE)) / 1;
+		/*if (aft.get(Calendar.DATE) < bef.get(Calendar.DATE)) {
+			monthday = (bef.get(Calendar.DATE) - aft.get(Calendar.DATE)) / 1;
+		} else {
+			monthday = (aft.get(Calendar.DATE) - bef.get(Calendar.DATE)) / 1;
+		}*/
+		int useTime = month + monthyear + monthday;
+		
+		//BigInteger usedDate = now.getTime() - e.getEquip_udate().getTime();//已使用时间
+		residualLife = (lifeTime - useTime * reliability) / lifeTime;
 		JSONArray arr = new JSONArray();
 		JSONObject o1 = new JSONObject();
 		/*
@@ -143,6 +175,8 @@ public class BigDataServiceImpl implements BigDataService {
 	public JSONArray getEquipPreById(Integer equipmentId) {
 		// TODO Auto-generated method stub
 		EquipMain em = new EquipMain();
+		Equipment e=new Equipment();
+		e=equipmentDao.selectEquipmentById(equipmentId);
 		List<EquipMain> emList = equipMainDao.selectListByEquipId(equipmentId);
 		Date dt = new Date();
 		if (emList.size() == 0) {
@@ -155,20 +189,33 @@ public class BigDataServiceImpl implements BigDataService {
 			num = 1;
 		}
 
-		float dd = (float) (3000.00 / num);
-		long intervalTime = (long) (dd * 60 * 1000);
+		float dd = (float) (2000.00 / num);
+		long intervalTime = (long) (dd * 60 * 60* 1000);
 		long nextMainDate;
-		Equipment e = new Equipment();
-		e = equipmentDao.selectEquipmentById(equipmentId);
 		if (dt == null) {
 			nextMainDate = e.getEquip_udate().getTime() + intervalTime;
 		} else {
 			nextMainDate = dt.getTime() + intervalTime;
 		}
 		Date preDate = new Date(nextMainDate);
+		
+		Date now=new Date();
+		
+		if(preDate.getTime()>now.getTime()){
+			System.out.println("大于当前时间");
+		}else{
+			System.out.println("小于当前时间，进行整改");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date nowDate=new Date();
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(nowDate);
+			calendar.set(Calendar.DAY_OF_MONTH,calendar.get(Calendar.DAY_OF_MONTH)+1);
+			preDate=calendar.getTime();
+		}
 		JSONArray arr = new JSONArray();
 		arr.add(dt);
 		arr.add(preDate);
+		arr.add(e.getEquip_udate());
 		return arr;
 	}
 

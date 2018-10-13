@@ -15,6 +15,7 @@ import com.mvc.entityReport.Equipment;
 import com.utils.Pager;
 import com.mvc.service.AlarmLogService;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -23,16 +24,7 @@ public class AlarmLogController {
 
 	@Autowired
 	AlarmLogService alarmLogService;
-/*	 @RequestMapping(value = "/getAlarmListByPage.do")
-	public @ResponseBody String getAlarmsByPrarm(HttpServletRequest request, HttpSession session) {
-		JSONObject jsonObject = new JSONObject();
-		Pager pager = new Pager();
-		pager.setPage(Integer.valueOf(request.getParameter("page")));
-		List<AlarmLog> list = alarmLogService.getAlarmListByPage(pager.getOffset(), pager.getLimit());
-		jsonObject.put("list", list);
-		jsonObject.put("totalPage", pager.getTotalPage());
-		return jsonObject.toString();
-	}*/
+	
 	 @RequestMapping(value = "/getAlarmListByPage.do")
 		public @ResponseBody String getAlarmsByPrarm(HttpServletRequest request, HttpSession session) {
 			JSONObject jsonObject = new JSONObject();
@@ -46,6 +38,16 @@ public class AlarmLogController {
 			jsonObject.put("totalPage", pager.getTotalPage());
 			return jsonObject.toString();
 		}
+	
+	@RequestMapping(value = "/getProEquipAnalysis.do")
+	public @ResponseBody String getProEquipAnalysis(HttpServletRequest request, HttpSession session) {
+		JSONObject jsonObject = new JSONObject();
+		String proj_id = request.getParameter("proj_id");
+		JSONArray result = alarmLogService.getProEquipAnalysis(proj_id);
+
+		jsonObject.put("analysis", result);
+		return jsonObject.toString();
+	}
 	 
 	 
 	 

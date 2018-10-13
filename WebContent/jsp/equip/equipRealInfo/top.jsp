@@ -18,7 +18,9 @@
 <body>
         <nav class="navbar navbar-default top-navbar" role="navigation">
             <div class="navbar-header">
-                <a class="navbar-brand" href="/gywyext/index.html"><i class="fa fa-gear"></i> <strong>公元物业E巡通</strong></a>
+
+                <a class="navbar-brand" href="/gywyext/jsp/index/index.jsp"><i class="fa fa-gear"></i> <strong>公元物业e巡通</strong></a>
+
             </div>
 			<div>
 				<!-- <a class="topspan" href="../index.jsp#/equipBaseInfo"><span>设备基本信息</span></a>

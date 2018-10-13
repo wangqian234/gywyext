@@ -21,76 +21,45 @@
                      <li ng-repeat="ld in leftData">
                         <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> 用户管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffBaseInfo">全部用户信息</a></li> 
+                            <li><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/userList">全部用户信息</a></li> 
 	  						<li><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffAdd">新建用户信息</a></li>
-							<%-- <li><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/userList">查询用户信息</a></li> --%>
-                        </ul>
+                       	</ul>
                     </li>
                  </ul>
-                 
             </div>
         </nav>
-        
-        <script>
-	        $("#main-menu").on("click",function(e){
-	        	if(e.target.nodeName == "A"){
-	        		$(this).find("a").removeClass("clickin");
-	        		$(e.target).addClass("clickin");
-	        	}
-	        })
-        </script>
+
+   
+    <script>
+    $("#main-menu").on("click",function(e){
+    	if(e.target.nodeName == "A"){
+    		$(this).find("a").removeClass("clickin");
+    		$(e.target).addClass("clickin");
+    	}
+    })
     
-    <%-- <nav class="navbar-default navbar-side" role="navigation">
-		<div id="sideNav"><i class="fa fa-caret-right"></i></div> 
-			<div class="btn-group">
-				<a	href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffBaseInfo" >
-	  			<button data-toggle="dropdown" class="btn btn-primary dropdown-toggle">用户管理<span	class="caret"></span></button></a>
-	  				<ul class="dropdown-menu">
-						<li><a href="#/staffAdd">新建</a></li>
-						<li><a href="#/userList">查询</a></li>
-					 </ul>
-	  		</div>
-		 </nav>  
-		 --%>
-		
-		
-		
- <!-- <div class="test">
-	<ul>
-        	<li>A</li>
-            	<li>B</li>
-            	<li>C
-                 	<ul>
-                    		<li>C1</li>
-                    		<li>C2</li>
-                    		<li>C3</li>
-                	</ul>
-           	</li>
- 	</ul> 
-		
-</div> -->
-       
-       
-       
-       
-       
+     $(document).ready(function () {
+		$("#sideNav").click(function(){
+			if($(this).hasClass('closed')){
+				$('.navbar-side').animate({left: '0px'});
+				$(this).removeClass('closed');
+				$('#page-wrapper').animate({'margin-left' : '260px'});
+				
+			}
+			else{
+			    $(this).addClass('closed');
+				$('.navbar-side').animate({left: '-260px'});
+				$('#page-wrapper').animate({'margin-left' : '0px'}); 
+			}
+		});
+    });
 
-
-		 
-  <%--  <nav class="navbar-default navbar-side" role="navigation">
-   			<div id="sideNav"><i class="fa fa-caret-right"></i></div>
-         <div class="sidebar-collapse"> 
-               <ul class="nav" id="main-menu"> 
-                   <li> 
-                    <a href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffBaseInfo"><i class="fa fa-sitemap"></i>用户管理<span class="fa arrow"></span></a> 
-                    <a href="${ctx}/routeController/toStaffBaseInfoPage.do#/staffBaseInfo"><i class="fa fa-sitemap"></i>用户管理<span class="fa arrow"></span></a>
-					 <a href=""><i class="fa fa-sitemap"></i>日志管理<span class="fa arrow"></span></a>
-                   </li> 
-                </ul>
-            </div> 
-     </nav> 
-
-											
-
-		 --%>
-											
+    $(window).bind("load resize", function () {
+        if ($(this).width() < 768) {
+            $('div.sidebar-collapse').addClass('collapse')
+        } else {
+            $('div.sidebar-collapse').removeClass('collapse')
+        }
+    });
+    </script>
+    <script type="text/javascript" src="/gywyext/js/lib/jquery.metisMenu.js"></script>

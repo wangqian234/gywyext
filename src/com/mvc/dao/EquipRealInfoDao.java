@@ -6,6 +6,7 @@ import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
+import com.mvc.entityReport.Project;
 
 public interface EquipRealInfoDao {
 
@@ -33,9 +34,12 @@ public interface EquipRealInfoDao {
 
 	//根据项目查询所属设备信息
 	List<Equipment> getEquipmentListByProject(String searchKey);
+	
+	// 根据公司id获取所属项目信息
+	List<Project> selectProjectByCompId(String searchKey);
 
-	//根据项目名称获取所属设备告警信息条数
-	List<AlarmLog> getEquipAlarmNumberByProjectName(String searchKey);
+	//根据项目名称和设备名称获取告警信息
+	//List<AlarmLog> getEquipAlarmByProAndEquip(String proName, String equipName);
 
 
 }
