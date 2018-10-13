@@ -105,6 +105,14 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	//获取告警信息
+	services.getWaringNews = function (data){
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipRealInfo/getWaringNews.do',
+			data : data,
+		})
+	};
 	return services;
 } ]);
 
@@ -167,6 +175,7 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 
 				});
 			}
+			index.proId;
 			// 点击项目触发事件
 			index.selectBaseInfoByProj = function(str, name, $event) {
 				index.projName = name;
@@ -359,21 +368,82 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 				
 			}
 
+			//报警信息滚动展示
+			function warning(data){
+			    //var data = '塞下秋来风景异，衡阳雁去无留意。四面边声连角起，千嶂里，长烟落日孤城闭。浊酒一杯家万里，燕然未勒归无计。羌管悠悠霜满地，人不寐，将军白发征夫泪。', //样例数据
+			        //data_len = data.length,
+			        //len = parseInt(Math.random()*6)+6, // 数据的长度
+			        html = '<div class="ss">';
+			    
+			    for(var i=0; i<data.length; i++){
+			        //var start = parseInt( Math.random()*(data_len-20) ),
+			            //s = parseInt( Math.random()*data_len );
+			        //html += '<div class="item"v>'+i+'- '+data.substr(start, s)+'</div>';
+			        html += '<div class="item"v>'+timestampToTime(data[i].alarm_log_date.time)+' '+data[i].alarm_log_info+'</div>';
+			    }
+			    html += '</div>';
+			    document.querySelector('.list .cc').innerHTML = html+html; // 复制一份数据
+			    var height = document.querySelector('.list .ss').offsetHeight; // 一份数据的高度
+			    addKeyFrames( '-'+(300)+'px' ); // 设置keyframes,可控制滚动速度
+			    document.querySelector('.list .cc').className += ' rowup'; // 添加 rowup
+			}
+			
+			//报警信息滚动展示css功能函数
+			function addKeyFrames(y){
+			    var style = document.createElement('style');
+			    style.type = 'text/css';
+			    var keyFrames = '\
+			    @-webkit-keyframes rowup {\
+			        0% {\
+			            -webkit-transform: translate3d(0, 0, 0);\
+			            transform: translate3d(0, 0, 0);\
+			        }\
+			        100% {\
+			            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+			            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+			        }\
+			    }\
+			    @keyframes rowup {\
+			        0% {\
+			            -webkit-transform: translate3d(0, 0, 0);\
+			            transform: translate3d(0, 0, 0);\
+			        }\
+			        100% {\
+			            -webkit-transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+			            transform: translate3d(0, A_DYNAMIC_VALUE, 0);\
+			        }\
+			    }';
+			    style.innerHTML = keyFrames.replace(/A_DYNAMIC_VALUE/g, y);
+			    document.getElementsByTagName('head')[0].appendChild(style);
+			}
+			//时间戳转换为日期格式
+			function timestampToTime(timestamp) {
+		        var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+		        var Y = date.getFullYear() + '-';
+		        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		        var D = (date.getDate() +1 <10 ? '0'+date.getDate() :date.getDate()) + ' ';
+		        return Y+M+D;
+		    }
 			// 初始化页面信息
 			function initData() {
 				console.log("初始化页面index！");
 				if ($location.path().indexOf('/init') == 0) {
-
 					index.type = "init";
-
 					index.getLeftData();
-
 				} else if ($location.path().indexOf('/equipPre') == 0) {
-
 					index.type = "equipPre";
 					index.getLeftData();
 				} else {
 					index.getLeftData();
+					//获取告警信息
+					services.getWaringNews({
+						searchKey : null
+					}).success(function(data) {
+						index.projwarning = data.data;
+						index.warningTitle = "报警记录";
+						index.warning = index.projwarning
+						warning(index.projwarning);
+					});
 				}
 			}
 			initData();
