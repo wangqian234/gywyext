@@ -307,7 +307,6 @@ app.controller('indexProController', [
 					searchKey : searchKey
 				}).success(function(data) {
 					indexpro.companys = data.list;
-					initData();
 					pageTurn(data.totalPage, 1, getCompanyListByPage)
 				});
 			};

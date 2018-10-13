@@ -3,7 +3,8 @@
 			<div ng-app="" class="tools">
 		<form class="toolbar">
 			<!-- 根据设备分类筛选设备信息 -->
-			请选择设备区域： <select class="dfselect" ng-model="compname"  id="compname" style="width: 167px" ng-change="selectProjectByCompany()"> 
+
+			请选择所属公司： <select class="dfselect" ng-model="compname"  id="compname" style="width: 167px" ng-change="selectProjectByCompany()"> 
 				<option value=" ">全部</option> 
 				<option ng-repeat="c in companys" value="{{c.comp_id}}">{{c.comp_name}}</option>
 			</select>
@@ -15,7 +16,7 @@
 						id="dataTables-example">
 						<thead>
 							<tr>
-								<th>序号</th>
+								<th>编号</th>
 								<th>项目名称</th>
 								<th>项目地址</th>
 								<th>业主数量</th>
