@@ -97,6 +97,15 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 		}
 		return equipRealInfoDao.getWaringNews(searchKey);
 	}
+	//获取设备报警信息
+	@Override
+	public List<AlarmLog> getWaringNewsWithOut(String searchKey) {
+		List<AlarmLog> data = equipRealInfoDao.getWaringNewsWithOut(searchKey);
+		for(int i=0;i<data.size();i++){
+			data.get(i).setAlarm_log_id(null);
+		}
+		return equipRealInfoDao.getWaringNews(searchKey);
+	}
 	//根据起始时间 向后查100条
 	@Override
 	public List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate) {

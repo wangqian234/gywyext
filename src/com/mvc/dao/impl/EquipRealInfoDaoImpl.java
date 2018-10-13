@@ -122,6 +122,19 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			em.close();
 			return list;
 		}
+		//获取设备报警信息
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<AlarmLog> getWaringNewsWithOut(String searchKey) {
+			List<AlarmLog> list =null;
+			EntityManager em = emf.createEntityManager();
+			System.out.println(searchKey);
+			String selectSql = " select * from alarm_log";
+			Query query = em.createNativeQuery(selectSql, AlarmLog.class);
+			list = query.getResultList();
+			em.close();
+			return list;
+		}
 		//根据项目名称和设备名称获取告警信息
 		/*@SuppressWarnings("unchecked")
 		@Override

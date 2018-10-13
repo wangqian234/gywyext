@@ -75,8 +75,8 @@
 	<nav class="navbar navbar-default top-navbar" role="navigation"
 		style="padding-left: 0px;">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/gywyext/jsp/index/index.jsp"><i
-				class="fa fa-gear"></i> <strong>公元物业e巡通</strong></a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/">
+			<img style="height:25px;display:inline-block;margin-top:-2px;margin-right: 5px;" src="${pageContext.request.contextPath}/images/gylogo.png"><strong>公元e巡通</strong></a>
 		</div>
 		<div class="menu" style="display:flex">
 			<ul id="menuUl" class="menuUl">

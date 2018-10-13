@@ -262,6 +262,19 @@ public class EquipRealInfoController {
 		}
 		return jsonObject.toString();
 	}
+	//获取设备报警信息
+    @RequestMapping(value = "/getWaringNewsWithOut.do")
+	public @ResponseBody String getWaringNewsWithOut(HttpServletRequest request, HttpSession session){
+		JSONObject jsonObject = new JSONObject();
+		try{
+			String searchKey = request.getParameter("searchKey");
+			List<AlarmLog> data = equipRealInfoService.getWaringNewsWithOut(searchKey);
+			jsonObject.put("data", data);
+		} catch (Exception e){
+			jsonObject.put("error", "暂未找到相关数据");
+		}
+		return jsonObject.toString();
+	}
     // 根据公司id获取所属项目信息
     @RequestMapping(value = "/selectProjectByCompId.do")
 	public @ResponseBody String selectProjectByCompId(HttpServletRequest request, HttpSession session){

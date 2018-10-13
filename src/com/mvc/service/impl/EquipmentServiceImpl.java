@@ -256,4 +256,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 			}
 			return equipmentDao.getEquipRealData(searchKey,startDate);
 		}
+
+		@Override
+		public List<Equipment> selectEquipByName(String proj_id, String searchKey) {
+			return equipmentDao.selectEquipByName(proj_id,searchKey);
+		}
 }

@@ -541,4 +541,15 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				return list;
 			}
 
+			@Override
+			public List<Equipment> selectEquipByName(String searchKey, String searchKey2) {
+				EntityManager em = emf.createEntityManager();
+				String selectSql = "select * from equipment where equip_room in (select equip_room_id from equip_room where proj_id =:proj_id) and ( equip_name like '%" + searchKey2 + "%' or equip_no like '%" + searchKey2 + "%')"; 
+				Query query = em.createNativeQuery(selectSql, Equipment.class);
+				query.setParameter("proj_id", searchKey);
+				List<Equipment> list = query.getResultList();
+				em.close();
+				return list;
+			}
+
 }

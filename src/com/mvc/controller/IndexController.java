@@ -259,7 +259,7 @@ public class IndexController {
 			socket = new Socket("116.62.186.91",8091);
 			OutputStream os = socket.getOutputStream();//字节输出流
 			PrintWriter pw =new PrintWriter(os);//将输出流包装成打印流
-			pw.write("2");
+			pw.write("3");
 			pw.flush();
 			socket.shutdownOutput();
 			InputStream is = socket.getInputStream();
@@ -281,7 +281,7 @@ public class IndexController {
 			socket = new Socket("116.62.186.91",8091);
 			OutputStream os = socket.getOutputStream();//字节输出流
 			PrintWriter pw =new PrintWriter(os);//将输出流包装成打印流
-			pw.write("2");
+			pw.write("4");
 			pw.flush();
 			socket.shutdownOutput();
 			InputStream is = socket.getInputStream();

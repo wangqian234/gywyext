@@ -233,6 +233,35 @@ public class MobileController {
 		jsonObject.put("left", listR);
 		return jsonObject.toString();
 	}
+	
+	/**
+	 * 条件筛选设备
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/selectEquipByName.do")
+	public @ResponseBody String selectEquipByName(HttpServletRequest request, HttpSession session) throws ParseException {
+		JSONObject jsonObject = new JSONObject();
+		String proj_id = "";
+		if(request.getParameter("proj_id") != null){
+			proj_id = request.getParameter("proj_id");
+		};
+		String searchKey = null;
+		if(request.getParameter("searchKey") != null){
+			searchKey = request.getParameter("searchKey");
+		};
+		List<Equipment> listR = equipmentService.selectEquipByName(proj_id,searchKey);
+		Equipment list = null;
+		if(listR.size()>0){
+			list = listR.get(0);
+			jsonObject.put("list", list);
+			return jsonObject.toString();
+		} else {
+			jsonObject.put("list", listR);
+			return jsonObject.toString();
+		}
+	}
 
 }
 

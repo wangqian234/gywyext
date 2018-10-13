@@ -1,4 +1,4 @@
-<div id="page-wrapper"  style="margin-left: 0px;padding-top:100px">   
+ <div id="page-wrapper"  style="margin-left: 0px;padding-top:100px">   
   <div class="row">
 		<div class="col-md-12" style="width:100%">
 			<div class="panel panel-default">    
@@ -11,8 +11,9 @@
 				请选择参数起始时间：<input class="dfinput" type="text" style="width:25%" ; ng-model="startTime" placeHolder="起始时间" 
 		     onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/>
 		            </form>
-				<br>				
-	<table class="table table-striped table-bordered table-hover" id="dataTables-example">
+				<br>
+				<div class="col-sm-6">				
+	<table class="table table-striped table-bordered table-hover" id="dataTables-example" >
 				<thead>			
 					<tr>
 						<td>编号</td>
@@ -28,15 +29,16 @@
 					</tr>
 				</tbody>				
 			</table>
-	
-	<div id="echart" style="height:400px;width:1500px;">
+						</div>
+						<div class="col-sm-6">
+	<div id="echart" style="height:350px;width:700px;">
 	</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</div> 
 
         <script>
         var echart = echarts.init(document.getElementById('echart')); 
