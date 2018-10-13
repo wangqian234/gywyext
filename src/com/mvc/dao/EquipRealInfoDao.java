@@ -38,6 +38,8 @@ public interface EquipRealInfoDao {
 	// 根据公司id获取所属项目信息
 	List<Project> selectProjectByCompId(String searchKey);
 
+	List<AlarmLog> getWaringNewsWithOut(String searchKey);
+
 	//根据项目名称和设备名称获取告警信息
 	//List<AlarmLog> getEquipAlarmByProAndEquip(String proName, String equipName);
 

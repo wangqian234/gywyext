@@ -106,10 +106,10 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 		});
 	};
 	//获取告警信息
-	services.getWaringNews = function (data){
+	services.getWaringNewsWithOut = function (data){
 		return $http({
 			method : 'post',
-			url : baseUrl + 'equipRealInfo/getWaringNews.do',
+			url : baseUrl + 'equipRealInfo/getWaringNewsWithOut.do',
 			data : data,
 		})
 	};
@@ -436,7 +436,7 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 				} else {
 					index.getLeftData();
 					//获取告警信息
-					services.getWaringNews({
+					services.getWaringNewsWithOut({
 						searchKey : null
 					}).success(function(data) {
 						index.projwarning = data.data;

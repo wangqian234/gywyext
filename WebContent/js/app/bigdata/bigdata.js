@@ -484,7 +484,7 @@ app.filter('EquipState', function() {
 	return function(input) {
 		var type = "";
 		if (input == '0') {
-			type = "正常";
+			type = "废弃";
 		} else if (input == '1') {
 			type = "需要维修";
 		} else if (input == '2') {

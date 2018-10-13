@@ -99,17 +99,18 @@
 		style="padding-left: 0px;">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="#">
-			<img style="height:25px;display:inline-block;margin-top:-2px;margin-right: 5px;" src="${pageContext.request.contextPath}/images/gylogo.png"><strong>公元物业e巡通</strong></a>
+			<img style="height:25px;display:inline-block;margin-top:-2px;margin-right: 5px;" src="${pageContext.request.contextPath}/images/gylogo.png"><strong>公元e巡通</strong></a>
 		</div>
 		<div class="menu">
 			<ul id="menuUl" class="menuUl">
-				<li ><a class="topspan"
-					href="/gywyext/jsp/project/index.jsp"><h4 class="fa fa-tasks">项目管理</h4></a></li>
+
+				<li ><a class="topspan"href="/gywyext/jsp/project/index.jsp#/companyList"><h4
+					        class="fa fa-tasks">项目管理</h4></a></li>
 				<li><a class="topspan" href="/gywyext/jsp/equip/index.jsp#/equipBaseInfo"><h4
 							class="fa fa-bell">设备管理</h4></a></li>
 				<li><a class="topspan" href="/gywyext/jsp/bigdata/index.jsp#/equipFail"><h4
 							class="fa fa-bell">大数据分析</h4></a></li>
-				<li><a class="topspan" href="/gywyext/jsp/system/index.jsp"><h4
+				<li><a class="topspan" href="/gywyext/jsp/system/staffInfo/index.jsp#/userList"><h4
 							class="fa fa-bell">系统管理</h4></a></li>
 			</ul>
 			<!-- <a class="topspan" href="#/equipBaseInfo"><h4

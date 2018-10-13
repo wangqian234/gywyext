@@ -68,4 +68,6 @@ public interface EquipmentDao {
 
 	List<Equipment> selectAllEquipByProId(String proj_id);
 
+	List<Equipment> selectEquipByName(String searchKey, String searchKey2);
+
 }

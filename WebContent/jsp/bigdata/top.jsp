@@ -76,7 +76,7 @@
 		style="padding-left: 0px;">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="${pageContext.request.contextPath}/">
-			<img style="height:25px;display:inline-block;margin-top:-2px;margin-right: 5px;" src="${pageContext.request.contextPath}/images/gylogo.png"><strong>公元物业e巡通</strong></a>
+			<img style="height:25px;display:inline-block;margin-top:-2px;margin-right: 5px;" src="${pageContext.request.contextPath}/images/gylogo.png"><strong>公元e巡通</strong></a>
 		</div>
 		<div class="menu" style="display:flex">
 			<ul id="menuUl" class="menuUl">
