@@ -33,6 +33,9 @@ body{
 }
 .alarmdiv::-webkit-scrollbar { width: 0 !important }
 .panel-default::-webkit-scrollbar { width: 0 !important }
+.compDiv:not(:last-of-type){
+	    border-bottom: 1px solid #eeeeee;
+}
 /* 南健pageCSS */
 .tcdPageCode {
 	padding: 15px 20px;

@@ -483,7 +483,8 @@ app.controller('indexProController', [
 					})
 					/*indexpro.compname = "0"
 					var searchKey = JSON.stringify(indexpro.compname)*/
-					searchKey = null;
+					indexpro.compname = "0"
+				    searchKey = indexpro.compname;
 					services.getProjectListByPage({
 						page : 1,
 						searchKey : searchKey

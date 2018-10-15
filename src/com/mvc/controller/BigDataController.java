@@ -150,5 +150,14 @@ public class BigDataController {
 			jsonObject.put("list", list);
 			return jsonObject.toString();
 		}
+		
+		@RequestMapping(value = "/getEquipFailById.do")
+		public @ResponseBody String getEquipFailById(HttpServletRequest request, HttpSession session) {
+			JSONObject jsonObject = new JSONObject();
+			String equipmentId = request.getParameter("equipmentId");
+			JSONArray result = bigDataService.getEquipFailById(equipmentId);
+			jsonObject.put("analysis", result);
+			return jsonObject.toString();
+		}
 
 }
