@@ -134,9 +134,12 @@ public class IndexDaoImpl implements IndexDao {
 					public Integer ProjCountTotal(String searchKey) {
 						EntityManager em = emf.createEntityManager();
 						String countSql = " select count(proj_id) from project where proj_isdeleted=0";
-						if (null != searchKey){
-							countSql += "  and (comp_id like '%" + searchKey + "%' )";
+						if (!searchKey.equals("0")){
+							countSql += " and ( comp_id like '%" + searchKey + "%' )";
 						}
+						if (searchKey.equals("0")){
+							countSql += " ";
+									}
 						Query query = em.createNativeQuery(countSql);
 						List<Object> totalRow = query.getResultList();
 						em.close();
@@ -149,12 +152,12 @@ public class IndexDaoImpl implements IndexDao {
 						EntityManager em = emf.createEntityManager();
 						String selectSql = "select * from project where proj_isdeleted=0";
 					// 判断查找关键字是否为空
-						/*if (!searchKey.equals("0")){
-							selectSql += " and ( comp_id like '%" + searchKey + "%' )";
-						}*/
-						if (null != searchKey){
+						if (!searchKey.equals("0")){
 							selectSql += " and ( comp_id like '%" + searchKey + "%' )";
 						}
+						if (searchKey.equals("0")){
+							selectSql += " ";
+									}
 						selectSql += " order by proj_id desc limit :offset, :end";
 						Query query = em.createNativeQuery(selectSql, Project.class);
 						query.setParameter("offset", offset);

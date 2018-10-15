@@ -332,7 +332,6 @@ app
 								if (sessionStorage.getItem("picFile")) {
 									console.log(sessionStorage.getItem("picFile"));
 									equipment.equipmentInfo.file_id = JSON.parse(sessionStorage.getItem("picFile")).file_id;
-									alert(equipment.equipmentInfo.file_id);
 								}
 								var equipmentpara = JSON.stringify(equipment.para);
 								var equipmentFormData = JSON.stringify(equipment.equipmentInfo);
@@ -494,9 +493,6 @@ app
 											}).success(
 													function(data) {
 														equipment.equipmentInfo = data.equipment;
-														equipment.equipmentInfo.equip_type = data.equipment.equip_type.equip_type_id;
-														equipment.equipmentInfo.equip_room = data.equipment.equip_room.equip_room_id;
-														equipment.equipmentInfo.user = data.equipment.user.user_id;
 														if (data.equipment.equip_pdate) {
 															equipment.equipmentInfo.equip_pdate = changeDateType(data.equipment.equip_pdate);
 														}
@@ -509,6 +505,9 @@ app
 														if (data.equipment.equip_bfee) {
 															equipment.equipmentInfo.equip_bfee = changeFloat(data.equipment.equip_bfee);
 														}
+														equipment.equipmentInfo.equip_type = data.equipment.equip_type.equip_type_id;
+														equipment.equipmentInfo.equip_room = data.equipment.equip_room.equip_room_id;
+														equipment.equipmentInfo.user = data.equipment.user.user_id;
 													});
 									var proj_id = sessionStorage.getItem('proj_id');
 									services.selectEquipRoomByProj({

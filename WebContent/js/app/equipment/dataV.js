@@ -231,18 +231,13 @@ app
 							equipment.getEquipRealData = function(equipParaId){
 								console.log(equipParaId);
 								var divid = echart;//传递显示图表的id
-								startDate = "2018-09-26"+" "+"00:00:00";//默认从起始日期凌晨开始显示数据
+								startDate = "2018-08-25"+" "+"00:00:00";//默认从起始日期凌晨开始显示数据
 								for(var i=0;i<equipment.equipara.length;i++){
 									if(equipParaId == equipment.equipara[i].equip_para_id){
 										try2(startDate,equipment.equipara[i],divid);
 										break;
 									}
 								}
-								//console.log(equipment.equipara);
-								//console.log(equipment.equipara[equipParaId-1]);
-								//if(startDate != null)
-								//try2(startDate,equipment.equipara[equipParaId-1],divid);
-								//else alert("请输入查询起始时间");
 							}
 							//显示模拟动画
 							equipment.donghua = function(equipId){
@@ -250,41 +245,78 @@ app
 								if(equipId<8){
 									//集水井
 									if((equipId == 3)||(equipId == 6))
-										document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=7&picId=25&rand=1539440931386";
+										document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=7&picId=25&rand=1539518544349";
 									//显示消防系统
 									else 
-										document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=7&picId=24&rand=1539440910417";
+										document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=7&picId=24&rand=1539519268983";
 								}
 								else if(equipId>11){
 									//展会模型配电房
 									if((equipId == 12)||(equipId == 14)||(equipId == 18))
-										document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=7&picId=28&rand=1539440925543";
+										document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=7&picId=28&rand=1539518696398";
 									//展会模型水泵房
 									else{
-										document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=7&picId=27&rand=1539440919967";
+										document.getElementById("myframe").src = "http://localhost:8028/runtime.shtm?prjId=7&picId=27&rand=1539518656387";
 										document.getElementById("b1").style.display = "";
+										document.getElementById("b2").style.display = "";
 									}
 								}
 								$(".pop2").fadeIn(200);
 								$(".bgPop2").fadeIn(200);
 							}
-							//送水水泵的开关
-							equipment.push = function(){
-								color = document.getElementById("b1").style.backgroundColor;
-								if(color == "rgb(255, 0, 0)"){
-									services.getScoket1().success(function(data){
-										services.getScoket2().success(function(data){
-											document.getElementById("b1").style.backgroundColor = "rgb(0, 255, 0)";}
-										)}
-									);
+							//水泵开关标志位
+							equipment.flag = 0;
+							var time;
+							//送水水泵的开启
+							equipment.open = function(){
+								if(equipment.flag == 0){
+									color = document.getElementById("b1").style.backgroundColor;
+									if(color == "rgb(255, 0, 0)"){
+										equipment.flag = 1;
+										services.getScoket1().success(function(data){
+											console.log("getScoket1");
+											flag = 0;
+											time = setInterval(function(){
+												if(flag == 1){
+													services.getScoket2().success(function(data){
+														console.log("getScoket2");
+														});
+													document.getElementById("b1").style.backgroundColor = "rgb(0, 255, 0)";
+													document.getElementById("b2").style.backgroundColor = "rgb(255, 0, 0)";
+													equipment.flag = 0;
+													clearInterval(time);
+												}
+												flag++;
+											},7000);
+											});
+									}
 								}
-								else if(color == "rgb(0, 255, 0)"){
-									services.getScoket3().success(function(data){
-										services.getScoket4().success(function(data){
-											document.getElementById("b2").style.backgroundColor = "rgb(255, 0, 0)";}
-										)}
-									);
+								else alert("正在进行水泵操作，请稍候！！！");
+							}
+							equipment.close = function(){
+								if(equipment.flag == 0){
+									color = document.getElementById("b2").style.backgroundColor;
+									if(color == "rgb(255, 0, 0)"){
+										equipment.flag = 1;
+										services.getScoket3().success(function(data){
+											console.log("getScoket3");
+											flag = 0;
+											time = setInterval(function(){
+												if(flag == 1){
+													services.getScoket4().success(function(data){
+														console.log("getScoket4");
+													});
+													document.getElementById("b1").style.backgroundColor = "rgb(255, 0, 0)";
+													document.getElementById("b2").style.backgroundColor = "rgb(0, 255, 0)";
+													equipment.flag = 0;
+													clearInterval(time);
+												}
+												flag++;
+											},7000);
+											});
 								}
+								}
+								else alert("正在进行水泵操作，请稍候！！！");
 							}
 							equipment.KeepViewTitle = null;
 							// 根据项目获取所属设备列表
@@ -373,7 +405,7 @@ app
 									            center : ['50%', '35%'],
 									            labelLine: {
 									            	normal: {
-									            		length: 1,
+									            		length: 2,
 									            	}
 									            },
 									            roseType : 'area',
@@ -437,9 +469,9 @@ app
 									    	};
 									     //值控制圆点大小
 									    	var goData = [
-							                 [{name: '公元物业总公司'}, {id: 2,name: '公元物业总公司',value: 100}],
-									    	    [{name: '公元物业总公司'},{id: 1,name: '展会演示项目',value: 100}],
-									    	    [{name: '公元物业总公司'},{id: 1,name: '清远凤城郦都',value:100}],
+							                 [{name: '公元物业总公司'}, {id: 2,name: '公元物业总公司',value: 120}],
+									    	    [{name: '公元物业总公司'},{id: 1,name: '展会演示项目',value: 110}],
+									    	    [{name: '公元物业总公司'},{id: 1,name: '清远凤城郦都',value:110}],
 									    	    
 									    	];
 									    	//值控制圆点大小
@@ -503,15 +535,16 @@ app
 									    	        zlevel: 2,
 									    	        //线特效配置
 									    	        effect: {
-									    	            show: true,
-									    	            period: 6,
-									    	            trailLength: 0.1,
-									    	            symbol: planePath, //标记类型
-									    	            symbolSize: 10
+									    	        	show: false
+									    	            //show: true,
+									    	            //period: 6,
+									    	            //trailLength: 0.1,
+									    	            //symbol: planePath, //标记类型
+									    	            //symbolSize: 10
 									    	        },
 									    	        lineStyle: {
 									    	            normal: {
-									    	                width: 1,
+									    	                width: 0,
 									    	                opacity: 0.4,
 									    	                curveness: arcAngle(item[1]), //弧线角度
 									    	                color: '#fff'
@@ -526,14 +559,19 @@ app
 									    	        rippleEffect: {
 									    	            period: 2,
 									    	            brushType: 'stroke',
-									    	            scale: 3
+									    	            scale: 4
 									    	        },
 									    	        label: {
 									    	            normal: {
 									    	                show: true,
 									    	                color: '#fff',
 									    	                position: 'right',
-									    	                formatter: '{b}'
+									    	                formatter: '  {b}',
+									    	                textStyle: {
+								                                fontSize: 16,
+								                                fontWeight: 'lighter',
+								                            }
+
 									    	            }
 									    	        },
 									    	        //终点形象
@@ -558,17 +596,17 @@ app
 
 								});
 								var option = {
-								        title: {
+								        /*title: {
 								        text: '公元物业总公司',
 								        subtext: '业务布局',
 								        left: 'center',
 								        textStyle: {
 								            color: '#fff',
 								        	fontWeight:'lighter',
-								        	fontSize:14,
+								        	fontSize:15,
 								        },
 								        x: 'center'
-								    },
+								    },*/
 								    tooltip: {
 								        trigger: 'item',
 								        formatter: "{b}"
@@ -644,13 +682,6 @@ app
 										document.getElementById("scrolling1").style.display="";
 										warning(equipment.projwarning);
 									}
-									/*equipment.KeepViewTitle = params.data.name;
-									getEquipmentListByProject(params.data.name);
-									pie(params.data.name);
-									equipment.warningTitle = "报警记录";
-									document.getElementById("scrolling1").style.display="";
-									warning(equipment.projwarning);*/
-									
 								});
 								   }); 
 							}

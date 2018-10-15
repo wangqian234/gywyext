@@ -5,7 +5,7 @@
 			<!-- 根据设备分类筛选设备信息 -->
 
 			请选择所属公司： <select class="dfselect" ng-model="compname"  id="compname" style="width: 167px" ng-change="selectProjectByCompany()"> 
-				<option value=" ">全部</option> 
+				<option value="0">全部</option> 
 				<option ng-repeat="c in companys" value="{{c.comp_id}}">{{c.comp_name}}</option>
 			</select>
 				</form>	

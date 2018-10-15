@@ -129,7 +129,7 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			List<AlarmLog> list =null;
 			EntityManager em = emf.createEntityManager();
 			System.out.println(searchKey);
-			String selectSql = " select * from alarm_log";
+			String selectSql = " select * from alarm_log order by alarm_log_date DESC limit 0 , 50";
 			Query query = em.createNativeQuery(selectSql, AlarmLog.class);
 			list = query.getResultList();
 			em.close();

@@ -191,7 +191,6 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 				services.getProEquipAnalysis({
 					proj_id : str
 				}).success(function(data) {
-					console.log("wangq"+data.analysis);
 		        	d444(data.analysis);
 				});
 				
@@ -439,10 +438,7 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 					services.getWaringNewsWithOut({
 						searchKey : null
 					}).success(function(data) {
-						index.projwarning = data.data;
-						index.warningTitle = "报警记录";
-						index.warning = index.projwarning
-						warning(index.projwarning);
+						index.warning = data.data;
 					});
 				}
 			}

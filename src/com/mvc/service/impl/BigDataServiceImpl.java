@@ -33,6 +33,7 @@ import com.mvc.entityReport.Files;
 import com.mvc.service.BigDataService;
 import com.mvc.service.EquipmentService;
 import com.mvc.entityReport.EquipPara;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipMain;
 
 import net.sf.json.JSONArray;
@@ -239,6 +240,53 @@ public class BigDataServiceImpl implements BigDataService {
 		o.put("xAxis", xArr);
 		o.put("data", dataArr);
 		return o;
+	}
+
+	@Override
+	public JSONArray getEquipFailById(String equip_id) {
+		JSONArray arr = new JSONArray();
+		List <AlarmLog> list = alarmLogDao.getAlarmListByEquipId(equip_id);
+		int num1 = 0;
+		int num2 = 0;
+		int num3 = 0;
+		int num4 = 0;
+
+		for(int i=0;i<list.size();i++){
+			switch (list.get(i).getAlarm_log_code()) {
+			case "001":
+				num1++;
+				break;
+			case "002":
+				num2++;
+				break;
+			case "003":
+				num3++;
+				break;
+			case "004":
+				num4++;
+				break;
+			default:
+				break;
+			}
+		}
+		JSONObject obj1 = new JSONObject();
+		obj1.put("value", num1);
+		obj1.put("name", "高于上限值");
+		arr.add(obj1);
+		JSONObject obj2 = new JSONObject();
+		obj2.put("value", num2);
+		obj2.put("name", "低于下限值");
+		arr.add(obj2);
+		JSONObject obj3 = new JSONObject();
+		obj3.put("value", num3);
+		obj3.put("name", "设备损坏");
+		arr.add(obj3);
+		JSONObject obj4 = new JSONObject();
+		obj4.put("value", num4);
+		obj4.put("name", "其他");
+		arr.add(obj4);
+		
+		return arr;
 	}
 
 }

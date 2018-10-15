@@ -201,7 +201,7 @@ app
 					};
 					var staffFormData = JSON
 					.stringify(staffInfo.staff);
-					alert(staffFormData)
+					/*alert(staffFormData)*/
 					services.addStaff({
 						staff : staffFormData
 					}).success(function(data) {
@@ -224,7 +224,6 @@ app
 		staffInfo.selectUserById=function(userId) {
 		console.log(userId);
 		var user_id = sessionStorage.getItem('userId');
-		alert(userId);
 		services.selectUserById({
 				user_id : userId
 				})
@@ -370,7 +369,6 @@ app
 					$(".overlayer").fadeOut(200);
 					//进入后台
 					var user_id=sessionStorage.getItem("userId");
-					alert(user_id)
 					services.deleteUser({
 						userId : user_id
 					}).success(function(data) {

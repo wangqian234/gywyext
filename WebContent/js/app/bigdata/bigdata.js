@@ -76,6 +76,13 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data,
 		});
 	};
+	services.getEquipFailById = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'bigData/getEquipFailById.do',
+			data : data
+		});
+	};
 	// 获取左侧菜单栏
 	services.getInitLeft = function(data) {
 		return $http({
@@ -118,6 +125,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			url : baseUrl + 'bigData/getRoomEquipAnalysisByRoomId.do',
 			data : data
 		});
+
 	};
 	return services;
 } ]);
@@ -200,7 +208,6 @@ app
 														var failChart = drawPieChart(chartObject);
 													});
 								} else if (bigData.type == "equipState") {
-									alert(f.equip_room_id)
 									services.selectEquipListByRoomId({
 										page : 1,
 										roomId : f.equip_room_id
@@ -256,6 +263,75 @@ app
 
 												});
 							}
+							
+							//饼图初始化
+							function d444(data,id){
+								console.log(data);
+								console.log(document.getElementById("failChart"))
+								var d4 = echarts.init(document.getElementById("failChart"));
+								d4.clear();
+								d4.showLoading({text:'正在缓冲...'});
+								var name=[];
+								for(var i=0;i<data.length;i++){
+									name.push(data[i].name);
+								}
+								option = {
+									    tooltip : {
+									        trigger: 'item',
+									        formatter: "{a} <br/>{b} : {c} ({d}%)"
+									    },
+									    legend: {
+									        /*x : 'center',
+									        y : '280',*/
+									    	bottom: '8%',
+									        //left: '20%',
+									        icon: 'circle',
+									        data:name,
+									        textStyle : {
+									        	color: function(params) {
+									        		//console.log(params);
+								                    var num = data.length;
+								                    return mycolor[params.dataIndex % num]
+								                },
+								                }
+									    },
+									    toolbox: {
+									        show : true,
+									        feature : {
+									            mark : {show: true},
+									            magicType : {
+									                show: true,
+									                type: ['pie', 'funnel']
+									            }
+									        }
+									    },
+									    calculable : true,
+									    series : [
+									        {
+									            name:'故障统计',
+									            type:'pie',
+									            radius : [20, 90],
+									            center : ['50%', '35%'],
+									            labelLine: {
+									            	normal: {
+									            		length: 1,
+									            	}
+									            },
+									            roseType : 'area',
+									            data:data,
+									        }
+									    ]
+									};
+								
+								d4.setOption(option);
+								d4.on('click',function(params){
+									//console.log(params.data.name);
+									exchange(params.data.name);
+								});
+								d4.hideLoading();
+								
+							}
+							
 							// 点击项目触发事件
 							bigData.selectBaseInfoByProj = function(str, $event) {
 								bigData.proId = str;
@@ -283,7 +359,33 @@ app
 								}
 
 								if (bigData.type == "equipFail") {
-
+									//TODO
+									services.getEquipFailById({
+										"equipmentId" : obj.equip_id
+									}).success(function(data) {
+										//d444(data.analysis,"failChart");
+										var pieContent = [];
+										let
+										o = new Object();
+										o.name = "故障数量";
+										o.type = "pie";
+										o.radius = "55%";
+										o.center = [ '35%',
+												'60%' ];
+										o.data = data.analysis;
+										pieContent.push(o);
+										var chartObject = new Object();
+										/*
+										 * chartObject.title =
+										 * "设备故障种类分析";
+										 */
+										chartObject.domElement = document
+												.getElementById("failChart");
+										chartObject.dataContent = pieContent;
+										var failChart = drawPieChart(chartObject);
+											});
+									
+									
 								} else if (bigData.type == "equipState") {
 									services
 											.getEquipRadarById({
