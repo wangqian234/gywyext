@@ -25,7 +25,7 @@
 				    <div class="cc rowup">
 				    </div>
 				</div>
-				<ul id="ddd" ng-repeat="a in warning" style="list-style-type:circle">
+				<ul id="ddd" ng-repeat="a in alarmData" style="list-style-type:circle">
 	            <li> {{a.alarm_log_date.time|dateType}} {{a.alarm_log_info}}</li>
 	            </ul>
 	        </div>
@@ -53,12 +53,17 @@
 	        <div class="d5" id="d5" ng-hide="main">
 	        </div>
 	        <div class="d6" id="d6">
+	           <div style="height:10%;margin-bottom:1px">
+	             <p align="center"><img src="../../../../images/viewing.png" />
+	             <font size="4" color="#00f6ff">{{Project}}监控列表</font></p>
+	           </div>
+	           <div class="table">
 	           <table class="panel-table" bordercolor="#0d48e0" border="1">
                     <thead  align="center" >
-                        <tr>
+                        <!-- <tr>
                             <th colspan="4"><img src="../../../../images/viewing.png" />
                             <font size="4" color="#00f6ff">{{KeepViewTitle}}监控列表</font></th>
-                        </tr>
+                        </tr> -->
                     </thead>
                     <tbody>
                         <tr align="center">
@@ -79,6 +84,7 @@
                         </tr>
                     </tbody>
                </table>
+               </div>
 	        </div>
 	     </div>
       </div>
@@ -118,6 +124,11 @@
         <span class="pop-close">Ｘ</span>
     </div>
     <div class="d9">
+	    <p style="margin-left:38%;margin-top:1px;color:white;height:4%;font-size:13px">起始时间 
+	    <input type="text" style="width:20%;background-color:rgba(255,255,255,0);color:white;border-width: 1px;" ng-model="startTime"
+			onFocus="WdatePicker(WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',readOnly:'true',onpicked: function(){$(this).trigger('change')}})) " onChange="" required/>
+	    </p>	
+	<div class="table">    
 	<table class="panel-table" bordercolor="#0d48e0" border="1">
 				<thead style="color: #00fcff; font-size: 12px;">
 					<tr align="center">
@@ -136,7 +147,8 @@
 				
 	</table>
 	</div>
-	<div id="echart" style="width: 700px; height:340px"></div>
+	</div>
+	<div id="echart" style="width: 710px; height:340px"></div>
 </div>
 
 <!--遮罩层-->
@@ -191,7 +203,7 @@
    //var d1 = echarts.init(document.getElementById('d1')); 
    //var d2 = echarts.init(document.getElementById('d2'));
    //var d3 = echarts.init(document.getElementById('d3'));
-   //var d4 = echarts.init(document.getElementById('d4')); 
+   var d4 = echarts.init(document.getElementById('d4')); 
    var d5 = echarts.init(document.getElementById('d5'));
    //var d6 = echarts.init(document.getElementById('d6'));
    //var d7 = echarts.init(document.getElementById('d7'));

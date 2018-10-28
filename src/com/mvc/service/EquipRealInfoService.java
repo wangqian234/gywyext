@@ -1,6 +1,7 @@
 package com.mvc.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.AlarmLog;
@@ -26,7 +27,7 @@ public interface EquipRealInfoService {
 	List<EquipPara> getEquipParaByName(String searchKey);
 	
 	//获取设备报警信息
-	List<AlarmLog> getWaringNews(String searchKey);
+	List<AlarmLog> getWaringNews(String searchKey, String type);
 
 	//根据起始时间 向后查100条
 	List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate);
@@ -38,6 +39,9 @@ public interface EquipRealInfoService {
 	List<Project> selectProjectByCompId(String searchKey);
 
 	List<AlarmLog> getWaringNewsWithOut(String searchKey);
+
+	//获取项目及地址信息
+	List<Object> getProjectAndRoomInfo();
 
 	//根据项目名称和设备名称获取告警信息
 	//List<AlarmLog> getEquipAlarmByProAndEquip(String proName, String equipName);
