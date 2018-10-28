@@ -118,7 +118,7 @@
 		</div>
  		<ul class="nav navbar-top-links navbar-right">
 			<li class="dropdown">
-			<a href="jsp/equip/equipRealInfo/dataV/index.jsp#/dataV" style="padding:0;margin:0">
+			<a href="../equip/equipRealInfo/dataV/index.jsp#/dataV" style="padding:0;margin:0">
 				<img style="margin-right: 30px;height: 30px;text-align: center; margin-top: 13px;" src="${pageContext.request.contextPath}/images/dataVShow.png">
 			</a>
 			</li>

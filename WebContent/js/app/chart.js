@@ -57,8 +57,7 @@ Chart.prototype.init = function() {
 
 //
 var interval;
-function try1(xdata,ydata,elsedata,divid){
-	console.log(ydata);
+function try1(xdata,ydata,elsedata,divid,color){
 			var x = [];
 			var y = [];
 			var l =0;
@@ -94,12 +93,11 @@ function try1(xdata,ydata,elsedata,divid){
 			    addData();
 			    l++
 			}
-			
 			var option = {
 					title: {
 				        text: elsedata.equip_para_name+'实时数据',
 				        textStyle:{
-				        	color:'#00ffee',
+				        	color:color,
 				        	fontSize:'12',
 				        	fontFamily: 'lighter'    
 				        },
@@ -149,11 +147,11 @@ function try1(xdata,ydata,elsedata,divid){
 				        //坐标轴样式设置
 				        axisLabel:{
 				        	interArrivar:0,
-				        	rotate:-15,
+				        	rotate:-20,
 				        },
 				        axisLine:{
 				        	lineStyle:{
-				        		color:'#00ffee',
+				        		color:color,
 				        		width:1,
 				        	},
 				        	symbol:['none','arrow']
@@ -173,7 +171,7 @@ function try1(xdata,ydata,elsedata,divid){
 				        axisLine:{
 				        	lineStyle:{
 				        		/*color:'#00ffee',*/
-				        		color:'#00ffee',
+				        		color:color,
 				        		width:1,
 				        	},
 				        	symbol:['none','arrow']
@@ -188,7 +186,7 @@ function try1(xdata,ydata,elsedata,divid){
 				        smooth: true,
 				        itemStyle: {
 				            // 点的颜色。
-				            color: '#00feff'
+				            color: color
 				        },
 				        markPoint: {
 				                data: [
@@ -219,7 +217,6 @@ function try1(xdata,ydata,elsedata,divid){
 				    }]
 				};
 			    interval = setInterval(function () {
-			    	console.log(l);
 				if(l >= xdata.length)
 					clearInterval(interval);
 			    addData(true);
@@ -234,7 +231,6 @@ function try1(xdata,ydata,elsedata,divid){
 			    	        data: { searchKey: elsedata.equip_para_id, startDate: xdata[xdata.length-1] },
 			    	        success:function(data){
 			    	        	divide(data.data);
-			    	        	console.log(data.data);
 			    	        }
 			    	    })
 			    	    }
@@ -250,7 +246,6 @@ function try1(xdata,ydata,elsedata,divid){
 			}, 800);
 		    var ppp=1;
 		    divid.on('mouseover',function(param){
-		    	console.log(param);
 		        if (param!=null||ppp==1) {
 		            ppp=2;
 		            clearInterval(interval);
@@ -294,7 +289,7 @@ function try1(xdata,ydata,elsedata,divid){
 			divid.hideLoading();			
 		} 
 
-function try2(startDate,elsedata,divid){
+function try2(startDate,elsedata,divid,color){
 	var xdata=[];
 	var ydata=[];
 	function getdata(startDate,equiparaId,divide){//获取特征参数实时数据
@@ -318,7 +313,7 @@ function try2(startDate,elsedata,divid){
 			ydata.push(y);
 		};
 		if(xdata.length>10)
-			try1(xdata,ydata,elsedata,divid);
+			try1(xdata,ydata,elsedata,divid,color);
 		else alert("该时间段的数据暂缺，请更换起始时间");
 	}
 	getdata(startDate,elsedata.equip_para_id,divide)
