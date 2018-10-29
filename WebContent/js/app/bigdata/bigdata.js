@@ -76,6 +76,13 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data,
 		});
 	};
+	services.getEquipFailById = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'bigData/getEquipFailById.do',
+			data : data
+		});
+	};
 	// 获取左侧菜单栏
 	services.getInitLeft = function(data) {
 		return $http({
@@ -118,6 +125,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			url : baseUrl + 'bigData/getRoomEquipAnalysisByRoomId.do',
 			data : data
 		});
+
 	};
 	return services;
 } ]);
@@ -165,7 +173,6 @@ app
 								bigData.chosedIndex = index;
 								bigData.roomId = f.equip_room_id;
 								if (bigData.type == "equipFail") {
-
 									services
 											.getRoomEquipAnalysisByRoomId({
 												page : 1,
@@ -173,7 +180,9 @@ app
 											})
 											.success(
 													function(data) {
+														
 														bigData.equiplist = data.list;
+														console.log(bigData.equiplist);
 														pageTurn(
 																data.totalPage,
 																1,
@@ -184,7 +193,7 @@ app
 														o.name = "故障数量";
 														o.type = "pie";
 														o.radius = "55%";
-														o.center = [ '50%',
+														o.center = [ '35%',
 																'60%' ];
 														o.data = data.analysis;
 														pieContent.push(o);
@@ -197,7 +206,6 @@ app
 																.getElementById("chart");
 														chartObject.dataContent = pieContent;
 														var failChart = drawPieChart(chartObject);
-
 													});
 								} else if (bigData.type == "equipState") {
 									services.selectEquipListByRoomId({
@@ -206,6 +214,7 @@ app
 									}).success(
 											function(data) {
 												bigData.equiplist = data.list;
+												console.log(bigData.equiplist);
 												pageTurn(data.totalPage, 1,
 														selectEquipList);
 											});
@@ -235,6 +244,7 @@ app
 							// 点击项目获取项目设备安装位置列表，并默认显示第一个位置的设备
 							bigData.selectRoomList = function() {
 								bigData.tableIndex = 0;
+								bigData.tip="提示：请从左侧设备列表选择设备进行分析！";
 								services
 										.selectRoomList({
 											"proId" : bigData.proId
@@ -253,11 +263,81 @@ app
 
 												});
 							}
+							
+							//饼图初始化
+							function d444(data,id){
+								console.log(data);
+								console.log(document.getElementById("failChart"))
+								var d4 = echarts.init(document.getElementById("failChart"));
+								d4.clear();
+								d4.showLoading({text:'正在缓冲...'});
+								var name=[];
+								for(var i=0;i<data.length;i++){
+									name.push(data[i].name);
+								}
+								option = {
+									    tooltip : {
+									        trigger: 'item',
+									        formatter: "{a} <br/>{b} : {c} ({d}%)"
+									    },
+									    legend: {
+									        /*x : 'center',
+									        y : '280',*/
+									    	bottom: '8%',
+									        //left: '20%',
+									        icon: 'circle',
+									        data:name,
+									        textStyle : {
+									        	color: function(params) {
+									        		//console.log(params);
+								                    var num = data.length;
+								                    return mycolor[params.dataIndex % num]
+								                },
+								                }
+									    },
+									    toolbox: {
+									        show : true,
+									        feature : {
+									            mark : {show: true},
+									            magicType : {
+									                show: true,
+									                type: ['pie', 'funnel']
+									            }
+									        }
+									    },
+									    calculable : true,
+									    series : [
+									        {
+									            name:'故障统计',
+									            type:'pie',
+									            radius : [20, 90],
+									            center : ['50%', '35%'],
+									            labelLine: {
+									            	normal: {
+									            		length: 1,
+									            	}
+									            },
+									            roseType : 'area',
+									            data:data,
+									        }
+									    ]
+									};
+								
+								d4.setOption(option);
+								d4.on('click',function(params){
+									//console.log(params.data.name);
+									exchange(params.data.name);
+								});
+								d4.hideLoading();
+								
+							}
+							
 							// 点击项目触发事件
 							bigData.selectBaseInfoByProj = function(str, $event) {
 								bigData.proId = str;
 								bigData.selectRoomList();
-								$(".nav-second-level li").removeClass();
+								$(".nav-second-level li").removeClass(
+										"liActive");
 								var oObj = window.event.srcElement;
 								var oTr = oObj.parentNode;
 								oTr.className = "liActive";
@@ -279,7 +359,33 @@ app
 								}
 
 								if (bigData.type == "equipFail") {
-
+									//TODO
+									services.getEquipFailById({
+										"equipmentId" : obj.equip_id
+									}).success(function(data) {
+										//d444(data.analysis,"failChart");
+										var pieContent = [];
+										let
+										o = new Object();
+										o.name = "故障数量";
+										o.type = "pie";
+										o.radius = "55%";
+										o.center = [ '35%',
+												'60%' ];
+										o.data = data.analysis;
+										pieContent.push(o);
+										var chartObject = new Object();
+										/*
+										 * chartObject.title =
+										 * "设备故障种类分析";
+										 */
+										chartObject.domElement = document
+												.getElementById("failChart");
+										chartObject.dataContent = pieContent;
+										var failChart = drawPieChart(chartObject);
+											});
+									
+									
 								} else if (bigData.type == "equipState") {
 									services
 											.getEquipRadarById({
@@ -299,34 +405,40 @@ app
 														num.value = radarResult;
 														dataNum.push(num);
 														o.data = dataNum;
-
+														
 														dataContent.push(o);
 														var chartObject1 = {};
 														chartObject1.domElement = document
 																.getElementById('radarChart');
 														chartObject1.title = "";
+														//chartObject1.center = ['35%','40%']
 														chartObject1.model = typeArray;
 														chartObject1.dataContent = dataContent;
 														var radarChart = drawRadarChart(chartObject1);
+														bigData.warning=data.warning;
 													});
 								} else if (bigData.type == "equipPre") {
+									bigData.tip="提示：请从左侧设备列表选择设备进行分析！";
 									services
 											.getEquipPreById({
 												equipmentId : obj.equip_id
 											})
 											.success(
+													
 													function(data) {
-
+														console.log(data.list);
+														bigData.alarmList = data.list;
 														bigData.preDate = data.result;
-
 														if (data.result[0] == null
 																|| data.result[0] == "") {
-															bigData.warning = "该设备从使用到现在还没有发生过故障,经分析预测设备下次维修时间为"
+															bigData.warning = "该设备的初次安装使用时间为"+bigData
+															.formatDate(bigData.preDate[2].time)+"，经分析预测设备下次维修时间为"
 																	+ bigData
 																			.formatDate(bigData.preDate[1].time)
 																	+ ",请在预测维修时间之前进行检修，以防发生突发故障！";
 														} else {
-															bigData.warning = "该设备上次维保时间为"
+															bigData.warning = "该设备的初次安装使用时间为"+bigData
+															.formatDate(bigData.preDate[2].time)+"，上次维保时间为"
 																	+ bigData
 																			.formatDate(bigData.preDate[0].time)
 																	+ ",经分析预测设备下次维修时间为"
@@ -334,21 +446,25 @@ app
 																			.formatDate(bigData.preDate[1].time)
 																	+ ",请在预测维修时间之前进行检修，以防发生突发故障！";
 														}
-														;
-
 														var barObject = new Object();
 														var dataContent = [];
 														var o = new Object();
-														o.data = data.data;
-														o.type = "bar";
-														dataContent.push(o);
-														barObject.x_Axis = data.xAxis;
-														barObject.y_Axis = "次";
-														barObject.dataContent = dataContent;
-														barObject.domElement = document
-																.getElementById('barChart');
+														if(data.data==null||data.data==""||data.data==undefined){
+															bigData.tip="";
+															$("#barChart").html("");
+															return;
+														}else{
+															o.data = data.data;
+															o.type = "bar";
+															dataContent.push(o);
+															barObject.x_Axis = data.xAxis;
+															barObject.y_Axis = "次";
+															barObject.dataContent = dataContent;
+															barObject.domElement = document
+																	.getElementById('barChart');
 
-														var radarChart = drawBarChart(barObject);
+															var radarChart = drawBarChart(barObject);
+														};
 													});
 								}
 								;
@@ -398,8 +514,13 @@ app
 															'leftData',
 															leftData);
 													bigData.tableIndex = 0;
-													
-													
+													setTimeout(
+															function() {
+																var tt = $(".dd");
+																console.log(tt[0]);
+																tt[0].click();
+															}, 10);
+
 												});
 							}
 
@@ -416,12 +537,15 @@ app
 
 									bigData.type = "equipFail";
 									bigData.getLeftData();
+									
+
+								
 								} else if ($location.path().indexOf(
 										'/equipState') == 0) {
 
 									bigData.type = "equipState";
 									bigData.getLeftData();
-									
+
 								} else if ($location.path()
 										.indexOf('/equipPre') == 0) {
 
@@ -462,7 +586,7 @@ app.filter('EquipState', function() {
 	return function(input) {
 		var type = "";
 		if (input == '0') {
-			type = "正常";
+			type = "废弃";
 		} else if (input == '1') {
 			type = "需要维修";
 		} else if (input == '2') {

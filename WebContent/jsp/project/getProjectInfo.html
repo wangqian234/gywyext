@@ -1,16 +1,22 @@
-
-<div class="row">
-	<div class="col-md-12">
-		<!-- Advanced Tables -->
 		<div class="panel panel-default">
 			<div class="panel-heading">项目基本信息</div>
+			<div ng-app="" class="tools">
+		<form class="toolbar" style="padding-left:15px;">
+			<!-- 根据设备分类筛选设备信息 -->
+
+			请选择所属公司： <select class="dfselect" ng-model="compname"  id="compname" style="width: 167px" ng-change="selectProjectByCompany()"> 
+				<option value="0">全部</option> 
+				<option ng-repeat="c in companys" value="{{c.comp_id}}">{{c.comp_name}}</option>
+			</select>
+				</form>	
+	      </div>
 			<div class="panel-body">
 				<div class="table-responsive">
 					<table class="table table-striped table-bordered table-hover"
 						id="dataTables-example">
 						<thead>
 							<tr>
-								<th>序号</th>
+								<th>编号</th>
 								<th>项目名称</th>
 								<th>项目地址</th>
 								<th>业主数量</th>
@@ -18,29 +24,28 @@
 								<th>操作</th>
 							</tr>
 						</thead>
-						<tbody>
-							
-							<tr class="gradeA" ng-repeat="p in projects">
-								<td class="center">{{p.proj_id}}</td>
+
+						<tbody>							
+							    <tr ng-repeat="p in projects track by $index" id={{p.proj_id}}>
+						        <td>{{$index + 1}}</td>
 								<td class="center">{{p.proj_name}}</td>
 								<td class="center">{{p.proj_addr}}</td>
 								<td class="center">{{p.proj_num}}</td>
 								<td class="center">{{p.company.comp_name}}</td>
 								<td> 
 								<a href="#getProjectInfo" ng-click="deleteProjectInfo(p.proj_id)" class="tablelink"
-					    		 	has-permission='tDel'> 删除</a>  
+					    		 	has-permission='pDel'> 删除</a>  
 					    		<a href="#/projectUpdate" ng-click="getProjectId(p.proj_id)" class="tablelink"	
-				        			has-permission='tEdit'> 修改</a>
+				        			has-permission='pEdit'> 修改</a>
 					    		</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
+				<div  class="tcdPageCode">页码容器</div>
 			</div>
 		</div>
-		<div  class="tcdPageCode">页码容器</div>
-	</div>
-</div>
 
-<script type="text/javascript" src="/gywyext/js/lib/pageTurn.js">
-							
+<script type="text/javascript" src="/gywyext/js/lib/pageTurn.js"></script>
+<script type="text/javascript" src="/gywyext/js/lib/jquery.metisMenu.js"></script>							
+

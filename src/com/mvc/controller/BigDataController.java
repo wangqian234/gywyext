@@ -26,9 +26,11 @@ import com.mvc.entityReport.Files;
 import com.mvc.entityReport.User;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipPara;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipMain;
 
 import com.utils.Pager;
+import com.mvc.service.AlarmLogService;
 import com.mvc.service.BigDataService;
 import com.mvc.service.EquipmentService;
 
@@ -44,6 +46,9 @@ public class BigDataController {
 
 	@Autowired
 	BigDataService bigDataService;
+	
+	@Autowired
+	AlarmLogService alarmLogService;
 
 	// zq
 	// 根据位置id查找设备列表
@@ -86,11 +91,20 @@ public class BigDataController {
 		JSONObject o3 = new JSONObject();
 		o3.put("name", "剩余寿命");
 		o3.put("max", 1);
+		String warning="";
+		if(Float.valueOf(result.get(1).toString())>0.8){
+			warning="设备运行良好，不需要检修!";
+		}else if(Float.valueOf(result.get(1).toString())>0.6&&Float.valueOf(result.get(1).toString())<0.8){
+			warning="设备工作正常，但存在隐患，建议检修...";
+		}else{
+			warning="设备运行不稳定，请及时安排人进行检修!";
+		}
 		arr.add(o1);
 		arr.add(o2);
 		arr.add(o3);
 		jsonObject.put("result", result);
 		jsonObject.put("typeArray", arr);
+		jsonObject.put("warning", warning);
 		return jsonObject.toString();
 	}
 	
@@ -128,10 +142,21 @@ public class BigDataController {
 			String equipmentId = request.getParameter("equipmentId");
 			JSONArray mainDate = bigDataService.getEquipPreById(Integer.valueOf(equipmentId));
 			JSONObject o=bigDataService.getEquipFailCountById(Integer.valueOf(equipmentId));
+			List<AlarmLog> list = alarmLogService.getAlarmListByEquipId(equipmentId);
 			
 			jsonObject.put("result", mainDate);
 			jsonObject.put("xAxis", o.get("xAxis"));
 			jsonObject.put("data", o.get("data"));
+			jsonObject.put("list", list);
+			return jsonObject.toString();
+		}
+		
+		@RequestMapping(value = "/getEquipFailById.do")
+		public @ResponseBody String getEquipFailById(HttpServletRequest request, HttpSession session) {
+			JSONObject jsonObject = new JSONObject();
+			String equipmentId = request.getParameter("equipmentId");
+			JSONArray result = bigDataService.getEquipFailById(equipmentId);
+			jsonObject.put("analysis", result);
 			return jsonObject.toString();
 		}
 

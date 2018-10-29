@@ -51,4 +51,6 @@ public interface EquipmentService {
 	//根据设备参数id查询设备参数实时数据
 	List<EquipOper> getEquipRealData(String searchKey, String start);
 
+	List<Equipment> selectEquipByName(String proj_id, String searchKey);
+
 }

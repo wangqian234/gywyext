@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mvc.dao.StaffInfoDao;
+import com.mvc.entityReport.EquipType;
 import com.mvc.entityReport.Role;
 import com.mvc.entityReport.User;
 import com.mvc.repository.StaffInfoRepository;
 import com.mvc.service.StaffInfoService;
+import com.utils.MD5;
+import com.utils.StringUtil;
 
 import net.sf.json.JSONObject;
 
@@ -43,8 +46,8 @@ public class  StaffInfoServiceImpl implements StaffInfoService {
 
 	// 筛选角色列表
 		@Override
-		public List<Role> findRoleAlls() {
-		return staffInfoDao.findRoleAlls();
+		public List<Role> getAllRoleList() {
+		return staffInfoDao.getAllRoleList();
 		}
 	// 根据userAcct查询用户账号是否存在,返回1存在，返回0不存在
 		//public Long isExist(String userAcct) {
@@ -78,15 +81,20 @@ public class  StaffInfoServiceImpl implements StaffInfoService {
 						public Boolean updateUserBase(Integer user_id, JSONObject jsonObject, User user) throws ParseException {
 							User user1 = staffInfoRepository.selectUserById(user_id);
 							if (user1 != null) {
-								if (jsonObject.containsKey("user_name")) {
-									user1.setUser_name(jsonObject.getString("user_name"));}
-									if (jsonObject.containsKey("user_tel")) {
-										user1.setUser_tel(jsonObject.getString("user_tel"));}
-									if (jsonObject.containsKey("user_email")) {
-										user1.setUser_email(jsonObject.getString("user_email"));}
-									if (jsonObject.containsKey("user_acct")) {
-										user1.setUser_acct(jsonObject.getString("user_acct"));}
+							user1.setUser_acct(jsonObject.getString("user_acct"));
+							user1.setUser_name(jsonObject.getString("user_name"));
+							user1.setUser_pwd(MD5.encodeByMD5(jsonObject.getString("user_pwd")));
+							if (jsonObject.containsKey("user_tel")) {
+							user1.setUser_tel(jsonObject.getString("user_tel"));}
+							if (jsonObject.containsKey("user_email")) {
+							user1.setUser_email(jsonObject.getString("user_email"));}
+							if (jsonObject.containsKey("role_id")) {
+								Role role = new Role();
+								role.setRole_id(Integer.valueOf(jsonObject.getString("role_id")));
+								user1.setRole(role);	
 							}
+						}
+	
 							user1 = staffInfoRepository.saveAndFlush(user1);		
 							if (user1.getUser_id() != null)
 								return true;

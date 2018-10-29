@@ -48,6 +48,40 @@ var app = angular
 								: data;
 					} ];
 				});
+//获取权限列表
+var permissionList;
+angular.element(document).ready(function() {
+	console.log("获取权限列表！");
+	$.get('/gywyext/login/getUserPermission.do', function(data) {
+		permissionList = data; //
+		/*angular.bootstrap($("#user"), [ 'user' ]); // 手动加载angular模块
+*/	});
+});
+
+app.directive('hasPermission', function($timeout) {
+	return {
+		restrict : 'ECMA',
+		link : function(scope, element, attr) {
+			setTimeout(function(){
+				var key = attr.hasPermission.trim(); // 获取页面上的权限值
+				var keys = permissionList;
+				/*alert(keys);*/
+				var regStr = "\\s" + key + "\\s";
+				var reg = new RegExp(regStr);
+				if (keys.search(reg) < 0) {
+					element.css("display", "none");
+				}
+			},0)
+		}
+	};
+});
+
+app.run([ '$rootScope', '$location', function($rootScope, $location) {
+	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
+		console.log('路由跳转成功');
+		$rootScope.$broadcast('reGetData');
+	});
+} ]);
 
 //路由配置
 app.config([ '$routeProvider', function($routeProvider) {
@@ -135,6 +169,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	
 	// 根据id获取公司信息
 	services.selectCompanyById = function(data) {
 		return $http({
@@ -221,9 +256,26 @@ app.controller('indexProController', [
 			indexpro.count = 3;
 			
 			indexpro.addCompany = function(){
-				alert()
+				indexpro.proj = {
+						projname : [],
+						projaddr : [],
+						projnum : [],
+						projmemo : []
+					}
+					$("input[name='projname']").each(function() {
+						indexpro.proj.projname.push($(this).val());
+					})
+					$("input[name='projaddr']").each(function() {
+						indexpro.proj.projaddr.push($(this).val());
+					})
+					$("input[name='projnum']").each(function() {
+						indexpro.proj.projnum.push($(this).val());
+					})
+					$("input[name='projmemo']").each(function() {
+						indexpro.proj.projmemo.push($(this).val());
+					})
 				var companyInfo = JSON.stringify(indexpro.company);
-				var projectInfo = JSON.stringify(indexpro.project);
+				var companyproj = JSON.stringify(indexpro.proj);
 				alert("123")
 				if(indexpro.company.comp_name == "" || indexpro.company.comp_name == undefined){
 					$(".companyname").show();
@@ -233,21 +285,26 @@ app.controller('indexProController', [
 				}
 				services.addCompany({
 					company : companyInfo,
-					project : projectInfo
+					companyproj : companyproj
 				}).success(function(data) {
-					$(".overlayer").show();
+					alert("添加成功！")
+					$location.path('companyList/');
+				});
+			}
+				
+					/*$(".overlayer").show();
 					$(".motai").show();
 					$timeout(function(){
 						$(".overlayer").hide();
 						$(".motai").hide();
 						$location.path('getCompanyInfo/');
-			    	}, 3000);
+			    	}, 3000);*/
 					// $(".panel-footer").click(function(){
 					// $(".overlayer").hide();
 					// $(".motai").hide();
 					// $location.path('getCompanyInfo/');
 					//					})
-				var timeout_upd = $interval(function(){
+				/*var timeout_upd = $interval(function(){
 					indexpro.count--;
 					$(".countnum").innerHTML = indexpro.count;
 					if(indexpro.count<1){
@@ -255,7 +312,7 @@ app.controller('indexProController', [
 					}
 				},1000)
 				});
-			}
+			}*/
 			
 			
 			
@@ -268,8 +325,8 @@ app.controller('indexProController', [
 					project : projectInfo
 				}).success(function(data) {
 					alert("添加成功！")
-					$location.path('index/');
-				})
+					$location.path('getProjectInfo/');
+				});
 			}
 			
 			
@@ -284,25 +341,16 @@ app.controller('indexProController', [
 					searchKey : searchKey
 				}).success(function(data) {
 					indexpro.companys = data.list;
-					initData();
 					pageTurn(data.totalPage, 1, getCompanyListByPage)
 				});
 			};
-					
-				
-			
-/*			function addProject(){
-				$(".add-project").click(function(){
-					alert("我进来了")
-				})
-			}*/
+	
 			// 查看ID，并记入sessionStorage
 			indexpro.getCompanyId = function(companyId) {
 				sessionStorage.setItem('companyId',companyId);
 				};
 			// 读取公司信息
 			indexpro.selectCompanyById = function(companyId) {
-				
 				var comp_id = sessionStorage.getItem('companyId');
 				services.selectCompanyById({
 					comp_id : companyId
@@ -318,14 +366,14 @@ app.controller('indexProController', [
 						companys : CoFormData,
 					}).success(function(data) {
 						alert("修改成功！")
-						$location.path('getCompanyInfo/');
-					})
+						$location.path('companyList/');
+					});
 				}
 			}
 				
 			//查看公司详细信息
-			indexpro.getCompanyDetail = function(c){
-				var companyDetail = JSON.stringify(c);
+			indexpro.getCompanyDetail = function(company){
+				var companyDetail = JSON.stringify(company);
 				sessionStorage.setItem('companyDetail',companyDetail);
 				$location.path("/companyDetail");
 			}
@@ -339,7 +387,7 @@ app.controller('indexProController', [
 						
 						indexpro.result = data;
 						alert("成功删除公司信息！");
-						$location.path('getCompanyInfo/');
+						$location.path('companyList/');
 					});
 				}
 			}
@@ -373,7 +421,7 @@ app.controller('indexProController', [
 						alert("修改成功！")
 						$location.path('getProjectInfo/');
 						alert(JSON.stringify(PrFormData));
-					})
+					});
 				}
 			}			
 			// 删除项目信息
@@ -426,7 +474,16 @@ app.controller('indexProController', [
 				}
 			}
 			
-		
+			indexpro.selectProjectByCompany = function() {
+				searchKey = indexpro.compname;
+				services.getProjectListByPage({
+					page : 1,
+					searchKey : searchKey								
+				}).success(function(data) {
+					indexpro.projects = data.list;
+					pageTurn(data.totalPage,1,getProjectListByPage);
+				});
+			};
 			
 			// 初始化页面信息
 			function initData() {
@@ -434,10 +491,9 @@ app.controller('indexProController', [
 				if ($location.path().indexOf('/addProject') == 0){
 					services.getCompanyInfo().success(function(data){
 						indexpro.companys = data.result;
-						console.log(JSON.stringify(indexpro.companys))
 					})
-				
-				} else if ($location.path().indexOf('/getCompanyInfo') == 0){
+	
+				} else if ($location.path().indexOf('/getCompanyInfo') == 0){					
 					searchKey = null;
 					services.getCompanyListByPage({
 						page : 1,
@@ -450,23 +506,32 @@ app.controller('indexProController', [
 								1,
 								getCompanyListByPage);
 					})
-					
 				} else if ($location.path().indexOf('/getProjectInfo') == 0){
+					searchKey = indexpro.companyName;
 					/*services.getProjectInfo().success(function(data){
 						indexpro.project = data.result;
 						console.log(JSON.stringify(indexpro.project))
 					})*/
-					searchKey = null;
+					services.getCompanyInfo().success(function(data){
+						indexpro.companys = data.result;
+					})
+					/*indexpro.compname = "0"
+					var searchKey = JSON.stringify(indexpro.compname)*/
+					indexpro.compname = "0"
+				    searchKey = indexpro.compname;
 					services.getProjectListByPage({
 						page : 1,
 						searchKey : searchKey
 					}).success(function(data) {
 						indexpro.Projects = data.list;
-						console.log(JSON.stringify(indexpro.Projects))
+						console.log(JSON.stringify(data.list))
 						pageTurn(
 								data.totalPage,
 								1,
 								getProjectListByPage);
+						indexpro.projects = data.list;
+						console.log(JSON.stringify(indexpro.projects))
+						pageTurn(data.totalPage,1,getProjectListByPage);
 					})
 				}else if ($location.path().indexOf('/companyUpdate') == 0) {
 					var comp_id = sessionStorage.getItem("companyId");
@@ -488,7 +553,7 @@ app.controller('indexProController', [
 						indexpro.projects.company = data.project.company.comp_id;
 					}) ;
 				}else if($location.path().indexOf('/companyList') == 0) {
-					searchKey = indexpro.companyName;
+					searchKey = null;
 					services.getCompanyListByPage({
 						page : 1,
 						searchKey : searchKey

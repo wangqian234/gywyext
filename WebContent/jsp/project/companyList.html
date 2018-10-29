@@ -1,33 +1,27 @@
 
-<form role="form">
-	<div class="form-group input-group">
-		<input type="text" class="form-controling" placeholder="公司名称" ng-model="companyName" id="companyName" 
-			style="width: 300px; height: 35px">
-		<span class="input-group-btn">
-			<button style="width: 50px; height: 36px"
-				ng-click="selectcompanyByName()" class="btn btn-default" type="button">
-				<i class="fa fa-search"></i>
-			</button>
-		</span>
-	</div>
-</form>
+<div id="page-wrapper" style="margin:0;padding:0">
+<!-- 这是内容的开始 -->   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">      
+				<div class="panel-heading">
+					<span>公司信息表</span>
+				</div>  
+		<form class="toolbar" style="padding-left:15px;">
+公司查询：<input type="text" class="dfselect" placeholder="公司名称" ng-model="companyName" id="companyName" >
+			<button style="width: 50px; height: 28px" ng-click="selectcompanyByName()"><i class="fa fa-search"></i></button>
 
-<ul class="clickagain">
-	<a href="#/addCompany">
-		<button class="btn btn-default">
-			<i class=" fa fa-edit "></i>&nbsp;&nbsp;新建
-		</button>
-	</a>
-</ul>
-<div class="panel panel-default">
-	<div class="panel-heading">公司信息</div>
+<!-- <a href="#/addCompany" class="toolbar1">
+		<button class="btn btn-default"><i class=" fa fa-edit "></i>新建</button></a> -->
+		</form>	
+
 	<div class="panel-body">
 		<div class="table-responsive">
 			<table class="table table-striped table-bordered table-hover"
 				id="dataTables-example">
 				<thead>
 					<tr>
-						<th>序号</th>
+						<th>编号</th>
 						<th>公司名称</th>
 						<th>公司地址</th>
 						<th>员工数量</th>
@@ -37,30 +31,37 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="company in companys" id={{company.comp_id}}>
-						<td>{{company.comp_id}}</td>
+						<td>{{$index + 1}}</td>
 						<td>{{company.comp_name}}</td>
 						<td>{{company.comp_addr}}</td>
 						<td>{{company.comp_num}}</td>
-							<td style="text-align: center;">
+						<td style="text-align: center;">
 								<img ng-if="company.comp_rank=='1'" src="/gywyext/images/rank1.png" class="ng-scope" style="width: 40px;">
 								<img ng-if="company.comp_rank=='2'" src="/gywyext/images/rank2.png" class="ng-scope" style="width: 40px;">
 								<img ng-if="company.comp_rank=='3'" src="/gywyext/images/rank3.png" class="ng-scope" style="width: 40px;">
-							</td>
+								</td>
 						<td> 
+						<a class="tablelink" ng-click="getCompanyDetail(company)">查看公司详情</a>
 						<a href="#companyList" ng-click="deleteCompanyInfo(company.comp_id)" class="tablelink"
-					    	has-permission='tDel'> 删除</a>
+					    	has-permission='cDel'> 删除</a>
 					     <a href="#/companyUpdate" ng-click="getCompanyId(company.comp_id)" class="tablelink"	
-				        	has-permission='tEdit'> 修改</a>
+				        	has-permission='cEdit'> 修改</a>
 				        </td> 
 					<!-- # 保持在当前页面 -->
 					</tr>
 				</tbody>
 			</table>
 		</div>
+		</div>
+		<div  class="tcdPageCode">页码容器</div>
 	</div>
 </div>
-<div  class="tcdPageCode">页码容器</div>
-<script type="text/javascript" src="/gywyext/js/lib/pageTurn.js">	
+</div>
+</div>
+
+<script type="text/javascript" src="/gywyext/js/lib/pageTurn.js"></script>
+<script type="text/javascript" src="/gywyext/js/lib/jquery.metisMenu.js"></script>		
+
 
 
 

@@ -25,4 +25,6 @@ public interface BigDataService {
 	JSONArray getEquipPreById(Integer equipmentId);
 	
 	JSONObject getEquipFailCountById(Integer equipmentId);
+
+	JSONArray getEquipFailById(String equipmentId);
 }

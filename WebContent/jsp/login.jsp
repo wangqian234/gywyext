@@ -38,7 +38,7 @@
 	<div class="loginbody">
 		<span class="systemlogo"></span>
 		<div class="loginbox">
-			<form action="/lckypc/login/login.do" method="post" id="login-form">
+			<form action="/gywyext/login/login.do" method="post" id="login-form">
 				<ul>
 					<li><input name="userName" type="text" class="loginuser"
 						id="userName" placeholder="用户名" /><label
@@ -58,8 +58,8 @@
 		src="${pageContext.request.contextPath}/js/lib/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/js/lib/cloud.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/js/app/loginCheck.js"></script>
+ 	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/js/app/loginCheck.js"></script> 
 
 	<script type="text/javascript">
 		$(function() {

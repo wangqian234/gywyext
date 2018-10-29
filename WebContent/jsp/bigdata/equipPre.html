@@ -16,7 +16,7 @@
 					<div class="tab-content">
 						<div class="col-sm-6">
 							<div class="sub-title">
-								设备列表<span class="description"></span>
+								<h3 style="font-weight:bold"><img class="titleImgRight" src="../../images/list.png">设备列表</h3><span class="description"></span>
 							</div>
 							<table id="infoList" class="datatable table table-striped">
 								<thead>
@@ -24,7 +24,7 @@
 										<th>编号</th>
 										<th>设备名称</th>
 										<th>设备生产日期</th>
-										<th>设备状态</th>
+										<!-- <th>设备状态</th> -->
 										<!-- <th>下次维修日期</th>
 										<th>预测寿命</th> -->
 
@@ -37,7 +37,7 @@
 										<th scope="row">{{eq.equip_no}}</th>
 										<td>{{eq.equip_name}}</td>
 										<td>{{eq.equip_pdate.time |dateType}}</td>
-										<td>{{eq.equip_state |EquipState}}</td>
+										<!-- <td>{{eq.equip_state |EquipState}}</td> -->
 										<!-- <td>2019-15-12</td>
 										<td>5</td> -->
 
@@ -49,12 +49,25 @@
 						</div>
 						<div class="col-sm-6">
 							<div class="sub-title">
-								设备故障统计分析<span class="description"></span>
+								<h3 style="font-weight:bold"><img class="titleImgLeft" src="../../images/analy1.png">设备故障预测</h3><span class="description"></span>
 							</div>
-						
-						<div   id="barChart" style="position:absolute;min-width: 800px; max-width: 1200px; height: 350px;"></div>
-						
-						<div>{{warning}}</div>
+							<div ng-if='warning == null || warning == "" || warning == undefined'>{{tip}}</div>
+							<div>{{warning}}</div>
+							<br />
+							<div class="alarmdiv" style="height:400px;overflow-y: auto;">
+							<table class="datatable table table-striped">
+								<tbody>
+									<tr ng-repeat="al in alarmList">
+									<td>
+										<span>{{al.equip_para.equip_para_name}}
+										{{al.alarm_log_date.time |dateType}}
+										{{al.alarm_log_info}}</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+						<!-- <div   id="barChart" style="position:absolute;min-width: 800px; max-width: 1200px; height: 350px;"><span style="color:red">{{tip}}</span></div> -->
 						</div>
 					</div>
 				</div>
@@ -64,16 +77,16 @@
 </div>
 </div>
 
-          <nav class="navbar-default navbar-side" role="navigation">
+         <nav class="navbar-default navbar-side" role="navigation">
 		<div id="sideNav"><i class="fa fa-caret-right"></i></div>
              <div class="sidebar-collapse">
                 
                <ul class="nav" id="main-menu">
                      <li ng-repeat="ld in leftData">
                         <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level" ng-repeat="ldd in ld.data">
-                            <li>
-                                <a class="leftSecond" href=""  ng-click="selectBaseInfoByProj(ldd.proj_id,$event)">{{ldd.proj_name}}</a>
+                        <ul class="nav nav-second-level" >
+                            <li  ng-repeat="ldd in ld.data">
+                                <a class="dd leftSecond"  href=""  ng-click="selectBaseInfoByProj(ldd.proj_id,$event)">{{ldd.proj_name}}</a>
                             </li>
                         </ul>
                     </li>

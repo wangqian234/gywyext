@@ -38,7 +38,7 @@ public class EquipMainDaoImpl implements EquipMainDao {
 		// TODO Auto-generated method stub
 		EntityManager em = emf.createEntityManager();
 		String selectSql = "select * from equip_main where equip_id=:equipmentId order by equip_id desc "; 
-		Query query = em.createNativeQuery(selectSql, Equipment.class);
+		Query query = em.createNativeQuery(selectSql, EquipMain.class);
 		query.setParameter("equipmentId", equipmentId);
 		List<EquipMain> list = query.getResultList();
 		em.close();

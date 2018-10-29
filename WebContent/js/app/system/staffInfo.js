@@ -57,6 +57,34 @@ var app = angular
 					} ];
 				});
 
+//获取权限列表
+var permissionList;
+angular.element(document).ready(function() {
+	console.log("获取权限列表！");
+	$.get('/gywyext/login/getUserPermission.do', function(data) {
+		permissionList = data; //
+		/*angular.bootstrap($("#user"), [ 'user' ]); // 手动加载angular模块
+*/	});
+});
+
+app.directive('hasPermission', function($timeout) {
+	return {
+		restrict : 'ECMA',
+		link : function(scope, element, attr) {
+			setTimeout(function(){
+				var key = attr.hasPermission.trim(); // 获取页面上的权限值
+				var keys = permissionList;
+				/*alert(keys);*/
+				var regStr = "\\s" + key + "\\s";
+				var reg = new RegExp(regStr);
+				if (keys.search(reg) < 0) {
+					element.css("display", "none");
+				}
+			},0)
+		}
+	};
+});
+
 app.run([ '$rootScope', '$location', function($rootScope, $location) {
 	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
 		console.log('路由跳转成功');
@@ -152,7 +180,7 @@ app
 						'$location',
 						function($scope, services, $location) {
 							var staffInfo = $scope;
-							
+							var roles;
 							staffInfo.staff = {
 									user_acct:"",
 									user_name:"",
@@ -201,10 +229,12 @@ app
 					};
 					var staffFormData = JSON
 					.stringify(staffInfo.staff);
+					/*alert(staffFormData)*/
 					services.addStaff({
 						staff : staffFormData
 					}).success(function(data) {
-						alert("新建成功");
+						alert("添加成功！")
+						$location.path('userList/');
 						return;
 					});
 		};	
@@ -222,7 +252,6 @@ app
 		staffInfo.selectUserById=function(userId) {
 		console.log(userId);
 		var user_id = sessionStorage.getItem('userId');
-		alert(userId);
 		services.selectUserById({
 				user_id : userId
 				})
@@ -258,7 +287,6 @@ app
 				// 根据输入筛选信息
 				staffInfo.selectuserByName = function() {
 					searchKey = staffInfo.userName;
-					
 					services.getUserListByPage({
 						page : 1,
 						searchKey : searchKey
@@ -271,73 +299,58 @@ app
 				};
 			//初始化页面信息
 			function initData() {
-				
 				console.log("初始化页面信息");
-				
-				/*$("#user").show();*/
 				if ($location.path().indexOf('/userList') == 0) {
 					searchKey = staffInfo.userName;
 					services.getUserListByPage({
 						page : 1,
 						searchKey : searchKey
 					}).success(function(data) {
-						staffInfo.Users = data.list;
-						/*pageTurn(data.totalPage, 1, getUserListByPage);*/
-						
+						staffInfo.users = data.list;
+						console.log(JSON.stringify( staffInfo.users))
+						pageTurn(
+								data.totalPage, 
+								1, 
+								getUserListByPage);
 					});
 				}
-				/*else if ($location.path().indexOf('/travelTradeList') == 0) {
-					searchKey = null;
-					services.getTravelTradeListByPage({
-						page : 1,
-						searchKey : searchKey
-					}).success(function(data) {
-						traveltrade.traveltrades = data.list;
-						traveltrade.totalRow="打印："+data.totalRow;
-						traveltrade.totalP="打印："+data.totalPage;
-						pageTurn(data.totalPage, 1, getTravelTradeListByPage);
-						
-					});
-				}*/
+			
 				else if ($location.path().indexOf('/staffBaseInfo') == 0) {
-					/*if(sessionStorage.getItem('leftData')){
-						equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
-					}*/
-					searchKey = null;
+				searchKey = null;
 					services.getUserListByPage({
 						page : 1,
 						searchKey : searchKey
 					}).success(function(data) {
-						
 						staffInfo.user = data.list;
 						pageTurn(
 								data.totalPage,
 								1,
 								getUserListByPage);
-
 					});
 				}
 				 else if ($location.path().indexOf('/staffAdd') == 0) {
-					 services.getAllRoleList().success(function(data){
-						 staffInfo.role_state = data;
+					 services.getAllRoleList({
+						 
+					 }).success(function(data){
+						 staffInfo.roles = data;
+						 console.log(JSON.stringify( staffInfo.roles))
+						 
 						})
-					
 				 }
 				 else if ($location.path().indexOf('/userUpdate') == 0) {
-					
+					 services.getAllRoleList().success(function(data){
+						 staffInfo.roles = data;						
+						})
 				// 根据ID获取信息
 				var user_id = sessionStorage.getItem('userId');
-				alert(user_id)
 				services.selectUserById({
 						user_id: user_id
 						})
 						.success(											
 								function(data) {
-									/*alert("!!!");*/
 									staffInfo.users = data.user;//"user"是controller里get的到的"user","users"对应html中的"users.user_xxx"
-								
-									/*staffInfo.users = data.user;*/
-								});
+									staffInfo.users.role = data.user.role.role_id;
+						});
 				 			}
 				
 							}
@@ -384,7 +397,6 @@ app
 					$(".overlayer").fadeOut(200);
 					//进入后台
 					var user_id=sessionStorage.getItem("userId");
-					alert(user_id)
 					services.deleteUser({
 						userId : user_id
 					}).success(function(data) {
@@ -402,11 +414,33 @@ app
 									page : page,
 									searchKey : searchKey
 								}).success(function(data) {
-									staffInfo.user = data.list;
+									staffInfo.users = data.list;
 								
 							});
 							}
-									
+							
+							
+							function findRoleFromCookie() {
+								var cookie = {};
+
+								var cookies = document.cookie;
+								if (cookies === "")
+									return cookie;
+								var list = cookies.split(";");
+								for (var i = 0; i < list.length; i++) {
+									var cookieString = list[i];
+									var p = cookieString.indexOf("=");
+									var name = cookieString.substring(0, p);
+									var value = cookieString.substring(p + 1,
+											cookieString.length);
+									cookie[name.trim()] = value;
+									if (name.trim() == "role") {
+										sessionStorage.setItem("userRole",
+												value);
+									}
+
+								}
+							}	
 									
 									
 									/*							
@@ -461,6 +495,7 @@ app
 											})
 									}
 									}
+									findRoleFromCookie();
 									initPage();
 						} ]);
 						

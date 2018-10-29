@@ -17,6 +17,7 @@ import com.mvc.entityReport.EquipMain;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
 import com.mvc.entityReport.Equipment;
+import com.mvc.entityReport.Project;
 import com.mvc.repository.EquipManuRepository;
 import com.mvc.repository.EquipParaRepository;
 import com.mvc.repository.EquipRoomRepository;
@@ -96,12 +97,11 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 		}
 		return equipRealInfoDao.getWaringNews(searchKey);
 	}
-	//根据项目名称获取所属设备告警信息条数
+	//获取设备报警信息
 	@Override
-	public List<AlarmLog> getEquipAlarmNumberByProjectName(String searchKey) {
-		return equipRealInfoDao.getEquipAlarmNumberByProjectName(searchKey);
+	public List<AlarmLog> getWaringNewsWithOut(String searchKey) {
+		return equipRealInfoDao.getWaringNewsWithOut(searchKey);
 	}
-
 	//根据起始时间 向后查100条
 	@Override
 	public List<EquipOper> getEquipRealDataByTime(String equip_para_id, String startDate) {
@@ -114,5 +114,23 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 			data.get(i).setEquip_id(null);
 		}
 		return equipRealInfoDao.getEquipmentListByProject(searchKey);
+	}
+	//根据项目名称和设备名称获取告警信息
+	/*@Override
+	public List<AlarmLog> getEquipAlarmByProAndEquip(String proName, String equipName) {
+		List<AlarmLog> data = equipRealInfoDao.getEquipAlarmByProAndEquip(proName,equipName);
+		for(int i=0;i<data.size();i++){
+			data.get(i).setAlarm_log_id(null);
+		}
+		return equipRealInfoDao.getEquipAlarmByProAndEquip(proName,equipName);
+	}*/
+	// 根据公司id获取所属项目信息
+	@Override
+	public List<Project> selectProjectByCompId(String searchKey) {
+		List<Project> data = equipRealInfoDao.selectProjectByCompId(searchKey);
+		for(int i=0;i<data.size();i++){
+			data.get(i).setProj_id(null);
+		}
+		return equipRealInfoDao.selectProjectByCompId(searchKey);
 	}
 }

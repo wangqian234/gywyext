@@ -22,6 +22,7 @@ import com.mvc.entityReport.Role;
 import com.mvc.entityReport.User;
 
 import com.mvc.service.StaffInfoService;
+import com.utils.MD5;
 import com.utils.Pager;
 import com.utils.StringUtil;
 
@@ -34,6 +35,14 @@ public class StaffInfoController {
 	@Autowired
 	StaffInfoService staffInfoService;
 
+	@RequestMapping("/toStaffPage.do")
+	public String staffPage() {
+		return "system/staffInfo/index";
+	}
+	
+	
+	
+	
 	//	获取员工信息
 	@RequestMapping("/getStaffInfo.do")
 	public @ResponseBody String getStaffInfo(HttpServletRequest request) {
@@ -87,12 +96,9 @@ public @ResponseBody String addStaff(HttpServletRequest request, HttpSession ses
 	jsonObject = JSONObject.fromObject(request.getParameter("staff"));
 	User user = new User();
 	Role role = new Role();
-	if (jsonObject.containsKey("user_acct")) {
-	user.setUser_acct(jsonObject.getString("user_acct"));}
-	if (jsonObject.containsKey("user_name")) {
-	user.setUser_name(jsonObject.getString("user_name"));}
-	if (jsonObject.containsKey("user_pwd")) {
-	user.setUser_pwd(jsonObject.getString("user_pwd"));}
+	user.setUser_acct(jsonObject.getString("user_acct"));
+	user.setUser_name(jsonObject.getString("user_name"));
+	user.setUser_pwd(MD5.encodeByMD5(jsonObject.getString("user_pwd")));
 	if (jsonObject.containsKey("user_tel")) {
 	user.setUser_tel(jsonObject.getString("user_tel"));}
 	if (jsonObject.containsKey("user_email")) {
@@ -124,8 +130,10 @@ public @ResponseBody String addStaff(HttpServletRequest request, HttpSession ses
  * @return
  */
 @RequestMapping(value = "/getAllRoleList.do")
-public @ResponseBody String getAllStores(HttpServletRequest request, HttpSession session) {
-	List<Role> result = staffInfoService.findRoleAlls();
+public @ResponseBody String getAllRoleList(HttpServletRequest request) {
+	JSONObject jsonObject = new JSONObject();
+	List<Role> result = staffInfoService.getAllRoleList();
+	jsonObject.put("result", result);
 	return JSON.toJSONString(result);
 }
 /**

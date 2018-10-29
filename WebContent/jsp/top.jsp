@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8" />
-<title>E巡通大数据统计分析系统</title>
+<title>e巡通大数据统计分析系统</title>
     <!-- Bootstrap Styles-->
     <link href="${pageContext.request.contextPath}/css/bootstrap.css" rel="stylesheet" />
     <!-- FontAwesome Styles-->
@@ -17,15 +17,10 @@
 
 <body>
         <nav class="navbar navbar-default top-navbar" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/gywyext/"><i class="fa fa-gear"></i> <strong>公元物业E巡通</strong></a>
-            </div>
+		<div class="navbar-header">
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/">
+			<img style="height:25px;display:inline-block;margin-top:-2px;margin-right: 5px;" src="${pageContext.request.contextPath}/images/gylogo.png"><strong>公元e巡通</strong></a>
+		</div>
 
         </nav>
 	<section class="containner">

@@ -56,6 +56,33 @@ var app = angular
 								: data;
 					} ];
 				});
+//获取权限列表
+var permissionList;
+angular.element(document).ready(function() {
+	console.log("获取权限列表！");
+	$.get('/gywyext/login/getUserPermission.do', function(data) {
+		permissionList = data; //
+		/*angular.bootstrap($("#user"), [ 'user' ]); // 手动加载angular模块
+*/	});
+});
+
+app.directive('hasPermission', function($timeout) {
+	return {
+		restrict : 'ECMA',
+		link : function(scope, element, attr) {
+			setTimeout(function(){
+				var key = attr.hasPermission.trim(); // 获取页面上的权限值
+				var keys = permissionList;
+				/*alert(keys);*/
+				var regStr = "\\s" + key + "\\s";
+				var reg = new RegExp(regStr);
+				if (keys.search(reg) < 0) {
+					element.css("display", "none");
+				}
+			},0)
+		}
+	};
+});
 
 app.run([ '$rootScope', '$location', function($rootScope, $location) {
 	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
@@ -310,8 +337,7 @@ app
 										equipment.equipmentInfo.equip_ndate)) {
 									alert("请输入正确的时间")
 									return;
-								}
-								;
+								};
 								equipment.para = {
 									paraname : [],
 									paravalue : [],
@@ -330,9 +356,9 @@ app
 								$("input[name='paraunit']").each(function() {
 									equipment.para.paraunit.push($(this).val());
 								})
-								if (sessionStorage.getItem("PicFile")) {
-									console.log(sessionStorage.getItem("PicFile"));
-									equipment.equipmentInfo.file_id = JSON.stringify(sessionStorage.getItem("PicFile")).file_id;
+								if (sessionStorage.getItem("picFile")) {
+									console.log(sessionStorage.getItem("picFile"));
+									equipment.equipmentInfo.file_id = JSON.parse(sessionStorage.getItem("picFile")).file_id;
 								}
 								var equipmentpara = JSON.stringify(equipment.para);
 								var equipmentFormData = JSON.stringify(equipment.equipmentInfo);
@@ -478,28 +504,14 @@ app
 														equipment.leftData = dest;
 														var leftData = JSON.stringify(dest)
 														sessionStorage.setItem('leftData',leftData);
+														//equipment.getEquipmentList(equipment.leftData[0].data[0].proj_id, equipment.leftData[0].data[0].proj_name);
+														setTimeout(function() {
+															var tt = $(".leftSecond");
+															console.log(tt[0]);
+															tt[0].click();
+														}, 10);
 													});
-									
-									/*equipment.equipRoomm = "0";
-									equipment.equipStatee = "0";
-									equipment.equipName = null;
-									var eqRoom = JSON.stringify(equipment.equipRoomm) ;
-									eqState = JSON.stringify(equipment.equipStatee);
-									searchKey = JSON.stringify(equipment.equipName);
-									services.getEquipmentListByRS({
-										page : 1,
-										eqRoom : eqRoom,
-										eqState : eqState,
-										searchKey : searchKey
-									})
-									.success(
-											function(data) {
-												equipment.equipments = data.list;
-												pageTurn(
-														data.totalPage,
-														1,
-														getEquipmentListByRS);
-											});	*/
+
 																
 								} else if ($location.path().indexOf('/equipUpdate') == 0) {
 									var equip_id = sessionStorage.getItem("equipmentId");
@@ -508,9 +520,6 @@ app
 											}).success(
 													function(data) {
 														equipment.equipmentInfo = data.equipment;
-														equipment.equipmentInfo.equip_type = data.equipment.equip_type.equip_type_id;
-														equipment.equipmentInfo.equip_room = data.equipment.equip_room.equip_room_id;
-														equipment.equipmentInfo.user = data.equipment.user.user_id;
 														if (data.equipment.equip_pdate) {
 															equipment.equipmentInfo.equip_pdate = changeDateType(data.equipment.equip_pdate);
 														}
@@ -523,6 +532,9 @@ app
 														if (data.equipment.equip_bfee) {
 															equipment.equipmentInfo.equip_bfee = changeFloat(data.equipment.equip_bfee);
 														}
+														equipment.equipmentInfo.equip_type = data.equipment.equip_type.equip_type_id;
+														equipment.equipmentInfo.equip_room = data.equipment.equip_room.equip_room_id;
+														equipment.equipmentInfo.user = data.equipment.user.user_id;
 													});
 									var proj_id = sessionStorage.getItem('proj_id');
 									services.selectEquipRoomByProj({
@@ -566,6 +578,9 @@ app
 										})
 								}else if ($location.path().indexOf('/equipDetail') == 0) {
 									equipment.equipmentDetail = JSON.parse(sessionStorage.getItem('equipmentDetail'));
+									if(equipment.equipmentDetail.file_id && equipment.equipmentDetail.file_id.file_path){
+										equipment.equipmentDetail.file_id.file_path = equipment.equipmentDetail.file_id.file_path.split('webapps')[1];
+									}
 									equipment.leftData = JSON.parse(sessionStorage.getItem('leftData'));
 									services.getEquipPara(
 													{
@@ -671,8 +686,8 @@ app
 							uploader.onCompleteItem = function(fileItem,response, status, headers) {
 								console.info('onCompleteItem', fileItem,response, status, headers);
 								$scope.fileBean = response
-								console.log("picFile"+ JSON.stringify(response))
-								sessionStorage.setItem("picFile", JSON.stringify(response));
+								console.log("picFile"+ JSON.stringify(response.fileBean))
+								sessionStorage.setItem("picFile", JSON.stringify(response.fileBean));
 							};
 							uploader.onCompleteAll = function() {
 								alert("文件上传成功！");
@@ -729,6 +744,16 @@ app.filter('sgFilter', function() {
 		}
 	}
 });
+app.filter('pathFiliter', function(){
+	return function(input) {
+		if (input == "" || input == null) {
+			var input = "\\gywyext\\images\\equip.png";
+			return input;
+		} else {
+			return input;
+		}
+	}
+})
 
 // 判断输入时间逻辑是否正确
 function compareDateTime(equip_pdate, equip_udate, equip_ndate) {

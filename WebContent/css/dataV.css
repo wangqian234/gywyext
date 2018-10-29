@@ -1,13 +1,19 @@
    /* 马迪 
    2018/9/15
    */
+   
+html, body {
+margin:0;
+padding:0;
+}
 div.container
 {
+	
 	width:100%;
-    height:840px; 
-	/* background-image:url(../images/dataV.gif);
-	background-size:contain; */
-	background-color:rgb(11, 18, 46);
+	height:100%;
+    position:fixed;
+	/* 大屏颜色 */
+	background-color:rgb(11, 18, 50);
 	color:rgb(255, 255, 255);
 }
 div.a1
@@ -26,14 +32,14 @@ div.a2
 }
 div.b1
 {
-	width:30%;
+	width:35%;
 	height:100%;
 	float:left;
 	margin:2px;
 }
 div.b2
 {
-	width:69.3%; 
+	width:64%; 
 	height:100%;
 	float:left;
 	margin:2px;
@@ -90,6 +96,8 @@ div.d6
 	height:32%;
 	float:left;
 	margin:2px;
+	overflow:hidden;
+	overflow-y:auto; 
 	background:url(../images/center02.png) no-repeat;
 	background-size:100% 100%;
 }
@@ -112,6 +120,23 @@ div.d8
 	background-size:100% 100%;
 	
 }
+div.d9
+{
+	width: 100%;
+	height:30%;
+	vertical-align: middle;
+	overflow:hidden;
+	overflow-y:auto; 
+}
+a.a1 
+{ 
+	color: #0080ff;
+	text-decoration: none
+}  
+a.a1:hover 
+{ 
+	color: #ff0000; 
+}  
 img
 {
 	vertical-align: middle;
@@ -169,7 +194,7 @@ button.b3
 }
 button.b4 
 {
-	width: 75px;
+	width: 80px;
 	height: 20px;
 	background: #36791a;
     cursor: pointer; 
@@ -192,11 +217,36 @@ ul{
 	margin: 5px;
 }
 li{
-	color:#ff0000;
-	font-size:8px;
+	color:#ffffff;
+	font-size:12px;
 }
 
-@keyframes rowup {
+.gundongtiao
+{
+	width:95%;
+	height:80%;
+	overflow-y:auto; 
+}
+
+.gundongtiao::-webkit-scrollbar {
+width:0px;
+height:9px;
+bckground-color:#004080;
+}
+.d6::-webkit-scrollbar {
+width:0px;
+height:9px;
+bckground-color:#004080;
+}
+
+.d9::-webkit-scrollbar {
+width:0px;
+height:9px;
+bckground-color:#004080;
+}
+
+
+ @keyframes rowup {
     0% {
         -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
@@ -214,24 +264,25 @@ li{
     color:#ff0000;
     overflow: hidden;
 }
-
+/* 报警信息颜色 */
 .list .rowup{
     -webkit-animation: 10s rowup linear infinite normal;
     animation: 10s rowup linear infinite normal;
     position: relative;
-    color:#ff1e1e;
-    padding:15px;
-    font-size:12px
-}
+    color:#ffffff;
+    padding:20px;
+    font-size:13px;
+    font-weight:lighter;
+} 
 
 /*弹窗*/
 .pop,.pop2,.pop3 
 {
 	display: none;
-	width: 780px;   
+	width: 720px;   
 	height:510px;  
 	position: absolute;  
-	left: 0;  
+	left: 55px;  
 	right: 0; 
 	top: 20px;
 	margin:auto;

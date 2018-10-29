@@ -8,6 +8,12 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.base.constants.SessionKeyConstants;
+import com.mvc.entityReport.User;
 
 public class SessionFilter implements Filter {
 
@@ -20,17 +26,17 @@ public class SessionFilter implements Filter {
 	 */
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
 			throws IOException, ServletException {
-		// HttpServletRequest request = (HttpServletRequest) arg0;
-		// HttpServletResponse response = (HttpServletResponse) arg1;
-		// HttpSession session = request.getSession();
-		// if ((User) session.getAttribute(SessionKeyConstants.LOGIN) == null) {
-		// String errors = "您还没有登录，或者session已过期。请先登陆!";
-		// request.setAttribute("Message", errors);
-		// request.getRequestDispatcher("/jsp/login.jsp").forward(request,
-		// response);
-		// } else {
-		// arg2.doFilter(request, response);
-		// }
+		 HttpServletRequest request = (HttpServletRequest) arg0;
+		 HttpServletResponse response = (HttpServletResponse) arg1;
+		 HttpSession session = request.getSession();
+		 if ((User) session.getAttribute(SessionKeyConstants.LOGIN) == null) {
+		 String errors = "您还没有登录，或者session已过期。请先登陆!";
+		 request.setAttribute("Message", errors);
+		 request.getRequestDispatcher("/jsp/login.jsp").forward(request,
+		 response);
+		 } else {
+		 arg2.doFilter(request, response);
+		 }
 	}
 
 	public void init(FilterConfig arg0) throws ServletException {
