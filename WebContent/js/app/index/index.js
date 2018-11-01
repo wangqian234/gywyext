@@ -48,8 +48,6 @@ var app = angular
 								: data;
 					} ];
 				});
-
-
 //获取权限列表
 var permissionList;
 angular.element(document).ready(function() {
@@ -84,7 +82,6 @@ app.run([ '$rootScope', '$location', function($rootScope, $location) {
 		$rootScope.$broadcast('reGetData');
 	});
 } ]);
-
 // 路由配置
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {

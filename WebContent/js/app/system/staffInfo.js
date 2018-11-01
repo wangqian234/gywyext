@@ -226,7 +226,6 @@ app
 						function($scope, services, $location) {
 							var staffInfo = $scope;
 							var roles;
-							
 							staffInfo.staff = {
 									user_acct:"",
 									user_name:"",
@@ -544,7 +543,7 @@ app
 					 services.getAllRoleList().success(function(data){
 						 staffInfo.roles = data;						
 						})
-						
+
 				// 根据ID获取信息
 				var user_id = sessionStorage.getItem('userId');
 				services.selectUserById({

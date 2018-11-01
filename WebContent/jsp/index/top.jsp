@@ -112,8 +112,7 @@
 				<li id="bigdata" class="bigdata" style="display: none"><a class="topspan" href="/gywyext/jsp/bigdata/index.jsp#/equipFail"><h4
 							class="fa fa-bar-chart-o">大数据分析</h4></a></li>
 			</ul>
-			
-			
+
 			<!-- <a class="topspan" href="#/equipBaseInfo"><h4
 					class="fa fa-dashboard">能耗分析</h4></a>  -->
 
@@ -168,8 +167,7 @@
 
 			$("#menuUl li").click(function() {
 				$(this).addClass("active").siblings().removeClass();
-			})
-			
+			})			
 			 $(document)
 	.ready(
 			function() {

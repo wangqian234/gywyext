@@ -2,6 +2,8 @@ package com.mvc.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -106,16 +108,21 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 		//获取设备报警信息
 		@SuppressWarnings("unchecked")
 		@Override
-		public List<AlarmLog> getWaringNews(String searchKey) {
+		public List<AlarmLog> getWaringNews(String searchKey,String type) {
 			List<AlarmLog> list =null;
 			EntityManager em = emf.createEntityManager();
-			System.out.println(searchKey);
 			String selectSql = " select * from alarm_log";
-			if(null==searchKey) {
+			String all = "all";
+			String equip = "equip";
+			String project = "project";
+			if(type.equals(all)) {
 				selectSql +=" where  alarm_log_ischecked = 0";
 			}
-			else {
+			else if(type.equals(equip)){
 				selectSql +=" where equipment = '" + searchKey + "'";
+			}
+			else if(type.equals(project)){
+				selectSql +=" where equipment = any(select equip_id from equipment where equip_room ='" + searchKey + "')";
 			}
 			Query query = em.createNativeQuery(selectSql, AlarmLog.class);
 			list = query.getResultList();
@@ -197,6 +204,24 @@ public class EquipRealInfoDaoImpl implements EquipRealInfoDao {
 			} finally {
 				em.close();
 			}
+			return list;
+		}
+		
+		//获取项目及地址信息
+		@SuppressWarnings("unchecked")
+		@Override
+		public List<Object> getProjectAndRoomInfo() {
+			EntityManager em = emf.createEntityManager();
+			StringBuilder sql = new StringBuilder();
+			sql.append("select project.proj_name,equip_room.equip_room_id,count(alarm_log.equipment) as alarmNum from company"
+			           +" left join project on project.comp_id = company.comp_id left join equip_room"
+					   +" on equip_room.proj_id = project.proj_id left JOIN equipment"
+			           +" on equipment.equip_room=equip_room.equip_room_id left join"
+					   +" alarm_log on alarm_log.equipment=equipment.equip_id"
+			           +" where company.comp_name = '公元物业总公司' GROUP by project.proj_id;");
+			Query query = em.createNativeQuery(sql.toString());
+			List<Object> list = query.getResultList();
+			em.close();
 			return list;
 		}
 }

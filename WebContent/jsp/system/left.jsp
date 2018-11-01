@@ -31,7 +31,6 @@
                  </ul>
             </div>
         </nav>
-
  
     <script>
     $("#main-menu").on("click",function(e){
@@ -56,6 +55,7 @@
 			}
 		});
     });
+
 
     $(window).bind("load resize", function () {
         if ($(this).width() < 768) {
@@ -97,5 +97,6 @@
 								'id'));
 					});
 				}); 
+
     </script>
     <script type="text/javascript" src="/gywyext/js/lib/jquery.metisMenu.js"></script>
