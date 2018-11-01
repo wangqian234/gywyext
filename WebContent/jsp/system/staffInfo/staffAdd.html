@@ -31,16 +31,11 @@
 									</tr>
 									<tr>
 									<td class="width15 text-center">密码<b>*</b></td>
-									<td><input class="dfinput111" ng-model="staff.user_pwd" required/></td>
+									<td><input class="dfinput111" ng-model="staff.user_pwd" type="password" required/></td>
 									</tr>
-									<tr>
-									<td class="width15 text-center">性别<b>*</b></td>
-									<td><input style='margin-left:70px' type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked="">男
-                                        <input style='margin-left:70px' type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">女
-                                    </td>
-                                    </tr>
+                                    <tr>
                                     <td class="width15 text-center">角色</td>
-									<td ><select class="dfinput111" ng-model="staff.role" required> 
+									<td><select class="dfinput111" ng-model="staff.role" required> 
 										<option value="">请选择 </option>
 										<option ng-repeat="r in roles" value="{{r.role_id}}">{{r.role_name}}</option>
 										</select></td>

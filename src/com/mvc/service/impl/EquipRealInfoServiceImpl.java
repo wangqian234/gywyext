@@ -1,16 +1,19 @@
 package com.mvc.service.impl;
 
 import java.util.List;
+import java.util.Map;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.mvc.dao.EquipRealInfoDao;
 import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipMain;
@@ -90,12 +93,12 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 	
 	//获取设备报警信息
 	@Override
-	public List<AlarmLog> getWaringNews(String searchKey) {
-		List<AlarmLog> data = equipRealInfoDao.getWaringNews(searchKey);
+	public List<AlarmLog> getWaringNews(String searchKey,String type) {
+		List<AlarmLog> data = equipRealInfoDao.getWaringNews(searchKey,type);
 		for(int i=0;i<data.size();i++){
 			data.get(i).setAlarm_log_id(null);
 		}
-		return equipRealInfoDao.getWaringNews(searchKey);
+		return equipRealInfoDao.getWaringNews(searchKey,type);
 	}
 	//获取设备报警信息
 	@Override
@@ -132,5 +135,10 @@ public class EquipRealInfoServiceImpl implements EquipRealInfoService {
 			data.get(i).setProj_id(null);
 		}
 		return equipRealInfoDao.selectProjectByCompId(searchKey);
+	}
+	//获取项目及地址信息
+	@Override
+	public List<Object> getProjectAndRoomInfo() {
+		return equipRealInfoDao.getProjectAndRoomInfo();
 	}
 }

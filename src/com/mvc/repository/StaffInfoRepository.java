@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.mvc.entityReport.Role;
 /*import com.mvc.entityReport.Role;*/
 import com.mvc.entityReport.User;
 
@@ -19,9 +20,11 @@ public interface StaffInfoRepository extends JpaRepository<User, Integer>{
 	//	public Long countByUserAcct(@Param("user_acct") String user_acct);
 	
 	//根据ID获取用户信息
-			@Query("select tr from  User tr where user_id=:user_id ")
-			User selectUserById(@Param("user_id") Integer user_id);
-			
+	@Query("select tr from  User tr where user_id=:user_id ")
+	User selectUserById(@Param("user_id") Integer user_id);
+	//根据ID获取角色信息
+		@Query("select tr from  Role tr where role_id=:role_id ")
+		Role selectRoleById(@Param("role_id") Integer role_id);
 	
 			
 			
