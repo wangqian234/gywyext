@@ -1,0 +1,55 @@
+		<div class="panel panel-default">
+			<div class="panel-heading">公司基本信息</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					 <ul class="clicking">
+						<a href="#/companyList">
+						<button class="btn btn-default"><i class=" fa fa-edit " ></i>&nbsp;&nbsp;查询</button></a>
+			         </ul>
+					<table class="table table-striped table-bordered table-hover"
+						id="dataTables-example">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>公司名称</th>
+								<th>公司地址</th>
+								<th>规模数量</th>
+								<th>公司等级</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="gradeA" ng-repeat="c in companys">
+								<td class="center">{{c.comp_id}}</td>
+								<td class="center">{{c.comp_name}}</td>
+								<td class="center">{{c.comp_addr}}</td>
+								<td class="center">{{c.comp_num}}</td>
+								<td style="text-align: center;">
+								<img ng-if="c.comp_rank=='1'" src="/gywyext/images/rank1.png" class="ng-scope" style="width: 40px;">
+								<img ng-if="c.comp_rank=='2'" src="/gywyext/images/rank2.png" class="ng-scope" style="width: 40px;">
+								<img ng-if="c.comp_rank=='3'" src="/gywyext/images/rank3.png" class="ng-scope" style="width: 40px;">
+								</td>							
+								<td>
+								<a class="tablelink" ng-click="getCompanyDetail(c)">查看公司详情</a>
+								<a href="#getCompanyInfo" ng-click="deleteCompanyInfo(c.comp_id)" class="tablelink"
+					    		 	has-permission='tDel'> 删除</a>
+					     		<a href="#/companyUpdate" ng-click="getCompanyId(c.comp_id)" class="tablelink"	
+				        			has-permission='tEdit'> 修改</a>
+					   		 	</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	<div  class="tcdPageCode">页码容器</div>
+							
+<script type="text/javascript" src="/gywyext/js/lib/pageTurn.js">								
+
+
+
+			
+				
+
+				   
+							

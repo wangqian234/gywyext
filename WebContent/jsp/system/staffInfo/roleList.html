@@ -1,0 +1,69 @@
+
+<div id="page-wrapper" style="margin:0;padding:0">
+<!-- 这是内容的开始 -->   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">      
+				<div class="panel-heading">
+					<span>角色权限信息表</span>
+				</div>  
+	<div class="panel-body">
+		<div class="table-responsive">
+			<table class="table table-striped table-bordered table-hover"
+				id="dataTables-example">	
+				<thead>
+					<tr>
+					    <th>编号</th>
+						<th>角色</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="role in roles" id={role.role_id}}>
+						<td>{{$index + 1}}</td>
+						<td>{{role.role_name}}</td>
+						<td>
+						<a href="#roleDetail" class="tablelink"
+							ng-click="getRoleId(role.role_id)">查看</a> 
+						<a href="#/roleUpdate" ng-click="getRoleId(role.role_id)"class="tablelink"	
+							has-permission='rEdit'> 修改</a>
+						<a href="#roleList" ng-click="deleteRole(role.role_id)" class="tablelink"
+							has-permission='rDel'> 删除</a>
+						</td>
+					<!-- # 保持在当前页面 -->
+					</tr>
+</tbody>
+				
+			</table>
+			
+			
+		</div>
+	</div>
+	<div  class="tcdPageCode">页码容器</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 删除模态框 -->
+				<div class="tips" id="tipDelUser"
+					style="height: 160px; width: 260px; margin-top: 230px; margin-left: -120px;">
+					<div class="tiptop"	style="padding-top: 5px;">
+						<span>提示信息：</span><a></a>
+					</div>
+					<div class="tipinfo" style="padding-top: 30px;">
+						<div class="tipright" style="padding-top: 0px; padding-left: 0px;">
+							<label class="text_style">确定删除该条信息吗？ </label>
+							
+						</div>
+					</div>
+
+					<div class="tipbtns" style="margin-top: 60px; margin-left: 120px;">
+						<input name="" type="button" class="sures" id="sureDelUser" value="确定"
+							style="height: 25px; color:#2979FF; width: 50px; font-size: 10px; line-height: 0px;" />&nbsp;
+						<input name="" type="button" class="cancels" id="cancelDelUser"
+							value="取消"
+							style="height: 25px; width: 50px;	color:#2979FF; font-size: 10px; line-height: 0px;" />&nbsp;
+					</div>
+				</div>
+				<!-- 模态框完   -->
+  <script type="text/javascript" src="/gywyext/js/lib/pageTurn.js"> 

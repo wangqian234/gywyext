@@ -98,7 +98,7 @@
 	<nav class="navbar navbar-default top-navbar" role="navigation"
 		style="padding-left: 0px;">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/gywyext/jsp/index/index">
+			<a class="navbar-brand" href="/gywyext/login/logout.do">
 			<img style="height:25px;display:inline-block;margin-top:-2px;margin-right: 5px;" src="${pageContext.request.contextPath}/images/gylogo.png"><strong>公元e巡通</strong></a>
 		</div>
 		<div class="menu">
@@ -118,13 +118,17 @@
 					class="fa fa-dashboard">能耗分析</h4></a>  -->
 
 		</div>
+ 	<!-- 	<ul class="nav navbar-top-links navbar-right">
+ 		 <li class="user">
+				<span id="userAcct"></span> <h4>安全退出</h4><a class="topspan" href="/gywyext/login/logout.do"></a>
+			</li>
+ 		</ul> -->		
  		<ul class="nav navbar-top-links navbar-right">
 			<li class="dropdown">
-			<a href="jsp/equip/equipRealInfo/dataV/index.jsp#/dataV" style="padding:0;margin:0">
+			<a href="/gywyext/jsp/equip/equipRealInfo/dataV/index.jsp#/dataV" style="padding:0;margin:0">
 				<img style="margin-right: 30px;height: 30px;text-align: center; margin-top: 13px;" src="${pageContext.request.contextPath}/images/dataVShow.png">
 			</a>
-			</li>
-
+			</li>          
 		</ul>
 	</nav>
 	<section class="containner">

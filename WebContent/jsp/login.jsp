@@ -27,7 +27,7 @@
 
 
 	<div class="logintop">
-		<span>欢迎登录洛川客运平台</span>
+		<span>欢迎登录公元物业E巡通</span>
 		<!-- <ul>
     <li><a href="#">回首页</a></li>
     <li><a href="#">帮助</a></li>
@@ -53,7 +53,7 @@
 			</form>
 		</div>
 	</div>
-	<div class="loginbm">洛川客运</div>
+	<div class="loginbm">公元物业E巡通</div>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/js/lib/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript"

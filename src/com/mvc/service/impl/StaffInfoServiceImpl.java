@@ -71,10 +71,20 @@ public class  StaffInfoServiceImpl implements StaffInfoService {
 			public boolean deleteIsdelete(Integer user_id) {
 				return staffInfoDao.updateState(user_id );
 			}
+			// 根据id删除角色
+			@Override
+			public boolean deleteIsdeleteRole(Integer role_id) {
+				return staffInfoDao.updateStateRole(role_id);
+			}
 			// 根据ID获取用户信息
 						@Override
 						public User selectUserById(Integer user_id) {
 							return staffInfoRepository.selectUserById(user_id);
+						}
+						// 根据ID获取角色信息
+						@Override
+						public	Role selectRoleById(Integer role_id) {
+							return staffInfoRepository.selectRoleById(role_id);
 						}
 			// 修改用户基本信息
 						@Override

@@ -224,6 +224,29 @@ textarea.dfinput {
 	filter: alpha(opacity = 100);
 }
 
+.user {
+	height: 30px;
+	background: url(../images/ub1.png) repeat-x;
+	clear: both;
+	margin-top: 10px;
+	float: right;
+	margin-right: 12px;
+	border-radius: 30px;
+	behavior: url(js/pie.htc);
+	white-space: nowrap;
+	position: relative;
+}
+
+.user span {
+	display: inline-block;
+	padding-right: 10px;
+	background: url(../images/user.png) no-repeat 15px 10px;
+	line-height: 30px;
+	font-size: 14px;
+	color: #b8ceda;
+	padding-left: 20px;
+	padding-left: 35px;
+}
 
 /* 进度条绿色 */
 .p-green progress { -webkit-appearance: none; }

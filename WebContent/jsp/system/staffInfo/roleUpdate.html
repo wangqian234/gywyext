@@ -1,0 +1,138 @@
+<div id="page-wrapper" style="margin:0;padding:0">
+<!-- 这是内容的开始 -->   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">      
+				<div class="panel-heading">
+					<a href="#" onclick="javascript:history.go(-1);"> 角色管理 </a><span>>修改角色信息</span>
+				</div> 			
+				<div class="panel-bodybody">
+					<div class="row">
+					<style>
+                                    b{color:red;}
+                                    </style>
+						<form style="padding:0 30px;" role="form" ng-submit="updateRole()">
+							<table class="tablelist" style="width: 100%">
+                        <tr>
+						<td class="width15 text-center">角色名称<b>*</b></td>         
+						<td><input type="text" class="dfinput" ng-model="editRole.role_name" id="mustInput" style="width:380px" required/></td>
+						</tr>
+						<tr>
+							<td class="width15 text-center">首页显示权限
+						     </td>
+							<td><input style="width:55px" class="con_per" name="0"
+								ng-checked="isSelected('index_per',0)"
+								ng-click="updateSelection($event,'index_per',0)"
+								type="checkbox" />系统管理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input 
+								style="width:55px"
+								class="con_per" name="1" ng-checked="isSelected('index_per',1)"
+								ng-click="updateSelection($event,'index_per',1)"
+								type="checkbox" />项目管理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input 
+								style="width:55px"
+								class="con_per" name="2" ng-checked="isSelected('index_per',2)"
+								ng-click="updateSelection($event,'index_per',2)"
+								type="checkbox" />设备管理&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input 
+								style="width:55px"
+								class="con_per" name="3" ng-checked="isSelected('index_per',3)"
+								ng-click="updateSelection($event,'index_per',3)"
+								type="checkbox" />大数据分析&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;								
+								</td>
+						</tr>
+						<tr>
+							<td class="width15 text-center">系统权限
+							</td>
+							<td><input style="width:55px" class="con_per" name="0"
+								ng-checked="isSelected('systemleft_per',0)"
+								ng-click="updateSelection($event,'systemleft_per',0)"
+								type="checkbox" />用户添加&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input 
+								style="width:55px" class="con_per" name="0"
+								ng-checked="isSelected('system_per',0)"
+								ng-click="updateSelection($event,'system_per',0)"
+								type="checkbox" />用户修改&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input 
+								style="width:55px"
+								class="con_per" name="1"
+								ng-checked="isSelected('system_per',1)"
+								ng-click="updateSelection($event,'system_per',1)"
+								type="checkbox" />用户删除&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+								style="width:55px"
+								class="con_per" name="1"
+								ng-checked="isSelected('systemleft_per',1)"
+								ng-click="updateSelection($event,'systemleft_per',1)"
+								type="checkbox" />角色添加&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+								style="width:55px"
+								class="con_per" name="2"
+								ng-checked="isSelected('system_per',2)"
+								ng-click="updateSelection($event,'system_per',2)"
+								type="checkbox" />角色修改&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+								style="width:55px"
+								class="con_per" name="3"
+								ng-checked="isSelected('system_per',3)"
+								ng-click="updateSelection($event,'system_per',3)"
+								type="checkbox" />角色删除&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								</td>
+						</tr>
+						<tr>
+							<td class="width15 text-center">项目权限
+							</td>
+							<td><input 	style="width:55px" class="con_per" name="0"
+								ng-checked="isSelected('projleft_per',0)"
+								ng-click="updateSelection($event,'projleft_per',0)"
+								type="checkbox" />公司添加&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+									style="width:55px" 
+								class="con_per" name="0"
+								ng-checked="isSelected('proj_per',0)"
+								ng-click="updateSelection($event,'proj_per',0)"
+								type="checkbox" />公司修改&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+									style="width:55px"
+								class="con_per" name="1"
+								ng-checked="isSelected('proj_per',1)"
+								ng-click="updateSelection($event,'proj_per',1)"
+								type="checkbox" />公司删除&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+									style="width:55px"
+								class="con_per" name="1"
+								ng-checked="isSelected('projleft_per',1)"
+								ng-click="updateSelection($event,'projleft_per',1)"
+								type="checkbox" />项目添加&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+									style="width:55px"
+								class="con_per" name="2"
+								ng-checked="isSelected('proj_per',2)"
+								ng-click="updateSelection($event,'proj_per',2)"
+								type="checkbox" />项目修改&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+									style="width:55px"
+								class="con_per" name="3"
+								ng-checked="isSelected('proj_per',3)"
+								ng-click="updateSelection($event,'proj_per',3)"
+								type="checkbox" />项目删除&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						</tr>
+						<tr>
+							<td class="width15 text-center">设备权限
+							</td>
+							<td><input style="width:55px" class="con_per" name="0"
+								ng-checked="isSelected('equipment_per',0)"
+								ng-click="updateSelection($event,'equipment_per',0)"
+								type="checkbox" />设备添加&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+								style="width:55px"
+								class="con_per" name="1"
+								ng-checked="isSelected('equipment_per',1)"
+								ng-click="updateSelection($event,'equipment_per',1)"
+								type="checkbox" />设备修改&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
+								style="width:55px"
+								class="con_per" name="2"
+								ng-checked="isSelected('equipment_per',2)"
+								ng-click="updateSelection($event,'equipment_per',2)"
+								type="checkbox" />设备删除&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							</td>
+						</tr>
+       					 </table>
+						 <br>
+       					 <br>
+						    <div class="buttonbox">
+					         <input class="btn btn-default" type="submit" href="#roleList" value="确认提交" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
