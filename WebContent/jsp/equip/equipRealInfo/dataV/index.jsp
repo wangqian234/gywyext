@@ -12,6 +12,7 @@
 <script type="text/javascript" src="../../../../js/lib/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="../../../../js/app/chart.js"></script>
 <script type="text/javascript" src="../../../../js/app/equipment/ezuikit.js"></script>
+<script src="${pageContext.request.contextPath}/js/lib/My97DatePicker/WdatePicker.js"></script>
 
 
 

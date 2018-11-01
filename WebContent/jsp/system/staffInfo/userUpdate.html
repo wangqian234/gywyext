@@ -36,7 +36,7 @@
 									</tr>
 									<tr>
 									<td class="width15 text-center">邮箱<b>*</b></td>
-									<td><input class="dfinput111" ng-model="users.user_mail" required pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"/></td>
+									<td><input class="dfinput111" ng-model="users.user_email" required pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"/></td>
 									</tr>
 									<tr>
                                     <td class="width15 text-center">账号<b>*</b></td>
@@ -44,14 +44,8 @@
 									</tr>
 									<tr>
 									<td class="width15 text-center">密码<b>*</b></td>
-									<td><input class="dfinput111" ng-model="users.user_pwd" required/></td>
+									<td><input class="dfinput111" ng-model="users.user_pwd" type="password" required/></td>
 									</tr>
-									<tr>
-									<td class="width15 text-center">性别<b>*</b></td>
-									<td><input style='margin-left:70px' type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked="">男
-                                        <input style='margin-left:70px' type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">女
-                                    </td>
-                                    </tr>
                                     <tr>
                      				<td class="width15 text-center">角色<b>*</b></td>
  									<td ><select class="dfselect" ng-model="users.role" style="width: 167px" > 

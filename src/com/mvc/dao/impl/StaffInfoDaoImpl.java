@@ -90,6 +90,26 @@ public  class StaffInfoDaoImpl implements StaffInfoDao {
 				return true;
 
 			}
+			/**
+			 * 删除角色信息
+			 */
+			public Boolean updateStateRole(Integer role_id) {
+				EntityManager em = emf.createEntityManager();
+				em.getTransaction().begin();
+				try {
+					String selectSql = " update role set role_isdeleted =:role_isdeleted where role_id=:role_id";
+					Query query = em.createNativeQuery(selectSql);
+					query.setParameter("role_id", role_id);
+					query.setParameter("role_isdeleted", IsDelete.YES.value);
+					query.executeUpdate();
+					em.flush();
+					em.getTransaction().commit();
+				} finally {
+					em.close();
+				}
+				return true;
+
+			}
 
 
 			@Override

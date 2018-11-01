@@ -14,7 +14,8 @@
 	  	</div>
 </nav>
  --%>
-         <nav class="navbar-default navbar-side" role="navigation">
+ 
+        <nav class="navbar-default navbar-side" role="navigation">
 		<div id="sideNav"><i class="fa fa-caret-right"></i></div>
             <div class="sidebar-collapse">
                <ul class="nav" id="main-menu">
@@ -22,7 +23,9 @@
                         <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> 用户管理<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li><a class="leftSecond clickin" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/userList">全部用户信息</a></li> 
-	  						<li><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffAdd">新建用户信息</a></li>
+	  						<li id="uAdd" class="uAdd" style="display: none"><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/staffAdd">新建用户信息</a></li>
+                          	<li><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/roleList">全部角色信息</a></li>
+                         	<li id="rAdd" class="rAdd" style="display: none"><a class="leftSecond" href="${pageContext.request.contextPath}/jsp/system/staffInfo/index.jsp#/roleAdd">新建角色信息</a></li>
                        	</ul>
                     </li>
                  </ul>
@@ -53,6 +56,7 @@
 		});
     });
 
+
     $(window).bind("load resize", function () {
         if ($(this).width() < 768) {
             $('div.sidebar-collapse').addClass('collapse')
@@ -60,5 +64,39 @@
             $('div.sidebar-collapse').removeClass('collapse')
         }
     });
+    
+	 $(document)
+		.ready(
+				function() {
+					//根据权限显示左侧栏相关条目
+					$
+							.get(
+									"/gywyext/login/getSystemLeftbarPermission.do",
+									function(data) {
+										console.log("左侧栏权限：" + data);
+										var leftbarPermission = data
+												.substring(1,
+														data.length - 2)
+												.split(" ");
+										for (var i = 0, len = leftbarPermission.length; i < len; i++) {
+											if (leftbarPermission[i].trim()) {
+												var $temp = $('.'
+														+ leftbarPermission[i].trim());
+												if ($temp) {
+													$temp.css('display',
+															'block');
+												}
+											}
+
+										}
+									});
+					//点击li时将当前页面的信息存入sessionStorage
+					var $li = $('.leftmenu li');
+					$li.click(function() {
+						sessionStorage.setItem("currentPage", $(this).attr(
+								'id'));
+					});
+				}); 
+
     </script>
     <script type="text/javascript" src="/gywyext/js/lib/jquery.metisMenu.js"></script>

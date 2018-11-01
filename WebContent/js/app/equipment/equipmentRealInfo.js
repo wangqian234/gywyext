@@ -165,6 +165,7 @@ app
 							equipment.getEquipRealData = function(equipParaId){
 								var startDate = null;
 								var divid = echart;//传递显示图表的id
+								var color = '#0E7CE2';
 								if(equipment.startTime != null)
 								startDate = equipment.startTime+" 00:00:00";//默认从起始日期凌晨开始显示数据
 								//查询参数对应的设备信息
@@ -175,7 +176,7 @@ app
 								}
 								equipment.equipParaId = equipParaId;
 								if(startDate != null)
-								try2(startDate,equipment.equipara[equipment.Id],divid);
+								try2(startDate,equipment.equipara[equipment.Id],divid,color);
 								else alert("请输入起始时间");
 							}
 							

@@ -4,7 +4,7 @@
          </h1>
 <div class="panel panel-default">
 	<div class="panel-heading">
-	<div ng-app="" class="tools">
+	
 		<form class="toolbar">
 			<!-- 根据设备分类筛选设备信息 -->
 			请选择设备区域： <select class="dfselect" ng-model="equipRoomm"  id="equipRoomm" style="width: 167px" ng-change="selectEquipmentByRS()"> 
@@ -24,12 +24,12 @@
 	设备查询：<input type="text" class="dfselect" placeholder="设备名称或型号" ng-model="equipName" id="equipName" >
 			<button style="width: 50px; height: 28px" ng-click="selectEquipmentByRS()">
 			<i class="fa fa-search"></i></button>
-				
-		<a href="#/equipAdd" class="toolbar1">
-		<button class="btn btn-default"><i class=" fa fa-edit "></i>新建</button></a>
+
+		<a has-permission='eAdd' href="#/equipAdd" class="toolbar1" >
+		<button class="btn btn-default" ><i class=" fa fa-edit "></i>新建</button></a>
 
 		</form>	
-	</div>
+	
 	</div>
 	<div class="panel-body">
 		<div class="table-responsive">
@@ -61,9 +61,10 @@
 						<a class="tablelink" ng-click="getEquipmentDetail(e)">设备详情</a>
 					    <a href="#/echartsShow" class="tablelink" ng-click="getEquipmentId(e.equip_id)">设备实时状态</a>
 					    <a href="#/equipUpdate" ng-click="getEquipmentId(e.equip_id)" class="tablelink"	
-				        has-permission='tEdit'> 修改</a>
+				        has-permission='eEdit'> 修改</a>
 					    <a href="#equipBaseInfo" ng-click="deleteEquipmentInfo(e.equip_id)" class="tablelink"
-					     has-permission='tDel'> 删除</a></td>				    
+					     has-permission='eDel'> 删除</a>				    
+				        </td>
 				</tr>
 				</tbody>
 				

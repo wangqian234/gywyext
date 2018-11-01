@@ -1,6 +1,7 @@
 package com.mvc.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -13,15 +14,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.tools.ant.taskdefs.JDBCTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipOper;
 import com.mvc.entityReport.EquipPara;
@@ -65,6 +70,51 @@ public class EquipRealInfoController {
 				} catch (Exception e){
 					jsonObject.put("error", "暂未找到相关数据");
 				}
+				return jsonObject.toString();
+			}
+			
+	//获取项目及地址信息
+			@RequestMapping(value = "/getProjectAndRoomInfo.do")
+			public @ResponseBody String getProjectAndRoomInfo(HttpServletRequest request, HttpSession session) {
+				JSONObject jsonObject = new JSONObject();
+				List<Object> list = equipRealInfoService.getProjectAndRoomInfo();
+				Iterator<Object> it = list.iterator();
+				JSONArray result = new JSONArray();
+				JSONArray result1 = new JSONArray();
+				JSONArray result2 = new JSONArray();
+				Object[] obj = null;
+				Map<String, double[]> geocoordMap = new HashMap<String, double[]>();
+				//alarmNum
+				while (it.hasNext()) {
+					obj = (Object[]) it.next();
+					result.add(obj[0]);
+					result.add(obj[1]);
+					result.add(obj[2]);
+				}
+				for(int i=0;i<result.size();i++){
+					Map<String, String> map = new HashMap<String, String>();
+					if(result.get(i) != null){
+						map.put("value", result.get(i+2).toString());
+						map.put("name", result.get(i).toString());
+						String key = result.get(i).toString();
+						double[] value=new double[]{113.056,23.5435};
+						geocoordMap.put(key, value);
+						result1.add(map);
+					}
+					i+=2;
+				}
+				for(int i=0;i<result.size();i++){
+					Map<String, String> map = new HashMap<String, String>();
+					if(result.get(i) != null){
+						map.put("equip_room_id", result.get(i+1).toString());
+						map.put("proj_name", result.get(i).toString());
+						result2.add(map);
+					}
+					i+=2;
+				}
+				jsonObject.put("ProjAlarm",result1);
+				jsonObject.put("ProjRoom",result2);
+				jsonObject.put("ProjXY",geocoordMap);
 				return jsonObject.toString();
 			}
 			
@@ -135,16 +185,16 @@ public class EquipRealInfoController {
 	    String param = null;
         if(turn_id.equals("0")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";
-		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=0&speed=1";
+		     param = "accessToken=at.dymancjqckq6zyas4iwwj2yz1tpz13pi-86r8ozeim9-0jk3pl1-1grqeqevs&deviceSerial=C24186733&channelNo=1&direction=0&speed=1";
         }else if(turn_id.equals("1")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=1&speed=1";
+		     param = "accessToken=at.dymancjqckq6zyas4iwwj2yz1tpz13pi-86r8ozeim9-0jk3pl1-1grqeqevs&deviceSerial=C24186733&channelNo=1&direction=1&speed=1";
         }else if(turn_id.equals("2")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=2&speed=1";
+		     param = "accessToken=at.dymancjqckq6zyas4iwwj2yz1tpz13pi-86r8ozeim9-0jk3pl1-1grqeqevs&deviceSerial=C24186733&channelNo=1&direction=2&speed=1";
         }else if(turn_id.equals("3")){
         	 url = "https://open.ys7.com/api/lapp/device/ptz/start";			     
-		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=3&speed=1";
+		     param = "accessToken=at.dymancjqckq6zyas4iwwj2yz1tpz13pi-86r8ozeim9-0jk3pl1-1grqeqevs&deviceSerial=C24186733&channelNo=1&direction=3&speed=1";
         }
         try {
             URL realUrl = new URL(url);
@@ -198,13 +248,13 @@ public class EquipRealInfoController {
         String url = "https://open.ys7.com/api/lapp/device/ptz/stop";			     
 	    String param = null;			        
 	    if(turn_id.equals("0")){
-		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=0";
+		     param = "accessToken=at.dymancjqckq6zyas4iwwj2yz1tpz13pi-86r8ozeim9-0jk3pl1-1grqeqevs&deviceSerial=C24186733&channelNo=1&direction=0";
         }else if(turn_id.equals("1")){			     
-		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=1";
+		     param = "accessToken=at.dymancjqckq6zyas4iwwj2yz1tpz13pi-86r8ozeim9-0jk3pl1-1grqeqevs&deviceSerial=C24186733&channelNo=1&direction=1";
         }else if(turn_id.equals("2")){			     
-		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=2";
+		     param = "accessToken=at.dymancjqckq6zyas4iwwj2yz1tpz13pi-86r8ozeim9-0jk3pl1-1grqeqevs&deviceSerial=C24186733&channelNo=1&direction=2";
         }else if(turn_id.equals("3")){			     
-		     param = "accessToken=at.30044dhi5s2d15d08mw7z74bc4ns7f2e-26j1yzulkw-07sz3po-5vnhl0hnd&deviceSerial=C24186733&channelNo=1&direction=3";
+		     param = "accessToken=at.dymancjqckq6zyas4iwwj2yz1tpz13pi-86r8ozeim9-0jk3pl1-1grqeqevs&deviceSerial=C24186733&channelNo=1&direction=3";
         }
 	    try {
             URL realUrl = new URL(url);
@@ -255,7 +305,8 @@ public class EquipRealInfoController {
 		JSONObject jsonObject = new JSONObject();
 		try{
 			String searchKey = request.getParameter("searchKey");
-			List<AlarmLog> data = equipRealInfoService.getWaringNews(searchKey);
+			String type = request.getParameter("type");
+			List<AlarmLog> data = equipRealInfoService.getWaringNews(searchKey,type);
 			jsonObject.put("data", data);
 		} catch (Exception e){
 			jsonObject.put("error", "暂未找到相关数据");
