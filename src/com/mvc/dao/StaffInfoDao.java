@@ -17,7 +17,8 @@ public interface StaffInfoDao {
 		
 	// 删除用户信息
 		Boolean updateState(Integer user_id);
-
+		// 删除角色信息
+				Boolean updateStateRole(Integer role_id);
 		//查找所有角色
 		List<Role> getAllRoleList();
 	

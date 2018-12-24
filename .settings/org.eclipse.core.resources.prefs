@@ -13,14 +13,20 @@ encoding//WebContent/jsp/equip/equipAlarmInfo/top.jsp=UTF-8
 encoding//WebContent/jsp/equip/equipBaseInfo.html=UTF-8
 encoding//WebContent/jsp/equip/equipDetail.html=UTF-8
 encoding//WebContent/jsp/equip/equipRealInfo/dataV/dataV.html=UTF-8
+<<<<<<< HEAD
+=======
 encoding//WebContent/jsp/equip/equipRealInfo/dataV/top.jsp=UTF-8
+>>>>>>> 5fedb79fb25e39dd20857353cc3529d54520527b
 encoding//WebContent/jsp/equip/equipRealInfo/top.jsp=UTF-8
 encoding//WebContent/jsp/equip/equipRoomAdd.html=UTF-8
 encoding//WebContent/jsp/equip/equipUpdate.html=UTF-8
 encoding//WebContent/jsp/equip/top.jsp=UTF-8
 encoding//WebContent/jsp/index/init.html=UTF-8
 encoding//WebContent/jsp/index/top.jsp=UTF-8
+<<<<<<< HEAD
+=======
 encoding//WebContent/jsp/project/getCompanyInfo.html=UTF-8
+>>>>>>> 5fedb79fb25e39dd20857353cc3529d54520527b
 encoding//WebContent/jsp/project/left.jsp=UTF-8
 encoding//WebContent/jsp/system/left.jsp=UTF-8
 encoding//WebContent/jsp/system/staffBaseInfo.html=UTF-8

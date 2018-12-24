@@ -276,7 +276,7 @@ public class EquipmentController {
 		}
 		
  		//根据id获取设备信息(用于设备修改)
-		@RequestMapping("/selectEquipmentById.do")
+		@RequestMapping(value="/selectEquipmentById.do", produces={"text/html;charset=UTF-8;","application/json;"})
 		public @ResponseBody String selectEquipmentById(HttpServletRequest request, HttpSession session) {
 			int equip_id = Integer.parseInt(request.getParameter("equip_id"));
 			session.setAttribute("equip_id", equip_id);

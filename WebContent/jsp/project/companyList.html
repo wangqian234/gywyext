@@ -10,9 +10,6 @@
 		<form class="toolbar" style="padding-left:15px;">
 公司查询：<input type="text" class="dfselect" placeholder="公司名称" ng-model="companyName" id="companyName" >
 			<button style="width: 50px; height: 28px" ng-click="selectcompanyByName()"><i class="fa fa-search"></i></button>
-
-<a href="#/addCompany" class="toolbar1">
-		<button class="btn btn-default"><i class=" fa fa-edit "></i>新建</button></a>
 		</form>	
 
 	<div class="panel-body">
@@ -43,9 +40,9 @@
 						<td> 
 						<a class="tablelink" ng-click="getCompanyDetail(company)">查看公司详情</a>
 						<a href="#companyList" ng-click="deleteCompanyInfo(company.comp_id)" class="tablelink"
-					    	has-permission='tDel'> 删除</a>
+					    	has-permission='cDel'> 删除</a>
 					     <a href="#/companyUpdate" ng-click="getCompanyId(company.comp_id)" class="tablelink"	
-				        	has-permission='tEdit'> 修改</a>
+				        	has-permission='cEdit'> 修改</a>
 				        </td> 
 					<!-- # 保持在当前页面 -->
 					</tr>

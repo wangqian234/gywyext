@@ -98,31 +98,36 @@
 	<nav class="navbar navbar-default top-navbar" role="navigation"
 		style="padding-left: 0px;">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="#">
+			<a class="navbar-brand" href="/gywyext/login/logout.do">
 			<img style="height:25px;display:inline-block;margin-top:-2px;margin-right: 5px;" src="${pageContext.request.contextPath}/images/gylogo.png"><strong>公元e巡通</strong></a>
 		</div>
 		<div class="menu">
 			<ul id="menuUl" class="menuUl">
-				<li><a class="topspan" href="/gywyext/jsp/system/staffInfo/index.jsp#/userList"><h4
-							class="fa fa-desktop">系统管理</h4></a></li>
-				<li ><a class="topspan"href="/gywyext/jsp/project/index.jsp#/companyList"><h4
+				<li id="sys" class="sys" style="display: none"><a class="topspan" href="/gywyext/jsp/system/staffInfo/index.jsp#/userList"><h4
+							class="fa fa-desktop">系统管理</h4></a></li> 
+				<li id="proj" class="proj" style="display: none"><a class="topspan"href="/gywyext/jsp/project/index.jsp#/companyList"><h4
 					        class="fa fa-tasks">项目管理</h4></a></li>
-				<li><a class="topspan" href="/gywyext/jsp/equip/index.jsp#/equipBaseInfo"><h4
+				<li id="equip" class="equip" style="display: none"><a class="topspan" href="/gywyext/jsp/equip/index.jsp#/equipBaseInfo"><h4
 							class="fa fa-dashboard">设备管理</h4></a></li>
-				<li><a class="topspan" href="/gywyext/jsp/bigdata/index.jsp#/equipFail"><h4
+				<li id="bigdata" class="bigdata" style="display: none"><a class="topspan" href="/gywyext/jsp/bigdata/index.jsp#/equipFail"><h4
 							class="fa fa-bar-chart-o">大数据分析</h4></a></li>
 			</ul>
+
 			<!-- <a class="topspan" href="#/equipBaseInfo"><h4
 					class="fa fa-dashboard">能耗分析</h4></a>  -->
 
 		</div>
+ 	<!-- 	<ul class="nav navbar-top-links navbar-right">
+ 		 <li class="user">
+				<span id="userAcct"></span> <h4>安全退出</h4><a class="topspan" href="/gywyext/login/logout.do"></a>
+			</li>
+ 		</ul> -->		
  		<ul class="nav navbar-top-links navbar-right">
 			<li class="dropdown">
-			<a href="../equip/equipRealInfo/dataV/index.jsp#/dataV" style="padding:0;margin:0">
+			<a href="/gywyext/jsp/equip/equipRealInfo/dataV/index.jsp#/dataV" style="padding:0;margin:0">
 				<img style="margin-right: 30px;height: 30px;text-align: center; margin-top: 13px;" src="${pageContext.request.contextPath}/images/dataVShow.png">
 			</a>
-			</li>
-
+			</li>          
 		</ul>
 	</nav>
 	<section class="containner">
@@ -162,5 +167,37 @@
 
 			$("#menuUl li").click(function() {
 				$(this).addClass("active").siblings().removeClass();
-			})
+			})			
+			 $(document)
+	.ready(
+			function() {
+				//根据权限显示左侧栏相关条目
+				$
+						.get(
+								"/gywyext/login/getIndexbarPermission.do",
+								function(data) {
+									console.log("左侧栏权限：" + data);
+									var leftbarPermission = data
+											.substring(1,
+													data.length - 2)
+											.split(" ");
+									for (var i = 0, len = leftbarPermission.length; i < len; i++) {
+										if (leftbarPermission[i].trim()) {
+											var $temp = $('.'
+													+ leftbarPermission[i].trim());
+											if ($temp) {
+												$temp.css('display',
+														'block');
+											}
+										}
+
+									}
+								});
+				//点击li时将当前页面的信息存入sessionStorage
+				var $li = $('.leftmenu li');
+				$li.click(function() {
+					sessionStorage.setItem("currentPage", $(this).attr(
+							'id'));
+				});
+			}); 
 		</script>
