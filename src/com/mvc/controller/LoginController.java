@@ -116,7 +116,56 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping("/login.do")
-	public String login(HttpSession session, HttpServletRequest request, ModelMap model, HttpServletResponse res) {
+	public @ResponseBody String login(HttpSession session, HttpServletRequest request, ModelMap model, HttpServletResponse res) {
+		String error_msg = "";
+		String userAcct = request.getParameter("userName");
+		String password = MD5.encodeByMD5(request.getParameter("password"));
+		String isRemember = request.getParameter("isRemember"); // 记住密码//值获取不到
+		User user = userService.findByUserAcct(userAcct);
+		CookieUtil cookie_u = new CookieUtil();
+		JSONObject jsonObject = new JSONObject();
+		if (user != null) { // 用户存在
+			String passwd = user.getUser_pwd();
+			if (passwd != null && passwd.equals(password)) {
+				session.setAttribute(SessionKeyConstants.LOGIN, user);
+				model.addAttribute("user", user);
+				cookie_u.add_cookie(CookieKeyConstants.USERNAME, userAcct, res, 60 * 60 * 24 * 15);
+				if (isRemember != null) {
+					cookie_u.add_cookie(CookieKeyConstants.PASSWORD, password, res, 60 * 60 * 24 * 7);
+				} else {
+					cookie_u.del_cookie(CookieKeyConstants.PASSWORD, request, res);
+				}
+				model.addAttribute("password", password);
+				Cookie cookie = new Cookie("userAcct", userAcct);
+				cookie.setMaxAge(30 * 60);
+				// cookie.setMaxAge(60);
+				cookie.setPath("/");
+				res.addCookie(cookie);
+				cookie = new Cookie("role", user.getRole().getRole_id().toString());
+				cookie.setMaxAge(60);
+				cookie.setPath("/");
+				res.addCookie(cookie);
+				jsonObject.put("err_message", "OK");
+			} else { // 密码错误
+				jsonObject.put("err_message", "err_user");
+			}
+		} else { // 用户不存在
+			jsonObject.put("err_message", "err_password");
+		}
+		return jsonObject.toString();
+	}
+	
+	/**
+	 * 验证登陆之后写入Cookie和Session
+	 * 
+	 * @param session
+	 * @param request
+	 * @param model
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/loginMobile.do")
+	public String loginMobile(HttpSession session, HttpServletRequest request, ModelMap model, HttpServletResponse res) {
 		String error_msg = "";
 		String userAcct = request.getParameter("userName");
 		String password = MD5.encodeByMD5(request.getParameter("password"));

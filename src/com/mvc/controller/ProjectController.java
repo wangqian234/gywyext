@@ -213,7 +213,7 @@ public class ProjectController {
 		
 	
 	//浏览公司信息
-	@RequestMapping("/getCompanyInfo.do")
+	@RequestMapping(value="/getCompanyInfo.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String getCompanyInfo(HttpServletRequest request) {
 		JSONObject jsonObject = new JSONObject();
 		List<Company> result = projectService.getCompanyInfo();
@@ -222,7 +222,7 @@ public class ProjectController {
 	}
 
 	//浏览项目信息
-		@RequestMapping("/getProjectInfo.do")
+		@RequestMapping(value="/getProjectInfo.do", produces={"text/html;charset=UTF-8;","application/json;"})
 		public @ResponseBody String getProjectInfo(HttpServletRequest request) {
 			JSONObject jsonObject = new JSONObject();
 			List<Project> result = projectService.getProjectInfo();
@@ -273,7 +273,7 @@ public class ProjectController {
 				
 				
 				//根据公司id查找公司的项目
-				@RequestMapping(value = "/getCompProj.do")
+				@RequestMapping(value = "/getCompProj.do" , produces={"text/html;charset=UTF-8;","application/json;"})
 				public @ResponseBody String getCompProj(HttpServletRequest request, HttpSession session){
 					JSONObject jsonObject = new JSONObject();
 					try{
