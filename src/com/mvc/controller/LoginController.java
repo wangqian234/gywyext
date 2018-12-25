@@ -1,8 +1,7 @@
 package com.mvc.controller;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,16 +18,12 @@ import com.alibaba.fastjson.JSON;
 import com.base.constants.CookieKeyConstants;
 import com.base.constants.PageNameConstants;
 import com.base.constants.PermissionConstants;
-/*import com.base.constants.PermissionConstants;*/
 import com.base.constants.SessionKeyConstants;
-/*import com.mvc.entityReport.AlarmStatistic;*/
 import com.mvc.entityReport.User;
-/*import com.mvc.service.AlarmStatisticService;*/
 import com.mvc.service.UserService;
 import com.utils.CookieUtil;
 import com.utils.HttpRedirectUtil;
 import com.utils.MD5;
-import com.utils.StringUtil;
 
 import net.sf.json.JSONObject;
 
@@ -116,7 +111,67 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping("/login.do")
-	public @ResponseBody String login(HttpSession session, HttpServletRequest request, ModelMap model, HttpServletResponse res) {
+	public String login(HttpSession session, HttpServletRequest request, ModelMap model, HttpServletResponse res) {
+		String error_msg = "";
+		String userAcct = request.getParameter("userName");
+		String password = MD5.encodeByMD5(request.getParameter("password"));
+		Map<String, Cookie> cookieMap = ReadCookieMap(request);
+	    if (cookieMap.containsKey("name_cookie")) {
+            userAcct = cookieMap.get("name_cookie").getValue().toString();
+	    }
+	    if (cookieMap.containsKey("pw_cookie")) {
+	    	password= cookieMap.get("pw_cookie").getValue().toString();
+	    }
+		String isRemember = request.getParameter("isRemember"); // 记住密码//值获取不到
+		User user = userService.findByUserAcct(userAcct);
+		CookieUtil cookie_u = new CookieUtil();
+		if (user != null) { // 用户存在
+			String passwd = user.getUser_pwd();
+			if (passwd != null && passwd.equals(password)) {
+				session.setAttribute(SessionKeyConstants.LOGIN, user);
+				model.addAttribute("user", user);
+				cookie_u.add_cookie(CookieKeyConstants.USERNAME, userAcct, res, 60 * 60 * 24 * 15);
+				cookie_u.add_cookie(CookieKeyConstants.PASSWORD, password, res, 60 * 60 * 24 * 7);//
+				if (isRemember != null) {
+					cookie_u.add_cookie(CookieKeyConstants.PASSWORD, password, res, 60 * 60 * 24 * 7);
+				} else {
+					cookie_u.del_cookie(CookieKeyConstants.PASSWORD, request, res);
+				}
+				model.addAttribute("password", password);
+				Cookie cookie = new Cookie("userAcct", userAcct);
+				cookie.setMaxAge(30 * 60);
+				// cookie.setMaxAge(60);
+				cookie.setPath("/");
+				res.addCookie(cookie);
+				cookie = new Cookie("role", user.getRole().getRole_id().toString());
+				cookie.setMaxAge(60);
+				cookie.setPath("/");
+				res.addCookie(cookie);
+				return "index/index";// 返回到index主页
+			} else { // 密码错误
+				error_msg = "err_password";
+				cookie_u.del_cookie(CookieKeyConstants.PASSWORD, request, res);
+				model.addAttribute("error", error_msg);
+				return HttpRedirectUtil.redirectStr(PageNameConstants.TOLOGIN);
+			}
+		} else { // 用户不存在
+			error_msg = "err_user";
+			model.addAttribute("error", error_msg);
+			return HttpRedirectUtil.redirectStr(PageNameConstants.TOLOGIN);
+		}
+	}
+	
+	/**
+	 * 验证登陆之后写入Cookie和Session
+	 * 
+	 * @param session
+	 * @param request
+	 * @param model
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/loginMobile.do")
+	public String loginMobile(HttpSession session, HttpServletRequest request, ModelMap model, HttpServletResponse res) {
 		String error_msg = "";
 		String userAcct = request.getParameter("userName");
 		String password = MD5.encodeByMD5(request.getParameter("password"));
@@ -145,55 +200,7 @@ public class LoginController {
 				cookie.setMaxAge(60);
 				cookie.setPath("/");
 				res.addCookie(cookie);
-				jsonObject.put("err_message", "OK");
-			} else { // 密码错误
-				jsonObject.put("err_message", "err_user");
-			}
-		} else { // 用户不存在
-			jsonObject.put("err_message", "err_password");
-		}
-		return jsonObject.toString();
-	}
-	
-	/**
-	 * 验证登陆之后写入Cookie和Session
-	 * 
-	 * @param session
-	 * @param request
-	 * @param model
-	 * @param res
-	 * @return
-	 */
-	@RequestMapping("/loginMobile.do")
-	public String loginMobile(HttpSession session, HttpServletRequest request, ModelMap model, HttpServletResponse res) {
-		String error_msg = "";
-		String userAcct = request.getParameter("userName");
-		String password = MD5.encodeByMD5(request.getParameter("password"));
-		String isRemember = request.getParameter("isRemember"); // 记住密码//值获取不到
-		User user = userService.findByUserAcct(userAcct);
-		CookieUtil cookie_u = new CookieUtil();
-		if (user != null) { // 用户存在
-			String passwd = user.getUser_pwd();
-			if (passwd != null && passwd.equals(password)) {
-				session.setAttribute(SessionKeyConstants.LOGIN, user);
-				model.addAttribute("user", user);
-				cookie_u.add_cookie(CookieKeyConstants.USERNAME, userAcct, res, 60 * 60 * 24 * 15);
-				if (isRemember != null) {
-					cookie_u.add_cookie(CookieKeyConstants.PASSWORD, password, res, 60 * 60 * 24 * 7);
-				} else {
-					cookie_u.del_cookie(CookieKeyConstants.PASSWORD, request, res);
-				}
-				model.addAttribute("password", password);
-				Cookie cookie = new Cookie("userAcct", userAcct);
-				cookie.setMaxAge(30 * 60);
-				// cookie.setMaxAge(60);
-				cookie.setPath("/");
-				res.addCookie(cookie);
-				cookie = new Cookie("role", user.getRole().getRole_id().toString());
-				cookie.setMaxAge(60);
-				cookie.setPath("/");
-				res.addCookie(cookie);
-				return "index/index";// 返回到index主页
+				return (String) jsonObject.put("err_message", "OK");
 			} else { // 密码错误
 				error_msg = "err_password";
 				cookie_u.del_cookie(CookieKeyConstants.PASSWORD, request, res);
@@ -445,4 +452,21 @@ public class LoginController {
 		}	
 		return strb.toString();
 	}
+	
+    /**
+     * 将cookie封装到Map里面
+     * 
+     * @param request
+     * @return
+     */
+    private static Map<String, Cookie> ReadCookieMap(HttpServletRequest request) {
+        Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
+        Cookie[] cookies = request.getCookies();
+        if (null != cookies) {
+            for (Cookie cookie : cookies) {
+                cookieMap.put(cookie.getName(), cookie);
+            }
+        }
+        return cookieMap;
+    }
 }
