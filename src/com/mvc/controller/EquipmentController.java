@@ -164,6 +164,7 @@ public class EquipmentController {
 			equipment.setEquip_isdeleted(0);			
 			Equipment result;
 			if (jsonObject.containsKey("equip_id")) {
+				equipmentService.deleteEquipPara(jsonObject.getString("equip_id"));
 				equipment.setEquip_id(Integer.valueOf(jsonObject.getString("equip_id")));
 				equipState.setEquip_state_id(Integer.valueOf(jsonObject.getString("equip_id")));
 				result = equipmentService.save(equipment);				
@@ -219,13 +220,14 @@ public class EquipmentController {
 		@RequestMapping("/updateEquipmentById.do")
 		public @ResponseBody Integer updateEquipmentById(HttpServletRequest request, HttpSession session) throws ParseException {
 
-/*			JSONObject jsonPara = new JSONObject();
-			List<EquipPara> equipParas = new ArrayList<EquipPara>();*/
+			JSONObject jsonPara = new JSONObject();
+			List<EquipPara> equipParas = new ArrayList<EquipPara>();
 			JSONObject jsonObject = JSONObject.fromObject(request.getParameter("equipment"));
 			Integer equip_id = null;
 			if (jsonObject.containsKey("equip_id")) {
+				equipmentService.deleteEquipPara(jsonObject.getString("equip_id"));
 				equip_id = Integer.parseInt(jsonObject.getString("equip_id"));
-/*				jsonPara = JSONObject.fromObject(request.getParameter("equipmentpara"));
+				jsonPara = JSONObject.fromObject(request.getParameter("equipmentpara"));
 				JSONArray objName = (JSONArray) jsonPara.get("paraname");
 				JSONArray objValue = (JSONArray) jsonPara.get("paravalue");
 				JSONArray objRe = (JSONArray) jsonPara.get("parare");
@@ -234,17 +236,19 @@ public class EquipmentController {
 				Object[] paraValue = objValue.toArray();
 				Object[] paraRe = objRe.toArray();
 				Object[] paraUnit = objUnit.toArray();
+				Equipment equip = new Equipment();
+				equip.setEquip_id(equip_id);
 				for(int i=0;i<paraValue.length;i++){
 					EquipPara ep = new EquipPara();
-					ep.setEquip_para_name(paraName[i].toString());					
+					ep.setEquip_para_name(paraName[i].toString());
 					ep.setEquip_para_rate(Float.parseFloat(paraValue[i].toString()));;
 					ep.setEquip_para_memo(paraRe[i].toString());
 					ep.setEquip_para_unit(paraUnit[i].toString());
 					ep.setEquip_para_isdeleted(0);
-					ep.setEquipment(equipment);
+					ep.setEquipment(equip);
 					equipParas.add(ep);
 				}
-				equipmentService.saveParas(equipParas);*/
+				equipmentService.saveParas(equipParas);
 			}
 			Boolean flag = equipmentService.updateEquipmentBase(equip_id, jsonObject);
 			if (flag == true)
@@ -283,8 +287,19 @@ public class EquipmentController {
 		}
 		
  		//根据id获取设备信息(用于设备修改)
-		@RequestMapping(value="/selectEquipmentById.do", produces={"text/html;charset=UTF-8;","application/json;"})
+		@RequestMapping(value="/selectEquipmentById.do")
 		public @ResponseBody String selectEquipmentById(HttpServletRequest request, HttpSession session) {
+			int equip_id = Integer.parseInt(request.getParameter("equip_id"));
+			session.setAttribute("equip_id", equip_id);
+			Equipment equipment = equipmentService.selectEquipmentById(equip_id);
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("equipment", equipment);
+			return jsonObject.toString();
+		}
+		
+ 		//根据id获取设备信息(用于设备修改)
+		@RequestMapping(value="/selectEquipmentByIdMobile.do", produces={"text/html;charset=UTF-8;","application/json;"})
+		public @ResponseBody String selectEquipmentByIdMobile(HttpServletRequest request, HttpSession session) {
 			int equip_id = Integer.parseInt(request.getParameter("equip_id"));
 			session.setAttribute("equip_id", equip_id);
 			Equipment equipment = equipmentService.selectEquipmentById(equip_id);
