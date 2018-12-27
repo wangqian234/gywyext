@@ -287,8 +287,19 @@ public class EquipmentController {
 		}
 		
  		//根据id获取设备信息(用于设备修改)
-		@RequestMapping(value="/selectEquipmentById.do", produces={"text/html;charset=UTF-8;","application/json;"})
+		@RequestMapping(value="/selectEquipmentById.do")
 		public @ResponseBody String selectEquipmentById(HttpServletRequest request, HttpSession session) {
+			int equip_id = Integer.parseInt(request.getParameter("equip_id"));
+			session.setAttribute("equip_id", equip_id);
+			Equipment equipment = equipmentService.selectEquipmentById(equip_id);
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("equipment", equipment);
+			return jsonObject.toString();
+		}
+		
+ 		//根据id获取设备信息(用于设备修改)
+		@RequestMapping(value="/selectEquipmentByIdMobile.do", produces={"text/html;charset=UTF-8;","application/json;"})
+		public @ResponseBody String selectEquipmentByIdMobile(HttpServletRequest request, HttpSession session) {
 			int equip_id = Integer.parseInt(request.getParameter("equip_id"));
 			session.setAttribute("equip_id", equip_id);
 			Equipment equipment = equipmentService.selectEquipmentById(equip_id);

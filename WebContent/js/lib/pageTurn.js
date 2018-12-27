@@ -79,7 +79,12 @@
 				});
 				//下一页
 				obj.on("click","a.nextPage",function(){
-					var current = parseInt(obj.children("span.current").text());
+					console.log(obj.children("span.current"))
+					var current = obj.children("span.current").text();
+					var aa = current.length;
+					aa = aa/3;
+					current = parseInt(current.substring(0,aa));
+					alert(current)
 					ms.fillHtml(obj,{"current":current+1,"pageCount":args.pageCount});
 					if(typeof(args.backFn)=="function"){
 						args.backFn(current+1);

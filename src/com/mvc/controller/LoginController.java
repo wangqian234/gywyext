@@ -135,7 +135,7 @@ public class LoginController {
 				if (isRemember != null) {
 					cookie_u.add_cookie(CookieKeyConstants.PASSWORD, password, res, 60 * 60 * 24 * 7);
 				} else {
-					cookie_u.del_cookie(CookieKeyConstants.PASSWORD, request, res);
+					//cookie_u.del_cookie(CookieKeyConstants.PASSWORD, request, res);
 				}
 				model.addAttribute("password", password);
 				Cookie cookie = new Cookie("userAcct", userAcct);
@@ -201,6 +201,7 @@ public class LoginController {
 				cookie.setPath("/");
 				res.addCookie(cookie);
 				jsonObject.put("err_message", "OK");
+				jsonObject.put("user", user.getUser_name());
 			} else { // 密码错误
 				error_msg = "err_password";
 				cookie_u.del_cookie(CookieKeyConstants.PASSWORD, request, res);

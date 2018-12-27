@@ -18,7 +18,7 @@
 <body>
         <nav class="navbar navbar-default top-navbar" role="navigation">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/">
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/login/login.do#/">
 			<img style="height:25px;display:inline-block;margin-top:-2px;margin-right: 5px;" src="${pageContext.request.contextPath}/images/gylogo.png"><strong>公元e巡通</strong></a>
 		</div>
 
