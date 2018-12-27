@@ -6,6 +6,7 @@ import java.util.List;
 import com.mvc.entityReport.User;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.EquipRoom;
+import com.mvc.entityReport.EquipState;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipType;
 import com.mvc.entityReport.EquipManu;
@@ -32,7 +33,7 @@ public interface EquipmentService {
 	
 	// 添加设备信息
 	Equipment save(Equipment equipment);
-	
+
 	// 修改设备基本信息
 	boolean updateEquipmentBase(Integer equip_id, JSONObject jsonObject) throws ParseException;
  	// 根据ID获取设备信息
@@ -47,10 +48,15 @@ public interface EquipmentService {
 	//根据设备id查找设备特征参数
 	List<EquipPara> getEquipPara(String searchKey);
 	void saveParas(List<EquipPara> equipParas);
-	
+	void saveState(EquipState equipState);
 	//根据设备参数id查询设备参数实时数据
 	List<EquipOper> getEquipRealData(String searchKey, String start);
 
 	List<Equipment> selectEquipByName(String proj_id, String searchKey);
 
+	//添加设备区域
+	boolean saveRoom(EquipRoom equiproom);
+	
+	// 根据id删除区域
+	boolean deleteRoom(Integer equip_room_id);
 }

@@ -110,5 +110,28 @@ public class  StaffInfoServiceImpl implements StaffInfoService {
 								return true;
 							else
 								return false;
-							}
-						}
+							}					
+
+@Override
+public Boolean updateUserNoPWD(Integer user_id, JSONObject jsonObject, User user) throws ParseException {
+	User user1 = staffInfoRepository.selectUserById(user_id);
+	if (user1 != null) {
+	user1.setUser_acct(jsonObject.getString("user_acct"));
+	user1.setUser_name(jsonObject.getString("user_name"));
+	if (jsonObject.containsKey("user_tel")) {
+	user1.setUser_tel(jsonObject.getString("user_tel"));}
+	if (jsonObject.containsKey("user_email")) {
+	user1.setUser_email(jsonObject.getString("user_email"));}
+	if (jsonObject.containsKey("role_id")) {
+		Role role = new Role();
+		role.setRole_id(Integer.valueOf(jsonObject.getString("role_id")));
+		user1.setRole(role);	
+	}
+}
+	user1 = staffInfoRepository.saveAndFlush(user1);		
+	if (user1.getUser_id() != null)
+		return true;
+	else
+		return false;
+	}
+}

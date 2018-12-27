@@ -1,0 +1,33 @@
+<div id="page-wrapper"  style="margin:0;padding:0">   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">    
+				<div class="panel-heading">
+				 <a href="#" onclick="javascript:history.go(-1);">项目管理</a><span>>新建区域信息</span>
+				</div>  			
+				<div class="panel-body">
+				<div class="row">
+				                    <style>
+                                    b{color:red;}
+                                    </style>
+						<form style="padding:0 30px;" role="form" ng-submit="addEquipRoom()">
+							<table class="tablelist111">
+								<tr>
+                                    <td class="width15 text-center">区域名称<b>*</b></td>
+									<td><input class="dfinput111" ng-model="equipRoomInfo.equip_room_name" required/></td>
+									</tr>
+									<tr>							
+									<td class="width15 text-center">区域备注</td>
+									<td><textarea class="dfinput111" ng-model="equipRoomInfo.equip_room_memo" /></td>
+									</tr>
+                             </table>
+     	                    <div class="buttonbox">
+					         <input class="btn btn-default" type="submit" value="确认提交" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

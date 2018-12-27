@@ -23,6 +23,9 @@
 				</div>  			
 				<div class="panel-body">
 					<div class="row">
+					<style>
+                    b{color:red;}
+                    </style>
 		<form style="padding:0 30px;" role="form" ng-submit="updateUser()">
 							<table class="tablelist111">
 									<tr>
@@ -44,67 +47,17 @@
 									</tr>
 									<tr>
 									<td class="width15 text-center">密码<b>*</b></td>
-									<td><input class="dfinput111" ng-model="users.user_pwd" type="password" required/></td>
+									<td><input class="dfinput111" ng-model="users.user_pwd" type="password" ng-change="myFunc()"/>
 									</tr>
                                     <tr>
                      				<td class="width15 text-center">角色<b>*</b></td>
- 									<td ><select class="dfselect" ng-model="users.role" style="width: 167px" > 
+ 									<td ><select class="dfselect" ng-model="users.role_id" style="width: 167px" > 
 									<option ng-repeat="r in roles" ng-selected="r.role_id==users.role.role_id" value="{{r.role_id}}">{{r.role_name}}</option>	
 									</select></td>
 	 								</tr>
 								</table>
-                                   <!--  <tr>
-                                    <td class="width15 text-center">角色<b>*</b></td>
-									<td ><select class="dfinput111" ng-model="staff.role" required > 
-										<option ng-repeat="r in role" value="{{r.role_id}}">{{r.role_name}}</option>
-										</select></td>
-										</tr> -->
-										  
-       <!--  <div class="form-group">
-          	<label>姓名<b>*</b></label>
-          	<input  ng-model="users.user_name" class="form-control">
-        </div> 
-		
-		<div class="form-group">
-          	<label>电话<b>*</b></label>
-          	<input  ng-model="users.user_tel" class="form-control">
-        </div>
-		<div class="form-group">
-          	<label>邮箱&nbsp;</label>
-          	<input  ng-model="users.user_mail" class="form-control">
-        </div>
-        <div class="form-group">
-          	<label>账号<b>*</b></label>
-          	<input  ng-model="users.user_acct" class="form-control">
-        </div>
-        <div class="form-group">
-          	<label>密码<b>*</b></label>
-          	<input  ng-model="users.user_pwd" class="form-control">
-        </div>
-        <div class="form-group">
-	         <label>性别<b>*</b></label>
-	          <label class="radio-inline">
-              <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="option1" checked="">男
-          	 </label>
-			<label class="radio-inline">
-              <input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="option2">女
-            </label>
-        </div>
-         
-        <div class="form-group">
-             <label>角色<b>*</b></label>
-             <select class="form-control">
-             	 <option>请选择</option>	
-                 <option>管理员</option>
-                 <option>总经理</option>
-                 <option>普通用户</option>
-             </select>
-        </div> -->
- <!--   <li><label>&nbsp;</label><input href="#userList" type="submit" id="addStaff"
-				class="btn" value="提交修改" /></li> 
- 	</form>
-</div>  --> 
- <div class="buttonbox">
+  
+                            <div class="buttonbox">
 					         <input	href="#userList" id="addStaff"	class="btn btn-default" type="submit" value="提交修改" />
 							</div>
 						</form>
@@ -113,6 +66,4 @@
 			</div>
 		</div>
 	</div>
-</div>     
-
-		
+</div>    

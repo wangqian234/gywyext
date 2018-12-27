@@ -264,7 +264,7 @@ app
 												});
 							}
 							
-							//饼图初始化
+			/*				//饼图初始化
 							function d444(data,id){
 								console.log(data);
 								console.log(document.getElementById("failChart"))
@@ -281,8 +281,8 @@ app
 									        formatter: "{a} <br/>{b} : {c} ({d}%)"
 									    },
 									    legend: {
-									        /*x : 'center',
-									        y : '280',*/
+									        x : 'center',
+									        y : '280',
 									    	bottom: '8%',
 									        //left: '20%',
 									        icon: 'circle',
@@ -330,7 +330,7 @@ app
 								});
 								d4.hideLoading();
 								
-							}
+							}*/
 							
 							// 点击项目触发事件
 							bigData.selectBaseInfoByProj = function(str, $event) {

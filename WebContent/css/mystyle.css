@@ -615,6 +615,7 @@ nav ul ul {
 	border-bottom: solid 1px #ced9df;
 	text-indent: 10px;
 }
+
 .tablelist111 {
 	width: 100%;
 	clear: both;
@@ -663,8 +664,13 @@ progress::-moz-progress-bar
      background:#ff0000;
 }  */
 
+.colourR{
+	color:red;
+}
 
-
+.colourG{
+	color:green;
+}
 
 
 

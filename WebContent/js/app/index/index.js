@@ -343,6 +343,7 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 				for(var i=0;i<data.length;i++){
 					name.push(data[i].name);
 				}
+
 				option = {
 					    tooltip : {
 					        trigger: 'item',
@@ -386,11 +387,10 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 					            	}
 					            },
 					            roseType : 'area',
-					            data:data,
+					            data:data,					        
 					        }
 					    ]
 					};
-				
 				d4.setOption(option);
 				d4.on('click',function(params){
 					//console.log(params.data.name);

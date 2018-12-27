@@ -26,7 +26,7 @@ public class AlarmLog {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "alarm_log_id", unique = true, nullable = false, length = 11)
+	@Column(name = "alarm_log_id", length = 11)
 	public Integer getAlarm_log_id() {
 		return alarm_log_id;
 	}

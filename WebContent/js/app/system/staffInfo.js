@@ -192,13 +192,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data,
 		});
 	};
-	/*services.updateRoleById = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'systemStaff/updateRoleById.do',
-			data : data,
-		});
-	};*/
+
 	services.getRoleListByPage = function(data) {
 		return $http({
 			method : 'post',
@@ -316,8 +310,6 @@ app
 						function initCheckBoxData() {
 							$("input:checkbox[name='selectAllChkBx']")
 									.attr("checked", false);
-							
-							
 							for (var i = 0; i < 8; i++) {
 								staffInfo.selected[perName[i]] = new Array();
 								for (var j = 0; j < 8; j++)
@@ -545,6 +537,7 @@ app
 						})
 
 				// 根据ID获取信息
+			    staffInfo.changepassword=0;
 				var user_id = sessionStorage.getItem('userId');
 				services.selectUserById({
 						user_id: user_id
@@ -552,8 +545,8 @@ app
 						.success(											
 								function(data) {
 									staffInfo.users = data.user;//"user"是controller里get的到的"user","users"对应html中的"users.user_xxx"
-									staffInfo.users.role = data.user.role.role_id;
-						});
+									staffInfo.users.role_id = data.user.role_id;												
+								});
 				 			}
 				
 							}

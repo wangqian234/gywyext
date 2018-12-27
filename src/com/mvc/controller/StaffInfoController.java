@@ -208,6 +208,44 @@ public @ResponseBody Integer updateRoleById(HttpServletRequest request, HttpSess
 		return 0;
 }*/
 
+@RequestMapping("/updateUserWithoutPassword.do")
+public @ResponseBody Integer updateUserWithoutPassword(HttpServletRequest request, HttpSession session) throws ParseException {
+	User user = (User) session.getAttribute(SessionKeyConstants.LOGIN);
+	JSONObject jsonObject = JSONObject.fromObject(request.getParameter("users"));
+	Integer user_id = null;
+	if (jsonObject.containsKey("user_id")) {
+		user_id = Integer.parseInt(jsonObject.getString("user_id"));
+	}
+	Boolean flag = staffInfoService.updateUserNoPWD(user_id, jsonObject, user);
+	if (flag == true)
+		return 1;
+	else
+		return 0;
+}
+
+/**
+ * 根据ID修改角色信息
+ * 
+ * @param request
+ * @param session
+ * @return 成功返回1，失败返回0
+ * @throws ParseException 
+ */
+/*@RequestMapping("/updateRoleById.do")
+public @ResponseBody Integer updateRoleById(HttpServletRequest request, HttpSession session) throws ParseException {
+	Role role = (Role) session.getAttribute(SessionKeyConstants.LOGIN);
+	JSONObject jsonObject = JSONObject.fromObject(request.getParameter("role"));
+	Integer role_id = null;
+	if (jsonObject.containsKey("role_id")) {
+		role_id = Integer.parseInt(jsonObject.getString("role_id"));
+	}
+	Boolean flag = staffInfoService.updateRoleBase(role_id, jsonObject, role);
+	if (flag == true)
+		return 1;
+	else
+		return 0;
+}*/
+
 /**
  * 根据ID获取用户信息
  * 

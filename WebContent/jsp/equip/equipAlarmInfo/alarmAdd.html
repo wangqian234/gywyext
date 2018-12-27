@@ -1,0 +1,46 @@
+<div id="page-wrapper"  style="margin-left: 0px;padding-top:100px">   
+  <div class="row">
+		<div class="col-md-12" style="width:100%">
+			<div class="panel panel-default">    
+				<div class="panel-heading">
+				 <a href="#" onclick="javascript:history.go(-1);">设备主页</a><span>>录入报警信息</span>
+				</div>  			
+				<div class="panel-body">
+					<div class="row">
+						<form style="padding:0 200px;" role="form" ng-submit="addAlarm()">
+							 <table class="tablelist111">
+								
+									<style>
+                                    b{color:red;}
+                                    </style>
+								    <tr>
+                                     <td class="width15 text-center">报警设备<b>*</b></td>
+									<td ><select class="dfinput111" ng-model="alarmlogInfo.equip_id" required>
+										<option ng-repeat="e in equipments" value="{{e.equip_id}}">{{e.equip_name}}</option>	
+										</select></td>
+									</tr>
+									<tr>
+									<td class="width15 text-center">报警内容<b>*</b></td>
+									<td><textarea class="dfinput111" ng-model="alarmlogInfo.alarm_log_info" required></textarea></td>
+									</tr>
+					
+                                    <tr>
+									<td class="width15 text-center">报警备注</td>
+									<td><textarea class="dfinput111" ng-model="alarmlogInfo.alarm_log_memo"></textarea></td>
+									</tr>								
+						
+	                       </table>
+	                       <br>
+	                       <br>
+	                       <br>
+	                       <br>
+							<div class="buttonbox">
+								<input class="btn btn-default" type="submit" value="确认提交" />
+							</div> 
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
