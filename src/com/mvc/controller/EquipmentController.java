@@ -24,7 +24,8 @@ import com.mvc.entityReport.Files;
 import com.mvc.entityReport.User;
 import com.mvc.entityReport.Project;
 import com.mvc.entityReport.EquipPara;
-import com.mvc.entityReport.EquipMain;
+import com.mvc.entityReport.EquipState;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipOper;
 import com.utils.Pager;
 import com.mvc.service.EquipmentService;
@@ -80,9 +81,12 @@ public class EquipmentController {
 		public @ResponseBody String addEquipment(HttpServletRequest request, HttpSession session) throws ParseException {
 			JSONObject jsonObject = new JSONObject();
 			JSONObject jsonPara = new JSONObject();
-			List<EquipPara> equipParas = new ArrayList<EquipPara>();
+			List<EquipPara> equipParas = new ArrayList<EquipPara>();			
 			jsonObject = JSONObject.fromObject(request.getParameter("equipment"));
 			Equipment equipment = new Equipment();
+			EquipState equipState = new EquipState();
+			equipState.setEquip_state_flag(0);
+			equipment.setEquip_state(10);
 			if (jsonObject.containsKey("equip_no")) {
 			    equipment.setEquip_no(jsonObject.getString("equip_no"));
 			}	
@@ -162,6 +166,7 @@ public class EquipmentController {
 			if (jsonObject.containsKey("equip_id")) {
 				equipmentService.deleteEquipPara(jsonObject.getString("equip_id"));
 				equipment.setEquip_id(Integer.valueOf(jsonObject.getString("equip_id")));
+				equipState.setEquip_state_id(Integer.valueOf(jsonObject.getString("equip_id")));
 				result = equipmentService.save(equipment);				
 				jsonPara = JSONObject.fromObject(request.getParameter("equipmentpara"));
 				JSONArray objName = (JSONArray) jsonPara.get("paraname");
@@ -180,8 +185,9 @@ public class EquipmentController {
 					ep.setEquip_para_unit(paraUnit[i].toString());
 					ep.setEquip_para_isdeleted(0);
 					ep.setEquipment(equipment);
-					equipParas.add(ep);
+					equipParas.add(ep);					
 				}
+				equipmentService.saveState(equipState);
 				equipmentService.saveParas(equipParas);
 			} else {
 				result = equipmentService.save(equipment);		
@@ -205,6 +211,7 @@ public class EquipmentController {
 					equipParas.add(ep);
 				}
 				equipmentService.saveParas(equipParas);
+				equipmentService.saveState(equipState);
 			}			
 			return JSON.toJSONString(result);
 		}	
@@ -317,7 +324,41 @@ public class EquipmentController {
 			jsonObject.put("result", result);
 			return jsonObject.toString();
 		}
+		
+		//添加设备区域
+		@RequestMapping(value = "/addEquipRoom.do")
+		public @ResponseBody String addEquipRoom(HttpServletRequest request, HttpSession session) {
+			JSONObject jsonObject = new JSONObject();
+			EquipRoom equiproom = new EquipRoom();
+			jsonObject= JSONObject.fromObject(request.getParameter("equiproom"));
 
+				    Project pro = new Project();
+					pro.setProj_id(Integer.valueOf(request.getParameter("proj_id")));
+					equiproom.setProject(pro);
+					
+				if (jsonObject.containsKey("equip_room_name")) {
+					equiproom.setEquip_room_name(jsonObject.getString("equip_room_name"));
+				}
+				if (jsonObject.containsKey("equip_room_memo")) {
+					equiproom.setEquip_room_memo(jsonObject.getString("equip_room_memo"));
+				}				
+				equiproom.setEquip_room_isdeleted(0);			
+				boolean result;
+				if (jsonObject.containsKey("equip_room_id")) {
+					equiproom.setEquip_room_id(Integer.valueOf(jsonObject.getString("equip_room_id")));
+					result = equipmentService.saveRoom(equiproom);// 添加信息
+				} else {
+					result = equipmentService.saveRoom(equiproom); 
+				}
+				return JSON.toJSONString(result);		
+		}
+		//删除区域信息
+		@RequestMapping(value = "/deleteEquipRoomInfo.do")
+		public @ResponseBody String deleteEquipRoomInfo(HttpServletRequest request, HttpSession session) {
+			Integer equip_room_id = Integer.valueOf(request.getParameter("equiproomId"));	
+			boolean result = equipmentService.deleteRoom(equip_room_id);
+			return JSON.toJSONString(result);
+		}
 }
 
 

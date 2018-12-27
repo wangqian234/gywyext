@@ -33,10 +33,12 @@
 								<td class="center">{{p.proj_num}}</td>
 								<td class="center">{{p.company.comp_name}}</td>
 								<td> 
-								<a href="#getProjectInfo" ng-click="deleteProjectInfo(p.proj_id)" class="tablelink"
-					    		 	has-permission='pDel'> 删除</a>  
-					    		<a href="#/projectUpdate" ng-click="getProjectId(p.proj_id)" class="tablelink"	
+								<a href="#/equipRoomInfo" ng-click="getProjectId(p.proj_id)" class="tablelink"	
+				                  > 查看所属设备区域</a>
+								<a href="#/projectUpdate" ng-click="getProjectId(p.proj_id)" class="tablelink"	
 				        			has-permission='pEdit'> 修改</a>
+								<a href="#getProjectInfo" ng-click="deleteProjectInfo(p.proj_id)" class="tablelink"
+					    		 	has-permission='pDel'> 删除</a>  					    		
 					    		</td>
 							</tr>
 						</tbody>

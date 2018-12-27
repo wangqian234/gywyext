@@ -1,17 +1,24 @@
 <div id="page-wrapper"  style="margin-left: 260px;padding-top:60px">
 <h1 class="page-header"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                            设备报警信息表</font></font><small><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{project_name}}</font></font></small>
+                            设备维保信息表</font></font><small><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">{{project_name}}</font></font></small>
          </h1>
 <div class="panel panel-default">
 	<div class="panel-heading">
-				<form class="toolbar">
-				报警查询：<input type="text" class="dfselect" placeholder="设备名称" ng-model="equipName" id="equipName" >
-			<button style="width: 50px; height: 28px" ng-click="selectAlarmLogByName()">
-			<i class="fa fa-search"></i></button>
-			
-			<a  href="#/alarmAdd" class="toolbar1" >
-		<button class="btn btn-default" ><i class=" fa fa-edit "></i>录入报警信息</button></a>
-		</form>
+	
+ 		<form class="toolbar">
+			请选择设备： <select class="dfselect" ng-model="equipid"  id="equipid" style="width: 167px" ng-change="selectEquipMainByIR()"> 
+				<option value="0">全部</option> 
+				<option ng-repeat="e in equipments" value="{{e.equip_id}}">{{e.equip_name}}</option>
+			</select>
+			请选择维保结果： <select  class="dfselect" ng-model="result" id="result" style="width: 167px" ng-change="selectEquipMainByIR()">
+				<option value="2">全部</option> 
+				<option value="0">维保正常</option>
+				<option value="1">维保失败</option>
+			</select>
+
+
+		</form> 	
+	
 	</div>
 	<div class="panel-body">
 		<div class="table-responsive">
@@ -19,27 +26,31 @@
 				id="dataTables-example">
 				<thead>
 					<tr>
-						<th>报警编号</th>
-						<th>触发报警设备</th>
-						<th>触发报警参数</th>
-						<th>触发报警时间</th>
-						<th>报警内容</th>
+						<th>编号</th>
+						<th>设备名称</th>
+						<th>维保内容</th>
+						<th>维保时间</th>
+						<th>维保用时</th>
+						<th>维保人员</th>
+						<th>维保结果</th>
 						<th>备注</th>
 					</tr>
 				</thead>
-			 	<tbody>
-					<tr ng-repeat="a in alarmlogs track by $index" id={{a.alarm_log_id}}>
+				<tbody>
+					<tr ng-repeat="em in equipMains track by $index" id={{em.equip_main_id}}>
 						<td>{{$index + 1}}</td>
-						<td>{{a.equipment.equip_name}}</td>
-						<td>{{a.equip_para.equip_para_name}}</td>
-						<td>{{a.alarm_log_date.time | timer}}</td>
-						<td>{{a.alarm_log_info}}</td>
-						<td>{{a.alarm_log_memo}}</td>			    
+						<td>{{em.equipment.equip_name}}</td>
+						<td>{{em.equip_main_info}}</td>
+						<td>{{em.equip_main_date.time | timer}}</td>
+						<td>{{em.equip_main_time}}</td>
+						<td>{{em.equip_main_worker}}</td>
+						<td ng-class="em.equip_main_result == 0 ? 'colourG' : 'colourR' ">{{em.equip_main_result | findresult}}</td>
+						<td>{{em.equip_main_memo}}</td>
 				</tr>
-				</tbody> 
+				</tbody>
 				
-			</table>	
-			
+			</table>
+
 		</div>
 	</div>
 		<div  class="tcdPageCode">页码容器</div>
@@ -55,7 +66,7 @@
                         <a style="font-weight:600" value="{{ld.comp_id}}"><i class="fa fa-sitemap"></i> {{ld.comp_name}}<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level" ng-repeat="ldd in ld.data">
                             <li>
-                                <a class="leftSecond" href="" ng-click="getAlarmList(ldd.proj_id,ldd.proj_name)" id="projname">{{ldd.proj_name}}</a>
+                                <a class="leftSecond" href="" ng-click="getEquipMainList(ldd.proj_id,ldd.proj_name)" id="projname">{{ldd.proj_name}}</a>
                             </li>
                         </ul>
                     </li>
@@ -95,7 +106,6 @@
             }
         });
 
-        </script>
-        
+        </script>     
 <script type="text/javascript" src="/gywyext/js/lib/pageTurn.js"></script>
 <script type="text/javascript" src="/gywyext/js/lib/jquery.metisMenu.js"></script>

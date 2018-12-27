@@ -69,6 +69,8 @@ public interface EquipmentDao {
 	List<Equipment> selectAllEquipByProId(String proj_id);
 
 	List<Equipment> selectEquipByName(String searchKey, String searchKey2);
+	// 删除设备信息
+	Boolean deleteRoom(Integer equip_room_id);
 
 	//根据设备id删除设备特征参数
 	void deleteEquipPara(String equipId);

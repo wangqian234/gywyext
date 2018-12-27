@@ -99,9 +99,6 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/equipAdd', {
 		templateUrl : '/gywyext/jsp/equip/equipAdd.html',
 		controller : 'equipmentController'
-	}).when('/equipRoomAdd', {
-		templateUrl : '/gywyext/jsp/equip/equipRoomAdd.html',
-		controller : 'equipmentController'
 	}).when('/equipDetail', {
 		templateUrl : '/gywyext/jsp/equip/equipDetail.html',
 		controller : 'equipmentController'

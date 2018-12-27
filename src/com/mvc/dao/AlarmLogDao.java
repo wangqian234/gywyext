@@ -18,9 +18,9 @@ public interface AlarmLogDao {
 	
 	Integer getEquipAlarmNumByProId(Integer proId);
 
-	List<AlarmLog> getAlarmListByPage(String searchKey,Integer offset, Integer end);
+	List<AlarmLog> getAlarmListByPage(String proj_id,String searchKey,Integer offset, Integer end);
 	
-	Integer countAlarmTotal(String searchKey);
+	Integer countAlarmTotal(String proj_id,String searchKey);
 
 
 

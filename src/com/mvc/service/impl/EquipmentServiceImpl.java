@@ -18,17 +18,20 @@ import com.mvc.repository.EquipRoomRepository;
 import com.mvc.repository.EquipTypeRepository;
 import com.mvc.repository.EquipManuRepository;
 import com.mvc.repository.EquipParaRepository;
+import com.mvc.repository.EquipStateRepository;
 import com.mvc.repository.UserRepository;
 import com.alibaba.fastjson.JSON;
 import com.mvc.dao.EquipmentDao;
 import com.mvc.entityReport.User;
 import com.mvc.entityReport.EquipRoom;
+import com.mvc.entityReport.EquipState;
 import com.mvc.entityReport.EquipType;
 import com.mvc.entityReport.Equipment;
 import com.mvc.entityReport.Files;
 import com.mvc.entityReport.Project;
 import com.mvc.service.EquipmentService;
 import com.mvc.entityReport.EquipPara;
+import com.mvc.entityReport.AlarmLog;
 import com.mvc.entityReport.EquipMain;
 import com.mvc.entityReport.EquipOper;
 
@@ -49,6 +52,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	EquipParaRepository equipParaRepository;
 	@Autowired
 	UserRepository userRepository;
+	@Autowired
+	EquipStateRepository equipStateRepository;
 	@Autowired
 	EquipmentDao equipmentDao;
 
@@ -258,7 +263,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 				equipParaRepository.saveAndFlush(equipParas.get(i));
 			}
 		}
-
+		
+		//添加状态信息
+		public void saveState(EquipState equipState) {
+		    equipStateRepository.saveAndFlush(equipState);
+		}
 		//根据特征参数id，获取设备实时数据
 		@Override
 		public List<EquipOper> getEquipRealData(String searchKey, String startDate) {
@@ -272,5 +281,20 @@ public class EquipmentServiceImpl implements EquipmentService {
 		@Override
 		public List<Equipment> selectEquipByName(String proj_id, String searchKey) {
 			return equipmentDao.selectEquipByName(proj_id,searchKey);
+		}
+		
+		@Override
+		public boolean saveRoom(EquipRoom equiproom) {
+			EquipRoom result = equipRoomRepository.saveAndFlush(equiproom);
+			if (result.getEquip_room_id() != null)
+				return true;
+			else
+				return false;
+		}
+		
+		// 根据id删除区域信息
+		@Override
+		public boolean deleteRoom(Integer equip_room_id) {
+			return equipmentDao.deleteRoom(equip_room_id);
 		}
 }

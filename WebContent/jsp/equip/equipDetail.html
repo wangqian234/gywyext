@@ -5,6 +5,8 @@
 			<div class="panel panel-default">      
 				<div class="panel-heading">
 					<a href="#" onclick="javascript:history.go(-1);">设备主页</a><span>>设备详细基本信息</span>
+		<!-- 		<a  href="#/equipMain" class="toolbar1" >
+		<button class="btn btn-default" ><i class=" fa fa-edit "></i>查看维保信息</button></a> -->
 				</div>  
 				<div class="panel-body">
 							
@@ -76,6 +78,37 @@
 							<td colspan='15'>{{equipmentDetail.equip_memo}}</td>
 				         </tr>
 					</table>
+<!-- 				<div class="panel panel-default">
+				<div class="panel-heading" style="width:100%">{{equipmentDetail.equip_name}}维保信息</div>
+				<div class="panel-body">					
+			<table class="table table-striped table-bordered table-hover"
+				id="dataTables-example">
+				<thead>
+					<tr>
+						<th>维保编号</th>
+						<th>维保内容</th>
+						<th>维保时间</th>
+						<th>维保用时</th>
+						<th>维保人员</th>
+						<th>维保结果</th>
+						<th>维保备注</th>
+					</tr>
+				</thead>
+			 	<tbody>
+					<tr ng-repeat="em in equipmains track by $index" id={{a.alarm_log_id}}>
+						<td>{{$index + 1}}</td>
+						<td>{{em.equip_main_info}}</td>
+						<td>{{em.equip_main_date | timer}}</td>
+						<td>{{em.equip_main_time}}</td>
+						<td>{{em.equip_main_worker}}</td>
+						<td>{{em.equip_main_result}}</td>
+						<td>{{em.equip_main_memo}}</td>			    
+				</tr>
+				</tbody> 				
+			</table>	
+		</div>
+		</div> -->
+			<!-- <div  class="tcdPageCode">页码容器</div> -->		
 				</div>
 			</div>
 		</div>						

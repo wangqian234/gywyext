@@ -92,12 +92,11 @@ public class AlarmLogDaoImpl implements AlarmLogDao {
 	//南健报警信息
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<AlarmLog> getAlarmListByPage(String searchKey,Integer offset, Integer end) {
+	public List<AlarmLog> getAlarmListByPage(String proj_id,String searchKey,Integer offset, Integer end) {
 		EntityManager em = emf.createEntityManager();
-		String selectSql = "select * from alarm_log";
-	// 判断查找关键字是否为空
+		String selectSql = "select alarm_log_id,alarm_log.alarm_log_code,alarm_log.alarm_log_ischecked,alarm_log.equip_para_id,alarm_log.alarm_log_info,alarm_log.alarm_log_date,alarm_log.user_id,alarm_log.alarm_log_memo,alarm_log.equipment,equipment.equip_name from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id right join alarm_log on equipment.equip_id=alarm_log.equipment where project.proj_id = " + proj_id;
 		if (null != searchKey) {
-			selectSql += " and ( equipment like '%" + searchKey + "%' )";
+			selectSql += " and (equipment.equip_name like '%" + searchKey + "%') " ;
 		}
 		selectSql += " order by alarm_log_id desc limit :offset, :end";
 		Query query = em.createNativeQuery(selectSql, AlarmLog.class);
@@ -109,11 +108,11 @@ public class AlarmLogDaoImpl implements AlarmLogDao {
 	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public Integer countAlarmTotal(String searchKey) {
+	public Integer countAlarmTotal(String proj_id,String searchKey) {
 		EntityManager em = emf.createEntityManager();
-		String countSql = " select count(alarm_log_id) from alarm_log ";
+		String countSql = " select count(alarm_log_id) from project right join equip_room on equip_room.proj_id = project.proj_id right join equipment on equipment.equip_room=equip_room.equip_room_id right join alarm_log on equipment.equip_id=alarm_log.equipment where project.proj_id = " + proj_id;
 		if (null != searchKey) {
-			countSql += "  and (equipment like '%" + searchKey + "%' )";
+			countSql += " and (equipment.equip_name like '%" + searchKey + "%') " ;
 		}
 		Query query = em.createNativeQuery(countSql);
 		List<Object> totalRow = query.getResultList();
