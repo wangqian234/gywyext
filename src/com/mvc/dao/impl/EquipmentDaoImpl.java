@@ -347,7 +347,25 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				}
 				return list;
 			}
-
+			
+			//根据id删除特征参数信息
+			@SuppressWarnings("unchecked")
+			@Override
+			public void deleteEquipPara(String searchKey) {
+				EntityManager em = emf.createEntityManager();
+				em.getTransaction().begin();
+				try {
+					String selectSql = " update equip_para set equip_para_isdeleted =1 where equip_id =:equip_id ";
+					Query query = em.createNativeQuery(selectSql);
+					query.setParameter("equip_id", searchKey);
+					query.executeUpdate();
+					em.flush();
+					em.getTransaction().commit();
+				} finally {
+					em.close();
+				}
+			}
+			
 			//根据设备参数id查询设备参数实时数据
 			@SuppressWarnings("unchecked")
 			@Override

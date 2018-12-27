@@ -224,9 +224,9 @@ public class MobileController {
 				map.put("ndate", list.get(1).toString());
 				map.put("state", list.get(2).toString());
 				map.put("proj_id", leftResult.get(i).get("proj_id").toString());
-				map.put("proj_name", leftResult.get(i).get("proj_id").toString());
-				map.put("comp_name", leftResult.get(i).get("proj_id").toString());
-				map.put("comp_id", leftResult.get(i).get("proj_id").toString());
+				map.put("proj_name", leftResult.get(i).get("proj_name").toString());
+				map.put("comp_name", leftResult.get(i).get("comp_name").toString());
+				map.put("comp_id", leftResult.get(i).get("comp_id").toString());
 				listR.add(map);
 			}
 		}
@@ -287,18 +287,3 @@ public class MobileController {
 	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

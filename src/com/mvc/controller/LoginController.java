@@ -171,7 +171,7 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping("/loginMobile.do")
-	public String loginMobile(HttpSession session, HttpServletRequest request, ModelMap model, HttpServletResponse res) {
+	public @ResponseBody String loginMobile(HttpSession session, HttpServletRequest request, ModelMap model, HttpServletResponse res) {
 		String error_msg = "";
 		String userAcct = request.getParameter("userName");
 		String password = MD5.encodeByMD5(request.getParameter("password"));
@@ -200,18 +200,19 @@ public class LoginController {
 				cookie.setMaxAge(60);
 				cookie.setPath("/");
 				res.addCookie(cookie);
-				return (String) jsonObject.put("err_message", "OK");
+				jsonObject.put("err_message", "OK");
 			} else { // 密码错误
 				error_msg = "err_password";
 				cookie_u.del_cookie(CookieKeyConstants.PASSWORD, request, res);
 				model.addAttribute("error", error_msg);
-				return HttpRedirectUtil.redirectStr(PageNameConstants.TOLOGIN);
+				jsonObject.put("err_message", "error");
 			}
 		} else { // 用户不存在
 			error_msg = "err_user";
 			model.addAttribute("error", error_msg);
-			return HttpRedirectUtil.redirectStr(PageNameConstants.TOLOGIN);
+			jsonObject.put("err_message", "error");
 		}
+		return jsonObject.toString();
 	}
 	
 	

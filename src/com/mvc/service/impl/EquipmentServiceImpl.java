@@ -5,8 +5,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.xmlbeans.SchemaTypeSystem;
 import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ import com.mvc.repository.EquipTypeRepository;
 import com.mvc.repository.EquipManuRepository;
 import com.mvc.repository.EquipParaRepository;
 import com.mvc.repository.UserRepository;
-
+import com.alibaba.fastjson.JSON;
 import com.mvc.dao.EquipmentDao;
 import com.mvc.entityReport.User;
 import com.mvc.entityReport.EquipRoom;
@@ -113,11 +115,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 				file.setFile_id(Integer.parseInt(jsonObject.getString("file_id")));
 				equipment.setFile_id(file);
 			}*/
-			if (jsonObject.containsKey("equip_type")) {
-				EquipType et = new EquipType();
-				et.setEquip_type_id(Integer.valueOf(jsonObject.getString("equip_type")));
-				equipment.setEquip_type(et);	
-			}
+//			if (jsonObject.containsKey("equip_type")) {
+//				EquipType et = new EquipType();
+//				et.setEquip_type_id(Integer.valueOf(jsonObject.getString("equip_type")));
+//				equipment.setEquip_type(et);	
+//			}
 			if (jsonObject.containsKey("equip_manu")) {
 				equipment.setEquip_manu(jsonObject.getString("equip_manu"));
 				}
@@ -156,12 +158,16 @@ public class EquipmentServiceImpl implements EquipmentService {
 				}	
 			if (jsonObject.containsKey("equip_room")) {
 				EquipRoom er = new EquipRoom();
-				er.setEquip_room_id(Integer.valueOf(jsonObject.getString("equip_room")));
+				Object ob = JSON.parse(jsonObject.getString("equip_room"));
+				System.out.println((Integer)JSONObject.fromObject(ob).get("equip_room_id"));
+				er.setEquip_room_id((Integer)JSONObject.fromObject(ob).get("equip_room_id"));
 				equipment.setEquip_room(er);	
 			}
 			if (jsonObject.containsKey("user")) {
 				User eu = new User();
-				eu.setUser_id(Integer.valueOf(jsonObject.getString("user")));
+				Object ob = JSON.parse(jsonObject.getString("user"));
+				System.out.println((Integer)JSONObject.fromObject(ob).get("user_id"));
+				eu.setUser_id((Integer)JSONObject.fromObject(ob).get("user_id"));
 				equipment.setUser(eu);	
 			}
 		}
@@ -239,6 +245,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 			return equipmentDao.getEquipPara(searchKey);
 		}
         
+		//根据设备id删除设备特征参数
+		@Override
+		public void deleteEquipPara(String equipId) {
+			equipmentDao.deleteEquipPara(equipId);
+		}
+		
 		//添加设备特征信息
 		@Override
 		public void saveParas(List<EquipPara> equipParas) {

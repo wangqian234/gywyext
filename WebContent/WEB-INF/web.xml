@@ -39,6 +39,7 @@
     <url-pattern>/receiveNode/*</url-pattern>
     <url-pattern>/subTask/*</url-pattern>
     <url-pattern>/file/*</url-pattern>
+     <url-pattern>/jsp/project/*</url-pattern>
     <dispatcher>FORWARD</dispatcher>
     <dispatcher>REQUEST</dispatcher>
   </filter-mapping> 

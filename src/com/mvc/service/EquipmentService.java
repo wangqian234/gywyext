@@ -52,5 +52,7 @@ public interface EquipmentService {
 	List<EquipOper> getEquipRealData(String searchKey, String start);
 
 	List<Equipment> selectEquipByName(String proj_id, String searchKey);
+	//根据设备id删除设备特征参数
+	void deleteEquipPara(String equipId);
 
 }

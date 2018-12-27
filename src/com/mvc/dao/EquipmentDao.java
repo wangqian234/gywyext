@@ -70,4 +70,7 @@ public interface EquipmentDao {
 
 	List<Equipment> selectEquipByName(String searchKey, String searchKey2);
 
+	//根据设备id删除设备特征参数
+	void deleteEquipPara(String equipId);
+
 }
