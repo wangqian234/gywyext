@@ -32,8 +32,9 @@ public class PermissionConstants {
 	public static final String[] projleftPer = { "cAdd", "pAdd" };
 	
 	// 项目权限:{公司修改、删除，项目修改、删除}
+
 	public static final String[] projPer = { "cEdit", "cDel" ,"pEdit", "pDel","pRAdd","pRDel" };
-		
+
 	// 设备权限:{设备添加、修改、删除}
 	public static final String[] equipmentPer = { "eAdd", "eEdit", "eDel" };
 	

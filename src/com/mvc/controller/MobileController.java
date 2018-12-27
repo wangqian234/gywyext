@@ -43,7 +43,7 @@ public class MobileController {
 	IndexService indexService;
 
 	//手动录入参数运行信息
-	@RequestMapping(value = "/addOpeartion.do")
+	@RequestMapping(value = "/addOpeartion.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String addOpeartion(HttpServletRequest request, HttpSession session) {
 		EquipOper equipOper = new EquipOper();
 		try{
@@ -65,7 +65,7 @@ public class MobileController {
 	}
 	
 	//手动录入报警信息
-	@RequestMapping(value = "/addAlarm.do")
+	@RequestMapping(value = "/addAlarm.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String addAlarm(HttpServletRequest request, HttpSession session) {
 		AlarmLog alarmLog = new AlarmLog();
 		Equipment equipment = new Equipment();
@@ -91,7 +91,7 @@ public class MobileController {
 	}
 	
 	//获取维保信息
-	@RequestMapping(value = "/getmaintenance.do")
+	@RequestMapping(value = "/getmaintenance.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String getmaintenance(HttpServletRequest request, HttpSession session) {
 		JSONObject jsonObject = new JSONObject();
 		List<EquipMain> equipMains = new ArrayList<EquipMain>();
@@ -105,7 +105,7 @@ public class MobileController {
 	}
 	
 	//根据设备ID获取维保信息
-	@RequestMapping(value = "/getMaintenanceById.do")
+	@RequestMapping(value = "/getMaintenanceById.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String getMaintenanceById(HttpServletRequest request, HttpSession session) {
 		JSONObject jsonObject = new JSONObject();
 		String equip_id = null;
@@ -123,7 +123,7 @@ public class MobileController {
 	}
 	
 	//根据设备ID获取设备参数信息
-	@RequestMapping(value = "/getParaById.do")
+	@RequestMapping(value = "/getParaById.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String getParaById(HttpServletRequest request, HttpSession session) {
 		JSONObject jsonObject = new JSONObject();
 		String equip_id = null;
@@ -141,7 +141,7 @@ public class MobileController {
 	}
 	
 	//根据项目编号筛选设备信息
-	@RequestMapping("/selectBaseInfoByProj.do")
+	@RequestMapping(value="/selectBaseInfoByProj.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String selectBaseInfoByProj(HttpServletRequest request, HttpSession session) {
 		String proj_id = null;
 		List<EquipRoom> room = new ArrayList<EquipRoom>();
@@ -163,7 +163,7 @@ public class MobileController {
 	
 	//根据维保时间查找设备
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/selectEquipmentByN.do")
+	@RequestMapping(value = "/selectEquipmentByN.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String selectEquipmentByN(HttpServletRequest request, HttpSession session) {
 		JSONObject jsonObject = new JSONObject();
 		String proj_id = null;
@@ -176,7 +176,7 @@ public class MobileController {
 	}
 	//根据健康状态查找设备
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/selectEquipmentByS.do")
+	@RequestMapping(value = "/selectEquipmentByS.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String selectEquipmentByS(HttpServletRequest request, HttpSession session) {
 		JSONObject jsonObject = new JSONObject();
 		String proj_id = null;
@@ -189,7 +189,7 @@ public class MobileController {
 	}
 	//根据项目查找报警
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/selectAlarmByA.do")
+	@RequestMapping(value = "/selectAlarmByA.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String selectAlarmByA(HttpServletRequest request, HttpSession session) {
 		JSONObject jsonObject = new JSONObject();
 		String proj_id = null;
@@ -207,7 +207,7 @@ public class MobileController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/getInitLeft.do")
+	@RequestMapping(value="/getInitLeft.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String getInitLeft(HttpServletRequest request, HttpSession session) throws ParseException {
 		JSONObject jsonObject = new JSONObject();
 
@@ -240,7 +240,7 @@ public class MobileController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/selectEquipByName.do")
+	@RequestMapping(value="/selectEquipByName.do", produces={"text/html;charset=UTF-8;","application/json;"})
 	public @ResponseBody String selectEquipByName(HttpServletRequest request, HttpSession session) throws ParseException {
 		JSONObject jsonObject = new JSONObject();
 		String proj_id = "";
@@ -261,6 +261,29 @@ public class MobileController {
 			jsonObject.put("list", listR);
 			return jsonObject.toString();
 		}
+	}
+
+	/**
+	 * 条件筛选设备
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="/selectEquipByName1.do", produces={"text/html;charset=UTF-8;","application/json;"})
+	public @ResponseBody String selectEquipByName1(HttpServletRequest request, HttpSession session) throws ParseException {
+		JSONObject jsonObject = new JSONObject();
+		String proj_id = "";
+		if(request.getParameter("proj_id") != null){
+			proj_id = request.getParameter("proj_id");
+		};
+		String searchKey = null;
+		if(request.getParameter("searchKey") != null){
+			searchKey = request.getParameter("searchKey");
+		};
+		List<Equipment> listR = equipmentService.selectEquipByName(proj_id,searchKey);
+		Equipment list = null;
+			jsonObject.put("list", listR);
+			return jsonObject.toString();
 	}
 
 }

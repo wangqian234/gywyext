@@ -868,7 +868,7 @@ app
 							        //var start = parseInt( Math.random()*(data_len-20) ),
 							            //s = parseInt( Math.random()*data_len );
 							        //html += '<div class="item"v>'+i+'- '+data.substr(start, s)+'</div>';
-							        html += '<div class="item"v>'+timestampToTime(data[i].alarm_log_date.time)+' '+data[i].alarm_log_info+'</div>';
+							        html += '<div class="item" style="color:#ff0000">'+timestampToTime(data[i].alarm_log_date.time)+' '+data[i].alarm_log_info+'</div>';
 							    }
 							    html += '</div>';
 							    document.querySelector('.list .cc').innerHTML = html+html; // 复制一份数据

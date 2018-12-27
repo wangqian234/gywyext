@@ -192,13 +192,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data,
 		});
 	};
-	services.updateUserWithoutPassword = function(data) {
-		return $http({
-			method : 'post',
-			url : baseUrl + 'systemStaff/updateUserWithoutPassword.do',
-			data : data,
-		});
-	};
+
 	services.getRoleListByPage = function(data) {
 		return $http({
 			method : 'post',
@@ -290,7 +284,8 @@ app
 		staffInfo.addRole = function() {
 				
 				var AddUser = JSON.stringify(staffInfo.addinguser);
-				var rolePermission = JSON.stringify(staffInfo.selected);
+				var rolePermission = JSON
+				.stringify(staffInfo.selected);
 				console.log("权限"+ rolePermission);
 				if(staffInfo.addingRole && staffInfo.addingRole.role_name == "" || staffInfo.addingRole.role_name == undefined){
 					$(".rolename").show();
@@ -320,6 +315,7 @@ app
 								for (var j = 0; j < 8; j++)
 									staffInfo.selected[perName[i]][j] = 0;
 							}
+							console.log(staffInfo.selected);
 						}
 						// 根据用户选择更新权限数据容器
 						var updateSelected = function(action, clazz, name) {
@@ -376,8 +372,7 @@ app
 		// 修改用户信息		
 		staffInfo.updateUser = function() {
 			var UseFormData = JSON.stringify(staffInfo.users);
-			if(staffInfo.changepassword==1){ 			
-			if(confirm("是否修改用户信息？") == true) {
+			if (confirm("是否修改用户信息？") == true) {
 				services.updateUserById ({
 					users :UseFormData,
 				}).success(function(data) {
@@ -385,23 +380,7 @@ app
 					$location.path('userList/');
 				});
 			}
-			}
-		if(staffInfo.changepassword==0){
-			if(confirm("是否修改用户信息？") == true) {
-				services.updateUserWithoutPassword ({
-					users :UseFormData,
-				}).success(function(data) {
-					alert("修改成功！")
-					$location.path('userList/');
-				});
-			}	
 		}
-		}
-		//修改密码时变换标志位
-		staffInfo.myFunc = function(){
-			staffInfo.changepassword=1;
-		}
-		
 		// 读取角色信息
 		staffInfo.selectRoleById=function(obj) {
 		console.log(roleId);
@@ -472,7 +451,6 @@ app
 					
 				});
 				}
-			
 				
 			//初始化页面信息
 			function initData() {
@@ -556,7 +534,7 @@ app
 				 else if ($location.path().indexOf('/userUpdate') == 0) {
 					 services.getAllRoleList().success(function(data){
 						 staffInfo.roles = data;						
-					 })
+						})
 
 				// 根据ID获取信息
 			    staffInfo.changepassword=0;
