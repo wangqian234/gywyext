@@ -39,7 +39,7 @@ public interface EquipRealInfoService {
 	List<Project> selectProjectByCompId(String searchKey);
 
 	List<AlarmLog> getWaringNewsWithOut(String searchKey);
-
+	
 	//获取项目及地址信息
 	List<Object> getProjectAndRoomInfo();
 

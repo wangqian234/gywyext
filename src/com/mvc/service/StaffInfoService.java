@@ -31,11 +31,14 @@ public interface StaffInfoService {
 
 	//根据ID删除
 	boolean deleteIsdelete(Integer user_id);
-	
+	//根据ID删除角色
+	boolean deleteIsdeleteRole(Integer role_id);
 	// 修改用户基本信息
 		Boolean updateUserBase(Integer user_id, JSONObject jsonObject, User user) throws ParseException;
+		Boolean updateUserNoPWD(Integer user_id, JSONObject jsonObject, User user) throws ParseException;
 		
 	// 根据ID获取用户信息
 	User selectUserById(Integer user_id);
-		
+	// 根据ID获取角色信息
+	Role selectRoleById(Integer role_id);	
 }

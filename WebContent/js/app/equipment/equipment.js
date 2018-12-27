@@ -56,6 +56,33 @@ var app = angular
 								: data;
 					} ];
 				});
+//获取权限列表
+var permissionList;
+angular.element(document).ready(function() {
+	console.log("获取权限列表！");
+	$.get('/gywyext/login/getUserPermission.do', function(data) {
+		permissionList = data; //
+		/*angular.bootstrap($("#user"), [ 'user' ]); // 手动加载angular模块
+*/	});
+});
+
+app.directive('hasPermission', function($timeout) {
+	return {
+		restrict : 'ECMA',
+		link : function(scope, element, attr) {
+			setTimeout(function(){
+				var key = attr.hasPermission.trim(); // 获取页面上的权限值
+				var keys = permissionList;
+				/*alert(keys);*/
+				var regStr = "\\s" + key + "\\s";
+				var reg = new RegExp(regStr);
+				if (keys.search(reg) < 0) {
+					element.css("display", "none");
+				}
+			},0)
+		}
+	};
+});
 
 app.run([ '$rootScope', '$location', function($rootScope, $location) {
 	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
@@ -71,9 +98,6 @@ app.config([ '$routeProvider', function($routeProvider) {
 		controller : 'equipmentController'
 	}).when('/equipAdd', {
 		templateUrl : '/gywyext/jsp/equip/equipAdd.html',
-		controller : 'equipmentController'
-	}).when('/equipRoomAdd', {
-		templateUrl : '/gywyext/jsp/equip/equipRoomAdd.html',
 		controller : 'equipmentController'
 	}).when('/equipDetail', {
 		templateUrl : '/gywyext/jsp/equip/equipDetail.html',

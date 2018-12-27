@@ -56,7 +56,33 @@ var app = angular
 								: data;
 					} ];
 				});
+//获取权限列表
+var permissionList;
+angular.element(document).ready(function() {
+	console.log("获取权限列表！");
+	$.get('/gywyext/login/getUserPermission.do', function(data) {
+		permissionList = data; //
+		/*angular.bootstrap($("#user"), [ 'user' ]); // 手动加载angular模块
+*/	});
+});
 
+app.directive('hasPermission', function($timeout) {
+	return {
+		restrict : 'ECMA',
+		link : function(scope, element, attr) {
+			setTimeout(function(){
+				var key = attr.hasPermission.trim(); // 获取页面上的权限值
+				var keys = permissionList;
+				/*alert(keys);*/
+				var regStr = "\\s" + key + "\\s";
+				var reg = new RegExp(regStr);
+				if (keys.search(reg) < 0) {
+					element.css("display", "none");
+				}
+			},0)
+		}
+	};
+});
 app.run([ '$rootScope', '$location', function($rootScope, $location) {
 	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
 		console.log('路由跳转成功');
@@ -78,7 +104,19 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/userUpdate', {
 		templateUrl : '/gywyext/jsp/system/staffInfo/userUpdate.html',
 		controller : 'staffInfoController'
-	}) 
+	}).when('/roleUpdate', {
+		templateUrl : '/gywyext/jsp/system/staffInfo/roleUpdate.html',
+		controller : 'staffInfoController'
+	}).when('/roleAdd', {
+		templateUrl : '/gywyext/jsp/system/staffInfo/roleAdd.html',
+		controller : 'staffInfoController'
+	}).when('/roleDetail', {
+		templateUrl : '/gywyext/jsp/system/staffInfo/roleDetail.html',
+		controller : 'staffInfoController'
+	}).when('/roleList', {
+		templateUrl : '/gywyext/jsp/system/staffInfo/roleList.html',
+		controller : 'staffInfoController'
+	})
 }]);
 
 app.constant('baseUrl', '/gywyext/');
@@ -97,10 +135,24 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	services.addRole = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'role/addRole.do',
+			data : data
+		});
+	};
 	services.deleteUser = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'systemStaff/deleteUser.do',
+			data : data
+		});
+	};
+	services.deleteRole = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/deleteRole.do',
 			data : data
 		});
 	};
@@ -126,11 +178,32 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	services.selectRoleById = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/selectRoleById.do',
+			data : data
+		});
+	};
 	services.updateUserById = function(data) {
 		return $http({
 			method : 'post',
 			url : baseUrl + 'systemStaff/updateUserById.do',
 			data : data,
+		});
+	};
+	services.updateUserWithoutPassword = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'systemStaff/updateUserWithoutPassword.do',
+			data : data,
+		});
+	};
+	services.getRoleListByPage = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'role/getRoleListByPage.do',
+			data : data
 		});
 	};
 	services.getAllRoleList = function(data) {
@@ -210,16 +283,81 @@ app
 						return;
 					});
 		};	
+		// 添加角色信息
+		staffInfo.addingRole = {
+				role_name : ""
+		};
+		staffInfo.addRole = function() {
+				
+				var AddUser = JSON.stringify(staffInfo.addinguser);
+				var rolePermission = JSON.stringify(staffInfo.selected);
+				console.log("权限"+ rolePermission);
+				if(staffInfo.addingRole && staffInfo.addingRole.role_name == "" || staffInfo.addingRole.role_name == undefined){
+					$(".rolename").show();
+					return ;
+				} else {
+					$(".rolename").hide();
+				};
+			services.addRole({
+				role_name : staffInfo.addingRole.role_name,
+				role_permission : rolePermission
+				}).success(function(data) {
+					alert("添加成功！")
+					$location.path('roleList/');
+					return;
+				});
+  };	
+	
+						// 功能模块权限字段名根据页数
+						var perName = [ "index_per", "system_per" ,"systemleft_per","projleft_per","proj_per","equipment_per"];
+						// 初始化权限数据容器
+						staffInfo.selected = {};
+						function initCheckBoxData() {
+							$("input:checkbox[name='selectAllChkBx']")
+									.attr("checked", false);
+							for (var i = 0; i < 8; i++) {
+								staffInfo.selected[perName[i]] = new Array();
+								for (var j = 0; j < 8; j++)
+									staffInfo.selected[perName[i]][j] = 0;
+							}
+						}
+						// 根据用户选择更新权限数据容器
+						var updateSelected = function(action, clazz, name) {
+							if (action == 'add') {
+								staffInfo.selected[clazz][name] = 1;
+							}
+							if (action == 'remove') {
+								staffInfo.selected[clazz][name] = 0;
+							}
+						}
+						staffInfo.selectAll = function($event, subPerName) {
+							if ($event.target.checked == true) {
+								for (var i = 0; i < 10; i++)
+									staffInfo.selected[subPerName][i] = 1;
+							} else {
+								for (var i = 0; i < 10; i++)
+									staffInfo.selected[subPerName][i] = 0;
+							}
+
+						}
+						// 根据用户选择更新权限数据容器
+						staffInfo.updateSelection = function(e, clazz, name) {
+							var checkbox = e.target;
+							var action = (checkbox.checked ? 'add'
+									: 'remove');
+							updateSelected(action, clazz, name);
+						}
+						// 控件内容初始化
+						staffInfo.isSelected = function(clazz, name) {
+							console.log(clazz);
+							console.log(name);
+							var t = staffInfo.selected[clazz][name];
+							return t;
+						}
+							    	
 								    	
 										
-						/*// 获取角色列表
-						function getAllRoleList() {
-							services.getAllRoleList({}).success(
-									function(data) {
-									
-										staffInfo.roles = data;
-									});
-						}*/
+					
 			// 读取用户信息
 		staffInfo.selectUserById=function(userId) {
 		console.log(userId);
@@ -233,29 +371,85 @@ app
 							staffInfo.staff = data.user;
 							
 						});
-		};							
+		};
+		
+		// 修改用户信息		
+		staffInfo.updateUser = function() {
+			var UseFormData = JSON.stringify(staffInfo.users);
+			if(staffInfo.changepassword==1){ 			
+			if(confirm("是否修改用户信息？") == true) {
+				services.updateUserById ({
+					users :UseFormData,
+				}).success(function(data) {
+					alert("修改成功！")
+					$location.path('userList/');
+				});
+			}
+			}
+		if(staffInfo.changepassword==0){
+			if(confirm("是否修改用户信息？") == true) {
+				services.updateUserWithoutPassword ({
+					users :UseFormData,
+				}).success(function(data) {
+					alert("修改成功！")
+					$location.path('userList/');
+				});
+			}	
+		}
+		}
+		//修改密码时变换标志位
+		staffInfo.myFunc = function(){
+			staffInfo.changepassword=1;
+		}
+		
+		// 读取角色信息
+		staffInfo.selectRoleById=function(obj) {
+		console.log(roleId);
+		var role_id = sessionStorage.getItem('roleId');
+		initCheckBoxData();
+		services.selectRoleById({
+				role_id : roleId
+				})
+				.success(
+						function(data) {
+							staffInfo.editRole = data.role;
+							var obj = $
+							.parseJSON(data.role.role_permission);
+							staffInfo.selected = $
+									.parseJSON(data.role.role_permission);
 							
+						});
+		};	
+		// 修改角色
+		
+				staffInfo.updateRole =function() {
+							var EditRole = JSON
+									.stringify(staffInfo.editRole);
+							var EditRolePermission = JSON
+									.stringify(staffInfo.selected);
+							console.log(EditRolePermission);
+							services
+									.addRole(
+											{
+												role_name : staffInfo.editRole.role_name,
+												role_id : staffInfo.editRole.role_id,
+												role_permission : EditRolePermission
+											})
+									.success(
+											function(data) {
+												alert("修改成功！");
+												$location.path('roleList/');
+											});
+				}
 						
-				
-			// 修改用户信息		
-				staffInfo.updateUser = function() {
-					
-					var useFormData = JSON.stringify(staffInfo.users);
-					services.updateUserById({
-						users :useFormData
-					}).success(function(data) {
-						
-						alert("修改成功！");
-						$location.path('userList/');
-					});
-				};
-						
-				// 查看ID，并记入sessionStorage
+				// 查看用户ID，并记入sessionStorage
 				staffInfo.getUserId = function(userId) {
 					sessionStorage.setItem('userId', userId);
-					
 				};
-
+				// 查看角色ID，并记入sessionStorage
+				staffInfo.getRoleId = function(roleId) {
+					sessionStorage.setItem('roleId', roleId);
+				};
 				// 根据输入筛选信息
 				staffInfo.selectuserByName = function() {
 					searchKey = staffInfo.userName;
@@ -269,6 +463,17 @@ app
 						//pageTurn(data.totalPage, 1, getUserListByPage)
 					});
 				};
+				// 根据页数获取角色列表
+				function getRoleListByPage(page) {
+					services.getRoleListByPage({
+						page : page,
+						}).success(function(data) {
+						staffInfo.roles = data.list;
+					
+				});
+				}
+			
+				
 			//初始化页面信息
 			function initData() {
 				console.log("初始化页面信息");
@@ -309,11 +514,52 @@ app
 						 
 						})
 				 }
+				 else if ($location.path().indexOf('/roleList') == 0) {
+					 
+						services.getRoleListByPage({
+							page : 1,
+						}).success(function(data) {
+							staffInfo.roles = data.list;
+							console.log(JSON.stringify( staffInfo.roles))
+							pageTurn(
+									data.totalPage, 
+									1, 
+									getRoleListByPage);
+						});
+					}
+				 else if ($location.path().indexOf('/roleDetail') == 0) {
+						// 根据ID获取信息
+						var role_id = sessionStorage.getItem('roleId');
+						services.selectRoleById({
+							role_id: role_id
+								})
+								.success(											
+										function(data) {
+											staffInfo.roleDetail = data.role;
+											staffInfo.selected = $
+													.parseJSON(data.role.role_permission);
+								});
+						 			}
+				 else if ($location.path().indexOf('/roleUpdate') == 0) {
+				// 根据ID获取信息
+				var role_id = sessionStorage.getItem('roleId');
+				services.selectRoleById({
+						role_id: role_id
+						})
+						.success(											
+								function(data) {
+									staffInfo.editRole = data.role;
+									staffInfo.selected = $
+											.parseJSON(data.role.role_permission);
+						});
+				 			}
 				 else if ($location.path().indexOf('/userUpdate') == 0) {
 					 services.getAllRoleList().success(function(data){
 						 staffInfo.roles = data;						
-						})
+					 })
+
 				// 根据ID获取信息
+			    staffInfo.changepassword=0;
 				var user_id = sessionStorage.getItem('userId');
 				services.selectUserById({
 						user_id: user_id
@@ -321,34 +567,16 @@ app
 						.success(											
 								function(data) {
 									staffInfo.users = data.user;//"user"是controller里get的到的"user","users"对应html中的"users.user_xxx"
-									staffInfo.users.role = data.user.role.role_id;
-						});
+									staffInfo.users.role_id = data.user.role_id;												
+								});
 				 			}
 				
 							}
 						initData();
 						//获取信息完
+						initCheckBoxData();
 								
-								//批量删除用户信息
-								/*function check() {
-
-							        var msg = "您真的确定要删除吗？";   
-							        if (confirm(msg)==true){   
-							            var allcheckbox = "";
-							            var becheckbox = "";
-							            $("input[name=atask]").each(function(){ //遍历table里的全部checkbox
-							                allcheckbox += $(this).val() + ","; //获取所有checkbox的值
-							                if($(this).attr("checked")) //如果被选中
-							                    becheckbox += $(this).val() + ","; //获取被选中的值
-							            });
-
-							            if(becheckbox.length > 0) //如果获取到
-							                becheckbox = becheckbox.substring(0, becheckbox.length - 1); //把最后一个逗号去掉
-							                window.location = "astask_batch_delete.action?checkTnum="+becheckbox;
-							        }else{   
-							        return false;   
-							        }   
-							}*/
+						
 												
 						
 				// 删除单个用户信息
@@ -380,6 +608,35 @@ app
 					$("#tipDelUser").fadeOut(100);
 					$(".overlayer").fadeOut(200);
 					});
+				// 删除角色信息
+				
+				staffInfo.deleteRole = function(role_id) {								
+					$(".overlayer").fadeIn(200);
+					$("#tipDelUser").fadeIn(200);								
+					sessionStorage.setItem("roleId",role_id);
+					
+				}
+				$(".tiptop a").click(function() {
+					$("#tipDelUser").fadeOut(100);
+					$(".overlayer").fadeOut(200);
+					});
+				
+				$("#sureDelUser").click(function(){
+					$("#tipDelUser").fadeOut(100);
+					$(".overlayer").fadeOut(200);
+					//进入后台
+					var role_id=sessionStorage.getItem("roleId");
+					services.deleteRole({
+						roleId : role_id
+					}).success(function(data) {
+						initData();
+						
+					});
+					});
+				$("#cancelDelUser").click(function(){
+					$("#tipDelUser").fadeOut(100);
+					$(".overlayer").fadeOut(200);
+					});
 						// 根据页数获取用户列表
 							function getUserListByPage(page) {
 								services.getUserListByPage({
@@ -393,39 +650,7 @@ app
 									
 									
 									
-									/*							
-							staffInfo.addStaff = function(e) {
-								preventDefault(e);
-								services.getAllRoleList().success(
-										function(data) {
-											user.roles = data;
-										});
-								user.addinguser = "";
-								$(".overlayer").fadeIn(200);
-								$(".tip").fadeIn(200);
-								$("#addUser-form").slideDown(200);
-								$("#editUser-form").hide();
-								user.addinguser = {
-									user_sex : 0,
-									role : null
-								};
-
-							};
-									 */
-									/*function checkradio()
-									{
-										var parms=document.getElementsByName("radio1");
-										//获取所有的单选框
-										var i;
-										for( i=0;i<parms.length;i++)              
-											//遍历单选框
-										{
-											if(parms[i].checked)                     
-												//如果选择了此单选框
-												alert("您选择了"+ parms[i].value);     
-											//提示用户的选择
-										}
-									}*/
+							
 									
 									function getAllStaff(){
 										services.getStaffInfo().success(function(data){
@@ -433,8 +658,10 @@ app
 											staffInfo.user = data.Result;
 										})
 									}
-									//改动过
-									function initPage() {
+					
+						
+						
+							 function initPage() {
 										console.log("初始化成功staffInfoController！")
 										if ($location.path().indexOf('/staffBaseInfo') == 0) {
 											getAllStaff();
@@ -442,11 +669,12 @@ app
 											services.getProjectInfo().success(function(data){
 												indexpro.project = data.result;
 												console.log(JSON.stringify(indexpro.project))
-											})
-									}
-									}
-									initPage();
-						} ]);
+											});
+										}
+										}
+									
+					} ]);	
+						            
 						
 							
 							

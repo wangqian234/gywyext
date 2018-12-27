@@ -48,6 +48,40 @@ var app = angular
 								: data;
 					} ];
 				});
+//获取权限列表
+var permissionList;
+angular.element(document).ready(function() {
+	console.log("获取权限列表！");
+	$.get('/gywyext/login/getUserPermission.do', function(data) {
+		permissionList = data; //
+		/*angular.bootstrap($("#user"), [ 'user' ]); // 手动加载angular模块
+*/	});
+});
+
+app.directive('hasPermission', function($timeout) {
+	return {
+		restrict : 'ECMA',
+		link : function(scope, element, attr) {
+			setTimeout(function(){
+				var key = attr.hasPermission.trim(); // 获取页面上的权限值
+				var keys = permissionList;
+				/*alert(keys);*/
+				var regStr = "\\s" + key + "\\s";
+				var reg = new RegExp(regStr);
+				if (keys.search(reg) < 0) {
+					element.css("display", "none");
+				}
+			},0)
+		}
+	};
+});
+
+app.run([ '$rootScope', '$location', function($rootScope, $location) {
+	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
+		console.log('路由跳转成功');
+		$rootScope.$broadcast('reGetData');
+	});
+} ]);
 
 //路由配置
 app.config([ '$routeProvider', function($routeProvider) {
@@ -74,6 +108,12 @@ app.config([ '$routeProvider', function($routeProvider) {
 		controller : 'indexProController'
 	}).when('/companyList', {
 		templateUrl : '/gywyext/jsp/project/companyList.html',
+		controller : 'indexProController'
+	}).when('/equipRoomInfo', {
+		templateUrl : '/gywyext/jsp/project/equipRoomInfo.html',
+		controller : 'indexProController'
+	}).when('/roomAdd', {
+		templateUrl : '/gywyext/jsp/project/addEquipRoom.html',
 		controller : 'indexProController'
 	})
 } ]);
@@ -192,6 +232,31 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+	// 根据项目查找区域
+	services.selectEquipRoomByProj = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/selectEquipRoomByProj.do',
+			data : data
+		});
+	};
+	// 根据项目查找区域
+	services.addEquipRoom = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/addEquipRoom.do',
+			data : data
+		});
+	};
+	// 根据项目查找区域
+	services.deleteEquipRoomInfo = function(data) {
+		return $http({
+			method : 'post',
+			url : baseUrl + 'equipEquipment/deleteEquipRoomInfo.do',
+			data : data
+		});
+	};
+	
 	return services;
 } ]);
 
@@ -286,7 +351,6 @@ app.controller('indexProController', [
 			
 			indexpro.addProject = function(){
 				var projectInfo = JSON.stringify(indexpro.project);
-				alert(projectInfo)
 				services.addProject({
 					project : projectInfo
 				}).success(function(data) {
@@ -295,8 +359,34 @@ app.controller('indexProController', [
 				});
 			}
 			
+			// 添加设备信息
+			indexpro.addEquipRoom = function() {
+				var proj_id = sessionStorage.getItem("projectId")
+				alert(proj_id);
+				var equipRoomFormData = JSON.stringify(indexpro.equipRoomInfo);								
+				if (confirm("是否添加该区域信息？") == true) {
+				services.addEquipRoom({
+					equiproom : equipRoomFormData,
+					proj_id : proj_id
+				}).success(function(equiproom) {    
+					alert("添加成功！")
+				$location.path('equipRoomInfo/');
+					});
+			}
+			}
 			
-			
+			// 删除设备信息
+			indexpro.deleteEquipRoomInfo = function(equip_room_id) {
+				if (confirm("是否删除该区域信息？") == true) {
+					services.deleteEquipRoomInfo({
+						equiproomId : equip_room_id
+					}).success(function(data) {
+						indexpro.result = data;
+						alert("删除设备信息成功！");
+						$location.path('equipRoomInfo/');
+					});
+				}
+			}
 			
 			
 			// 根据输入筛选公司信息
@@ -361,8 +451,7 @@ app.controller('indexProController', [
 			// 查看项目ID，并记入sessionStorage
 			indexpro.getProjectId = function(projectId) {
 				sessionStorage.setItem('projectId',projectId);				
-			};
-						
+			};		
 			// 读取项目信息
 			indexpro.selectProjectById = function(projectId) {
 				
@@ -543,8 +632,16 @@ app.controller('indexProController', [
 							return;
 						}
 						indexpro.projectInfo = data.result;
-						console.log(indexpro.projectInfo);
 					})
+				}else if ($location.path().indexOf('/equipRoomInfo') == 0) {
+					var proj_id = sessionStorage.getItem("projectId");
+					services.selectEquipRoomByProj({
+						proj_id : proj_id
+					}).success(function(data) {
+						indexpro.equipRooms = data.equip_room;
+					}) ;
+				}else if ($location.path().indexOf('/addEquipRoom') == 0) {
+					var proj_id = sessionStorage.getItem("projectId")
 				}
 			}
 			initData();

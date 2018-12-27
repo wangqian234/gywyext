@@ -552,4 +552,22 @@ public class EquipmentDaoImpl implements EquipmentDao {
 				return list;
 			}
 
+			//删除设备信息
+			public Boolean deleteRoom(Integer equip_room_id) {
+				EntityManager em = emf.createEntityManager();
+				em.getTransaction().begin();
+				try {
+					String selectSql = " update equip_room set equip_room_isdeleted =:equip_room_isdeleted where equip_room_id =:equip_room_id ";
+					Query query = em.createNativeQuery(selectSql);
+					query.setParameter("equip_room_id", equip_room_id);
+					query.setParameter("equip_room_isdeleted", 1);
+					query.executeUpdate();
+					em.flush();
+					em.getTransaction().commit();
+				} finally {
+					em.close();
+				}
+				return true;
+
+			}
 }

@@ -156,6 +156,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data,
 		});
 	};
+
 	//获取项目及地址信息
 	services.getProjectAndRoomInfo = function(data) {
 		return $http({
@@ -164,6 +165,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data,
 		});
 	};
+
 	// 根据公司id获取项目信息
 	services.selectProjectByCompId = function(data) {
 		return $http({
@@ -204,6 +206,7 @@ app.factory('services', [ '$http', 'baseUrl', function($http, baseUrl) {
 			data : data
 		});
 	};
+
 	//刷新
 	services.refresh = function(data) {
 		return $http({
@@ -230,7 +233,6 @@ app
 							equipment.equipara
 							//显示实时状态(根据设备id获取设备参数信息)
 							equipment.tankuang = function(equipmentId){
-								//console.log(equipmentId);
 								$(".pop").fadeIn(200);
 								$(".bgPop").fadeIn(200);
 								services.getEquipPara({
@@ -244,8 +246,7 @@ app
 								
 							}
 							//获取参数实时状态
-							equipment.getEquipRealData = function(equipParaId){
-								
+							equipment.getEquipRealData = function(equipParaId){								
 								var startDate = null;
 								var divid = echart;//传递显示图表的id
 								var color = '#00ffee';
@@ -253,8 +254,9 @@ app
 								startDate = equipment.startTime+" 00:00:00";//默认从起始日期凌晨开始显示数据
 								//查询参数对应的设备信息
 								for(var i=0;i<equipment.equipara.length;i++){
-									if(equipment.equipara[i].equip_para_id == equipParaId){
-										equipment.Id = i;
+									if(equipParaId == equipment.equipara[i].equip_para_id){
+										try2(startDate,equipment.equipara[i],divid);
+										break;
 									}
 								}
 								equipment.equipParaId = equipParaId;
@@ -297,12 +299,10 @@ app
 									if(color == "rgb(255, 0, 0)"){
 										equipment.flag = 1;
 										services.getScoket1().success(function(data){
-											//console.log("getScoket1");
 											flag = 0;
 											time = setInterval(function(){
 												if(flag == 1){
 													services.getScoket2().success(function(data){
-														//console.log("getScoket2");
 														});
 													document.getElementById("b1").style.backgroundColor = "rgb(0, 255, 0)";
 													document.getElementById("b2").style.backgroundColor = "rgb(255, 0, 0)";
@@ -322,12 +322,10 @@ app
 									if(color == "rgb(255, 0, 0)"){
 										equipment.flag = 1;
 										services.getScoket3().success(function(data){
-											//console.log("getScoket3");
 											flag = 0;
 											time = setInterval(function(){
 												if(flag == 1){
 													services.getScoket4().success(function(data){
-														//console.log("getScoket4");
 													});
 													document.getElementById("b1").style.backgroundColor = "rgb(255, 0, 0)";
 													document.getElementById("b2").style.backgroundColor = "rgb(0, 255, 0)";
@@ -382,7 +380,6 @@ app
 							}
 							//饼图
 							function d444(data){
-								//var d4 = echarts.init(document.getElementById('d4')); 
 								d4.clear();
 								d4.showLoading({text:'正在缓冲...'});
 								var name=[];
@@ -493,6 +490,7 @@ app
 									            map: 'qingyuan'
 									        }]
 									    });
+
 									    var geoCoordMap = geoCoordMap1;
 									     //值控制圆点大小
 									    	var goData = goData1;
@@ -698,6 +696,7 @@ app
 								d5.hideLoading();
 								window.onresize = d5.resize;//自适应窗口大小
 								d5.on('click',function(params){
+
 									if(params.data.name != "公元物业总公司"){
 										getEquipmentListByProject(params.data.name);
 										equipment.Project = params.data.name;
@@ -710,6 +709,7 @@ app
 								});
 								d4.on('click',function(params){
 									exchange(params.data.name);
+
 								});
 								   }); 
 							}
@@ -749,6 +749,7 @@ app
 							}
 							//设备故障统计
 							function pie(name){
+
 								services.refresh().success();
 								var equipRoomId = null;
 								for(var i=0;i<equipment.ProjRoom.length;i++){
@@ -779,6 +780,7 @@ app
 									warning(equipment.allwarning);
 									d444(equipment.ProjAlarm);
 								}
+
 							}
 							// 初始化
 							function initPage() {
@@ -814,6 +816,8 @@ app
 									searchKey : searchKey
 								}).success(function(data) {
 									equipment.equipments = data.list;
+									console.log("equipment.equipments");
+									console.log(equipment.equipments);
 									});	
 								equipment.warningTitle=null;
 								//获取告警信息

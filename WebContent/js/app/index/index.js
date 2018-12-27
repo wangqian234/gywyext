@@ -48,7 +48,40 @@ var app = angular
 								: data;
 					} ];
 				});
+//获取权限列表
+var permissionList;
+angular.element(document).ready(function() {
+	console.log("获取权限列表！");
+	$.get('/gywyext/login/getUserPermission.do', function(data) {
+		permissionList = data; //
+		/*angular.bootstrap($("#user"), [ 'user' ]); // 手动加载angular模块
+*/	});
+});
 
+app.directive('hasPermission', function($timeout) {
+	return {
+		restrict : 'ECMA',
+		link : function(scope, element, attr) {
+			setTimeout(function(){
+				var key = attr.hasPermission.trim(); // 获取页面上的权限值
+				var keys = permissionList;
+				/*alert(keys);*/
+				var regStr = "\\s" + key + "\\s";
+				var reg = new RegExp(regStr);
+				if (keys.search(reg) < 0) {
+					element.css("display", "none");
+				}
+			},0)
+		}
+	};
+});
+
+app.run([ '$rootScope', '$location', function($rootScope, $location) {
+	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
+		console.log('路由跳转成功');
+		$rootScope.$broadcast('reGetData');
+	});
+} ]);
 // 路由配置
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
@@ -310,6 +343,7 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 				for(var i=0;i<data.length;i++){
 					name.push(data[i].name);
 				}
+
 				option = {
 					    tooltip : {
 					        trigger: 'item',
@@ -353,11 +387,10 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 					            	}
 					            },
 					            roseType : 'area',
-					            data:data,
+					            data:data,					        
 					        }
 					    ]
 					};
-				
 				d4.setOption(option);
 				d4.on('click',function(params){
 					//console.log(params.data.name);
@@ -423,9 +456,33 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 		        var D = (date.getDate() +1 <10 ? '0'+date.getDate() :date.getDate()) + ' ';
 		        return Y+M+D;
 		    }
+			function findRoleFromCookie() {
+				var cookie = {};
+
+				var cookies = document.cookie;
+				if (cookies === "")
+					return cookie;
+				var list = cookies.split(";");
+				for (var i = 0; i < list.length; i++) {
+					var cookieString = list[i];
+					/* console.log("cookie内容" + cookieString); */
+					var p = cookieString.indexOf("=");
+					var name = cookieString.substring(0, p);
+					var value = cookieString.substring(p + 1,
+							cookieString.length);
+					console.log(name);
+					cookie[name.trim()] = value;
+					console.log("进来了,已经赋值" + name);
+					if (name.trim() == "role") {
+						sessionStorage.setItem("userRole", value);
+					}
+
+				}
+			}
 			// 初始化页面信息
 			function initData() {
 				console.log("初始化页面index！");
+				console.log($location.path())
 				if ($location.path().indexOf('/init') == 0) {
 					index.type = "init";
 					index.getLeftData();
@@ -443,6 +500,7 @@ app.controller('indexController', [ '$scope', 'services', '$location',
 				}
 			}
 			initData();
+			findRoleFromCookie();
 		} ]);
 
 // 时间的格式化的判断
